@@ -49,7 +49,7 @@ grant dba to SDP_CMS_HRB;
 
 
 
-## 导入
+## 导入命令
 
 ```SQL
 impdp  SDP_CMS_HRB/SDP_CMS_HRB  DIRECTORY=IMPDIR  DUMPFILE=SDP_CMS _2020081010.dmp remap_schema=SDP_CMS:SDP_CMS_HRB remap_tablespace=SDP_CMS_DATA:SDP_CMS_HRB_DATA,SDP_CMS_DATA:SDP_CMS_HRB_IDX
@@ -67,7 +67,7 @@ impdp  SDP_CMS_HRB/SDP_CMS_HRB  DIRECTORY=IMPDIR  DUMPFILE=SDP_CMS _2020081010.d
 SELECT * FROM DBA_Directories /* 查看用户相关的目录信息 */
 ```
 
-![8572405fc69bd23dbb3b8d63c1ba713](/img/oracle_20201118.png)
+![oracle数据库目录信息](/img/oracle/oracle_20201118.png)
 
 # 导出
 

@@ -1,0 +1,851 @@
+---
+title: 每天一个linux命令
+categories: 
+	- Linux
+date: 2020-11-17 11:27:20
+tags: Linux
+top: 2
+---
+[toc]
+# 文件和目录管理
+
+## touch命令
+
+**作用**
+更改已存在文件的时间戳为当前时间戳，或创建新的文件
+**选项**
+-a :只变更访问时间
+-m :只变更修改时间
+-c :不创建新的文件
+-r :更新指定文件或目录下的所有文件的时间戳。
+-d :指定更新的时间戳字符串
+-t :指定时间戳格式，MMDDhhmm 
+**示例**
+```bash
+# 创建新的文件
+[root@lwdCSCDN bin]# touch b.txt
+[root@lwdCSCDN bin]# ll
+总用量 3080
+-rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
+drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
+-rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
+-rw-r--r-- 1 root root       0 12月 21 16:58 b.txt
+-rw-r--r-- 1 root root   15026 10月  6 2016 catalina.bat
+-rwxr-xr-x 1 root root   22443 10月  6 2016 catalina.sh
+
+# -d指定更新的时间戳
+[root@lwdCSCDN bin]# touch -d 2020-12-21 b.txt
+[root@lwdCSCDN bin]# ll
+总用量 3084
+-rw-r--r-- 1 root root       0 12月 21 17:02 12211621
+-rw-r--r-- 1 root root       0 12月 21 17:00 2020-12-21
+-rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
+drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
+-rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
+-rw-r--r-- 1 root root       5 12月 21 00:00 b.txt
+
+
+# -t指定更新时间
+[root@lwdCSCDN bin]# touch -t 12211630 b.txt
+[root@lwdCSCDN bin]# ll
+总用量 3084
+-rw-r--r-- 1 root root       0 12月 21 17:02 12211621
+-rw-r--r-- 1 root root       0 12月 21 17:00 2020-12-21
+-rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
+drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
+-rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
+-rw-r--r-- 1 root root       5 12月 21 16:30 b.txt
+```
+
+## pwd命令
+
+**作用**
+	以绝对路径显示当前用户的所在目录
+**选项**
+-L :打印逻辑上的工作目录
+-P :打印物理上的工作目录
+**示例**
+```bash
+# 显示当前工作目录
+[root@lwdCSCDN bin]# pwd
+/usr/local/BI/hrb_BI/v300r002b210/apache-tomcat-8.0.38/bin
+```
+
+## vim命令
+
+**作用**
+vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。
+**选项**
+```bash
+crtl+u: 向文件首翻半屏。
+crtl+d: 此文件尾翻半屏。
+crtl+f: 向文件首翻一屏。
+crtl+b: 向文件尾翻一屏。
+ESC:从编辑模式切换到命令模式。
+:行号 :光标跳到指定行的行首。
+:$ :光标跳到文件尾。
+/字符串 :文本查找操作，从光标所在当前位置向文件尾部查找指定的字符串，查找到的字符串高亮显示。
+:wq :命令模式下，执行存盘并退出。
+:q :命令模式下，执行退出。
+:w! :命令模式下，强制执行存盘操作。
+:q! :命令模式下，强制执行退出vi命令。
+:set number :命令模式下，显示行号。
+:set nonumber :命令模式下，不显示行号。
+```
+**示例**
+```bash
+
+# 显示行号
+  1 [20201203] 16:47:12 Begin
+  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3
+  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4
+  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3
+  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4
+  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9
+  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10
+  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11
+  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12
+ 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3
+ 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4
+ 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0
+ 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15
+ 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16
+ 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17
+ 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18
+ 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19
+ 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20
+ 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0
+ 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0
+ 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0
+ 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0
+ 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0
+ 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0
+ 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0
+ 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0
+ 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0
+ 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0
+ 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0
+ 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0
+ 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0
+ 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0
+ 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0
+ 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69
+ 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70
+:set number   
+
+# 查找columnTask字符串对应的内容。
+  1 [20201203] 16:47:12 Begin
+  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3
+  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4
+  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3
+  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4
+  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9
+  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10
+  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11
+  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12
+ 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3
+ 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4
+ 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0
+ 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15
+ 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16
+ 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17
+ 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18
+ 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19
+ 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20
+ 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0
+ 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0
+ 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0
+ 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0
+ 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0
+ 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0
+ 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0
+ 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0
+ 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0
+ 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0
+ 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0
+ 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0
+ 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0
+ 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0
+ 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0
+ 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69
+ 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70
+/columnTask
+```
+
+## ls命令
+
+**作用**
+显示目标文件列表
+
+**选项**
+```bash
+-a：显示所有文件和目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
+-A：显示除影藏文件“.”和“..”以外的所有文件列表；
+-C：多列显示输出结果。这是默认选项；
+-l：与“-C”选项功能相反，所有输出信息用单列格式输出，不输出为多列；
+-F：在每个输出项后追加文件的类型标识符，具体含义：“*”表示具有可执行权限的普通文件，“/”表示目录，“@”表示符号链接，“|”表示命令管道FIFO，“=”表示sockets套接字。当文件为普通文件时，不输出任何标识符；
+-b：将文件中的不可输出的字符以反斜线“”加字符编码的方式输出；
+-c：与“-lt”选项连用时，按照文件状态时间排序输出目录内容，排序的依据是文件的索引节点中的ctime字段。与“-l”选项连用时，则排序的一句是文件的状态改变时间；
+-d：仅显示目录名，而不显示目录下的内容列表。显示符号链接文件本身，而不显示其所指向的目录列表；
+-f：此参数的效果和同时指定“aU”参数相同，并关闭“lst”参数的效果；
+-i：显示文件索引节点号（inode）。一个索引节点代表一个文件；
+--file-type：与“-F”选项的功能相同，但是不显示“*”；
+-k：以KB（千字节）为单位显示文件大小；
+-l：以长格式显示目录下的内容列表。输出的信息从左到右依次包括文件名，文件类型、权限模式、硬连接数、所有者、组、文件大小和文件的最后修改时间等；
+-m：用“,”号区隔每个文件和目录的名称；
+-n：以用户识别码和群组识别码替代其名称；
+-r：以文件名反序排列并输出目录内容列表；
+-s：显示文件和目录的大小，以区块为单位；
+-t：用文件和目录的更改时间排序；
+-L：如果遇到性质为符号链接的文件或目录，直接列出该链接所指向的原始文件或目录；
+-R：递归处理，将指定目录下的所有文件及子目录一并处理；
+--full-time：列出完整的日期与时间；
+--color[=WHEN]：使用不同的颜色高亮显示不同类型的。
+```
+**示例**
+```bash
+
+#显示当前目录下的非隐藏文件和目录
+[root@lwdCSCDN usr]# ls
+aaalog  bin  etc  games  include  lib  lib64  libexec  local  lost+found  man  sbin  share  src  tmp
+
+#显示当前目录下的文件和目录，包含隐藏文件
+[root@lwdCSCDN usr]# ls -a
+.  ..  aaalog  bin  etc  games  include  lib  lib64  libexec  local  lost+found  man  sbin  share  src  tmp
+
+# 按文件修改时间倒序显示，单列格式输出展示
+[root@lwdCSCDN usr]# ls -lt
+总用量 320
+drwxr-xr-x.  59 root root   4096 12月 16 09:49 local
+dr-xr-xr-x. 159 root root 126976 10月 23 10:14 lib64
+drwxr-xr-x    3 root root   4096 10月 13 16:55 aaalog
+drwxr-xr-x.   2 root root  90112 12月 16 2019 bin
+drwxr-xr-x    3 root root   4096 12月  6 2019 man
+dr-xr-xr-x.  32 root root   4096 12月  6 2019 lib
+dr-xr-xr-x.   2 root root  20480 8月  10 2019 sbin
+drwxr-xr-x. 293 root root  12288 8月   9 2019 share
+drwxr-xr-x. 143 root root  12288 8月   9 2019 include
+drwxr-xr-x.  33 root root  12288 11月 25 2017 libexec
+lrwxrwxrwx.   1 root root     10 10月 18 2017 tmp -> ../var/tmp
+drwxr-xr-x.   4 root root   4096 10月 18 2017 src
+drwx------.   2 root root  16384 10月 18 2017 lost+found
+drwxr-xr-x.   2 root root   4096 6月  28 2011 etc
+drwxr-xr-x.   2 root root   4096 6月  28 2011 games
+
+# 按照特殊字符对文件进行分类
+[root@lwdCSCDN usr]# ls -F
+aaalog/  bin/  etc/  games/  include/  lib/  lib64/  libexec/  local/  lost+found/  man/  sbin/  share/  src/  tmp@
+
+#仅显示目录名，不显示目录下的内容列表
+[root@lwdCSCDN usr]# ls -ld aaalog
+drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
+
+#显示文件索引节点
+[root@lwdCSCDN script]# ls -i
+10495811 etlD.sh  10495809 etl.sh   10495840 isFileExists.sh       10496106 reportSource.sh  10496118 stop.sh
+10495812 etlP.sh  10495822 etlS.sh  10495887 mysqld_kill_sleep.sh  10496112 stat.sh
+
+
+```
+
+## ln命令
+
+**作用**
+	为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上-s 选项。
+**选项**
+
+```bash
+-b或--backup：删除，覆盖目标文件之前的备份；
+-d或-F或——directory：建立目录的硬连接；
+-f或——force：强行建立文件或目录的连接，不论文件或目录是否存在；
+-i或——interactive：覆盖既有文件之前先询问用户；
+-n或--no-dereference：把符号连接的目的目录视为一般文件；
+-s或——symbolic：对源文件建立符号连接，而非硬连接；
+-S<字尾备份字符串>或--suffix=<字尾备份字符串>：用"-b"参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，预设的备份字符串是符号“~”，用户可通过“-S”参数来改变它；
+-v或——verbose：显示指令执行过程；
+-V<备份方式>或--version-control=<备份方式>：用“-b”参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，这个字符串不仅可用“-S”参数变更，当使用“-V”参数<备份方式>指定不同备份方式时，也会产生不同字尾的备份字符串；
+--help：在线帮助；
+--version：显示版本信息。
+```
+
+**示例**
+```bash
+# 给文件建立软链接
+[root@lwdCSCDN tmp]# ln -s readme.txt  readme.log
+[root@lwdCSCDN tmp]# ll
+总用量 292
+drwx------  2 elasticsearch elasticsearch   4096 11月 19 10:02 elasticsearch-2738171260560954631
+srwxrwxrwx  1 mysql         mysql              0 12月 23 2019 mysql.sock
+-rw-r--r--  1 root          root              64 12月 16 16:00 patch.sql
+drwx------. 2 root          root            4096 10月 19 2017 pulse-24KvvDfOHjjf
+lrwxrwxrwx  1 root          root              10 12月 16 18:00 readme.log -> readme.txt
+-rw-r--r--  1 root          root             744 12月 16 16:00 readme.txt
+-rw-r--r--  1 root          root          133889 12月 10 12:22 scs1.sql
+drwxr-xr-x  4 root          root            4096 12月 16 16:00 sql
+-rw-rw----  1 mysql         mysql           8602 12月 16 17:58 #sqla5f_879_0.frm
+-rw-rw----  1 mysql         mysql         114688 12月 16 17:58 #sqla5f_879_0.ibd
+-rw-r--r--  1 root          root              98 12月 16 16:00 update.sql
+drwxr-xr-x  3 root          root            4096 1月  21 2020 v8-compile-cache-0
+
+# 给文件建立硬链接
+[root@lwdCSCDN tmp]# ln  readme.txt log.txt
+[root@lwdCSCDN tmp]# ll
+总用量 611180
+drwx------  2 elasticsearch elasticsearch      4096 11月 19 10:02 elasticsearch-2738171260560954631
+-rw-r--r--  2 root          root                744 12月 16 16:00 log.txt
+srwxrwxrwx  1 mysql         mysql                 0 12月 23 2019 mysql.sock
+-rw-r--r--  1 root          root                 64 12月 16 16:00 patch.sql
+drwx------. 2 root          root               4096 10月 19 2017 pulse-24KvvDfOHjjf
+lrwxrwxrwx  1 root          root                 10 12月 16 18:00 readme.log -> readme.txt
+-rw-r--r--  2 root          root                744 12月 16 16:00 readme.txt
+-rw-r--r--  1 root          root             133889 12月 10 12:22 scs1.sql
+drwxr-xr-x  4 root          root               4096 12月 16 16:00 sql
+-rw-rw----  1 mysql         mysql          32473128 12月 16 18:04 #sql_a5f_0.MYD
+-rw-rw----  1 mysql         mysql              1024 12月 16 18:04 #sql_a5f_0.MYI
+-rw-rw----  1 mysql         mysql         592436800 12月 16 18:04 #sql_a5f_1.MYD
+-rw-rw----  1 mysql         mysql              1024 12月 16 18:04 #sql_a5f_1.MYI
+-rw-rw----  1 mysql         mysql              8602 12月 16 17:58 #sqla5f_879_0.frm
+-rw-rw----  1 mysql         mysql            114688 12月 16 17:58 #sqla5f_879_0.ibd
+-rw-r--r--  1 root          root                 98 12月 16 16:00 update.sql
+drwxr-xr-x  3 root          root               4096 1月  21 2020 v8-compile-cache-0
+
+# 建立硬链接前询问用户是否覆盖已有链接，并创建备份
+[root@lwdCSCDN etl]# ln -b -i logs/ETL.log log/a.log 
+ln：是否替换"log/a.log"？ y
+
+# 生成的备份文件，文件后缀默认为~
+[root@lwdCSCDN log]# ls
+a.log  a.log~
+
+# 为logs目录下的record.ini文件在log目录下建立record.ini文件硬链接 强制执行
+[root@lwdCSCDN etl]# ln -f -d  logs/record.ini log1/record.ini
+[root@lwdCSCDN etl]# ls
+common  config  log  log1  logs  script  tmp
+[root@lwdCSCDN etl]# cd log1
+You have new mail in /var/spool/mail/root
+[root@lwdCSCDN log1]# ll
+总用量 7188
+-rwxrwxrwx 3 root root 7341608 12月 18 14:47 ETL.log
+-rwxrwxrwx 2 root root    8505 12月 18 14:23 record.ini
+```
+
+
+## rm命令 
+
+**作用**
+	删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。
+
+**选项** 
+```bash
+-d 直接把目录的硬链接数删除为0，删除该目录。
+-f 强制删除该目录。
+-i 删除前先询问是否删除。
+-r 递归删除目录下的文件和子目录。
+-v 显示详细的删除信息
+```
+**示例**
+```bash
+# 删除b.sh文件
+[root@demo_mdn script]# rm b.sh
+rm：是否删除普通空文件 "b.sh"？y
+
+# 强制删除b.sh文件
+[root@demo_mdn script]# rm -f b.sh
+[root@demo_mdn script]# 
+
+# 强制递归删除newDir目录，并显示详细信息
+[root@demo_mdn script]# rm -rfv newDir
+已删除"newDir/1.txt"
+已删除"newDir/1.txt~"
+已删除目录："newDir/oldDir"
+已删除目录："newDir"
+
+```
+
+## mv命令
+
+**作用**
+	移动文件或将文件改名
+
+**选项**
+
+```bash
+-b 为每个已存在的目标文件创建备份
+-f 覆盖前不询问
+-i 覆盖前询问
+-u 只更新源文件时间戳比目标文件时间戳新的文件或者目标文件不存在才覆盖更新
+-v 显示详细进行的步骤
+```
+**实例**
+```bash
+#将a.sh更名为new.sh
+[root@demo_mdn script]# mv a.sh new.sh
+[root@demo_mdn script]# ll
+总用量 68
+-rw-r--r-- 1 root root     0 12月 10 16:35 b.sh
+-rw-r--r-- 1 root root   112 12月 10 16:12 etlD.sh
+-rw-r--r-- 1 root root   246 12月 10 16:12 etlP.sh
+-rw-r--r-- 1 root root 34622 12月 10 16:12 etl.sh
+-rw-r--r-- 1 root root    78 12月 10 16:12 etlS.sh
+-rw-r--r-- 1 root root   513 12月 10 16:12 isFileExists.sh
+-rw-r--r-- 1 root root   366 12月 10 16:12 mysqld_kill_sleep.sh
+-rw-r--r-- 1 root root     0 12月 10 16:35 new.sh
+-rw-r--r-- 1 root root    94 12月 10 16:12 reportSource.sh
+-rw-r--r-- 1 root root   642 12月 10 16:12 stat.sh
+-rw-r--r-- 1 root root   157 12月 10 16:12 stop.sh
+
+#将oldDir目录移动到newDir目录
+[root@demo_mdn script]# mv oldDir/ newDir/
+[root@demo_mdn script]# ll
+总用量 72
+-rw-r--r-- 1 root root     0 12月 10 16:35 b.sh
+-rw-r--r-- 1 root root   112 12月 10 16:12 etlD.sh
+-rw-r--r-- 1 root root   246 12月 10 16:12 etlP.sh
+-rw-r--r-- 1 root root 34622 12月 10 16:12 etl.sh
+-rw-r--r-- 1 root root    78 12月 10 16:12 etlS.sh
+-rw-r--r-- 1 root root   513 12月 10 16:12 isFileExists.sh
+-rw-r--r-- 1 root root   366 12月 10 16:12 mysqld_kill_sleep.sh
+drwxr-xr-x 3 root root  4096 12月 10 16:37 newDir
+-rw-r--r-- 1 root root     0 12月 10 16:35 new.sh
+-rw-r--r-- 1 root root    94 12月 10 16:12 reportSource.sh
+-rw-r--r-- 1 root root   642 12月 10 16:12 stat.sh
+-rw-r--r-- 1 root root   157 12月 10 16:12 stop.sh
+
+#打印文件移动的详细信息
+[root@demo_mdn script]# mv -v *.sh newDir/
+"b.sh" -> "newDir/b.sh"
+"etlD.sh" -> "newDir/etlD.sh"
+"etlP.sh" -> "newDir/etlP.sh"
+"etl.sh" -> "newDir/etl.sh"
+"etlS.sh" -> "newDir/etlS.sh"
+"isFileExists.sh" -> "newDir/isFileExists.sh"
+"mysqld_kill_sleep.sh" -> "newDir/mysqld_kill_sleep.sh"
+"new.sh" -> "newDir/new.sh"
+"reportSource.sh" -> "newDir/reportSource.sh"
+"stat.sh" -> "newDir/stat.sh"
+"stop.sh" -> "newDir/stop.sh"
+
+# -i 交互模式 确认是否覆盖同名文件
+[root@demo_mdn script]# mv -i  new.sh newDir
+mv：是否覆盖"newDir/new.sh"？ y
+
+# -f 强制覆盖，不进行提示
+[root@demo_mdn script]# mv -f  new.sh newDir
+[root@demo_mdn script]# 
+
+# 不覆盖同名文件，new.sh在newDir目录已存在，没有覆盖
+[root@demo_mdn script]# mv -nv *.sh newDir
+"b.sh" -> "newDir/b.sh"
+"etlD.sh" -> "newDir/etlD.sh"
+"etlP.sh" -> "newDir/etlP.sh"
+"etl.sh" -> "newDir/etl.sh"
+"etlS.sh" -> "newDir/etlS.sh"
+"isFileExists.sh" -> "newDir/isFileExists.sh"
+"mysqld_kill_sleep.sh" -> "newDir/mysqld_kill_sleep.sh"
+"reportSource.sh" -> "newDir/reportSource.sh"
+"stat.sh" -> "newDir/stat.sh"
+"stop.sh" -> "newDir/stop.sh"
+
+# -u 只覆盖源文件比目标文件时间戳新的文件, newDir目录已经存在1.txt文件且时间戳晚于源文件，所以没有操作
+[root@demo_mdn script]# mv -uv *.txt newDir
+[root@demo_mdn script]# 
+
+# -b 对目标文件进行备份，目标目录生成1.txt~文件备份
+[root@demo_mdn script]# mv -bv *.txt newDir
+mv：是否覆盖"newDir/1.txt"？ y
+"1.txt" -> "newDir/1.txt" (备份："newDir/1.txt~")
+[root@demo_mdn newDir]# ls
+1.txt  1.txt~  oldDir
+```
+## find命令
+
+**作用**
+	find命令用来在指定目录下查找对应的文件，如果不设置任何参数的话，则在当前目录下查找，并将结果全部显示。
+**语法**
+find path -option [   -print ]   [ -exec   -ok   command ]   {} \;
+**选项**
+```bash
+find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 expression。如果 path 是空字串则使用目前路径，如果 expression 是空字串则使用 -print 为预设 expression。
+
+expression 中可使用的选项有二三十个之多，在此只介绍最常用的部份。
+
+-mount, -xdev : 只检查和指定目录在同一个文件系统下的文件，避免列出其它文件系统中的文件
+
+-amin n : 在过去 n 分钟内被读取过
+
+-anewer file : 比文件 file 更晚被读取过的文件
+
+-atime n : 在过去n天内被读取过的文件
+
+-cmin n : 在过去 n 分钟内被修改过
+
+-cnewer file :比文件 file 更新的文件
+
+-ctime n : 在过去n天内被修改过的文件
+
+-empty : 空的文件-gid n or -group name : gid 是 n 或是 group 名称是 name
+
+-ipath p, -path p : 路径名称符合 p 的文件，ipath 会忽略大小写
+
+-name name, -iname name : 文件名称符合 name 的文件。iname 会忽略大小写
+
+-size n : 文件大小 是 n 单位，b 代表 512 位元组的区块，c 表示字元数，k 表示 kilo bytes，w 是二个位元组。
+
+-type c : 文件类型是 c 的文件。
+
+d: 目录
+
+c: 字型装置文件
+
+b: 区块装置文件
+
+p: 具名贮列
+
+f: 一般文件
+
+l: 符号连结
+
+s: socket
+
+-pid n : process id 是 n 的文件
+
+你可以使用 ( ) 将运算式分隔，并使用下列运算。
+
+exp1 -and exp2
+
+! expr
+
+-not expr
+
+exp1 -or exp2
+
+exp1, exp2	
+```
+
+**实例**
+
+```bash
+#/etc、/root 目录下查找passwd字符串，不区分大小写
+[root@demo_mdn ~]# find /etc /root -iname passwd
+/etc/pam.d/passwd
+/etc/passwd
+/root/.vnc/passwd
+
+#/etc目录下查找passwd字符串，？代表通配单个字符
+[root@demo_mdn ~]# find /etc -name "passwd?"
+/etc/passwd-
+
+#/etc目录下查找passwd字符串，[]代表通配任意字符
+[root@demo_mdn script]# find /BI/hrb_BI/etl/script -name "[ab].sh"
+/BI/hrb_BI/etl/script/a.sh
+/BI/hrb_BI/etl/script/b.sh
+
+#-a 连接两个不同的条件（两个条件必须同时满足）
+[root@demo_mdn script]# find /BI/hrb_BI/etl/script -name "*S.sh" -a -user root
+/BI/hrb_BI/etl/script/etlS.sh
+
+#查找/tmp下一般类型文件
+[root@demo_mdn script]# find /tmp -type f
+/tmp/pulse-ft3VHPly7Wmg/pid
+/tmp/orbit-gdm/bonobo-activation-register-914f9f817ba337d787f3493d0000001b.lock
+/tmp/orbit-gdm/bonobo-activation-server-914f9f817ba337d787f3493d0000001b-ior
+/tmp/.X0-lock
+
+#查找/BI/hrb_BI/etl/script 目录下超过30天没有访问过的文件，{} 代表查找到的文件，{}和\之间有空格
+[root@demo_mdn script]# find /BI/hrb_BI/etl/script -atime +30 -exec ls {} \;
+/BI/hrb_BI/etl/script/mysqld_kill_sleep.sh
+/BI/hrb_BI/etl/script/etlP.sh
+/BI/hrb_BI/etl/script/reportSource.sh
+/BI/hrb_BI/etl/script/etlD.sh
+/BI/hrb_BI/etl/script/isFileExists.sh
+/BI/hrb_BI/etl/script/etlS.sh
+/BI/hrb_BI/etl/script/stop.sh
+
+#查找/BI/hrb_BI/etl/script 目录下等于2k的文件
+[root@demo_mdn script]# find /BI/hrb_BI/etl/script/  -size 2M
+[root@demo_mdn script]# 
+
+#查找/BI/hrb_BI/etl/script 目录下大于2k的文件 
+[root@demo_mdn script]# find /BI/hrb_BI/etl/script/  -size +2k
+/BI/hrb_BI/etl/script/
+/BI/hrb_BI/etl/script/etl.sh
+
+#查找/BI/hrb_BI/etl/script 目录下小于2k的文件
+[root@demo_mdn script]# find /BI/hrb_BI/etl/script/  -size -2k
+/BI/hrb_BI/etl/script/mysqld_kill_sleep.sh
+/BI/hrb_BI/etl/script/etlP.sh
+/BI/hrb_BI/etl/script/reportSource.sh
+/BI/hrb_BI/etl/script/etlD.sh
+/BI/hrb_BI/etl/script/a.sh
+/BI/hrb_BI/etl/script/b.sh
+/BI/hrb_BI/etl/script/isFileExists.sh
+/BI/hrb_BI/etl/script/ab.sh
+/BI/hrb_BI/etl/script/stat.sh
+/BI/hrb_BI/etl/script/etlS.sh
+/BI/hrb_BI/etl/script/stop.sh
+```
+## whereis命令 
+
+**作用**
+	定位二进制程序文件、man手册、源代码文件所在位置，搜索效率比find命令高，因为查找的是数据库索引文件，和locate命令同理，但索引内容不是实时更新。
+	
+**选项**
+```bash
+-b 只搜索二进制文件
+-B 指定搜索的二进制文件所在的目录
+-m 只搜索man帮助文件
+-M 指定man文件所在的目录
+-f 定义搜索范围
+-s 只搜索源代码文件
+-S 指定搜索源代码文件所在的目录
+（-BMS 必须和-f 选项同时使用）
+```
+**实例**
+```bash
+#搜索ls命令相关文件所在的位置
+[root@demo_mdn /]# whereis ls
+ls: /bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz
+
+#只搜索指定路径下ls相关二进制文件所在位置,只搜索当前指定路径不进行递归搜索
+[root@demo_mdn /]# whereis -b -B /bin -f ls
+ls: /bin/ls
+
+#只搜索指定路径下的ls相关帮助文件,只搜索当前指定路径不进行递归搜索
+[root@demo_mdn /]# whereis -m -M /usr/share/man/man1 -f ls
+ls: /usr/share/man/man1/ls.1.gz
+```
+
+## locate命令
+
+**作用**
+	查找文件或目录所在位置（locate 命令实际是查找的/var/lib/mlocate/mlocate.db 文件，所以查找速度比find命令快的多）
+	
+**选项**
+
+```bash
+ -V 显示版本信息
+ -d dir 指定搜索的数据库文件所在位置
+```
+
+ **实例**
+ ```bash
+ #指定mlocate.db 文件目录，查找portalOrderInfoTask_0_20201110_010000_0 文件所在位置
+ [root@demo_mdn mlocate]# locate -d /var/lib/mlocate/mlocate.db portalOrderInfoTask_0_20201110_010000_0
+ /home/report_cd/dhm/portalOrderInfoTask/2020/11/10/portalOrderInfoTask_0_20201110_010000_0
+
+ #显示locate 命令版本信息
+ [root@demo_mdn mlocate]# locate -V
+mlocate 0.22.2
+Copyright (C) 2007 Red Hat, Inc. All rights reserved.
+This software is distributed under the GPL v.2.
+
+This program is provided with NO WARRANTY, to the extent permitted by law.
+ ```
+
+## which命令
+
+**作用**
+查找命令所在的绝对路径（包含命令别名）。
+
+**选项**
+
+```bash
+  --version, -[vV] Print version and exit successfully.
+  --help,          Print this help and exit successfully.
+  --skip-dot       Skip directories in PATH that start with a dot.
+  --skip-tilde     Skip directories in PATH that start with a tilde.
+  --show-dot       Don't expand a dot to current directory in output.
+  --show-tilde     Output a tilde for HOME directory for non-root.
+  --tty-only       Stop processing options on the right if not on tty.
+  --all, -a        Print all matches in PATH, not just the first
+  --read-alias, -i Read list of aliases from stdin.
+  --skip-alias     Ignore option --read-alias; don't read stdin.
+  --read-functions Read shell functions from stdin.
+  --skip-functions Ignore option --read-functions; don't read stdin.
+```
+
+**实例**
+
+```bash
+#查找ls命令的绝对路径
+[root@demo_mdn user]# which ls
+alias ls='ls --color=auto'
+	/bin/ls
+```
+## strings命令
+
+**作用**
+在对象或二进制文件中查找可打印的字符串，字符可以是由4个或者更多字符组成的字符序列，以换行符或空字符结束。
+
+**选项**
+```bash
+	-a 扫描整个文件内容而不是仅仅文件初始化和装载段。
+	-f 显示查找到的字符串之前先打印文件名称。
+	-n number 查找长度为number及以上的字符串序列。
+	-t --radix={o,d,x} ：输出字符的位置，基于八进制，十进制或者十六进制
+	-o 等价于--radix=o
+	-T --target= ：指定二进制文件格式
+	-e --encoding={s,S,b,l,B,L} ：选择字符大小和排列顺序:s = 7-bit, S = 8-bit, {b,l} = 16-bit, {B,L} = 32-bit
+```
+
+**实例**
+
+```bash
+#以10进制为偏移量，查找profile文件中长度大于20的字符串,输出字符所在文件名称。
+[root@demo_mdn ~]# strings -f -t o -60 /etc/profile
+/etc/profile:      20 # System wide environment and startup programs, for login setup
+/etc/profile:     173 # It's NOT a good idea to change this file unless you know what you
+/etc/profile:     277 # are doing. It's much better to create a custom.sh shell script in
+/etc/profile:     403 # /etc/profile.d/ to make custom changes to your environment, as this
+/etc/profile:    3100 # By default, we want umask to get set. This sets it for login shell
+
+#以16进制为偏移量，查找当前目录下jpg文件中长度大于50的字符串，输出所在文件名称。
+[root@demo_mdn user]# strings -f -t o -n 50 *.jpg
+20190605165252_529.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165255_799.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_156.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_210.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_391.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_561.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_354.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_551.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_574.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_668.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_74.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171506_75.jpg:     153 !22222222222222222222222222222222222222222222222222
+```
+## dirname命令
+
+***作用***
+去除参数里面非目录部分
+特殊情况1 最后一个字符是"/",则截断到倒数第二个"/",并忽略之后的全部字符。
+特殊情况2 如果参数没有目录对应则返回当前目录。
+
+***实例***
+
+```bash
+[root@demo_mdn user]# dirname /a/b/file1.txt
+/a/b
+
+[root@demo_mdn user]# dirname /a/b
+/a 
+
+[root@demo_mdn user]# dirname /a/b/
+/a
+
+#没有目录对应的情况下，返回当前目录。
+[root@demo_mdn user]# dirname a
+. 
+```
+
+## iconv命令
+
+***作用***
+	转换文件编码
+
+***选项***
+```bash
+	-f 源文件编码方式
+	-t 目的文件编码方式
+	-s 忽略告警信息，但不包括错误信息
+	-o 指明编码后的输出文件
+	-c 忽略非法字符
+	-l 列出当前支持的编码方式
+```
+***实例***
+
+
+```bash
+#列出所有支持的编码方式
+[root@demo_mdn user]# iconv -l
+
+The following list contain all the coded character sets known.  This does
+not necessarily mean that all combinations of these names can be used for
+the FROM and TO command line parameters.  One coded character set can be
+listed with several different names (aliases).
+
+  437, 500, 500V1, 850, 851, 852, 855, 856, 857, 860, 861, 862, 863, 864, 865,
+  866, 866NAV, 869, 874, 904, 1026, 1046, 1047, 8859_1, 8859_2, 8859_3, 8859_4,
+  8859_5, 8859_6, 8859_7, 8859_8, 8859_9, 10646-1:1993, 10646-1:1993/UCS4
+
+#将文件file.txt 由gbk2312编码转换为UTF-8，并输出到file2.txt
+[root@demo_mdn user]# icon file1.txt -f gbk2312 -t UTF-8 -o file2.txt 
+```
+
+
+## cat命令
+
+***作用***
+	合并文件内容并显示
+	
+***选项***
+```bash
+	-A //显示特殊字符	
+	-n //对所有输出的行编号
+```
+
+***实例***
+
+```bash
+#显示特殊字符
+[root@demo_mdn user]# cat -A jdbc1.properties
+dbSrc=mysql$
+
+#对输出行编号
+[root@demo_mdn user]# cat -n jdbc2.properties 
+ 1	dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;characterEncoding=UTF-8
+ 2	dbUserName=root
+
+#合并jdbc1.properties、jdbc2.properties 文件内容到jdbc.properties并输出
+[root@demo_mdn user]# cat jdbc1.properties jdbc2.properties >jdbc.properties
+dbSrc=mysql
+dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;characterEncoding=UTF-8
+dbUserName=root
+```
+
+## tar命令
+
+选项
+```bash
+	运行tar时必须要有下列参数中的至少一个才可运行：
+	-A | --catenate | --concatenate 将一存档与已有的存档合并
+	-c | --create 建立新的存档
+	-d | --diff, --compare 比较存档与当前文件的不同之处
+	--delete 从存档中删除
+	-r | --append 附加到存档结尾
+	-t | --list 列出存档中文件的目录
+	-u |--update 仅将较新的文件附加到存档中
+	-x | --extract | --get 从存档展开文件
+	-z | --gzip | --ungzip 用gzip对存档压缩或解压
+	-f | --file [HOSTNAME:]F 指定存档或设备（缺省为 /dev/rmt0）
+	-x | --extract | --get 从存档展开文件
+	-v | --verbose 详细显示处理的文件
+```
+***压缩***
+```shell
+命令格式：tar -czf  压缩文件名.tar.gz  被压缩文件名
+
+可先切换到当前目录下。压缩文件名和被压缩文件名都可加入路径。
+
+示例：tar -czf etl.V300R002B042.tar.gz etl.V300R002B042/
+```
+
+
+
+
+
+
+***解压缩***
+
+```shell
+　命令格式：tar -zxvf  压缩文件名.tar.gz
+　
+　解压缩后的文件只能放在当前的目录。
+
+  示例：tar -zxvf etl.V300R002B042.tar.gz 
+```
+
+
+
+
+
