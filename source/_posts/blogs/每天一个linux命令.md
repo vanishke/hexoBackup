@@ -7,8 +7,114 @@ tags: Linux
 top: 2
 ---
 [toc]
+
 # 文件和目录管理
 
+
+## head命令
+
+**作用**
+	显示文件开头内容，默认显示前10行
+
+**选项**
+```bash
+-n<数字> :指定显示的行数
+-c<数字> :指定显示的字符数
+-v :显示文件头部信息
+-q :不显示文件头部信息
+```
+**示例**
+```bash
+
+# 显示my.cnf.bak文件的前3行内容
+[root@dap mysql]# head -3 my.cnf.bak 
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
+
+# 显示100个字符
+# For advi[root@dap mysql]# head -c 100 my.cnf.bak 
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-co
+
+#显示my.cnf.bak 文件头部信息
+[root@dap mysql]# head -v my.cnf.bak 
+==> my.cnf.bak <==
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
+
+[mysqld]
+
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+
+# Remove leading # to turn on a very important data integrity option: logging
+
+
+#不显示my.cnf.bak文件头部信息
+[root@dap mysql]# head -q my.cnf.bak 
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
+
+[mysqld]
+
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+
+# Remove leading # to turn on a very important data integrity option: logging
+
+```
+
+## more命令
+
+**作用**
+	基于vi编辑文本过滤器，以全屏幕分页显示文件内容，支持vi模式下关键字定位操作。
+	快捷键功能  
+	enter :显示文本下一行内容 
+	space : 显示下一屏文本  
+	q:退出more命令 
+	b:返回上一屏文本内容 
+	h:显示帮助命令
+	按斜线符/:接着输入一个模式，可以在文本中寻找下一个相匹配的模式。
+
+**选项**
+```bash
+-d :输出帮助信息
+-c :不进行滚屏，每次刷新这个屏幕。
+-s :合并多余的空白行。
+-u :禁止下划线
+-n ：n代表每一屏展示的文本行数。
+```
+
+**示例**
+```bash
+# 一屏显示10行文本内容，文本空白行合并，显示提示信息，不进行滚屏，每次刷新整个屏幕。
+[root@lwdCSCDN conf]# more -dsc -10 nginx.conf
+
+#user  nobody;
+user root;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+--More--(5%)[Press space to continue, 'q' to quit.]
+
+# 搜索字符串‘limit’所在位置，按键盘上n键，可定位到下一个位置。
+#user  nobody;
+user root;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+/limit
+```
 ## touch命令
 
 **作用**
@@ -21,6 +127,7 @@ top: 2
 -d :指定更新的时间戳字符串
 -t :指定时间戳格式，MMDDhhmm 
 **示例**
+
 ```bash
 # 创建新的文件
 [root@lwdCSCDN bin]# touch b.txt
@@ -691,7 +798,7 @@ alias ls='ls --color=auto'
 **实例**
 
 ```bash
-#以10进制为偏移量，查找profile文件中长度大于20的字符串,输出字符所在文件名称。
+#以10进制为偏移量，查找profile文件中长度大于60的字符串,输出字符所在文件名称。
 [root@demo_mdn ~]# strings -f -t o -60 /etc/profile
 /etc/profile:      20 # System wide environment and startup programs, for login setup
 /etc/profile:     173 # It's NOT a good idea to change this file unless you know what you
