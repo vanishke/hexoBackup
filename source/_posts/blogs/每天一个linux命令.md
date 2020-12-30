@@ -10,6 +10,79 @@ top: 2
 
 # 文件和目录管理
 
+## stat命令
+
+**作用**
+	显示文件状态信息，stat命令的输出信息比ls命令的输出信息要更详细。
+
+**选项**
+```bash
+-L : 支持符号链接
+-t : 以简洁方式显示输出信息。
+-f : 显示文件系统状态而不是文件状态。
+--version : 显示命令版本。
+--help : 显示命令帮助信息。
+```
+
+**示例**
+
+```bash
+#显示文件状态
+[root@lwdCSCDN log1]# stat ETL.log
+  File: "ETL.log"
+  Size: 7341608   	Blocks: 14352      IO Block: 4096   普通文件
+Device: 804h/2052d	Inode: 10495794    Links: 3
+Access: (0777/-rwxrwxrwx)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2020-12-28 11:06:47.226634512 +0800
+Modify: 2020-12-18 14:47:43.471294256 +0800
+Change: 2020-12-18 14:55:58.935352996 +0800
+You have new mail in /var/spool/mail/root
+
+#显示文件系统状态
+[root@lwdCSCDN log1]# stat -f ETL.log
+  File: "ETL.log"
+    ID: abb37a7c2e029036 Namelen: 255     Type: ext2/ext3
+Block size: 4096       Fundamental block size: 4096
+Blocks: Total: 45356622   Free: 29156603   Available: 26852603
+Inodes: Total: 11526144   Free: 10551557
+
+#以简洁方式展现文件状态信息
+[root@lwdCSCDN log1]# stat -t ETL.log
+ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 1608274558 4096
+```
+
+## file命令
+
+**作用**
+    file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.
+**选项**
+
+```bash
+-b : 列出结果时，不显示文件名称。
+-i : 探测文件结果以MIME字符串展示。
+-L : 检测链接文件，并给出链接原始文件的类型。
+-v : file命令版本信息。
+-z : 尝试探测压缩类型文件。
+-m : 指定魔法幻数文件。
+-f : 指定文件，如果文件内容中有其他文件，依序辨识这些文件，输出格式为每列一个文件。
+-c : 显示命令执行的详细过程。
+
+```
+**示例**
+
+```bash
+#显示文件类型
+[root@lwdCSCDN log1]# file ETL.log
+ETL.log: ASCII English text, with very long lines
+
+# 不显示文件名称
+[root@lwdCSCDN log1]# file -b ETL.log
+ASCII English text, with very long lines
+
+#以MIME格式展现探测结果
+[root@lwdCSCDN log1]# file -b -i record.ini 
+text/plain; charset=us-ascii
+```
 
 ## head命令
 
@@ -17,6 +90,7 @@ top: 2
 	显示文件开头内容，默认显示前10行
 
 **选项**
+
 ```bash
 -n<数字> :指定显示的行数
 -c<数字> :指定显示的字符数
