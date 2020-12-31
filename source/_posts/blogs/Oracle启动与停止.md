@@ -5,9 +5,9 @@ date: 2020-11-17 11:11:20
 tags: Oracle
 ---
 
+[toc]
 
-
-##  1. 启动
+## 启动
 
 ```shell
 $ su – oracle 
@@ -24,7 +24,7 @@ $ lsnrctl stop(关闭监听器，在这之前，应该先关闭应用程序）
 
 ​	
 
-## 2. 停止
+## 停止
 
 ```shell
 su - oracle

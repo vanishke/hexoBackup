@@ -2,7 +2,7 @@
 title: docker阿里云镜像
 categories: docker
 date: 2020-12-23 10:11:20
-tags: docker,windows
+tags: docker,indows
 ---
 
 
