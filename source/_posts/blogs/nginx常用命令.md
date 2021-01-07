@@ -4,7 +4,7 @@ categories: nginx
 date: 2020-12-24 10:11:20
 tags: nginx,linux
 ---
-[toc]
+<!-- toc -->
 
 # 启动
 ```bash

@@ -1,14 +1,120 @@
 ---
 title: 每天一个linux命令
-categories: 
-	- Linux
+categories: Linux
 date: 2020-11-17 11:27:20
 tags: Linux
 top: 2
 ---
-[toc]
+<!-- toc -->
 
-# 文件和目录管理
+# 文件和目录管理 
+
+## chown命令
+
+**作用**
+```bash
+chown命令用于改变一个文件或目录的所有者或用户组，用户可以是用户名或者用户ID，群组可以是群组名或者群组ID，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。
+```
+**选项**
+
+-c:与-v命令相似，仅显示变更的内容。
+-f:不显示错误信息。
+-h:只对符号链接文件做修改，不改变其对应的原始文件。
+-R:递归处理，将命令目录下的所有文件和子目录一并处理。
+-v:显示命令执行详细过程。
+--reference=<参考文件或目录>：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同。
+--help:在线帮助。
+--version:显示版本信息。
+
+
+**示例**
+```bash
+# 将erm_gd目录下的文件和目录所属者更改为report_cd,群组修改为report_cd
+[root@lwdCSCDN tmp]# chown -R report_cd:report_cd erm_gd
+[root@lwdCSCDN tmp]# cd erm_gd/
+You have new mail in /var/spool/mail/root
+[root@lwdCSCDN erm_gd]# ll
+总用量 210608
+-rw-r--r-- 1 report_cd report_cd 214757130 1月   5 17:47 dg_erm_mysql.sql
+-rw-r--r-- 1 report_cd report_cd    681075 1月   5 17:47 dg_global.sql
+```
+
+## chgrp命令
+
+**作用**
+```bash
+chgrp用来变更文件或目录的所属群组。
+组名可以是用户组的id,也可以是用户组的名称，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。
+```
+**选项**
+-c:与-v命令像相似，仅显示变更的部分。
+-f:不显示错误信息。
+-h:只对符号链接文件做修改，不改变其对应的原始文件。
+-R:递归处理，对指令目录下的文件及目录一并处理。
+-v:显示命令执行的详细过程。
+--reference=<参考文件或目录>:把指定文件或目录设置成参考文件或目录相同的群组。
+
+**示例**
+```bash
+# 将erm_gd目录的群组递归更改为report_hrb,显示详细的处理过程。
+[root@lwdCSCDN tmp]# ls
+elasticsearch-2738171260560954631  erm_gd  mysql.sock  pulse-24KvvDfOHjjf  v8-compile-cache-0
+[root@lwdCSCDN tmp]# chgrp -vR report_hrb erm_gd
+"erm_gd/dg_global.sql" 的所属组已更改为report_hrb
+"erm_gd/dg_erm_mysql.sql" 的所属组已更改为report_hrb
+"erm_gd" 的所属组已更改为report_hrb
+```
+## chattr命令
+
+**作用**
+```bash
+chattr命令用来更改文件属性，这项指令可更改ext32文件系统文件或目录属性，属性一共以下8种模式：
+a:限制文件或目录仅提供附加用途。
+b:不更新文件或目录的最后存取时间。
+c:将文件和目录压缩后存放。
+d:将文件或目录排除在倾倒操作之外。
+i:不得更改文件和目录。
+s:保密性删除文件或目录。
+S:及时更新文件或目录。
+u:预防意外性删除。
+```
+**选项**
+
+-R:将命令目录下的所有文件和子目录一并处理。
+-v<版本号>:指定文件或目录的版本信息。
++属性：开启文件或目录的该项属性。
+-属性：关闭文件或目录的该项属性。
+=属性：指定文件或目录的该项属性。
+
+**示例**
+```bash
+# 防止系统中某个文件系统内容被更改。
+[root@lwdCSCDN erm_gd]# chattr +i a.txt 
+You have new mail in /var/spool/mail/root
+[root@lwdCSCDN erm_gd]# rm -rf a.txt 
+rm: 无法删除"a.txt": 不允许的操作
+
+# 限制a.txt文件只能进行附加操作
+[root@lwdCSCDN erm_gd]# chattr +a a.txt 
+[root@lwdCSCDN erm_gd]# echo "cover the file a.txt" > a.txt
+-bash: a.txt: 不允许的操作
+You have new mail in /var/spool/mail/root
+
+# 采用附加方式添加内容
+[root@lwdCSCDN erm_gd]# echo "append content to file a.txt" >> a.txt
+You have new mail in /var/spool/mail/root
+[root@lwdCSCDN erm_gd]# vim a.txt 
+
+:ewewqfdsf
+append content to file a.txt
+
+# 不可随意更动文件或目录
+[root@lwdCSCDN erm_gd]# chattr +i a.txt
+[root@lwdCSCDN erm_gd]# rename a.txt aa.txt a.txt 
+rename: renaming a.txt to aa.txt failed: 不允许的操作
+You have new mail in /var/spool/mail/root
+```
+
 
 ## stat命令
 
@@ -16,13 +122,13 @@ top: 2
 	显示文件状态信息，stat命令的输出信息比ls命令的输出信息要更详细。
 
 **选项**
-```bash
+
 -L : 支持符号链接
 -t : 以简洁方式显示输出信息。
 -f : 显示文件系统状态而不是文件状态。
 --version : 显示命令版本。
 --help : 显示命令帮助信息。
-```
+
 
 **示例**
 
@@ -57,7 +163,7 @@ ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 16082745
     file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.
 **选项**
 
-```bash
+
 -b : 列出结果时，不显示文件名称。
 -i : 探测文件结果以MIME字符串展示。
 -L : 检测链接文件，并给出链接原始文件的类型。
@@ -67,7 +173,6 @@ ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 16082745
 -f : 指定文件，如果文件内容中有其他文件，依序辨识这些文件，输出格式为每列一个文件。
 -c : 显示命令执行的详细过程。
 
-```
 **示例**
 
 ```bash
@@ -91,12 +196,11 @@ text/plain; charset=us-ascii
 
 **选项**
 
-```bash
 -n<数字> :指定显示的行数
 -c<数字> :指定显示的字符数
 -v :显示文件头部信息
 -q :不显示文件头部信息
-```
+
 **示例**
 ```bash
 
@@ -153,13 +257,11 @@ text/plain; charset=us-ascii
 	按斜线符/:接着输入一个模式，可以在文本中寻找下一个相匹配的模式。
 
 **选项**
-```bash
 -d :输出帮助信息
 -c :不进行滚屏，每次刷新这个屏幕。
 -s :合并多余的空白行。
 -u :禁止下划线
 -n ：n代表每一屏展示的文本行数。
-```
 
 **示例**
 ```bash

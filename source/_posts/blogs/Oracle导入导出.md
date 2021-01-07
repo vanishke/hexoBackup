@@ -4,7 +4,7 @@ categories: Oracle
 date: 2020-11-17 9:10:12
 tags: Oracle
 ---
-[toc]
+<!-- toc -->
 
 #   导入
 
@@ -67,7 +67,7 @@ impdp  SDP_CMS_HRB/SDP_CMS_HRB  DIRECTORY=IMPDIR  DUMPFILE=SDP_CMS _2020081010.d
 SELECT * FROM DBA_Directories /* 查看用户相关的目录信息 */
 ```
 
-![oracle数据库目录信息](/img/oracle/oracle_20201118.png)
+![oracle数据库目录信息](/images/oracle/oracle_20201118.png)
 
 # 导出
 

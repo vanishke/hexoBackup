@@ -8,7 +8,7 @@ subtitle: '不积跬步，无以至千里；不积小流，无以成江海'
 description: '每一个不曾起舞的日子，都是对生命的辜负'
 keywords: Java,Elasticsearch,MySQL,Linux
 author: vanishke
-language: zh-CN
+language: zh-Hans
 timezone: 'Asia/Shanghai'
 
 # URL
@@ -98,8 +98,19 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: 3-hexo
+#theme: 3-hexo
+theme: next
 
+toc:
+  maxdepth: 3
+  class: toc
+  slugify: transliteration
+  decodeEntities: false
+  anchor:
+    position: after
+    symbol: '#'
+    style: header-anchor
+    
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 #https://github.com/vanishke/hexo.git

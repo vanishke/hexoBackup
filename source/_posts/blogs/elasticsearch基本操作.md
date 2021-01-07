@@ -3,7 +3,8 @@ title: ElasticSearch基本操作
 categories: ElasticSearch
 tags: ElasticSearch,NoSQL
 ---
-[toc]
+<!-- toc -->
+
 # 查看所有索引信息
 
 http://10.9.217.3:9200/_cat/indices

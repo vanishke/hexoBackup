@@ -4,7 +4,7 @@ categories: nginx
 date: 2020-12-31 17:32:20
 tags: nginx,windows
 ---
-[toc]
+<!-- toc -->
 
 # 环境
 windows 7
@@ -12,9 +12,10 @@ nginx-1.16.1
 winsw-2.0.2-bin.exe
 
 # nginx下载
-```bash
-![官方下载地址](http://nginx.org/en/download.html)
-```
+
+[官方下载地址](http://nginx.org/en/download.html)
+笔者使用的nginx-1.16.1版本
+
 # 注册工具
 ```bash
 官方下载地址：http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/
@@ -23,7 +24,7 @@ winsw-2.0.2-bin.exe
 # nginx注册
 
 1.将nginx解压至指定安装位置,D:\nginx-1.16.1\nginx-1.16.1
-![nginx安装目录](/img/nginx/nginx_20201231_01.png)
+![nginx安装目录](/images/nginx/nginx_20201231_01.png)
 
 2.将winsw-2.0.2-bin.exe复制到nginx目录：D:\nginx-1.16.1\nginx-1.16.1,并将其改成nginx-service.exe 
 
@@ -53,8 +54,8 @@ winsw-2.0.2-bin.exe
 # nginx服务自启动设置
 
 运行windows cmd命令，找到nginx服务，右键属性可配置nginx启动方式。
-![nginx服务验证](/img/nginx/nginx_20201231_02.png)
-![nginx服务验证](/img/nginx/nginx_20201231_03.png)
+![nginx服务验证](/images/nginx/nginx_20201231_02.png)
+![nginx服务验证](/images/nginx/nginx_20201231_03.png)
 
 # nginx服务验证
-![nginx服务验证](/img/nginx/nginx_20201231_04.png)
+![nginx服务验证](/images/nginx/nginx_20201231_04.png)
