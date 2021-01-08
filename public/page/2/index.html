@@ -241,9 +241,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -396,7 +430,7 @@
       
         
           
-            <h2><span id="1-qing-li">1.清理</span><a href="#1-qing-li" class="header-anchor">#</a></h2><pre><code class="sql">SELECT l.session_id sid,  
+            <h2><span id="1清理">1.清理</span></h2><pre><code class="sql">SELECT l.session_id sid,  
        s.serial#,  
        l.locked_mode 锁模式,  
        l.oracle_username 登录用户,  
@@ -585,19 +619,15 @@ alter system kill session sid,serial&#39;;</code></pre>
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#qi-dong">启动</a></li>
-<li><a href="#ting-zhi">停止</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8">启动</a></li>
+<li><a href="#%E5%81%9C%E6%AD%A2">停止</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h2><span id="qi-dong">启动</span><a href="#qi-dong" class="header-anchor">#</a></h2><pre><code class="shell">$ su – oracle 
+<h2><span id="启动">启动</span></h2><pre><code class="shell">$ su – oracle 
 $ sqlplus /nolog 
 sql&gt; conn / as sysdba 
 sql&gt; startup (一般不需要加参数，只要设置好环境变量） 
@@ -606,7 +636,7 @@ $ lsnrctl start (启动监听器）关闭oracle
 $ lsnrctl status
 $ lsnrctl stop(关闭监听器，在这之前，应该先关闭应用程序） </code></pre>
 <p>​    </p>
-<h2><span id="ting-zhi">停止</span><a href="#ting-zhi" class="header-anchor">#</a></h2><pre><code class="shell">su - oracle
+<h2><span id="停止">停止</span></h2><pre><code class="shell">su - oracle
 $lsnrctl stop;
 $ sqlplus /nolog 
 sql&gt; conn / as sysdba 
@@ -783,7 +813,7 @@ sql&gt; shutdown immediate</code></pre>
       
         
           
-            <h2><span id="1-tong-ji">1. 统计</span><a href="#1-tong-ji" class="header-anchor">#</a></h2><pre><code class="sql">SELECT a.tablespace_name &quot;表空间名&quot;,
+            <h2><span id="1-统计">1. 统计</span></h2><pre><code class="sql">SELECT a.tablespace_name &quot;表空间名&quot;,
 a.bytes / 1024 / 1024 &quot;表空间大小(M)&quot;,
 (a.bytes - b.bytes) / 1024 / 1024 &quot;已使用空间(M)&quot;,
 b.bytes / 1024 / 1024 &quot;空闲空间(M)&quot;,
@@ -930,7 +960,7 @@ ORDER BY ((a.bytes - b.bytes) / a.bytes) DESC;</code></pre>
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  98
+                  96
                 </span>
               
 
@@ -969,12 +999,12 @@ ORDER BY ((a.bytes - b.bytes) / a.bytes) DESC;</code></pre>
       
         
           
-            <h2><span id="linux-huan-jing">linux环境</span><a href="#linux-huan-jing" class="header-anchor">#</a></h2><pre><code class="bash">假设jdk版本7，目录为/home/user1/jdk
+            <h2><span id="linux环境">linux环境</span></h2><pre><code class="bash">假设jdk版本7，目录为/home/user1/jdk
 进入到tomcat的bin目录下，修改setclasspath.sh文件，在文件首部添加两行代码
 
 export JAVA_HOME=/home/user/jdk
 export JRE_HOME=/home/user/jdk/jre</code></pre>
-<h2><span id="windows">windows</span><a href="#windows" class="header-anchor">#</a></h2><p>修改bin目录下的setclasspath.bat文件，注意linux的是sh，Windows的是bat。将上述两行代码的export换成set填入该文件首部保存（注意实际路径的替换）</p>
+<h2><span id="windows">windows</span></h2><p>修改bin目录下的setclasspath.bat文件，注意linux的是sh，Windows的是bat。将上述两行代码的export换成set填入该文件首部保存（注意实际路径的替换）</p>
 
           
         
@@ -1147,7 +1177,7 @@ export JRE_HOME=/home/user/jdk/jre</code></pre>
       
         
           
-            <h2><span id="linux-huan-jing">linux环境</span><a href="#linux-huan-jing" class="header-anchor">#</a></h2><pre><code class="bash">文件名称：setenv.sh 文件路径：/usr/local/
+            <h2><span id="linux环境">linux环境</span></h2><pre><code class="bash">文件名称：setenv.sh 文件路径：/usr/local/
 文件头部添加以下内容：
 export JAVA_HOME=/usr/java/jdk1.6.0_21
 export JRE_HOME=/usr/java/jdk1.6.0_21/jre</code></pre>
@@ -1510,7 +1540,7 @@ export JRE_HOME=/usr/java/jdk1.6.0_21/jre</code></pre>
       
         
           
-            <h2><span id="linux-huan-jing">linux环境</span><a href="#linux-huan-jing" class="header-anchor">#</a></h2><pre><code class="bash">文件名称：run.conf  文件路径：/usr/local/jboss-5.1.0.GA/bin
+            <h2><span id="linux环境">linux环境</span></h2><pre><code class="bash">文件名称：run.conf  文件路径：/usr/local/jboss-5.1.0.GA/bin
 文件头部添加以下内容：
 JAVA_HOME=&quot;/usr/java/jdk1.6.0&quot;</code></pre>
 
@@ -1646,7 +1676,7 @@ JAVA_HOME=&quot;/usr/java/jdk1.6.0&quot;</code></pre>
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  512
+                  510
                 </span>
               
 
@@ -1685,29 +1715,25 @@ JAVA_HOME=&quot;/usr/java/jdk1.6.0&quot;</code></pre>
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#cha-kan-suo-you-suo-yin-xin-xi">查看所有索引信息</a></li>
-<li><a href="#chuang-jian-suo-yin">创建索引</a></li>
-<li><a href="#shan-chu-suo-yin">删除索引</a></li>
-<li><a href="#chuang-jian-suo-yin-mapping">创建索引mapping</a><ul>
-<li><a href="#2-4-ban-ben">2.4版本</a></li>
-<li><a href="#5-0-ban-ben">5.0 版本</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E7%B4%A2%E5%BC%95%E4%BF%A1%E6%81%AF">查看所有索引信息</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95">创建索引</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95">删除索引</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95mapping">创建索引mapping</a><ul>
+<li><a href="#24%E7%89%88%E6%9C%AC">2.4版本</a></li>
+<li><a href="#50-%E7%89%88%E6%9C%AC">5.0 版本</a></li>
 </ul>
 </li>
-<li><a href="#chuang-jian-mo-ban">创建模板</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E6%9D%BF">创建模板</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="cha-kan-suo-you-suo-yin-xin-xi">查看所有索引信息</span><a href="#cha-kan-suo-you-suo-yin-xin-xi" class="header-anchor">#</a></h1><p><a target="_blank" rel="noopener" href="http://10.9.217.3:9200/_cat/indices">http://10.9.217.3:9200/_cat/indices</a></p>
-<h1><span id="chuang-jian-suo-yin">创建索引</span><a href="#chuang-jian-suo-yin" class="header-anchor">#</a></h1><p>POST <a target="_blank" rel="noopener" href="http://10.9.217.3:9200/coseelog">http://10.9.217.3:9200/coseelog</a></p>
-<h1><span id="shan-chu-suo-yin">删除索引</span><a href="#shan-chu-suo-yin" class="header-anchor">#</a></h1><p>DELETE <a target="_blank" rel="noopener" href="http://10.9.217.3:9200/coseelog">http://10.9.217.3:9200/coseelog</a></p>
-<h1><span id="chuang-jian-suo-yin-mapping">创建索引mapping</span><a href="#chuang-jian-suo-yin-mapping" class="header-anchor">#</a></h1><h2><span id="2-4-ban-ben">2.4版本</span><a href="#2-4-ban-ben" class="header-anchor">#</a></h2><pre><code class="json">POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
+<h1><span id="查看所有索引信息">查看所有索引信息</span></h1><p><a target="_blank" rel="noopener" href="http://10.9.217.3:9200/_cat/indices">http://10.9.217.3:9200/_cat/indices</a></p>
+<h1><span id="创建索引">创建索引</span></h1><p>POST <a target="_blank" rel="noopener" href="http://10.9.217.3:9200/coseelog">http://10.9.217.3:9200/coseelog</a></p>
+<h1><span id="删除索引">删除索引</span></h1><p>DELETE <a target="_blank" rel="noopener" href="http://10.9.217.3:9200/coseelog">http://10.9.217.3:9200/coseelog</a></p>
+<h1><span id="创建索引mapping">创建索引mapping</span></h1><h2><span id="24版本">2.4版本</span></h2><pre><code class="json">POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
 &#123;&quot;doc&quot;: &#123;
     &quot;properties&quot;:  &#123;
         &quot;logId&quot;: &#123;
@@ -1738,7 +1764,7 @@ JAVA_HOME=&quot;/usr/java/jdk1.6.0&quot;</code></pre>
         &#125;
     &#125;
 &#125;</code></pre>
-<h2><span id="5-0-ban-ben">5.0 版本</span><a href="#5-0-ban-ben" class="header-anchor">#</a></h2><pre><code class="json">mapping POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
+<h2><span id="50-版本">5.0 版本</span></h2><pre><code class="json">mapping POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
 &#123;&quot;doc&quot;: &#123;
     &quot;properties&quot;:  &#123;
         &quot;logId&quot;: &#123;
@@ -1769,7 +1795,7 @@ JAVA_HOME=&quot;/usr/java/jdk1.6.0&quot;</code></pre>
         &#125;
     &#125;
 &#125;</code></pre>
-<h1><span id="chuang-jian-mo-ban">创建模板</span><a href="#chuang-jian-mo-ban" class="header-anchor">#</a></h1><pre><code class="json">POST http://120.77.8.170:9200/_template/vistors_flow_total/
+<h1><span id="创建模板">创建模板</span></h1><pre><code class="json">POST http://120.77.8.170:9200/_template/vistors_flow_total/
 
 &#123;
     &quot;template&quot; : &quot;vistors_flow_total_*&quot;,
@@ -1981,37 +2007,33 @@ JAVA_HOME=&quot;/usr/java/jdk1.6.0&quot;</code></pre>
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#dao-ru">导入</a><ul>
-<li><a href="#cha-kan-suo-you-yong-hu-biao-kong-jian">查看所有用户表空间</a></li>
-<li><a href="#chuang-jian-shu-ju-he-suo-yin-cun-chu-wen-jian-mu-lu">创建数据和索引存储文件目录</a></li>
-<li><a href="#chuang-jian-dui-ying-yong-hu-bing-fu-yu-quan-xian">创建对应用户并赋予权限</a></li>
-<li><a href="#dao-ru-ming-ling">导入命令</a></li>
+<li><a href="#%E5%AF%BC%E5%85%A5">导入</a><ul>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%E8%A1%A8%E7%A9%BA%E9%97%B4">查看所有用户表空间</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%92%8C%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95">创建数据和索引存储文件目录</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E5%BA%94%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90">创建对应用户并赋予权限</a></li>
+<li><a href="#%E5%AF%BC%E5%85%A5%E5%91%BD%E4%BB%A4">导入命令</a></li>
 </ul>
 </li>
-<li><a href="#dao-chu">导出</a><ul>
-<li><a href="#chuang-jian-dao-chu-shu-ju-wen-jian-mu-lu">创建导出数据文件目录</a></li>
-<li><a href="#zhi-xing-dao-chu-ming-ling">执行导出命令</a></li>
+<li><a href="#%E5%AF%BC%E5%87%BA">导出</a><ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95">创建导出数据文件目录</a></li>
+<li><a href="#%E6%89%A7%E8%A1%8C%E5%AF%BC%E5%87%BA%E5%91%BD%E4%BB%A4">执行导出命令</a></li>
 </ul>
 </li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="dao-ru">导入</span><a href="#dao-ru" class="header-anchor">#</a></h1><h2><span id="cha-kan-suo-you-yong-hu-biao-kong-jian">查看所有用户表空间</span><a href="#cha-kan-suo-you-yong-hu-biao-kong-jian" class="header-anchor">#</a></h2><pre><code class="sql">SELECT * FROM DBA_USERS  /*查看用户及其表空间信息 */
+<h1><span id="导入">导入</span></h1><h2><span id="查看所有用户表空间">查看所有用户表空间</span></h2><pre><code class="sql">SELECT * FROM DBA_USERS  /*查看用户及其表空间信息 */
 
 drop user SDP_CMS_HRB cascade; /* 级联删除用户信息*/
 
 DROP TABLESPACE SDP_CMS_HRB_DATA including contents and datafiles cascade constraint; /* 删除用户所在的表空间*/</code></pre>
 <p>​    </p>
-<h2><span id="chuang-jian-shu-ju-he-suo-yin-cun-chu-wen-jian-mu-lu">创建数据和索引存储文件目录</span><a href="#chuang-jian-shu-ju-he-suo-yin-cun-chu-wen-jian-mu-lu" class="header-anchor">#</a></h2><pre><code class="SQL">create tablespace SDP_CMS_HRB_DATA datafile &#39;$ORACLE_BASE/oradata/SDP_CMS_HRB_DATA.dbf&#39; size 500M autoextend on next 12M maxsize unlimited;
+<h2><span id="创建数据和索引存储文件目录">创建数据和索引存储文件目录</span></h2><pre><code class="SQL">create tablespace SDP_CMS_HRB_DATA datafile &#39;$ORACLE_BASE/oradata/SDP_CMS_HRB_DATA.dbf&#39; size 500M autoextend on next 12M maxsize unlimited;
 create tablespace SDP_CMS_HRB_IDX datafile &#39;$ORACLE_BASE/oradata/SDP_CMS_HRB_IDX.dbf&#39; size 500M autoextend on next 12M maxsize unlimited;</code></pre>
-<h2><span id="chuang-jian-dui-ying-yong-hu-bing-fu-yu-quan-xian">创建对应用户并赋予权限</span><a href="#chuang-jian-dui-ying-yong-hu-bing-fu-yu-quan-xian" class="header-anchor">#</a></h2><pre><code class="SQL">create user SDP_CMS_HRB identified by SDP_CMS_HRB default tablespace SDP_CMS_HRB_DATA temporary tablespace TEMP profile DEFAULT;
+<h2><span id="创建对应用户并赋予权限">创建对应用户并赋予权限</span></h2><pre><code class="SQL">create user SDP_CMS_HRB identified by SDP_CMS_HRB default tablespace SDP_CMS_HRB_DATA temporary tablespace TEMP profile DEFAULT;
 
 grant connect,resource to SDP_CMS_HRB; 
 grant create any sequence to SDP_CMS_HRB; 
@@ -2024,14 +2046,14 @@ grant execute any procedure to SDP_CMS_HRB;
 grant update any table to SDP_CMS_HRB; 
 grant create any view to SDP_CMS_HRB; 
 grant dba to SDP_CMS_HRB;</code></pre>
-<h2><span id="dao-ru-ming-ling">导入命令</span><a href="#dao-ru-ming-ling" class="header-anchor">#</a></h2><pre><code class="SQL">impdp  SDP_CMS_HRB/SDP_CMS_HRB  DIRECTORY=IMPDIR  DUMPFILE=SDP_CMS _2020081010.dmp remap_schema=SDP_CMS:SDP_CMS_HRB remap_tablespace=SDP_CMS_DATA:SDP_CMS_HRB_DATA,SDP_CMS_DATA:SDP_CMS_HRB_IDX</code></pre>
+<h2><span id="导入命令">导入命令</span></h2><pre><code class="SQL">impdp  SDP_CMS_HRB/SDP_CMS_HRB  DIRECTORY=IMPDIR  DUMPFILE=SDP_CMS _2020081010.dmp remap_schema=SDP_CMS:SDP_CMS_HRB remap_tablespace=SDP_CMS_DATA:SDP_CMS_HRB_DATA,SDP_CMS_DATA:SDP_CMS_HRB_IDX</code></pre>
 <p>​    remap_schema:利用remap_schema可以把源数据库下SDP_CMS用户的数据迁移到目标数据库的SDP_CMS_HRB用户下。</p>
 <p>​    remap_tablespace:将导出SDP_CMS _2020081010.dmp 文件中的SDP_CMS_DATA表空间 导入到目标库的 SDP_CMS_HRB_DATA中指定表空间(包含数据文件和索引文件)，导入命令执行之前必须确保引用脚本存在。</p>
 <p>查看Oracle 用户对应目录命令</p>
 <pre><code class="SQL">SELECT * FROM DBA_Directories /* 查看用户相关的目录信息 */</code></pre>
 <p><img src="/images/oracle/oracle_20201118.png" alt="oracle数据库目录信息"></p>
-<h1><span id="dao-chu">导出</span><a href="#dao-chu" class="header-anchor">#</a></h1><h2><span id="chuang-jian-dao-chu-shu-ju-wen-jian-mu-lu">创建导出数据文件目录</span><a href="#chuang-jian-dao-chu-shu-ju-wen-jian-mu-lu" class="header-anchor">#</a></h2><pre><code class="SQL">create directory DATA_EXPDP_DIR as &#39;/tmp&#39;; </code></pre>
-<h2><span id="zhi-xing-dao-chu-ming-ling">执行导出命令</span><a href="#zhi-xing-dao-chu-ming-ling" class="header-anchor">#</a></h2><pre><code class="SQL">expdp \&#39;/ as sysdba\&#39; schemas=SDP_CMS_HRB DIRECTORY=DATA_EXPDP_DIR DUMPFILE=SDP_CMS_HRBBAK_20200607.DMP LOGFILE=SDP_CMS_HRBBAK_20200607.LOG</code></pre>
+<h1><span id="导出">导出</span></h1><h2><span id="创建导出数据文件目录">创建导出数据文件目录</span></h2><pre><code class="SQL">create directory DATA_EXPDP_DIR as &#39;/tmp&#39;; </code></pre>
+<h2><span id="执行导出命令">执行导出命令</span></h2><pre><code class="SQL">expdp \&#39;/ as sysdba\&#39; schemas=SDP_CMS_HRB DIRECTORY=DATA_EXPDP_DIR DUMPFILE=SDP_CMS_HRBBAK_20200607.DMP LOGFILE=SDP_CMS_HRBBAK_20200607.LOG</code></pre>
 
           
         
@@ -2204,15 +2226,15 @@ grant dba to SDP_CMS_HRB;</code></pre>
       
         
           
-            <h2><span id="nei-cun-you-hua">内存优化</span><a href="#nei-cun-you-hua" class="header-anchor">#</a></h2><pre><code class="txt">文件名称：catalina.sh 
+            <h2><span id="内存优化">内存优化</span></h2><pre><code class="txt">文件名称：catalina.sh 
 文件路径：/usr/local/guangdong/ERMproxy/apache-tomcat-6.0.13/bin
 JAVA_OPTS=&quot;-Djava.awt.headless=true -Xms1024m -Xmx2048m -XX:PermSize=256M -XX:MaxNewSize=256m -XX:MaxPermSize=256m -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+HeapDumpOnOutOfMemoryError&quot;</code></pre>
-<h2><span id="lian-jie-shu-you-hua">连接数优化</span><a href="#lian-jie-shu-you-hua" class="header-anchor">#</a></h2><pre><code class="txt">文件名称：server.xml  
+<h2><span id="连接数优化">连接数优化</span></h2><pre><code class="txt">文件名称：server.xml  
 文件路径：/usr/local/guangdong/ERMproxy/apache-tomcat-6.0.13/conf
 &lt;Connector connectionTimeout=&quot;20000&quot; port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot; maxThreads=&quot;2000&quot; minSpareThreads=&quot;100&quot; maxSpareThreads=&quot;1000&quot; minProcessors=&quot;100&quot; maxProcessors=&quot;1000&quot; compression=&quot;on&quot; compressionMinSize=&quot;2048&quot; compressableMimeType=&quot;text/html,text/xml,text/javascript,text/css,text/plain&quot;  redirectPort=&quot;8443&quot;/&gt;
 
 </code></pre>
-<h2><span id="qi-dong-can-shu-you-hua">启动参数优化</span><a href="#qi-dong-can-shu-you-hua" class="header-anchor">#</a></h2><pre><code class="txt">文件名称：catalina.properties 
+<h2><span id="启动参数优化">启动参数优化</span></h2><pre><code class="txt">文件名称：catalina.properties 
 文件路径：/usr/local/guangdong/ERMproxy/apache-tomcat-6.0.13/conf
 
 1.找到代码tomcat.util.scan.StandardJarScanFilter.jarsToScan=\
@@ -2559,6 +2581,323 @@ JAVA_OPTS=&quot;-Djava.awt.headless=true -Xms1024m -Xmx2048m -XX:PermSize=256M -
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

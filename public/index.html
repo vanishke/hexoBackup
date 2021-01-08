@@ -241,9 +241,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -357,7 +391,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  144
+                  143
                 </span>
               
 
@@ -396,23 +430,19 @@
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#huan-jing">环境</a></li>
-<li><a href="#nginx-xia-zai">nginx下载</a></li>
-<li><a href="#nginx-dai-li-she-zhi">nginx代理设置</a></li>
-<li><a href="#fan-xiang-dai-li-yan-zheng">反向代理验证</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
+<li><a href="#nginx%E4%B8%8B%E8%BD%BD">nginx下载</a></li>
+<li><a href="#nginx%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE">nginx代理设置</a></li>
+<li><a href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%AA%8C%E8%AF%81">反向代理验证</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="huan-jing">环境</span><a href="#huan-jing" class="header-anchor">#</a></h1><p>windows 7<br>nginx-1.16.1</p>
-<h1><span id="nginx-xia-zai">nginx下载</span><a href="#nginx-xia-zai" class="header-anchor">#</a></h1><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">官方下载地址</a><br>笔者使用的nginx-1.16.1版本</p>
-<h1><span id="nginx-dai-li-she-zhi">nginx代理设置</span><a href="#nginx-dai-li-she-zhi" class="header-anchor">#</a></h1><pre><code class="bash"># http下server子节点设置
+<h1><span id="环境">环境</span></h1><p>windows 7<br>nginx-1.16.1</p>
+<h1><span id="nginx下载">nginx下载</span></h1><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">官方下载地址</a><br>笔者使用的nginx-1.16.1版本</p>
+<h1><span id="nginx代理设置">nginx代理设置</span></h1><pre><code class="bash"># http下server子节点设置
 server &#123;
         listen       8089; #nginx监听访问端口号
         server_name  10.9.212.55; #监听访问IP
@@ -429,7 +459,7 @@ server &#123;
             index  index.html index.htm;
         &#125;
     &#125;</code></pre>
-<h1><span id="fan-xiang-dai-li-yan-zheng">反向代理验证</span><a href="#fan-xiang-dai-li-yan-zheng" class="header-anchor">#</a></h1><p><img src="/images/nginx/nginx_20210107_05.png" alt="nginx反向代理验证"></p>
+<h1><span id="反向代理验证">反向代理验证</span></h1><p><img src="/images/nginx/nginx_20210107_05.png" alt="nginx反向代理验证"></p>
 
           
         
@@ -563,7 +593,7 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  118
+                  116
                 </span>
               
 
@@ -602,28 +632,24 @@ server &#123;
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#huan-jing">环境</a></li>
-<li><a href="#elasticsearch-xia-zai">elasticsearch下载</a></li>
-<li><a href="#elasticsearch-zhu-ce">elasticsearch注册</a></li>
-<li><a href="#elasticsearch-fu-wu-zi-qi-dong-she-zhi">elasticsearch服务自启动设置</a></li>
-<li><a href="#elasticsearch-fu-wu-yan-zheng">elasticsearch服务验证</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
+<li><a href="#elasticsearch%E4%B8%8B%E8%BD%BD">elasticsearch下载</a></li>
+<li><a href="#elasticsearch%E6%B3%A8%E5%86%8C">elasticsearch注册</a></li>
+<li><a href="#elasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE">elasticsearch服务自启动设置</a></li>
+<li><a href="#elasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81">elasticsearch服务验证</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="huan-jing">环境</span><a href="#huan-jing" class="header-anchor">#</a></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch-xia-zai">elasticsearch下载</span><a href="#elasticsearch-xia-zai" class="header-anchor">#</a></h1><p><a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
-<h1><span id="elasticsearch-zhu-ce">elasticsearch注册</span><a href="#elasticsearch-zhu-ce" class="header-anchor">#</a></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
+<h1><span id="环境">环境</span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
+<h1><span id="elasticsearch下载">elasticsearch下载</span></h1><p><a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
+<h1><span id="elasticsearch注册">elasticsearch注册</span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
 <p>2.执行注册服务命令 elasticsearch.bat install</p>
 <p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch-fu-wu-zi-qi-dong-she-zhi">elasticsearch服务自启动设置</span><a href="#elasticsearch-fu-wu-zi-qi-dong-she-zhi" class="header-anchor">#</a></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch-fu-wu-yan-zheng">elasticsearch服务验证</span><a href="#elasticsearch-fu-wu-yan-zheng" class="header-anchor">#</a></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
+<h1><span id="elasticsearch服务自启动设置">elasticsearch服务自启动设置</span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
+<h1><span id="elasticsearch服务验证">elasticsearch服务验证</span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
 
           
         
@@ -757,7 +783,7 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  462
+                  459
                 </span>
               
 
@@ -796,28 +822,24 @@ server &#123;
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#huan-jing">环境</a></li>
-<li><a href="#nginx-xia-zai">nginx下载</a></li>
-<li><a href="#zhu-ce-gong-ju">注册工具</a></li>
-<li><a href="#nginx-zhu-ce">nginx注册</a></li>
-<li><a href="#huan-jing-diao-shi">环境调试</a></li>
-<li><a href="#nginx-fu-wu-zi-qi-dong-she-zhi">nginx服务自启动设置</a></li>
-<li><a href="#nginx-fu-wu-yan-zheng">nginx服务验证</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
+<li><a href="#nginx%E4%B8%8B%E8%BD%BD">nginx下载</a></li>
+<li><a href="#%E6%B3%A8%E5%86%8C%E5%B7%A5%E5%85%B7">注册工具</a></li>
+<li><a href="#nginx%E6%B3%A8%E5%86%8C">nginx注册</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83%E8%B0%83%E8%AF%95">环境调试</a></li>
+<li><a href="#nginx%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE">nginx服务自启动设置</a></li>
+<li><a href="#nginx%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81">nginx服务验证</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="huan-jing">环境</span><a href="#huan-jing" class="header-anchor">#</a></h1><p>windows 7<br>nginx-1.16.1<br>winsw-2.0.2-bin.exe</p>
-<h1><span id="nginx-xia-zai">nginx下载</span><a href="#nginx-xia-zai" class="header-anchor">#</a></h1><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">官方下载地址</a><br>笔者使用的nginx-1.16.1版本</p>
-<h1><span id="zhu-ce-gong-ju">注册工具</span><a href="#zhu-ce-gong-ju" class="header-anchor">#</a></h1><pre><code class="bash">官方下载地址：http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/
+<h1><span id="环境">环境</span></h1><p>windows 7<br>nginx-1.16.1<br>winsw-2.0.2-bin.exe</p>
+<h1><span id="nginx下载">nginx下载</span></h1><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">官方下载地址</a><br>笔者使用的nginx-1.16.1版本</p>
+<h1><span id="注册工具">注册工具</span></h1><pre><code class="bash">官方下载地址：http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/
 笔者使用的2.0.2版本</code></pre>
-<h1><span id="nginx-zhu-ce">nginx注册</span><a href="#nginx-zhu-ce" class="header-anchor">#</a></h1><p>1.将nginx解压至指定安装位置,D:\nginx-1.16.1\nginx-1.16.1<br><img src="/images/nginx/nginx_20201231_01.png" alt="nginx安装目录"></p>
+<h1><span id="nginx注册">nginx注册</span></h1><p>1.将nginx解压至指定安装位置,D:\nginx-1.16.1\nginx-1.16.1<br><img src="/images/nginx/nginx_20201231_01.png" alt="nginx安装目录"></p>
 <p>2.将winsw-2.0.2-bin.exe复制到nginx目录：D:\nginx-1.16.1\nginx-1.16.1,并将其改成nginx-service.exe </p>
 <p>3.新建一个xml文件nginx-service.xml,内容如下,注意里面目录对应关系</p>
 <pre><code class="xml">&lt;service&gt;
@@ -835,9 +857,9 @@ server &#123;
   &lt;stoparguments&gt;-p D:\nginx-1.16.1\nginx-1.16.1\Nginx -s stop&lt;/stoparguments&gt;
 &lt;/service&gt;</code></pre>
 <p>4.运行windows cmd命令，进入nginx安装目录，执行nginx注册服务命令nginx-service.exe install，如果注册没有成功需要执行nginx卸载命令：nginx-service.exe uninstall</p>
-<h1><span id="huan-jing-diao-shi">环境调试</span><a href="#huan-jing-diao-shi" class="header-anchor">#</a></h1><p>1.如果nginx启动没有成功，需要根据nginx启动日志定位错误信息，日志文件所在位置D:\nginx-1.16.1\nginx-1.16.1\logs,大部分情况下是端口和配置文件目录设置问题。</p>
-<h1><span id="nginx-fu-wu-zi-qi-dong-she-zhi">nginx服务自启动设置</span><a href="#nginx-fu-wu-zi-qi-dong-she-zhi" class="header-anchor">#</a></h1><p>运行windows cmd命令，找到nginx服务，右键属性可配置nginx启动方式。<br><img src="/images/nginx/nginx_20201231_02.png" alt="nginx服务验证"><br><img src="/images/nginx/nginx_20201231_03.png" alt="nginx服务验证"></p>
-<h1><span id="nginx-fu-wu-yan-zheng">nginx服务验证</span><a href="#nginx-fu-wu-yan-zheng" class="header-anchor">#</a></h1><p><img src="/images/nginx/nginx_20201231_04.png" alt="nginx服务验证"></p>
+<h1><span id="环境调试">环境调试</span></h1><p>1.如果nginx启动没有成功，需要根据nginx启动日志定位错误信息，日志文件所在位置D:\nginx-1.16.1\nginx-1.16.1\logs,大部分情况下是端口和配置文件目录设置问题。</p>
+<h1><span id="nginx服务自启动设置">nginx服务自启动设置</span></h1><p>运行windows cmd命令，找到nginx服务，右键属性可配置nginx启动方式。<br><img src="/images/nginx/nginx_20201231_02.png" alt="nginx服务验证"><br><img src="/images/nginx/nginx_20201231_03.png" alt="nginx服务验证"></p>
+<h1><span id="nginx服务验证">nginx服务验证</span></h1><p><img src="/images/nginx/nginx_20201231_04.png" alt="nginx服务验证"></p>
 
           
         
@@ -971,7 +993,7 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  119
+                  117
                 </span>
               
 
@@ -1010,28 +1032,24 @@ server &#123;
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#huan-jing">环境</a></li>
-<li><a href="#redis-xia-zai">Redis下载</a></li>
-<li><a href="#redis-zhu-ce">Redis注册</a></li>
-<li><a href="#redis-fu-wu-zi-qi-dong-she-zhi">Redis服务自启动设置</a></li>
-<li><a href="#redis-fu-wu-yan-zheng">Redis服务验证</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
+<li><a href="#redis%E4%B8%8B%E8%BD%BD">Redis下载</a></li>
+<li><a href="#redis%E6%B3%A8%E5%86%8C">Redis注册</a></li>
+<li><a href="#redis%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE">Redis服务自启动设置</a></li>
+<li><a href="#redis%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81">Redis服务验证</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="huan-jing">环境</span><a href="#huan-jing" class="header-anchor">#</a></h1><p>windows 7<br>Redis-x64-3.2.100</p>
-<h1><span id="redis-xia-zai">Redis下载</span><a href="#redis-xia-zai" class="header-anchor">#</a></h1><p><a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/redis/releases">下载地址</a><br>笔者使用的Redis-x64-3.2.100版本</p>
-<h1><span id="redis-zhu-ce">Redis注册</span><a href="#redis-zhu-ce" class="header-anchor">#</a></h1><p>1.运行windows cmd命令，进入Redis安装目录D:\redis_3.2.100\Redis-x64-3.2.100</p>
+<h1><span id="环境">环境</span></h1><p>windows 7<br>Redis-x64-3.2.100</p>
+<h1><span id="redis下载">Redis下载</span></h1><p><a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/redis/releases">下载地址</a><br>笔者使用的Redis-x64-3.2.100版本</p>
+<h1><span id="redis注册">Redis注册</span></h1><p>1.运行windows cmd命令，进入Redis安装目录D:\redis_3.2.100\Redis-x64-3.2.100</p>
 <p>2.执行注册服务命令 redis-server –service-install redis.windows-service.conf </p>
 <p>3.如果需要卸载Redis服务，执行redis-server –service-uninstall</p>
-<h1><span id="redis-fu-wu-zi-qi-dong-she-zhi">Redis服务自启动设置</span><a href="#redis-fu-wu-zi-qi-dong-she-zhi" class="header-anchor">#</a></h1><p><img src="/images/redis/20210104_01.png" alt="Redis服务设置"></p>
-<h1><span id="redis-fu-wu-yan-zheng">Redis服务验证</span><a href="#redis-fu-wu-yan-zheng" class="header-anchor">#</a></h1><p><img src="/images/redis/20210104_02.png" alt="Redis服务验证"></p>
+<h1><span id="redis服务自启动设置">Redis服务自启动设置</span></h1><p><img src="/images/redis/20210104_01.png" alt="Redis服务设置"></p>
+<h1><span id="redis服务验证">Redis服务验证</span></h1><p><img src="/images/redis/20210104_02.png" alt="Redis服务验证"></p>
 
           
         
@@ -1165,7 +1183,7 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  150
+                  149
                 </span>
               
 
@@ -1204,23 +1222,19 @@ server &#123;
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#chuang-jian-ftp-yong-hu">创建FTP用户</a></li>
-<li><a href="#kai-qi-ftp-fu-wu">开启FTP服务</a></li>
-<li><a href="#chuang-jian-ftp-server-wang-zhan">创建FTP_SERVER网站</a></li>
-<li><a href="#ftp-server-wang-zhan-tian-jia-ftp-zhan-dian">FTP_SERVER网站添加FTP站点</a></li>
-<li><a href="#she-zhi-fang-wen-lu-jing-gong-xiang">设置访问路径共享</a></li>
-<li><a href="#yan-zheng-ftp-yong-hu-fang-wen">验证FTP用户访问</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BAftp%E7%94%A8%E6%88%B7">创建FTP用户</a></li>
+<li><a href="#%E5%BC%80%E5%90%AFftp%E6%9C%8D%E5%8A%A1">开启FTP服务</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BAftp_server%E7%BD%91%E7%AB%99">创建FTP_SERVER网站</a></li>
+<li><a href="#ftp_server%E7%BD%91%E7%AB%99%E6%B7%BB%E5%8A%A0ftp%E7%AB%99%E7%82%B9">FTP_SERVER网站添加FTP站点</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84%E5%85%B1%E4%BA%AB">设置访问路径共享</a></li>
+<li><a href="#%E9%AA%8C%E8%AF%81ftp%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AE">验证FTP用户访问</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h2><span id="chuang-jian-ftp-yong-hu">创建FTP用户</span><a href="#chuang-jian-ftp-yong-hu" class="header-anchor">#</a></h2><ol>
+<h2><span id="创建ftp用户">创建FTP用户</span></h2><ol>
 <li>打开计算机管理，依次打开本地用户和组-&gt;用户，右键新增用户，用户和密码自行定义即可，选项设置用户不可更改密码和密码永不过期</li>
 </ol>
 <p><img src="/images/Windows/FTP/WF_20201230_01.png" alt="新建用户"><br><img src="/images/Windows/FTP/WF_20201230_02.png" alt="用户信息"></p>
@@ -1228,11 +1242,11 @@ server &#123;
 <li>创建FTP用户report_cd对应的目录H:\home\report_cd</li>
 </ol>
 <p><img src="/images/Windows/FTP/WF_20201230_04.png" alt="用户工作目录"></p>
-<h2><span id="kai-qi-ftp-fu-wu">开启FTP服务</span><a href="#kai-qi-ftp-fu-wu" class="header-anchor">#</a></h2><p><img src="/images/Windows/FTP/WF_20201230_03.png" alt="开启FTP服务"></p>
-<h2><span id="chuang-jian-ftp-server-wang-zhan">创建FTP_SERVER网站</span><a href="#chuang-jian-ftp-server-wang-zhan" class="header-anchor">#</a></h2><p><img src="/images/Windows/FTP/WF_20201230_05.png" alt="创建FTP_SERVER"></p>
-<h2><span id="ftp-server-wang-zhan-tian-jia-ftp-zhan-dian">FTP_SERVER网站添加FTP站点</span><a href="#ftp-server-wang-zhan-tian-jia-ftp-zhan-dian" class="header-anchor">#</a></h2><p><img src="/images/Windows/FTP/WF_20201230_06.png" alt="创建FTP_SERVER"><br><img src="/images/Windows/FTP/WF_20201230_07.png" alt="创建FTP_SERVER"></p>
-<h2><span id="she-zhi-fang-wen-lu-jing-gong-xiang">设置访问路径共享</span><a href="#she-zhi-fang-wen-lu-jing-gong-xiang" class="header-anchor">#</a></h2><p><img src="/images/Windows/FTP/WF_20201230_08.png" alt="创建FTP_SERVER"></p>
-<h2><span id="yan-zheng-ftp-yong-hu-fang-wen">验证FTP用户访问</span><a href="#yan-zheng-ftp-yong-hu-fang-wen" class="header-anchor">#</a></h2><pre><code class="bash">ftp://report_cd:report_cd@10.9.212.55:21</code></pre>
+<h2><span id="开启ftp服务">开启FTP服务</span></h2><p><img src="/images/Windows/FTP/WF_20201230_03.png" alt="开启FTP服务"></p>
+<h2><span id="创建ftp_server网站">创建FTP_SERVER网站</span></h2><p><img src="/images/Windows/FTP/WF_20201230_05.png" alt="创建FTP_SERVER"></p>
+<h2><span id="ftp_server网站添加ftp站点">FTP_SERVER网站添加FTP站点</span></h2><p><img src="/images/Windows/FTP/WF_20201230_06.png" alt="创建FTP_SERVER"><br><img src="/images/Windows/FTP/WF_20201230_07.png" alt="创建FTP_SERVER"></p>
+<h2><span id="设置访问路径共享">设置访问路径共享</span></h2><p><img src="/images/Windows/FTP/WF_20201230_08.png" alt="创建FTP_SERVER"></p>
+<h2><span id="验证ftp用户访问">验证FTP用户访问</span></h2><pre><code class="bash">ftp://report_cd:report_cd@10.9.212.55:21</code></pre>
 <p><img src="/images/Windows/FTP/WF_20201230_09.png" alt="验证"></p>
 
           
@@ -1406,25 +1420,21 @@ server &#123;
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#qi-dong">启动</a></li>
-<li><a href="#ting-zhi">停止</a></li>
-<li><a href="#chong-xin-jia-zai">重新加载</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8">启动</a></li>
+<li><a href="#%E5%81%9C%E6%AD%A2">停止</a></li>
+<li><a href="#%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD">重新加载</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="qi-dong">启动</span><a href="#qi-dong" class="header-anchor">#</a></h1><pre><code class="bash">./nginx 
+<h1><span id="启动">启动</span></h1><pre><code class="bash">./nginx 
 ./nginx -c dir(指定配置文件所在路径)</code></pre>
-<h1><span id="ting-zhi">停止</span><a href="#ting-zhi" class="header-anchor">#</a></h1><pre><code class="bash">./nginx -s quit /nginx处理完任务后停止
+<h1><span id="停止">停止</span></h1><pre><code class="bash">./nginx -s quit /nginx处理完任务后停止
 ./nginx -s stop /强制停止nginx进程
 </code></pre>
-<h1><span id="chong-xin-jia-zai">重新加载</span><a href="#chong-xin-jia-zai" class="header-anchor">#</a></h1><pre><code class="bash">./nginx -s reload /重新加载nginx.cnf配置文件</code></pre>
+<h1><span id="重新加载">重新加载</span></h1><pre><code class="bash">./nginx -s reload /重新加载nginx.cnf配置文件</code></pre>
 
           
         
@@ -1597,40 +1607,36 @@ server &#123;
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#tian-jia-nginx-zi-qi-dong-wen-jian">添加nginx自启动文件</a></li>
-<li><a href="#tian-jia-wen-jian-ke-zhi-xing-quan-xian">添加文件可执行权限</a></li>
-<li><a href="#she-zhi-kai-qi-zi-qi-dong">设置开启自启动</a></li>
-<li><a href="#yan-zheng-fu-wu-shi-fou-tian-jia-cheng-gong">验证服务是否添加成功</a></li>
-<li><a href="#cha-xun-nginx-shi-fou-qi-dong">查询nginx是否启动</a></li>
-<li><a href="#chong-xin-jia-zai-nginx-pei-zhi-wen-jian">重新加载nginx配置文件</a></li>
-<li><a href="#ting-zhi-nginx-fu-wu">停止nginx服务</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0nginx%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6">添加nginx自启动文件</a></li>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E6%96%87%E4%BB%B6%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90">添加文件可执行权限</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E5%90%AF%E8%87%AA%E5%90%AF%E5%8A%A8">设置开启自启动</a></li>
+<li><a href="#%E9%AA%8C%E8%AF%81%E6%9C%8D%E5%8A%A1%E6%98%AF%E5%90%A6%E6%B7%BB%E5%8A%A0%E6%88%90%E5%8A%9F">验证服务是否添加成功</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2nginx%E6%98%AF%E5%90%A6%E5%90%AF%E5%8A%A8">查询nginx是否启动</a></li>
+<li><a href="#%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDnginx%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">重新加载nginx配置文件</a></li>
+<li><a href="#%E5%81%9C%E6%AD%A2nginx%E6%9C%8D%E5%8A%A1">停止nginx服务</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h2><span id="tian-jia-nginx-zi-qi-dong-wen-jian">添加nginx自启动文件</span><a href="#tian-jia-nginx-zi-qi-dong-wen-jian" class="header-anchor">#</a></h2><pre><code class="bash">#文件内容参考nginx官网设置,https://www.nginx.com/resources/wiki/start/topics/examples/redhatnginxinit/ ,注意修改其中nginx可执行文件路径和指定配置文件路径
+<h2><span id="添加nginx自启动文件">添加nginx自启动文件</span></h2><pre><code class="bash">#文件内容参考nginx官网设置,https://www.nginx.com/resources/wiki/start/topics/examples/redhatnginxinit/ ,注意修改其中nginx可执行文件路径和指定配置文件路径
 [root@lwdCSCDN init.d]# vim /etc/init.d/nginx</code></pre>
-<h2><span id="tian-jia-wen-jian-ke-zhi-xing-quan-xian">添加文件可执行权限</span><a href="#tian-jia-wen-jian-ke-zhi-xing-quan-xian" class="header-anchor">#</a></h2><pre><code class="bash">[root@lwdCSCDN init.d]# chmod a+x /etc/init.d/nginx</code></pre>
-<h2><span id="she-zhi-kai-qi-zi-qi-dong">设置开启自启动</span><a href="#she-zhi-kai-qi-zi-qi-dong" class="header-anchor">#</a></h2><pre><code class="bash">[root@lwdCSCDN init.d]# chkconfig --add /etc/init.d/nginx
+<h2><span id="添加文件可执行权限">添加文件可执行权限</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# chmod a+x /etc/init.d/nginx</code></pre>
+<h2><span id="设置开启自启动">设置开启自启动</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# chkconfig --add /etc/init.d/nginx
 [root@lwdCSCDN init.d]# chkconfig nginx on</code></pre>
-<h2><span id="yan-zheng-fu-wu-shi-fou-tian-jia-cheng-gong">验证服务是否添加成功</span><a href="#yan-zheng-fu-wu-shi-fou-tian-jia-cheng-gong" class="header-anchor">#</a></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx start;
+<h2><span id="验证服务是否添加成功">验证服务是否添加成功</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx start;
 正在启动 nginx：                                           [确定]</code></pre>
-<h2><span id="cha-xun-nginx-shi-fou-qi-dong">查询nginx是否启动</span><a href="#cha-xun-nginx-shi-fou-qi-dong" class="header-anchor">#</a></h2><pre><code class="bash">[root@lwdCSCDN init.d]# ps -ef | grep nginx
+<h2><span id="查询nginx是否启动">查询nginx是否启动</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# ps -ef | grep nginx
 root     19139     1  0 17:58 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
 root     19140 19139  0 17:58 ?        00:00:00 nginx: worker process                                          
 root     19226 15760  0 17:59 pts/0    00:00:00 grep nginx</code></pre>
-<h2><span id="chong-xin-jia-zai-nginx-pei-zhi-wen-jian">重新加载nginx配置文件</span><a href="#chong-xin-jia-zai-nginx-pei-zhi-wen-jian" class="header-anchor">#</a></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx reload
+<h2><span id="重新加载nginx配置文件">重新加载nginx配置文件</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx reload
 nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok
 nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful
 重新载入 nginx：                                           [确定]
 You have new mail in /var/spool/mail/root</code></pre>
-<h2><span id="ting-zhi-nginx-fu-wu">停止nginx服务</span><a href="#ting-zhi-nginx-fu-wu" class="header-anchor">#</a></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx stop
+<h2><span id="停止nginx服务">停止nginx服务</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx stop
 停止 nginx：                                               [确定]</code></pre>
 
           
@@ -1977,24 +1983,20 @@ You have new mail in /var/spool/mail/root</code></pre>
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#dao-chu-shu-ju-ku-zhong-de-biao">导出数据库中的表：</a></li>
-<li><a href="#dao-chu-shu-ju-ku-zhong-de-cun-chu-guo-cheng-he-shi-wu">导出数据库中的存储过程和事务：</a></li>
-<li><a href="#dao-ru-shu-ju-ku-biao-jie-gou-he-shu-ju">导入数据库表结构和数据：</a></li>
+<li><a href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E8%A1%A8">导出数据库中的表：</a></li>
+<li><a href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%92%8C%E4%BA%8B%E5%8A%A1">导出数据库中的存储过程和事务：</a></li>
+<li><a href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E6%95%B0%E6%8D%AE">导入数据库表结构和数据：</a></li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="dao-chu-shu-ju-ku-zhong-de-biao">导出数据库中的表：</span><a href="#dao-chu-shu-ju-ku-zhong-de-biao" class="header-anchor">#</a></h1><pre><code class="sql">mysqldump -u root -p report_hrb140 &gt; report_hrb140.sql;</code></pre>
-<h1><span id="dao-chu-shu-ju-ku-zhong-de-cun-chu-guo-cheng-he-shi-wu">导出数据库中的存储过程和事务：</span><a href="#dao-chu-shu-ju-ku-zhong-de-cun-chu-guo-cheng-he-shi-wu" class="header-anchor">#</a></h1><pre><code class="sql">mysqldump -uroot -pcoship -ntd -R report_hrb121&gt; report_hrb121_FP.sql;
+<h1><span id="导出数据库中的表">导出数据库中的表：</span></h1><pre><code class="sql">mysqldump -u root -p report_hrb140 &gt; report_hrb140.sql;</code></pre>
+<h1><span id="导出数据库中的存储过程和事务">导出数据库中的存储过程和事务：</span></h1><pre><code class="sql">mysqldump -uroot -pcoship -ntd -R report_hrb121&gt; report_hrb121_FP.sql;
 
 其中-ntd代表导入存储过程。-R代表导入功能函数。</code></pre>
-<h1><span id="dao-ru-shu-ju-ku-biao-jie-gou-he-shu-ju">导入数据库表结构和数据：</span><a href="#dao-ru-shu-ju-ku-biao-jie-gou-he-shu-ju" class="header-anchor">#</a></h1><pre><code class="sql">mysql -u root -p
+<h1><span id="导入数据库表结构和数据">导入数据库表结构和数据：</span></h1><pre><code class="sql">mysql -u root -p
 password:*******
 mysql&gt;use 数据库(数据库的名称)
 然后使用source命令,后面参数为脚本文件(report_hrb140.sql)
@@ -2177,43 +2179,39 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
       
         
           
-            <div class="toc">
-
-<!-- toc -->
+            <!-- toc -->
 
 <ul>
-<li><a href="#wen-jian-he-mu-lu-guan-li">文件和目录管理</a><ul>
-<li><a href="#chown-ming-ling">chown命令</a></li>
-<li><a href="#chgrp-ming-ling">chgrp命令</a></li>
-<li><a href="#chattr-ming-ling">chattr命令</a></li>
-<li><a href="#stat-ming-ling">stat命令</a></li>
-<li><a href="#file-ming-ling">file命令</a></li>
-<li><a href="#head-ming-ling">head命令</a></li>
-<li><a href="#more-ming-ling">more命令</a></li>
-<li><a href="#touch-ming-ling">touch命令</a></li>
-<li><a href="#pwd-ming-ling">pwd命令</a></li>
-<li><a href="#vim-ming-ling">vim命令</a></li>
-<li><a href="#ls-ming-ling">ls命令</a></li>
-<li><a href="#ln-ming-ling">ln命令</a></li>
-<li><a href="#rm-ming-ling">rm命令</a></li>
-<li><a href="#mv-ming-ling">mv命令</a></li>
-<li><a href="#find-ming-ling">find命令</a></li>
-<li><a href="#whereis-ming-ling">whereis命令</a></li>
-<li><a href="#locate-ming-ling">locate命令</a></li>
-<li><a href="#which-ming-ling">which命令</a></li>
-<li><a href="#strings-ming-ling">strings命令</a></li>
-<li><a href="#dirname-ming-ling">dirname命令</a></li>
-<li><a href="#iconv-ming-ling">iconv命令</a></li>
-<li><a href="#cat-ming-ling">cat命令</a></li>
-<li><a href="#tar-ming-ling">tar命令</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86">文件和目录管理</a><ul>
+<li><a href="#chown%E5%91%BD%E4%BB%A4">chown命令</a></li>
+<li><a href="#chgrp%E5%91%BD%E4%BB%A4">chgrp命令</a></li>
+<li><a href="#chattr%E5%91%BD%E4%BB%A4">chattr命令</a></li>
+<li><a href="#stat%E5%91%BD%E4%BB%A4">stat命令</a></li>
+<li><a href="#file%E5%91%BD%E4%BB%A4">file命令</a></li>
+<li><a href="#head%E5%91%BD%E4%BB%A4">head命令</a></li>
+<li><a href="#more%E5%91%BD%E4%BB%A4">more命令</a></li>
+<li><a href="#touch%E5%91%BD%E4%BB%A4">touch命令</a></li>
+<li><a href="#pwd%E5%91%BD%E4%BB%A4">pwd命令</a></li>
+<li><a href="#vim%E5%91%BD%E4%BB%A4">vim命令</a></li>
+<li><a href="#ls%E5%91%BD%E4%BB%A4">ls命令</a></li>
+<li><a href="#ln%E5%91%BD%E4%BB%A4">ln命令</a></li>
+<li><a href="#rm%E5%91%BD%E4%BB%A4">rm命令</a></li>
+<li><a href="#mv%E5%91%BD%E4%BB%A4">mv命令</a></li>
+<li><a href="#find%E5%91%BD%E4%BB%A4">find命令</a></li>
+<li><a href="#whereis%E5%91%BD%E4%BB%A4">whereis命令</a></li>
+<li><a href="#locate%E5%91%BD%E4%BB%A4">locate命令</a></li>
+<li><a href="#which%E5%91%BD%E4%BB%A4">which命令</a></li>
+<li><a href="#strings%E5%91%BD%E4%BB%A4">strings命令</a></li>
+<li><a href="#dirname%E5%91%BD%E4%BB%A4">dirname命令</a></li>
+<li><a href="#iconv%E5%91%BD%E4%BB%A4">iconv命令</a></li>
+<li><a href="#cat%E5%91%BD%E4%BB%A4">cat命令</a></li>
+<li><a href="#tar%E5%91%BD%E4%BB%A4">tar命令</a></li>
 </ul>
 </li>
 </ul>
 <!-- tocstop -->
 
-</div>
-
-<h1><span id="wen-jian-he-mu-lu-guan-li">文件和目录管理</span><a href="#wen-jian-he-mu-lu-guan-li" class="header-anchor">#</a></h1><h2><span id="chown-ming-ling">chown命令</span><a href="#chown-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong></p>
+<h1><span id="文件和目录管理">文件和目录管理</span></h1><h2><span id="chown命令">chown命令</span></h2><p><strong>作用</strong></p>
 <pre><code class="bash">chown命令用于改变一个文件或目录的所有者或用户组，用户可以是用户名或者用户ID，群组可以是群组名或者群组ID，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。</code></pre>
 <p><strong>选项</strong></p>
 <p>-c:与-v命令相似，仅显示变更的内容。<br>-f:不显示错误信息。<br>-h:只对符号链接文件做修改，不改变其对应的原始文件。<br>-R:递归处理，将命令目录下的所有文件和子目录一并处理。<br>-v:显示命令执行详细过程。<br>–reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同。<br>–help:在线帮助。<br>–version:显示版本信息。</p>
@@ -2226,7 +2224,7 @@ You have new mail in /var/spool/mail/root
 总用量 210608
 -rw-r--r-- 1 report_cd report_cd 214757130 1月   5 17:47 dg_erm_mysql.sql
 -rw-r--r-- 1 report_cd report_cd    681075 1月   5 17:47 dg_global.sql</code></pre>
-<h2><span id="chgrp-ming-ling">chgrp命令</span><a href="#chgrp-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong></p>
+<h2><span id="chgrp命令">chgrp命令</span></h2><p><strong>作用</strong></p>
 <pre><code class="bash">chgrp用来变更文件或目录的所属群组。
 组名可以是用户组的id,也可以是用户组的名称，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。</code></pre>
 <p><strong>选项</strong><br>-c:与-v命令像相似，仅显示变更的部分。<br>-f:不显示错误信息。<br>-h:只对符号链接文件做修改，不改变其对应的原始文件。<br>-R:递归处理，对指令目录下的文件及目录一并处理。<br>-v:显示命令执行的详细过程。<br>–reference=&lt;参考文件或目录&gt;:把指定文件或目录设置成参考文件或目录相同的群组。</p>
@@ -2238,7 +2236,7 @@ elasticsearch-2738171260560954631  erm_gd  mysql.sock  pulse-24KvvDfOHjjf  v8-co
 &quot;erm_gd/dg_global.sql&quot; 的所属组已更改为report_hrb
 &quot;erm_gd/dg_erm_mysql.sql&quot; 的所属组已更改为report_hrb
 &quot;erm_gd&quot; 的所属组已更改为report_hrb</code></pre>
-<h2><span id="chattr-ming-ling">chattr命令</span><a href="#chattr-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong></p>
+<h2><span id="chattr命令">chattr命令</span></h2><p><strong>作用</strong></p>
 <pre><code class="bash">chattr命令用来更改文件属性，这项指令可更改ext32文件系统文件或目录属性，属性一共以下8种模式：
 a:限制文件或目录仅提供附加用途。
 b:不更新文件或目录的最后存取时间。
@@ -2276,7 +2274,7 @@ append content to file a.txt
 [root@lwdCSCDN erm_gd]# rename a.txt aa.txt a.txt 
 rename: renaming a.txt to aa.txt failed: 不允许的操作
 You have new mail in /var/spool/mail/root</code></pre>
-<h2><span id="stat-ming-ling">stat命令</span><a href="#stat-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    显示文件状态信息，stat命令的输出信息比ls命令的输出信息要更详细。</p>
+<h2><span id="stat命令">stat命令</span></h2><p><strong>作用</strong><br>    显示文件状态信息，stat命令的输出信息比ls命令的输出信息要更详细。</p>
 <p><strong>选项</strong></p>
 <p>-L : 支持符号链接<br>-t : 以简洁方式显示输出信息。<br>-f : 显示文件系统状态而不是文件状态。<br>–version : 显示命令版本。<br>–help : 显示命令帮助信息。</p>
 <p><strong>示例</strong></p>
@@ -2302,7 +2300,7 @@ Inodes: Total: 11526144   Free: 10551557
 #以简洁方式展现文件状态信息
 [root@lwdCSCDN log1]# stat -t ETL.log
 ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 1608274558 4096</code></pre>
-<h2><span id="file-ming-ling">file命令</span><a href="#file-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.<br><strong>选项</strong></p>
+<h2><span id="file命令">file命令</span></h2><p><strong>作用</strong><br>    file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.<br><strong>选项</strong></p>
 <p>-b : 列出结果时，不显示文件名称。<br>-i : 探测文件结果以MIME字符串展示。<br>-L : 检测链接文件，并给出链接原始文件的类型。<br>-v : file命令版本信息。<br>-z : 尝试探测压缩类型文件。<br>-m : 指定魔法幻数文件。<br>-f : 指定文件，如果文件内容中有其他文件，依序辨识这些文件，输出格式为每列一个文件。<br>-c : 显示命令执行的详细过程。</p>
 <p><strong>示例</strong></p>
 <pre><code class="bash">#显示文件类型
@@ -2316,7 +2314,7 @@ ASCII English text, with very long lines
 #以MIME格式展现探测结果
 [root@lwdCSCDN log1]# file -b -i record.ini 
 text/plain; charset=us-ascii</code></pre>
-<h2><span id="head-ming-ling">head命令</span><a href="#head-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    显示文件开头内容，默认显示前10行</p>
+<h2><span id="head命令">head命令</span></h2><p><strong>作用</strong><br>    显示文件开头内容，默认显示前10行</p>
 <p><strong>选项</strong></p>
 <p>-n&lt;数字&gt; :指定显示的行数<br>-c&lt;数字&gt; :指定显示的字符数<br>-v :显示文件头部信息<br>-q :不显示文件头部信息</p>
 <p><strong>示例</strong></p>
@@ -2359,7 +2357,7 @@ text/plain; charset=us-ascii</code></pre>
 
 # Remove leading # to turn on a very important data integrity option: logging
 </code></pre>
-<h2><span id="more-ming-ling">more命令</span><a href="#more-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    基于vi编辑文本过滤器，以全屏幕分页显示文件内容，支持vi模式下关键字定位操作。<br>    快捷键功能<br>    enter :显示文本下一行内容<br>    space : 显示下一屏文本<br>    q:退出more命令<br>    b:返回上一屏文本内容<br>    h:显示帮助命令<br>    按斜线符/:接着输入一个模式，可以在文本中寻找下一个相匹配的模式。</p>
+<h2><span id="more命令">more命令</span></h2><p><strong>作用</strong><br>    基于vi编辑文本过滤器，以全屏幕分页显示文件内容，支持vi模式下关键字定位操作。<br>    快捷键功能<br>    enter :显示文本下一行内容<br>    space : 显示下一屏文本<br>    q:退出more命令<br>    b:返回上一屏文本内容<br>    h:显示帮助命令<br>    按斜线符/:接着输入一个模式，可以在文本中寻找下一个相匹配的模式。</p>
 <p><strong>选项</strong><br>-d :输出帮助信息<br>-c :不进行滚屏，每次刷新这个屏幕。<br>-s :合并多余的空白行。<br>-u :禁止下划线<br>-n ：n代表每一屏展示的文本行数。</p>
 <p><strong>示例</strong></p>
 <pre><code class="bash"># 一屏显示10行文本内容，文本空白行合并，显示提示信息，不进行滚屏，每次刷新整个屏幕。
@@ -2387,7 +2385,7 @@ worker_processes  1;
 
 #pid        logs/nginx.pid;
 /limit</code></pre>
-<h2><span id="touch-ming-ling">touch命令</span><a href="#touch-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>更改已存在文件的时间戳为当前时间戳，或创建新的文件<br><strong>选项</strong><br>-a :只变更访问时间<br>-m :只变更修改时间<br>-c :不创建新的文件<br>-r :更新指定文件或目录下的所有文件的时间戳。<br>-d :指定更新的时间戳字符串<br>-t :指定时间戳格式，MMDDhhmm<br><strong>示例</strong></p>
+<h2><span id="touch命令">touch命令</span></h2><p><strong>作用</strong><br>更改已存在文件的时间戳为当前时间戳，或创建新的文件<br><strong>选项</strong><br>-a :只变更访问时间<br>-m :只变更修改时间<br>-c :不创建新的文件<br>-r :更新指定文件或目录下的所有文件的时间戳。<br>-d :指定更新的时间戳字符串<br>-t :指定时间戳格式，MMDDhhmm<br><strong>示例</strong></p>
 <pre><code class="bash"># 创建新的文件
 [root@lwdCSCDN bin]# touch b.txt
 [root@lwdCSCDN bin]# ll
@@ -2421,11 +2419,11 @@ drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
 drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
 -rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
 -rw-r--r-- 1 root root       5 12月 21 16:30 b.txt</code></pre>
-<h2><span id="pwd-ming-ling">pwd命令</span><a href="#pwd-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    以绝对路径显示当前用户的所在目录<br><strong>选项</strong><br>-L :打印逻辑上的工作目录<br>-P :打印物理上的工作目录<br><strong>示例</strong></p>
+<h2><span id="pwd命令">pwd命令</span></h2><p><strong>作用</strong><br>    以绝对路径显示当前用户的所在目录<br><strong>选项</strong><br>-L :打印逻辑上的工作目录<br>-P :打印物理上的工作目录<br><strong>示例</strong></p>
 <pre><code class="bash"># 显示当前工作目录
 [root@lwdCSCDN bin]# pwd
 /usr/local/BI/hrb_BI/v300r002b210/apache-tomcat-8.0.38/bin</code></pre>
-<h2><span id="vim-ming-ling">vim命令</span><a href="#vim-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。<br><strong>选项</strong></p>
+<h2><span id="vim命令">vim命令</span></h2><p><strong>作用</strong><br>vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。<br><strong>选项</strong></p>
 <pre><code class="bash">crtl+u: 向文件首翻半屏。
 crtl+d: 此文件尾翻半屏。
 crtl+f: 向文件首翻一屏。
@@ -2517,7 +2515,7 @@ ESC:从编辑模式切换到命令模式。
  34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69
  35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70
 /columnTask</code></pre>
-<h2><span id="ls-ming-ling">ls命令</span><a href="#ls-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>显示目标文件列表</p>
+<h2><span id="ls命令">ls命令</span></h2><p><strong>作用</strong><br>显示目标文件列表</p>
 <p><strong>选项</strong></p>
 <pre><code class="bash">-a：显示所有文件和目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
 -A：显示除影藏文件“.”和“..”以外的所有文件列表；
@@ -2584,7 +2582,7 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 10495812 etlP.sh  10495822 etlS.sh  10495887 mysqld_kill_sleep.sh  10496112 stat.sh
 
 </code></pre>
-<h2><span id="ln-ming-ling">ln命令</span><a href="#ln-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上-s 选项。<br><strong>选项</strong></p>
+<h2><span id="ln命令">ln命令</span></h2><p><strong>作用</strong><br>    为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上-s 选项。<br><strong>选项</strong></p>
 <pre><code class="bash">-b或--backup：删除，覆盖目标文件之前的备份；
 -d或-F或——directory：建立目录的硬连接；
 -f或——force：强行建立文件或目录的连接，不论文件或目录是否存在；
@@ -2654,7 +2652,7 @@ You have new mail in /var/spool/mail/root
 总用量 7188
 -rwxrwxrwx 3 root root 7341608 12月 18 14:47 ETL.log
 -rwxrwxrwx 2 root root    8505 12月 18 14:23 record.ini</code></pre>
-<h2><span id="rm-ming-ling">rm命令</span><a href="#rm-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。</p>
+<h2><span id="rm命令">rm命令</span></h2><p><strong>作用</strong><br>    删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。</p>
 <p><strong>选项</strong> </p>
 <pre><code class="bash">-d 直接把目录的硬链接数删除为0，删除该目录。
 -f 强制删除该目录。
@@ -2677,7 +2675,7 @@ rm：是否删除普通空文件 &quot;b.sh&quot;？y
 已删除目录：&quot;newDir/oldDir&quot;
 已删除目录：&quot;newDir&quot;
 </code></pre>
-<h2><span id="mv-ming-ling">mv命令</span><a href="#mv-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    移动文件或将文件改名</p>
+<h2><span id="mv命令">mv命令</span></h2><p><strong>作用</strong><br>    移动文件或将文件改名</p>
 <p><strong>选项</strong></p>
 <pre><code class="bash">-b 为每个已存在的目标文件创建备份
 -f 覆盖前不询问
@@ -2763,7 +2761,7 @@ mv：是否覆盖&quot;newDir/1.txt&quot;？ y
 &quot;1.txt&quot; -&gt; &quot;newDir/1.txt&quot; (备份：&quot;newDir/1.txt~&quot;)
 [root@demo_mdn newDir]# ls
 1.txt  1.txt~  oldDir</code></pre>
-<h2><span id="find-ming-ling">find命令</span><a href="#find-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    find命令用来在指定目录下查找对应的文件，如果不设置任何参数的话，则在当前目录下查找，并将结果全部显示。<br><strong>语法</strong><br>find path -option [   -print ]   [ -exec   -ok   command ]   {} ;<br><strong>选项</strong></p>
+<h2><span id="find命令">find命令</span></h2><p><strong>作用</strong><br>    find命令用来在指定目录下查找对应的文件，如果不设置任何参数的话，则在当前目录下查找，并将结果全部显示。<br><strong>语法</strong><br>find path -option [   -print ]   [ -exec   -ok   command ]   {} ;<br><strong>选项</strong></p>
 <pre><code class="bash">find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 expression。如果 path 是空字串则使用目前路径，如果 expression 是空字串则使用 -print 为预设 expression。
 
 expression 中可使用的选项有二三十个之多，在此只介绍最常用的部份。
@@ -2878,7 +2876,7 @@ exp1, exp2    </code></pre>
 /BI/hrb_BI/etl/script/stat.sh
 /BI/hrb_BI/etl/script/etlS.sh
 /BI/hrb_BI/etl/script/stop.sh</code></pre>
-<h2><span id="whereis-ming-ling">whereis命令</span><a href="#whereis-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    定位二进制程序文件、man手册、源代码文件所在位置，搜索效率比find命令高，因为查找的是数据库索引文件，和locate命令同理，但索引内容不是实时更新。</p>
+<h2><span id="whereis命令">whereis命令</span></h2><p><strong>作用</strong><br>    定位二进制程序文件、man手册、源代码文件所在位置，搜索效率比find命令高，因为查找的是数据库索引文件，和locate命令同理，但索引内容不是实时更新。</p>
 <p><strong>选项</strong></p>
 <pre><code class="bash">-b 只搜索二进制文件
 -B 指定搜索的二进制文件所在的目录
@@ -2900,7 +2898,7 @@ ls: /bin/ls
 #只搜索指定路径下的ls相关帮助文件,只搜索当前指定路径不进行递归搜索
 [root@demo_mdn /]# whereis -m -M /usr/share/man/man1 -f ls
 ls: /usr/share/man/man1/ls.1.gz</code></pre>
-<h2><span id="locate-ming-ling">locate命令</span><a href="#locate-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>    查找文件或目录所在位置（locate 命令实际是查找的/var/lib/mlocate/mlocate.db 文件，所以查找速度比find命令快的多）</p>
+<h2><span id="locate命令">locate命令</span></h2><p><strong>作用</strong><br>    查找文件或目录所在位置（locate 命令实际是查找的/var/lib/mlocate/mlocate.db 文件，所以查找速度比find命令快的多）</p>
 <p><strong>选项</strong></p>
 <pre><code class="bash"> -V 显示版本信息
  -d dir 指定搜索的数据库文件所在位置</code></pre>
@@ -2916,7 +2914,7 @@ Copyright (C) 2007 Red Hat, Inc. All rights reserved.
 This software is distributed under the GPL v.2.
 
 This program is provided with NO WARRANTY, to the extent permitted by law.</code></pre>
-<h2><span id="which-ming-ling">which命令</span><a href="#which-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>查找命令所在的绝对路径（包含命令别名）。</p>
+<h2><span id="which命令">which命令</span></h2><p><strong>作用</strong><br>查找命令所在的绝对路径（包含命令别名）。</p>
 <p><strong>选项</strong></p>
 <pre><code class="bash">  --version, -[vV] Print version and exit successfully.
   --help,          Print this help and exit successfully.
@@ -2935,7 +2933,7 @@ This program is provided with NO WARRANTY, to the extent permitted by law.</code
 [root@demo_mdn user]# which ls
 alias ls=&#39;ls --color=auto&#39;
     /bin/ls</code></pre>
-<h2><span id="strings-ming-ling">strings命令</span><a href="#strings-ming-ling" class="header-anchor">#</a></h2><p><strong>作用</strong><br>在对象或二进制文件中查找可打印的字符串，字符可以是由4个或者更多字符组成的字符序列，以换行符或空字符结束。</p>
+<h2><span id="strings命令">strings命令</span></h2><p><strong>作用</strong><br>在对象或二进制文件中查找可打印的字符串，字符可以是由4个或者更多字符组成的字符序列，以换行符或空字符结束。</p>
 <p><strong>选项</strong></p>
 <pre><code class="bash">    -a 扫描整个文件内容而不是仅仅文件初始化和装载段。
     -f 显示查找到的字符串之前先打印文件名称。
@@ -2967,7 +2965,7 @@ alias ls=&#39;ls --color=auto&#39;
 20190605171455_668.jpg:     153 !22222222222222222222222222222222222222222222222222
 20190605171455_74.jpg:     153 !22222222222222222222222222222222222222222222222222
 20190605171506_75.jpg:     153 !22222222222222222222222222222222222222222222222222</code></pre>
-<h2><span id="dirname-ming-ling">dirname命令</span><a href="#dirname-ming-ling" class="header-anchor">#</a></h2><p><strong><em>作用</em></strong><br>去除参数里面非目录部分<br>特殊情况1 最后一个字符是”/“,则截断到倒数第二个”/“,并忽略之后的全部字符。<br>特殊情况2 如果参数没有目录对应则返回当前目录。</p>
+<h2><span id="dirname命令">dirname命令</span></h2><p><strong><em>作用</em></strong><br>去除参数里面非目录部分<br>特殊情况1 最后一个字符是”/“,则截断到倒数第二个”/“,并忽略之后的全部字符。<br>特殊情况2 如果参数没有目录对应则返回当前目录。</p>
 <p><strong><em>实例</em></strong></p>
 <pre><code class="bash">[root@demo_mdn user]# dirname /a/b/file1.txt
 /a/b
@@ -2981,7 +2979,7 @@ alias ls=&#39;ls --color=auto&#39;
 #没有目录对应的情况下，返回当前目录。
 [root@demo_mdn user]# dirname a
 . </code></pre>
-<h2><span id="iconv-ming-ling">iconv命令</span><a href="#iconv-ming-ling" class="header-anchor">#</a></h2><p><strong><em>作用</em></strong><br>    转换文件编码</p>
+<h2><span id="iconv命令">iconv命令</span></h2><p><strong><em>作用</em></strong><br>    转换文件编码</p>
 <p><strong><em>选项</em></strong></p>
 <pre><code class="bash">    -f 源文件编码方式
     -t 目的文件编码方式
@@ -3004,7 +3002,7 @@ listed with several different names (aliases).
 
 #将文件file.txt 由gbk2312编码转换为UTF-8，并输出到file2.txt
 [root@demo_mdn user]# icon file1.txt -f gbk2312 -t UTF-8 -o file2.txt </code></pre>
-<h2><span id="cat-ming-ling">cat命令</span><a href="#cat-ming-ling" class="header-anchor">#</a></h2><p><strong><em>作用</em></strong><br>    合并文件内容并显示</p>
+<h2><span id="cat命令">cat命令</span></h2><p><strong><em>作用</em></strong><br>    合并文件内容并显示</p>
 <p><strong><em>选项</em></strong></p>
 <pre><code class="bash">    -A //显示特殊字符    
     -n //对所有输出的行编号</code></pre>
@@ -3023,7 +3021,7 @@ dbSrc=mysql$
 dbSrc=mysql
 dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;amp;characterEncoding=UTF-8
 dbUserName=root</code></pre>
-<h2><span id="tar-ming-ling">tar命令</span><a href="#tar-ming-ling" class="header-anchor">#</a></h2><p>选项</p>
+<h2><span id="tar命令">tar命令</span></h2><p>选项</p>
 <pre><code class="bash">    运行tar时必须要有下列参数中的至少一个才可运行：
     -A | --catenate | --concatenate 将一存档与已有的存档合并
     -c | --create 建立新的存档
@@ -3388,6 +3386,323 @@ dbUserName=root</code></pre>
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 

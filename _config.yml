@@ -101,15 +101,13 @@ ignore:
 #theme: 3-hexo
 theme: next
 
-toc:
-  maxdepth: 3
-  class: toc
-  slugify: transliteration
-  decodeEntities: false
-  anchor:
-    position: after
-    symbol: '#'
-    style: header-anchor
+# Search Config
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 100
+  
     
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
