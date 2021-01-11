@@ -15,6 +15,8 @@ nginx-1.16.1
 [官方下载地址](http://nginx.org/en/download.html)
 笔者使用的nginx-1.16.1版本
 
+<!-- more -->
+
 # nginx代理设置
 ```bash
 # http下server子节点设置

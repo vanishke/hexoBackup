@@ -190,16 +190,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
@@ -226,16 +216,6 @@
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-schedule">
-          <a href="/schedule/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
-            
-            日程表
           </a>
         </li>
       
@@ -306,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/06/blogs/windows%E5%AE%9E%E7%8E%B0nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -325,7 +305,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/01/06/blogs/windows%E5%AE%9E%E7%8E%B0nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" itemprop="url">windows实现nginx反向代理</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD/" itemprop="url">hexo统计功能</a></h1>
         
 
         <div class="post-meta">
@@ -337,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-06T17:32:20+08:00">
-                2021-01-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -360,8 +340,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -391,7 +371,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  143
+                  59
                 </span>
               
 
@@ -430,36 +410,15 @@
       
         
           
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
-<li><a href="#nginx%E4%B8%8B%E8%BD%BD">nginx下载</a></li>
-<li><a href="#nginx%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE">nginx代理设置</a></li>
-<li><a href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%AA%8C%E8%AF%81">反向代理验证</a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境">环境</span></h1><p>windows 7<br>nginx-1.16.1</p>
-<h1><span id="nginx下载">nginx下载</span></h1><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">官方下载地址</a><br>笔者使用的nginx-1.16.1版本</p>
-<h1><span id="nginx代理设置">nginx代理设置</span></h1><pre><code class="bash"># http下server子节点设置
-server &#123;
-        listen       8089; #nginx监听访问端口号
-        server_name  10.9.212.55; #监听访问IP
-
-        charset gbk,utf-8; #编码设置
-
-        access_log  logs/host.access.log ; #访问日志存放位置
-
-        location / &#123;
-            charset gbk,utf-8;
-            autoindex on; #开启目录浏览功能
-            root  H:/home/report_cd/; #代理本地FTP用户访问路径
-            proxy_connect_timeout 1;
-            index  index.html index.htm;
-        &#125;
-    &#125;</code></pre>
-<h1><span id="反向代理验证">反向代理验证</span></h1><p><img src="/images/nginx/nginx_20210107_05.png" alt="nginx反向代理验证"></p>
+            <h2><span id="安装插件">安装插件</span></h2><pre><code class="bash">
+npm install hexo-wordcount --save</code></pre>
+<p>修改themes/next/_config.yml主题配置文件，搜索关键字post_wordcount,修改如下:</p>
+<pre><code class="bash">post_wordcount:
+  item_text: true
+  wordcount: true #单篇文章字数
+  min2read: true #单篇阅读时长
+  totalcount: true #站点总字数
+  separated_meta: true</code></pre>
 
           
         
@@ -508,7 +467,7 @@ server &#123;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E4%BD%BF%E7%94%A8next%E4%B8%BB%E9%A2%98%E5%BC%82%E5%B8%B8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -527,7 +486,7 @@ server &#123;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/" itemprop="url">windows注册Elasticsearch服务</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E4%BD%BF%E7%94%A8next%E4%B8%BB%E9%A2%98%E5%BC%82%E5%B8%B8/" itemprop="url">hexo使用next主题异常</a></h1>
         
 
         <div class="post-meta">
@@ -539,8 +498,8 @@ server &#123;
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-31T17:32:20+08:00">
-                2020-12-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -562,8 +521,8 @@ server &#123;
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ElasticSearch/" itemprop="url" rel="index">
-                    <span itemprop="name">ElasticSearch</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -593,7 +552,7 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  116
+                  156
                 </span>
               
 
@@ -632,24 +591,14 @@ server &#123;
       
         
           
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
-<li><a href="#elasticsearch%E4%B8%8B%E8%BD%BD">elasticsearch下载</a></li>
-<li><a href="#elasticsearch%E6%B3%A8%E5%86%8C">elasticsearch注册</a></li>
-<li><a href="#elasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE">elasticsearch服务自启动设置</a></li>
-<li><a href="#elasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81">elasticsearch服务验证</a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境">环境</span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch下载">elasticsearch下载</span></h1><p><a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
-<h1><span id="elasticsearch注册">elasticsearch注册</span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
-<p>2.执行注册服务命令 elasticsearch.bat install</p>
-<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch服务自启动设置">elasticsearch服务自启动设置</span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch服务验证">elasticsearch服务验证</span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
+            <h2><span id="问题描述">问题描述</span></h2><p>访问hexo ,出现以下提示</p>
+<pre><code class="bash">&#123;% extends '_layout.swig' %&#125; &#123;% import '_macro/post.swig' as post_template %&#125; &#123;% import '_macro/sidebar.swig' as sidebar_template %&#125; &#123;% block title %&#125;&#123;&#123; config.title &#125;&#125;&#123;% if theme.index_with_subtitle and config.subtitle %&#125; - &#123;&#123;config.subtitle &#125;&#125;&#123;% endif %&#125;&#123;% endblock %&#125; &#123;% block page_class %&#125; &#123;% if is_home() %&#125;page-home&#123;% endif -%&#125; &#123;% endblock %&#125; &#123;% block content %&#125;
+&#123;% for post in page.posts %&#125; &#123;&#123; post_template.render(post, true) &#125;&#125; &#123;% endfor %&#125;
+&#123;% include '_partials/pagination.swig' %&#125; &#123;% endblock %&#125; &#123;% block sidebar %&#125; &#123;&#123; sidebar_template.render(false) &#125;&#125; &#123;% endblock %&#125;
+</code></pre>
+<h2><span id="问题原因">问题原因</span></h2><p>hexo在5.0之后把swig给删除了需要自己手动安装</p>
+<h2><span id="解决办法">解决办法</span></h2><pre><code class="bash">npm i hexo-renderer-swig
+</code></pre>
 
           
         
@@ -698,7 +647,7 @@ server &#123;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8Cnginx%E6%9C%8D%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E8%BF%91%E6%9C%9F%E6%96%87%E7%AB%A0%E8%AE%BE%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -717,7 +666,7 @@ server &#123;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8Cnginx%E6%9C%8D%E5%8A%A1/" itemprop="url">windows注册nginx服务</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E8%BF%91%E6%9C%9F%E6%96%87%E7%AB%A0%E8%AE%BE%E7%BD%AE/" itemprop="url">hexo近期文章设置</a></h1>
         
 
         <div class="post-meta">
@@ -729,8 +678,8 @@ server &#123;
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-31T17:32:20+08:00">
-                2020-12-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -752,8 +701,8 @@ server &#123;
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -783,7 +732,374 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  459
+                  133
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="近期文章设置">近期文章设置</span></h2><p>修改themes/next/layout/_macro/sidebar.swig 。找到theme.social板块代码，在该板块最后的endif后隔一行添加如下代码。</p>
+<pre><code class="bash">.post &#123;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding: 25px;
+  -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+  -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
+ &#125;</code></pre>
+<p>编辑themes/next/source/css/_common/components/sidebar/sidebar-blogroll.styl</p>
+<pre><code class="bash">li.recent_posts_li &#123;
+    text-align: cengter;
+    display: block;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+&#125;</code></pre>
+<p>在 themes/next/_config.yml中添加下方代码</p>
+<pre><code class="bash"># 近期文章设置
+recent_posts_title: 近期文章
+recent_posts_layout: block
+recent_posts: true</code></pre>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E5%BD%92%E6%A1%A3%E9%A1%B5%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E5%BD%92%E6%A1%A3%E9%A1%B5%E4%BC%98%E5%8C%96/" itemprop="url">hexo归档页优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  21
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="hexo归档页优化">hexo归档页优化</span></h2><p>修改/themes/next/layout/_macro/post-collapse.swig后的代码如下：</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E5%BD%A9%E8%89%B2%E6%A0%87%E7%AD%BE%E4%BA%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E5%BD%A9%E8%89%B2%E6%A0%87%E7%AD%BE%E4%BA%91/" itemprop="url">hexo彩色标签云</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  410
                 </span>
               
 
@@ -822,234 +1138,65 @@ server &#123;
       
         
           
-            <!-- toc -->
+            <h2><span id="彩色标签云">彩色标签云</span></h2><p>在/themes/next/layout/目录下，新增tag-color.swig文件，加入下方代码：</p>
+<pre><code class="bash">&lt;script type=&quot;text/javascript&quot;&gt;
+     var alltags = document.getElementsByClassName(&#39;tag-cloud-tags&#39;);
+     var tags = alltags[0].getElementsByTagName(&#39;a&#39;);
+     for (var i = tags.length - 1; i &gt;= 0; i--) &#123;
+       var r=Math.floor(Math.random()*75+130);
+       var g=Math.floor(Math.random()*75+100);
+       var b=Math.floor(Math.random()*75+80);
+       tags[i].style.background = &quot;rgb(&quot;+r+&quot;,&quot;+g+&quot;,&quot;+b+&quot;)&quot;;
+     &#125;
+&lt;/script&gt;
 
-<ul>
-<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
-<li><a href="#nginx%E4%B8%8B%E8%BD%BD">nginx下载</a></li>
-<li><a href="#%E6%B3%A8%E5%86%8C%E5%B7%A5%E5%85%B7">注册工具</a></li>
-<li><a href="#nginx%E6%B3%A8%E5%86%8C">nginx注册</a></li>
-<li><a href="#%E7%8E%AF%E5%A2%83%E8%B0%83%E8%AF%95">环境调试</a></li>
-<li><a href="#nginx%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE">nginx服务自启动设置</a></li>
-<li><a href="#nginx%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81">nginx服务验证</a></li>
-</ul>
-<!-- tocstop -->
+&lt;style&gt;
+  .tag-cloud-tags&#123;
+    /*font-family: Helvetica, Tahoma, Arial;*/
+    /*font-weight: 100;*/
+    text-align: center;
+    counter-reset: tags;
+  &#125;
+  .tag-cloud-tags a&#123;
+    border-radius: 6px;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin: 8px 5px 0px 0px;
+  &#125;
+  .tag-cloud-tags a:before&#123;
+    content: &quot;?&quot;;
+  &#125;
 
-<h1><span id="环境">环境</span></h1><p>windows 7<br>nginx-1.16.1<br>winsw-2.0.2-bin.exe</p>
-<h1><span id="nginx下载">nginx下载</span></h1><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">官方下载地址</a><br>笔者使用的nginx-1.16.1版本</p>
-<h1><span id="注册工具">注册工具</span></h1><pre><code class="bash">官方下载地址：http://repo.jenkins-ci.org/releases/com/sun/winsw/winsw/
-笔者使用的2.0.2版本</code></pre>
-<h1><span id="nginx注册">nginx注册</span></h1><p>1.将nginx解压至指定安装位置,D:\nginx-1.16.1\nginx-1.16.1<br><img src="/images/nginx/nginx_20201231_01.png" alt="nginx安装目录"></p>
-<p>2.将winsw-2.0.2-bin.exe复制到nginx目录：D:\nginx-1.16.1\nginx-1.16.1,并将其改成nginx-service.exe </p>
-<p>3.新建一个xml文件nginx-service.xml,内容如下,注意里面目录对应关系</p>
-<pre><code class="xml">&lt;service&gt;
-  &lt;id&gt;nginx&lt;/id&gt;
-  &lt;name&gt;Nginx Service&lt;/name&gt;
-  &lt;description&gt;High Performance Nginx Service&lt;/description&gt;
-  &lt;logpath&gt;D:\nginx-1.16.1\nginx-1.16.1\logs&lt;/logpath&gt;
-  &lt;log mode=&quot;roll-by-size&quot;&gt;
-    &lt;sizeThreshold&gt;10240&lt;/sizeThreshold&gt;
-    &lt;keepFiles&gt;8&lt;/keepFiles&gt;
-  &lt;/log&gt;
-  &lt;executable&gt;D:\nginx-1.16.1\nginx-1.16.1\nginx.exe&lt;/executable&gt;
-  &lt;startarguments&gt;-p D:\nginx-1.16.1\nginx-1.16.1\Nginx&lt;/startarguments&gt;
-  &lt;stopexecutable&gt;D:\nginx-1.16.1\nginx-1.16.1\nginx.exe&lt;/stopexecutable&gt;
-  &lt;stoparguments&gt;-p D:\nginx-1.16.1\nginx-1.16.1\Nginx -s stop&lt;/stoparguments&gt;
-&lt;/service&gt;</code></pre>
-<p>4.运行windows cmd命令，进入nginx安装目录，执行nginx注册服务命令nginx-service.exe install，如果注册没有成功需要执行nginx卸载命令：nginx-service.exe uninstall</p>
-<h1><span id="环境调试">环境调试</span></h1><p>1.如果nginx启动没有成功，需要根据nginx启动日志定位错误信息，日志文件所在位置D:\nginx-1.16.1\nginx-1.16.1\logs,大部分情况下是端口和配置文件目录设置问题。</p>
-<h1><span id="nginx服务自启动设置">nginx服务自启动设置</span></h1><p>运行windows cmd命令，找到nginx服务，右键属性可配置nginx启动方式。<br><img src="/images/nginx/nginx_20201231_02.png" alt="nginx服务验证"><br><img src="/images/nginx/nginx_20201231_03.png" alt="nginx服务验证"></p>
-<h1><span id="nginx服务验证">nginx服务验证</span></h1><p><img src="/images/nginx/nginx_20201231_04.png" alt="nginx服务验证"></p>
+  .tag-cloud-tags a:hover&#123;
+     box-shadow: 0px 5px 15px 0px rgba(0,0,0,.4);
+     transform: scale(1.1);
+     /*box-shadow: 10px 10px 15px 2px rgba(0,0,0,.12), 0 0 6px 0 rgba(104, 104, 105, 0.1);*/
+     transition-duration: 0.15s;
+  &#125;
+&lt;/style&gt;</code></pre>
+<p>在/themes/next/layout/page.swig/中引入tag-color.swig：</p>
+<pre><code class="bash">在下方加上 &#123;% include 'tag-color.swig' %&#125; 代码
+&lt;div class=&quot;tag-cloud&quot;&gt;
+          &lt;!--    &lt;div class=&quot;tag-cloud-title&quot;&gt;
+                &#123;&#123; _p('counter.tag_cloud', site.tags.length) &#125;&#125;
+            &lt;/div&gt;  --&gt;
+             &lt;div class=&quot;tag-cloud-tags&quot; id=&quot;tags&quot;&gt;
+              &#123;&#123; tagcloud(&#123;min_font: 16, max_font: 16, amount: 300, color: true, start_color: '#FFF', end_color: '#FFF'&#125;) &#125;&#125;            
+          &lt;/div&gt;
+        &lt;/div&gt;
+     &#123;% include 'tag-color.swig' %&#125;    </code></pre>
+<p>或者将上方代码直接添加到下方</p>
+<h2><span id="将标签云放到首页">将标签云放到首页</span></h2><p>在路径：/themes/next/layout/index.swig 中</p>
+<pre><code class="bash">&#123;% block content %&#125;下面添加下方代码
+&#123;% block content %&#125;
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8Credis%E6%9C%8D%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8Credis%E6%9C%8D%E5%8A%A1/" itemprop="url">windows注册Redis服务</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-31T17:32:20+08:00">
-                2020-12-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index">
-                    <span itemprop="name">Redis</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  117
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
-<li><a href="#redis%E4%B8%8B%E8%BD%BD">Redis下载</a></li>
-<li><a href="#redis%E6%B3%A8%E5%86%8C">Redis注册</a></li>
-<li><a href="#redis%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE">Redis服务自启动设置</a></li>
-<li><a href="#redis%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81">Redis服务验证</a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境">环境</span></h1><p>windows 7<br>Redis-x64-3.2.100</p>
-<h1><span id="redis下载">Redis下载</span></h1><p><a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/redis/releases">下载地址</a><br>笔者使用的Redis-x64-3.2.100版本</p>
-<h1><span id="redis注册">Redis注册</span></h1><p>1.运行windows cmd命令，进入Redis安装目录D:\redis_3.2.100\Redis-x64-3.2.100</p>
-<p>2.执行注册服务命令 redis-server –service-install redis.windows-service.conf </p>
-<p>3.如果需要卸载Redis服务，执行redis-server –service-uninstall</p>
-<h1><span id="redis服务自启动设置">Redis服务自启动设置</span></h1><p><img src="/images/redis/20210104_01.png" alt="Redis服务设置"></p>
-<h1><span id="redis服务验证">Redis服务验证</span></h1><p><img src="/images/redis/20210104_02.png" alt="Redis服务验证"></p>
+    &lt;div class=&quot;tag-cloud&quot;&gt;
+      &lt;div class=&quot;tag-cloud-tags&quot; id=&quot;tags&quot;&gt;
+        &#123;&#123; tagcloud(&#123;min_font: 16, max_font: 16, amount: 300, color: true, start_color: '#fff', end_color: '#fff'&#125;) &#125;&#125;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;br&gt;
+&#123;% include 'tag-color.swig' %&#125;</code></pre>
 
           
         
@@ -1098,7 +1245,7 @@ server &#123;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/24/blogs/Windows%E5%88%9B%E5%BB%BAFTP/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1117,7 +1264,7 @@ server &#123;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/12/24/blogs/Windows%E5%88%9B%E5%BB%BAFTP/" itemprop="url">Windows创建FTP</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E/" itemprop="url">hexo安装渲染引擎</a></h1>
         
 
         <div class="post-meta">
@@ -1129,8 +1276,8 @@ server &#123;
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-24T10:11:20+08:00">
-                2020-12-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -1152,8 +1299,8 @@ server &#123;
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/FTP/" itemprop="url" rel="index">
-                    <span itemprop="name">FTP</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -1183,7 +1330,7 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  149
+                  242
                 </span>
               
 
@@ -1222,219 +1369,54 @@ server &#123;
       
         
           
-            <!-- toc -->
+            <h2><span id="卸载默认引擎">卸载默认引擎</span></h2><pre><code class="bash">npm uninstall hexo-renderer-marked –save</code></pre>
+<h2><span id="安装新渲染引擎和katex引擎">安装新渲染引擎和katex引擎</span></h2><pre><code class="bash">npm install hexo-renderer-markdown-it --save
+npm install markdown-it-katex --save</code></pre>
+<h2><span id="引擎设置">引擎设置</span></h2><p>修改hexo根目录下_config.xml</p>
+<pre><code class="bash"># Markdown-it config
+## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki/
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: &#39;“”‘’&#39;
+  plugins:
+  anchors:
+    level: 2
+    collisionSuffix: &#39;&#39;
 
-<ul>
-<li><a href="#%E5%88%9B%E5%BB%BAftp%E7%94%A8%E6%88%B7">创建FTP用户</a></li>
-<li><a href="#%E5%BC%80%E5%90%AFftp%E6%9C%8D%E5%8A%A1">开启FTP服务</a></li>
-<li><a href="#%E5%88%9B%E5%BB%BAftp_server%E7%BD%91%E7%AB%99">创建FTP_SERVER网站</a></li>
-<li><a href="#ftp_server%E7%BD%91%E7%AB%99%E6%B7%BB%E5%8A%A0ftp%E7%AB%99%E7%82%B9">FTP_SERVER网站添加FTP站点</a></li>
-<li><a href="#%E8%AE%BE%E7%BD%AE%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84%E5%85%B1%E4%BA%AB">设置访问路径共享</a></li>
-<li><a href="#%E9%AA%8C%E8%AF%81ftp%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AE">验证FTP用户访问</a></li>
-</ul>
-<!-- tocstop -->
-
-<h2><span id="创建ftp用户">创建FTP用户</span></h2><ol>
-<li>打开计算机管理，依次打开本地用户和组-&gt;用户，右键新增用户，用户和密码自行定义即可，选项设置用户不可更改密码和密码永不过期</li>
-</ol>
-<p><img src="/images/Windows/FTP/WF_20201230_01.png" alt="新建用户"><br><img src="/images/Windows/FTP/WF_20201230_02.png" alt="用户信息"></p>
-<ol start="2">
-<li>创建FTP用户report_cd对应的目录H:\home\report_cd</li>
-</ol>
-<p><img src="/images/Windows/FTP/WF_20201230_04.png" alt="用户工作目录"></p>
-<h2><span id="开启ftp服务">开启FTP服务</span></h2><p><img src="/images/Windows/FTP/WF_20201230_03.png" alt="开启FTP服务"></p>
-<h2><span id="创建ftp_server网站">创建FTP_SERVER网站</span></h2><p><img src="/images/Windows/FTP/WF_20201230_05.png" alt="创建FTP_SERVER"></p>
-<h2><span id="ftp_server网站添加ftp站点">FTP_SERVER网站添加FTP站点</span></h2><p><img src="/images/Windows/FTP/WF_20201230_06.png" alt="创建FTP_SERVER"><br><img src="/images/Windows/FTP/WF_20201230_07.png" alt="创建FTP_SERVER"></p>
-<h2><span id="设置访问路径共享">设置访问路径共享</span></h2><p><img src="/images/Windows/FTP/WF_20201230_08.png" alt="创建FTP_SERVER"></p>
-<h2><span id="验证ftp用户访问">验证FTP用户访问</span></h2><pre><code class="bash">ftp://report_cd:report_cd@10.9.212.55:21</code></pre>
-<p><img src="/images/Windows/FTP/WF_20201230_09.png" alt="验证"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/24/blogs/nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/12/24/blogs/nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url">nginx常用启动命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-24T10:11:20+08:00">
-                2020-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  65
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E5%90%AF%E5%8A%A8">启动</a></li>
-<li><a href="#%E5%81%9C%E6%AD%A2">停止</a></li>
-<li><a href="#%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD">重新加载</a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="启动">启动</span></h1><pre><code class="bash">./nginx 
-./nginx -c dir(指定配置文件所在路径)</code></pre>
-<h1><span id="停止">停止</span></h1><pre><code class="bash">./nginx -s quit /nginx处理完任务后停止
-./nginx -s stop /强制停止nginx进程
+math:
+  engine: &#39;katex&#39;   
+  katex:
+    css: https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css
+    js: https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js
+    config:
+      # KaTeX config
+      throwOnError: false
+      errorColor: &quot;#cc0000&quot;   
 </code></pre>
-<h1><span id="重新加载">重新加载</span></h1><pre><code class="bash">./nginx -s reload /重新加载nginx.cnf配置文件</code></pre>
+<h2><span id="开启next主题math支持">开启NexT主题math支持</span></h2><p>修改next主题下_config.xml</p>
+<pre><code class="bash"># Math Formulas Render Support
+math:
+  # Default (true) will load mathjax / katex script on demand.
+  # That is it only render those page which has `mathjax: true` in Front-matter.
+  # If you set it to false, it will load mathjax / katex srcipt EVERY PAGE.
+  per_page: true
+
+  # hexo-renderer-pandoc (or hexo-renderer-kramed) required for full MathJax support.
+  mathjax:
+    enable: false
+    # See: https://mhchem.github.io/MathJax-mhchem/
+    mhchem: false
+
+  # hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required for full Katex support.
+  katex:
+    enable: true
+    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex
+    copy_tex: false</code></pre>
 
           
         
@@ -1483,7 +1465,7 @@ server &#123;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/24/blogs/nginx%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1502,7 +1484,7 @@ server &#123;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/12/24/blogs/nginx%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/" itemprop="url">nginx开机自启动</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/" itemprop="url">hexo安装本地搜索功能</a></h1>
         
 
         <div class="post-meta">
@@ -1514,8 +1496,8 @@ server &#123;
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-24T10:11:20+08:00">
-                2020-12-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -1537,8 +1519,8 @@ server &#123;
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -1568,7 +1550,7 @@ server &#123;
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  322
+                  67
                 </span>
               
 
@@ -1607,37 +1589,17 @@ server &#123;
       
         
           
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E6%B7%BB%E5%8A%A0nginx%E8%87%AA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6">添加nginx自启动文件</a></li>
-<li><a href="#%E6%B7%BB%E5%8A%A0%E6%96%87%E4%BB%B6%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90">添加文件可执行权限</a></li>
-<li><a href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E5%90%AF%E8%87%AA%E5%90%AF%E5%8A%A8">设置开启自启动</a></li>
-<li><a href="#%E9%AA%8C%E8%AF%81%E6%9C%8D%E5%8A%A1%E6%98%AF%E5%90%A6%E6%B7%BB%E5%8A%A0%E6%88%90%E5%8A%9F">验证服务是否添加成功</a></li>
-<li><a href="#%E6%9F%A5%E8%AF%A2nginx%E6%98%AF%E5%90%A6%E5%90%AF%E5%8A%A8">查询nginx是否启动</a></li>
-<li><a href="#%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDnginx%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">重新加载nginx配置文件</a></li>
-<li><a href="#%E5%81%9C%E6%AD%A2nginx%E6%9C%8D%E5%8A%A1">停止nginx服务</a></li>
-</ul>
-<!-- tocstop -->
-
-<h2><span id="添加nginx自启动文件">添加nginx自启动文件</span></h2><pre><code class="bash">#文件内容参考nginx官网设置,https://www.nginx.com/resources/wiki/start/topics/examples/redhatnginxinit/ ,注意修改其中nginx可执行文件路径和指定配置文件路径
-[root@lwdCSCDN init.d]# vim /etc/init.d/nginx</code></pre>
-<h2><span id="添加文件可执行权限">添加文件可执行权限</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# chmod a+x /etc/init.d/nginx</code></pre>
-<h2><span id="设置开启自启动">设置开启自启动</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# chkconfig --add /etc/init.d/nginx
-[root@lwdCSCDN init.d]# chkconfig nginx on</code></pre>
-<h2><span id="验证服务是否添加成功">验证服务是否添加成功</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx start;
-正在启动 nginx：                                           [确定]</code></pre>
-<h2><span id="查询nginx是否启动">查询nginx是否启动</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# ps -ef | grep nginx
-root     19139     1  0 17:58 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
-root     19140 19139  0 17:58 ?        00:00:00 nginx: worker process                                          
-root     19226 15760  0 17:59 pts/0    00:00:00 grep nginx</code></pre>
-<h2><span id="重新加载nginx配置文件">重新加载nginx配置文件</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx reload
-nginx: the configuration file /usr/local/nginx/conf/nginx.conf syntax is ok
-nginx: configuration file /usr/local/nginx/conf/nginx.conf test is successful
-重新载入 nginx：                                           [确定]
-You have new mail in /var/spool/mail/root</code></pre>
-<h2><span id="停止nginx服务">停止nginx服务</span></h2><pre><code class="bash">[root@lwdCSCDN init.d]# service nginx stop
-停止 nginx：                                               [确定]</code></pre>
+            <h2><span id="安装插件">安装插件</span></h2><pre><code class="bash">npm install hexo-generator-searchdb --save</code></pre>
+<h2><span id="新增配置">新增配置</span></h2><p>修改hexo/_config.yml站点配置文件，新增以下内容到任意位置：</p>
+<pre><code class="bash">search:
+path: search.xml
+field: post
+format: html
+limit: 10000</code></pre>
+<h2><span id="修改主题配置文件开启本地搜索功能">修改主题配置文件，开启本地搜索功能</span></h2><pre><code class="bash"># Local search
+local_search:
+enable: true  
+</code></pre>
 
           
         
@@ -1686,7 +1648,7 @@ You have new mail in /var/spool/mail/root</code></pre>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/23/blogs/window7%E5%AE%89%E8%A3%85docker/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85next%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1705,7 +1667,7 @@ You have new mail in /var/spool/mail/root</code></pre>
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/12/23/blogs/window7%E5%AE%89%E8%A3%85docker/" itemprop="url">docker阿里云镜像</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85next%E9%97%AE%E9%A2%98/" itemprop="url">hexo安装next问题</a></h1>
         
 
         <div class="post-meta">
@@ -1717,8 +1679,8 @@ You have new mail in /var/spool/mail/root</code></pre>
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-23T10:11:20+08:00">
-                2020-12-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -1740,8 +1702,8 @@ You have new mail in /var/spool/mail/root</code></pre>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -1771,7 +1733,7 @@ You have new mail in /var/spool/mail/root</code></pre>
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6
+                  183
                 </span>
               
 
@@ -1810,7 +1772,37 @@ You have new mail in /var/spool/mail/root</code></pre>
       
         
           
-            <p><a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/docker-toolbox/windows/docker-toolbox/?spm=5176.8351553.0.0.4bc61991tQpsnV">阿里云Docker镜像</a></p>
+            <h2><span id="问题描述">问题描述</span></h2><pre><code class="bash">Cloning into &#39;themes/next&#39;...
+remote: Enumerating objects: 12037, done.
+error: RPC failed; curl 18 transfer closed with outstanding read data remaining
+error: 1285 bytes of body are still expected
+fetch-pack: unexpected disconnect while reading sideband packet
+fatal: early EOF
+fatal: index-pack failed
+</code></pre>
+<h2><span id="问题原因">问题原因</span></h2><p>curl的postBuffer的默认值太小，我们需要调整它的大小，在终端重新配置大小</p>
+<h2><span id="解决办法">解决办法</span></h2><pre><code class="bash">git config --global http.postBuffer 524288000  //设置为500M
+
+# 查看参数配置
+$ git config --list
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=D:/Git/mingw64/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager-core
+credential.https://dev.azure.com.usehttppath=true
+init.defaultbranch=master
+user.name=vanishke
+user.email=18685129726@163.com
+http.postbuffer=524288000
+</code></pre>
 
           
         
@@ -1859,7 +1851,7 @@ You have new mail in /var/spool/mail/root</code></pre>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/17/blogs/MySQL%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85GitHub%E6%8F%92%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -1878,7 +1870,7 @@ You have new mail in /var/spool/mail/root</code></pre>
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/11/17/blogs/MySQL%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/" itemprop="url">MySQL 导入导出</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E5%AE%89%E8%A3%85GitHub%E6%8F%92%E4%BB%B6/" itemprop="url">hexo安装GitHub插件</a></h1>
         
 
         <div class="post-meta">
@@ -1890,8 +1882,8 @@ You have new mail in /var/spool/mail/root</code></pre>
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-17T12:23:20+08:00">
-                2020-11-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -1913,8 +1905,8 @@ You have new mail in /var/spool/mail/root</code></pre>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -1944,7 +1936,7 @@ You have new mail in /var/spool/mail/root</code></pre>
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  196
+                  53
                 </span>
               
 
@@ -1983,30 +1975,15 @@ You have new mail in /var/spool/mail/root</code></pre>
       
         
           
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E8%A1%A8">导出数据库中的表：</a></li>
-<li><a href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%92%8C%E4%BA%8B%E5%8A%A1">导出数据库中的存储过程和事务：</a></li>
-<li><a href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%BB%93%E6%9E%84%E5%92%8C%E6%95%B0%E6%8D%AE">导入数据库表结构和数据：</a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="导出数据库中的表">导出数据库中的表：</span></h1><pre><code class="sql">mysqldump -u root -p report_hrb140 &gt; report_hrb140.sql;</code></pre>
-<h1><span id="导出数据库中的存储过程和事务">导出数据库中的存储过程和事务：</span></h1><pre><code class="sql">mysqldump -uroot -pcoship -ntd -R report_hrb121&gt; report_hrb121_FP.sql;
-
-其中-ntd代表导入存储过程。-R代表导入功能函数。</code></pre>
-<h1><span id="导入数据库表结构和数据">导入数据库表结构和数据：</span></h1><pre><code class="sql">mysql -u root -p
-password:*******
-mysql&gt;use 数据库(数据库的名称)
-然后使用source命令,后面参数为脚本文件(report_hrb140.sql)
-mysql&gt;source report_hrb140.sql;
-导入存储过程及事务的SQL命令：
-mysql -u root -p
-password:*******
-mysql&gt;use 数据库(数据库的名称)
-然后使用source命令,后面参数为脚本文件(report_hrb121_FP.sql)
-mysql&gt;source report_hrb121_FP.sql;</code></pre>
+            <h2><span id="上传配置">上传配置</span></h2><p>hexo配置和文件文件添加如下</p>
+<pre><code class="bash">deploy:
+  type: git
+  repo: https://github.com/userName/repoName.github.io.git
+  branch: master</code></pre>
+<h2><span id="安装插件">安装插件</span></h2><p>安装GitHub部署插件</p>
+<pre><code class="bash">npm install hexo-deployer-git --save</code></pre>
+<h2><span id="测试部署">测试部署</span></h2><pre><code class="bash">hexo d   
+</code></pre>
 
           
         
@@ -2055,7 +2032,7 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/17/blogs/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E4%B8%BB%E9%A2%98next%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E6%A0%87%E7%AD%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -2074,7 +2051,7 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/11/17/blogs/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AAlinux%E5%91%BD%E4%BB%A4/" itemprop="url">每天一个linux命令</a></h1>
+                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E4%B8%BB%E9%A2%98next%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E6%A0%87%E7%AD%BE/" itemprop="url">hexo修改主题文章底部标签</a></h1>
         
 
         <div class="post-meta">
@@ -2086,8 +2063,8 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-17T11:27:20+08:00">
-                2020-11-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
               </time>
             
 
@@ -2109,8 +2086,8 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -2140,7 +2117,7 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  9.2k
+                  34
                 </span>
               
 
@@ -2156,7 +2133,7 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  43
+                  1
                 </span>
               
             </div>
@@ -2179,874 +2156,11 @@ mysql&gt;source report_hrb121_FP.sql;</code></pre>
       
         
           
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86">文件和目录管理</a><ul>
-<li><a href="#chown%E5%91%BD%E4%BB%A4">chown命令</a></li>
-<li><a href="#chgrp%E5%91%BD%E4%BB%A4">chgrp命令</a></li>
-<li><a href="#chattr%E5%91%BD%E4%BB%A4">chattr命令</a></li>
-<li><a href="#stat%E5%91%BD%E4%BB%A4">stat命令</a></li>
-<li><a href="#file%E5%91%BD%E4%BB%A4">file命令</a></li>
-<li><a href="#head%E5%91%BD%E4%BB%A4">head命令</a></li>
-<li><a href="#more%E5%91%BD%E4%BB%A4">more命令</a></li>
-<li><a href="#touch%E5%91%BD%E4%BB%A4">touch命令</a></li>
-<li><a href="#pwd%E5%91%BD%E4%BB%A4">pwd命令</a></li>
-<li><a href="#vim%E5%91%BD%E4%BB%A4">vim命令</a></li>
-<li><a href="#ls%E5%91%BD%E4%BB%A4">ls命令</a></li>
-<li><a href="#ln%E5%91%BD%E4%BB%A4">ln命令</a></li>
-<li><a href="#rm%E5%91%BD%E4%BB%A4">rm命令</a></li>
-<li><a href="#mv%E5%91%BD%E4%BB%A4">mv命令</a></li>
-<li><a href="#find%E5%91%BD%E4%BB%A4">find命令</a></li>
-<li><a href="#whereis%E5%91%BD%E4%BB%A4">whereis命令</a></li>
-<li><a href="#locate%E5%91%BD%E4%BB%A4">locate命令</a></li>
-<li><a href="#which%E5%91%BD%E4%BB%A4">which命令</a></li>
-<li><a href="#strings%E5%91%BD%E4%BB%A4">strings命令</a></li>
-<li><a href="#dirname%E5%91%BD%E4%BB%A4">dirname命令</a></li>
-<li><a href="#iconv%E5%91%BD%E4%BB%A4">iconv命令</a></li>
-<li><a href="#cat%E5%91%BD%E4%BB%A4">cat命令</a></li>
-<li><a href="#tar%E5%91%BD%E4%BB%A4">tar命令</a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="文件和目录管理">文件和目录管理</span></h1><h2><span id="chown命令">chown命令</span></h2><p><strong>作用</strong></p>
-<pre><code class="bash">chown命令用于改变一个文件或目录的所有者或用户组，用户可以是用户名或者用户ID，群组可以是群组名或者群组ID，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。</code></pre>
-<p><strong>选项</strong></p>
-<p>-c:与-v命令相似，仅显示变更的内容。<br>-f:不显示错误信息。<br>-h:只对符号链接文件做修改，不改变其对应的原始文件。<br>-R:递归处理，将命令目录下的所有文件和子目录一并处理。<br>-v:显示命令执行详细过程。<br>–reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同。<br>–help:在线帮助。<br>–version:显示版本信息。</p>
-<p><strong>示例</strong></p>
-<pre><code class="bash"># 将erm_gd目录下的文件和目录所属者更改为report_cd,群组修改为report_cd
-[root@lwdCSCDN tmp]# chown -R report_cd:report_cd erm_gd
-[root@lwdCSCDN tmp]# cd erm_gd/
-You have new mail in /var/spool/mail/root
-[root@lwdCSCDN erm_gd]# ll
-总用量 210608
--rw-r--r-- 1 report_cd report_cd 214757130 1月   5 17:47 dg_erm_mysql.sql
--rw-r--r-- 1 report_cd report_cd    681075 1月   5 17:47 dg_global.sql</code></pre>
-<h2><span id="chgrp命令">chgrp命令</span></h2><p><strong>作用</strong></p>
-<pre><code class="bash">chgrp用来变更文件或目录的所属群组。
-组名可以是用户组的id,也可以是用户组的名称，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。</code></pre>
-<p><strong>选项</strong><br>-c:与-v命令像相似，仅显示变更的部分。<br>-f:不显示错误信息。<br>-h:只对符号链接文件做修改，不改变其对应的原始文件。<br>-R:递归处理，对指令目录下的文件及目录一并处理。<br>-v:显示命令执行的详细过程。<br>–reference=&lt;参考文件或目录&gt;:把指定文件或目录设置成参考文件或目录相同的群组。</p>
-<p><strong>示例</strong></p>
-<pre><code class="bash"># 将erm_gd目录的群组递归更改为report_hrb,显示详细的处理过程。
-[root@lwdCSCDN tmp]# ls
-elasticsearch-2738171260560954631  erm_gd  mysql.sock  pulse-24KvvDfOHjjf  v8-compile-cache-0
-[root@lwdCSCDN tmp]# chgrp -vR report_hrb erm_gd
-&quot;erm_gd/dg_global.sql&quot; 的所属组已更改为report_hrb
-&quot;erm_gd/dg_erm_mysql.sql&quot; 的所属组已更改为report_hrb
-&quot;erm_gd&quot; 的所属组已更改为report_hrb</code></pre>
-<h2><span id="chattr命令">chattr命令</span></h2><p><strong>作用</strong></p>
-<pre><code class="bash">chattr命令用来更改文件属性，这项指令可更改ext32文件系统文件或目录属性，属性一共以下8种模式：
-a:限制文件或目录仅提供附加用途。
-b:不更新文件或目录的最后存取时间。
-c:将文件和目录压缩后存放。
-d:将文件或目录排除在倾倒操作之外。
-i:不得更改文件和目录。
-s:保密性删除文件或目录。
-S:及时更新文件或目录。
-u:预防意外性删除。</code></pre>
-<p><strong>选项</strong></p>
-<p>-R:将命令目录下的所有文件和子目录一并处理。<br>-v&lt;版本号&gt;:指定文件或目录的版本信息。<br>+属性：开启文件或目录的该项属性。<br>-属性：关闭文件或目录的该项属性。<br>=属性：指定文件或目录的该项属性。</p>
-<p><strong>示例</strong></p>
-<pre><code class="bash"># 防止系统中某个文件系统内容被更改。
-[root@lwdCSCDN erm_gd]# chattr +i a.txt 
-You have new mail in /var/spool/mail/root
-[root@lwdCSCDN erm_gd]# rm -rf a.txt 
-rm: 无法删除&quot;a.txt&quot;: 不允许的操作
-
-# 限制a.txt文件只能进行附加操作
-[root@lwdCSCDN erm_gd]# chattr +a a.txt 
-[root@lwdCSCDN erm_gd]# echo &quot;cover the file a.txt&quot; &gt; a.txt
--bash: a.txt: 不允许的操作
-You have new mail in /var/spool/mail/root
-
-# 采用附加方式添加内容
-[root@lwdCSCDN erm_gd]# echo &quot;append content to file a.txt&quot; &gt;&gt; a.txt
-You have new mail in /var/spool/mail/root
-[root@lwdCSCDN erm_gd]# vim a.txt 
-
-:ewewqfdsf
-append content to file a.txt
-
-# 不可随意更动文件或目录
-[root@lwdCSCDN erm_gd]# chattr +i a.txt
-[root@lwdCSCDN erm_gd]# rename a.txt aa.txt a.txt 
-rename: renaming a.txt to aa.txt failed: 不允许的操作
-You have new mail in /var/spool/mail/root</code></pre>
-<h2><span id="stat命令">stat命令</span></h2><p><strong>作用</strong><br>    显示文件状态信息，stat命令的输出信息比ls命令的输出信息要更详细。</p>
-<p><strong>选项</strong></p>
-<p>-L : 支持符号链接<br>-t : 以简洁方式显示输出信息。<br>-f : 显示文件系统状态而不是文件状态。<br>–version : 显示命令版本。<br>–help : 显示命令帮助信息。</p>
-<p><strong>示例</strong></p>
-<pre><code class="bash">#显示文件状态
-[root@lwdCSCDN log1]# stat ETL.log
-  File: &quot;ETL.log&quot;
-  Size: 7341608       Blocks: 14352      IO Block: 4096   普通文件
-Device: 804h/2052d    Inode: 10495794    Links: 3
-Access: (0777/-rwxrwxrwx)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2020-12-28 11:06:47.226634512 +0800
-Modify: 2020-12-18 14:47:43.471294256 +0800
-Change: 2020-12-18 14:55:58.935352996 +0800
-You have new mail in /var/spool/mail/root
-
-#显示文件系统状态
-[root@lwdCSCDN log1]# stat -f ETL.log
-  File: &quot;ETL.log&quot;
-    ID: abb37a7c2e029036 Namelen: 255     Type: ext2/ext3
-Block size: 4096       Fundamental block size: 4096
-Blocks: Total: 45356622   Free: 29156603   Available: 26852603
-Inodes: Total: 11526144   Free: 10551557
-
-#以简洁方式展现文件状态信息
-[root@lwdCSCDN log1]# stat -t ETL.log
-ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 1608274558 4096</code></pre>
-<h2><span id="file命令">file命令</span></h2><p><strong>作用</strong><br>    file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.<br><strong>选项</strong></p>
-<p>-b : 列出结果时，不显示文件名称。<br>-i : 探测文件结果以MIME字符串展示。<br>-L : 检测链接文件，并给出链接原始文件的类型。<br>-v : file命令版本信息。<br>-z : 尝试探测压缩类型文件。<br>-m : 指定魔法幻数文件。<br>-f : 指定文件，如果文件内容中有其他文件，依序辨识这些文件，输出格式为每列一个文件。<br>-c : 显示命令执行的详细过程。</p>
-<p><strong>示例</strong></p>
-<pre><code class="bash">#显示文件类型
-[root@lwdCSCDN log1]# file ETL.log
-ETL.log: ASCII English text, with very long lines
-
-# 不显示文件名称
-[root@lwdCSCDN log1]# file -b ETL.log
-ASCII English text, with very long lines
-
-#以MIME格式展现探测结果
-[root@lwdCSCDN log1]# file -b -i record.ini 
-text/plain; charset=us-ascii</code></pre>
-<h2><span id="head命令">head命令</span></h2><p><strong>作用</strong><br>    显示文件开头内容，默认显示前10行</p>
-<p><strong>选项</strong></p>
-<p>-n&lt;数字&gt; :指定显示的行数<br>-c&lt;数字&gt; :指定显示的字符数<br>-v :显示文件头部信息<br>-q :不显示文件头部信息</p>
-<p><strong>示例</strong></p>
+            <h2><span id="修改模板">修改模板</span></h2><p>/themes/next/layout/_macro/post.swig</p>
 <pre><code class="bash">
-# 显示my.cnf.bak文件的前3行内容
-[root@dap mysql]# head -3 my.cnf.bak 
-# For advice on how to change settings please see
-# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
-
-# 显示100个字符
-# For advi[root@dap mysql]# head -c 100 my.cnf.bak 
-# For advice on how to change settings please see
-# http://dev.mysql.com/doc/refman/5.6/en/server-co
-
-#显示my.cnf.bak 文件头部信息
-[root@dap mysql]# head -v my.cnf.bak 
-==&gt; my.cnf.bak &lt;==
-# For advice on how to change settings please see
-# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
-
-[mysqld]
-
-# Remove leading # and set to the amount of RAM for the most important data
-# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
-# innodb_buffer_pool_size = 128M
-
-# Remove leading # to turn on a very important data integrity option: logging
-
-
-#不显示my.cnf.bak文件头部信息
-[root@dap mysql]# head -q my.cnf.bak 
-# For advice on how to change settings please see
-# http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html
-
-[mysqld]
-
-# Remove leading # and set to the amount of RAM for the most important data
-# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
-# innodb_buffer_pool_size = 128M
-
-# Remove leading # to turn on a very important data integrity option: logging
-</code></pre>
-<h2><span id="more命令">more命令</span></h2><p><strong>作用</strong><br>    基于vi编辑文本过滤器，以全屏幕分页显示文件内容，支持vi模式下关键字定位操作。<br>    快捷键功能<br>    enter :显示文本下一行内容<br>    space : 显示下一屏文本<br>    q:退出more命令<br>    b:返回上一屏文本内容<br>    h:显示帮助命令<br>    按斜线符/:接着输入一个模式，可以在文本中寻找下一个相匹配的模式。</p>
-<p><strong>选项</strong><br>-d :输出帮助信息<br>-c :不进行滚屏，每次刷新这个屏幕。<br>-s :合并多余的空白行。<br>-u :禁止下划线<br>-n ：n代表每一屏展示的文本行数。</p>
-<p><strong>示例</strong></p>
-<pre><code class="bash"># 一屏显示10行文本内容，文本空白行合并，显示提示信息，不进行滚屏，每次刷新整个屏幕。
-[root@lwdCSCDN conf]# more -dsc -10 nginx.conf
-
-#user  nobody;
-user root;
-worker_processes  1;
-
-#error_log  logs/error.log;
-#error_log  logs/error.log  notice;
-#error_log  logs/error.log  info;
-
-#pid        logs/nginx.pid;
---More--(5%)[Press space to continue, &#39;q&#39; to quit.]
-
-# 搜索字符串‘limit’所在位置，按键盘上n键，可定位到下一个位置。
-#user  nobody;
-user root;
-worker_processes  1;
-
-#error_log  logs/error.log;
-#error_log  logs/error.log  notice;
-#error_log  logs/error.log  info;
-
-#pid        logs/nginx.pid;
-/limit</code></pre>
-<h2><span id="touch命令">touch命令</span></h2><p><strong>作用</strong><br>更改已存在文件的时间戳为当前时间戳，或创建新的文件<br><strong>选项</strong><br>-a :只变更访问时间<br>-m :只变更修改时间<br>-c :不创建新的文件<br>-r :更新指定文件或目录下的所有文件的时间戳。<br>-d :指定更新的时间戳字符串<br>-t :指定时间戳格式，MMDDhhmm<br><strong>示例</strong></p>
-<pre><code class="bash"># 创建新的文件
-[root@lwdCSCDN bin]# touch b.txt
-[root@lwdCSCDN bin]# ll
-总用量 3080
--rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
-drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
--rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
--rw-r--r-- 1 root root       0 12月 21 16:58 b.txt
--rw-r--r-- 1 root root   15026 10月  6 2016 catalina.bat
--rwxr-xr-x 1 root root   22443 10月  6 2016 catalina.sh
-
-# -d指定更新的时间戳
-[root@lwdCSCDN bin]# touch -d 2020-12-21 b.txt
-[root@lwdCSCDN bin]# ll
-总用量 3084
--rw-r--r-- 1 root root       0 12月 21 17:02 12211621
--rw-r--r-- 1 root root       0 12月 21 17:00 2020-12-21
--rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
-drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
--rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
--rw-r--r-- 1 root root       5 12月 21 00:00 b.txt
-
-
-# -t指定更新时间
-[root@lwdCSCDN bin]# touch -t 12211630 b.txt
-[root@lwdCSCDN bin]# ll
-总用量 3084
--rw-r--r-- 1 root root       0 12月 21 17:02 12211621
--rw-r--r-- 1 root root       0 12月 21 17:00 2020-12-21
--rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
-drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
--rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
--rw-r--r-- 1 root root       5 12月 21 16:30 b.txt</code></pre>
-<h2><span id="pwd命令">pwd命令</span></h2><p><strong>作用</strong><br>    以绝对路径显示当前用户的所在目录<br><strong>选项</strong><br>-L :打印逻辑上的工作目录<br>-P :打印物理上的工作目录<br><strong>示例</strong></p>
-<pre><code class="bash"># 显示当前工作目录
-[root@lwdCSCDN bin]# pwd
-/usr/local/BI/hrb_BI/v300r002b210/apache-tomcat-8.0.38/bin</code></pre>
-<h2><span id="vim命令">vim命令</span></h2><p><strong>作用</strong><br>vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。<br><strong>选项</strong></p>
-<pre><code class="bash">crtl+u: 向文件首翻半屏。
-crtl+d: 此文件尾翻半屏。
-crtl+f: 向文件首翻一屏。
-crtl+b: 向文件尾翻一屏。
-ESC:从编辑模式切换到命令模式。
-:行号 :光标跳到指定行的行首。
-:$ :光标跳到文件尾。
-/字符串 :文本查找操作，从光标所在当前位置向文件尾部查找指定的字符串，查找到的字符串高亮显示。
-:wq :命令模式下，执行存盘并退出。
-:q :命令模式下，执行退出。
-:w! :命令模式下，强制执行存盘操作。
-:q! :命令模式下，强制执行退出vi命令。
-:set number :命令模式下，显示行号。
-:set nonumber :命令模式下，不显示行号。</code></pre>
-<p><strong>示例</strong></p>
-<pre><code class="bash">
-# 显示行号
-  1 [20201203] 16:47:12 Begin
-  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3
-  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4
-  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3
-  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4
-  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9
-  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10
-  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11
-  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12
- 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3
- 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4
- 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0
- 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15
- 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16
- 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17
- 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18
- 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19
- 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20
- 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0
- 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0
- 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0
- 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0
- 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0
- 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0
- 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0
- 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0
- 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0
- 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0
- 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0
- 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0
- 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0
- 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0
- 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0
- 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69
- 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70
-:set number   
-
-# 查找columnTask字符串对应的内容。
-  1 [20201203] 16:47:12 Begin
-  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3
-  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4
-  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3
-  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4
-  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9
-  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10
-  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11
-  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12
- 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3
- 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4
- 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0
- 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15
- 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16
- 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17
- 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18
- 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19
- 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20
- 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0
- 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0
- 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0
- 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0
- 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0
- 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0
- 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0
- 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0
- 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0
- 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0
- 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0
- 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0
- 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0
- 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0
- 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0
- 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69
- 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70
-/columnTask</code></pre>
-<h2><span id="ls命令">ls命令</span></h2><p><strong>作用</strong><br>显示目标文件列表</p>
-<p><strong>选项</strong></p>
-<pre><code class="bash">-a：显示所有文件和目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
--A：显示除影藏文件“.”和“..”以外的所有文件列表；
--C：多列显示输出结果。这是默认选项；
--l：与“-C”选项功能相反，所有输出信息用单列格式输出，不输出为多列；
--F：在每个输出项后追加文件的类型标识符，具体含义：“*”表示具有可执行权限的普通文件，“/”表示目录，“@”表示符号链接，“|”表示命令管道FIFO，“=”表示sockets套接字。当文件为普通文件时，不输出任何标识符；
--b：将文件中的不可输出的字符以反斜线“”加字符编码的方式输出；
--c：与“-lt”选项连用时，按照文件状态时间排序输出目录内容，排序的依据是文件的索引节点中的ctime字段。与“-l”选项连用时，则排序的一句是文件的状态改变时间；
--d：仅显示目录名，而不显示目录下的内容列表。显示符号链接文件本身，而不显示其所指向的目录列表；
--f：此参数的效果和同时指定“aU”参数相同，并关闭“lst”参数的效果；
--i：显示文件索引节点号（inode）。一个索引节点代表一个文件；
---file-type：与“-F”选项的功能相同，但是不显示“*”；
--k：以KB（千字节）为单位显示文件大小；
--l：以长格式显示目录下的内容列表。输出的信息从左到右依次包括文件名，文件类型、权限模式、硬连接数、所有者、组、文件大小和文件的最后修改时间等；
--m：用“,”号区隔每个文件和目录的名称；
--n：以用户识别码和群组识别码替代其名称；
--r：以文件名反序排列并输出目录内容列表；
--s：显示文件和目录的大小，以区块为单位；
--t：用文件和目录的更改时间排序；
--L：如果遇到性质为符号链接的文件或目录，直接列出该链接所指向的原始文件或目录；
--R：递归处理，将指定目录下的所有文件及子目录一并处理；
---full-time：列出完整的日期与时间；
---color[=WHEN]：使用不同的颜色高亮显示不同类型的。</code></pre>
-<p><strong>示例</strong></p>
-<pre><code class="bash">
-#显示当前目录下的非隐藏文件和目录
-[root@lwdCSCDN usr]# ls
-aaalog  bin  etc  games  include  lib  lib64  libexec  local  lost+found  man  sbin  share  src  tmp
-
-#显示当前目录下的文件和目录，包含隐藏文件
-[root@lwdCSCDN usr]# ls -a
-.  ..  aaalog  bin  etc  games  include  lib  lib64  libexec  local  lost+found  man  sbin  share  src  tmp
-
-# 按文件修改时间倒序显示，单列格式输出展示
-[root@lwdCSCDN usr]# ls -lt
-总用量 320
-drwxr-xr-x.  59 root root   4096 12月 16 09:49 local
-dr-xr-xr-x. 159 root root 126976 10月 23 10:14 lib64
-drwxr-xr-x    3 root root   4096 10月 13 16:55 aaalog
-drwxr-xr-x.   2 root root  90112 12月 16 2019 bin
-drwxr-xr-x    3 root root   4096 12月  6 2019 man
-dr-xr-xr-x.  32 root root   4096 12月  6 2019 lib
-dr-xr-xr-x.   2 root root  20480 8月  10 2019 sbin
-drwxr-xr-x. 293 root root  12288 8月   9 2019 share
-drwxr-xr-x. 143 root root  12288 8月   9 2019 include
-drwxr-xr-x.  33 root root  12288 11月 25 2017 libexec
-lrwxrwxrwx.   1 root root     10 10月 18 2017 tmp -&gt; ../var/tmp
-drwxr-xr-x.   4 root root   4096 10月 18 2017 src
-drwx------.   2 root root  16384 10月 18 2017 lost+found
-drwxr-xr-x.   2 root root   4096 6月  28 2011 etc
-drwxr-xr-x.   2 root root   4096 6月  28 2011 games
-
-# 按照特殊字符对文件进行分类
-[root@lwdCSCDN usr]# ls -F
-aaalog/  bin/  etc/  games/  include/  lib/  lib64/  libexec/  local/  lost+found/  man/  sbin/  share/  src/  tmp@
-
-#仅显示目录名，不显示目录下的内容列表
-[root@lwdCSCDN usr]# ls -ld aaalog
-drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
-
-#显示文件索引节点
-[root@lwdCSCDN script]# ls -i
-10495811 etlD.sh  10495809 etl.sh   10495840 isFileExists.sh       10496106 reportSource.sh  10496118 stop.sh
-10495812 etlP.sh  10495822 etlS.sh  10495887 mysqld_kill_sleep.sh  10496112 stat.sh
-
-</code></pre>
-<h2><span id="ln命令">ln命令</span></h2><p><strong>作用</strong><br>    为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上-s 选项。<br><strong>选项</strong></p>
-<pre><code class="bash">-b或--backup：删除，覆盖目标文件之前的备份；
--d或-F或——directory：建立目录的硬连接；
--f或——force：强行建立文件或目录的连接，不论文件或目录是否存在；
--i或——interactive：覆盖既有文件之前先询问用户；
--n或--no-dereference：把符号连接的目的目录视为一般文件；
--s或——symbolic：对源文件建立符号连接，而非硬连接；
--S&lt;字尾备份字符串&gt;或--suffix=&lt;字尾备份字符串&gt;：用&quot;-b&quot;参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，预设的备份字符串是符号“~”，用户可通过“-S”参数来改变它；
--v或——verbose：显示指令执行过程；
--V&lt;备份方式&gt;或--version-control=&lt;备份方式&gt;：用“-b”参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，这个字符串不仅可用“-S”参数变更，当使用“-V”参数&lt;备份方式&gt;指定不同备份方式时，也会产生不同字尾的备份字符串；
---help：在线帮助；
---version：显示版本信息。</code></pre>
-<p><strong>示例</strong></p>
-<pre><code class="bash"># 给文件建立软链接
-[root@lwdCSCDN tmp]# ln -s readme.txt  readme.log
-[root@lwdCSCDN tmp]# ll
-总用量 292
-drwx------  2 elasticsearch elasticsearch   4096 11月 19 10:02 elasticsearch-2738171260560954631
-srwxrwxrwx  1 mysql         mysql              0 12月 23 2019 mysql.sock
--rw-r--r--  1 root          root              64 12月 16 16:00 patch.sql
-drwx------. 2 root          root            4096 10月 19 2017 pulse-24KvvDfOHjjf
-lrwxrwxrwx  1 root          root              10 12月 16 18:00 readme.log -&gt; readme.txt
--rw-r--r--  1 root          root             744 12月 16 16:00 readme.txt
--rw-r--r--  1 root          root          133889 12月 10 12:22 scs1.sql
-drwxr-xr-x  4 root          root            4096 12月 16 16:00 sql
--rw-rw----  1 mysql         mysql           8602 12月 16 17:58 #sqla5f_879_0.frm
--rw-rw----  1 mysql         mysql         114688 12月 16 17:58 #sqla5f_879_0.ibd
--rw-r--r--  1 root          root              98 12月 16 16:00 update.sql
-drwxr-xr-x  3 root          root            4096 1月  21 2020 v8-compile-cache-0
-
-# 给文件建立硬链接
-[root@lwdCSCDN tmp]# ln  readme.txt log.txt
-[root@lwdCSCDN tmp]# ll
-总用量 611180
-drwx------  2 elasticsearch elasticsearch      4096 11月 19 10:02 elasticsearch-2738171260560954631
--rw-r--r--  2 root          root                744 12月 16 16:00 log.txt
-srwxrwxrwx  1 mysql         mysql                 0 12月 23 2019 mysql.sock
--rw-r--r--  1 root          root                 64 12月 16 16:00 patch.sql
-drwx------. 2 root          root               4096 10月 19 2017 pulse-24KvvDfOHjjf
-lrwxrwxrwx  1 root          root                 10 12月 16 18:00 readme.log -&gt; readme.txt
--rw-r--r--  2 root          root                744 12月 16 16:00 readme.txt
--rw-r--r--  1 root          root             133889 12月 10 12:22 scs1.sql
-drwxr-xr-x  4 root          root               4096 12月 16 16:00 sql
--rw-rw----  1 mysql         mysql          32473128 12月 16 18:04 #sql_a5f_0.MYD
--rw-rw----  1 mysql         mysql              1024 12月 16 18:04 #sql_a5f_0.MYI
--rw-rw----  1 mysql         mysql         592436800 12月 16 18:04 #sql_a5f_1.MYD
--rw-rw----  1 mysql         mysql              1024 12月 16 18:04 #sql_a5f_1.MYI
--rw-rw----  1 mysql         mysql              8602 12月 16 17:58 #sqla5f_879_0.frm
--rw-rw----  1 mysql         mysql            114688 12月 16 17:58 #sqla5f_879_0.ibd
--rw-r--r--  1 root          root                 98 12月 16 16:00 update.sql
-drwxr-xr-x  3 root          root               4096 1月  21 2020 v8-compile-cache-0
-
-# 建立硬链接前询问用户是否覆盖已有链接，并创建备份
-[root@lwdCSCDN etl]# ln -b -i logs/ETL.log log/a.log 
-ln：是否替换&quot;log/a.log&quot;？ y
-
-# 生成的备份文件，文件后缀默认为~
-[root@lwdCSCDN log]# ls
-a.log  a.log~
-
-# 为logs目录下的record.ini文件在log目录下建立record.ini文件硬链接 强制执行
-[root@lwdCSCDN etl]# ln -f -d  logs/record.ini log1/record.ini
-[root@lwdCSCDN etl]# ls
-common  config  log  log1  logs  script  tmp
-[root@lwdCSCDN etl]# cd log1
-You have new mail in /var/spool/mail/root
-[root@lwdCSCDN log1]# ll
-总用量 7188
--rwxrwxrwx 3 root root 7341608 12月 18 14:47 ETL.log
--rwxrwxrwx 2 root root    8505 12月 18 14:23 record.ini</code></pre>
-<h2><span id="rm命令">rm命令</span></h2><p><strong>作用</strong><br>    删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。</p>
-<p><strong>选项</strong> </p>
-<pre><code class="bash">-d 直接把目录的硬链接数删除为0，删除该目录。
--f 强制删除该目录。
--i 删除前先询问是否删除。
--r 递归删除目录下的文件和子目录。
--v 显示详细的删除信息</code></pre>
-<p><strong>示例</strong></p>
-<pre><code class="bash"># 删除b.sh文件
-[root@demo_mdn script]# rm b.sh
-rm：是否删除普通空文件 &quot;b.sh&quot;？y
-
-# 强制删除b.sh文件
-[root@demo_mdn script]# rm -f b.sh
-[root@demo_mdn script]# 
-
-# 强制递归删除newDir目录，并显示详细信息
-[root@demo_mdn script]# rm -rfv newDir
-已删除&quot;newDir/1.txt&quot;
-已删除&quot;newDir/1.txt~&quot;
-已删除目录：&quot;newDir/oldDir&quot;
-已删除目录：&quot;newDir&quot;
-</code></pre>
-<h2><span id="mv命令">mv命令</span></h2><p><strong>作用</strong><br>    移动文件或将文件改名</p>
-<p><strong>选项</strong></p>
-<pre><code class="bash">-b 为每个已存在的目标文件创建备份
--f 覆盖前不询问
--i 覆盖前询问
--u 只更新源文件时间戳比目标文件时间戳新的文件或者目标文件不存在才覆盖更新
--v 显示详细进行的步骤</code></pre>
-<p><strong>实例</strong></p>
-<pre><code class="bash">#将a.sh更名为new.sh
-[root@demo_mdn script]# mv a.sh new.sh
-[root@demo_mdn script]# ll
-总用量 68
--rw-r--r-- 1 root root     0 12月 10 16:35 b.sh
--rw-r--r-- 1 root root   112 12月 10 16:12 etlD.sh
--rw-r--r-- 1 root root   246 12月 10 16:12 etlP.sh
--rw-r--r-- 1 root root 34622 12月 10 16:12 etl.sh
--rw-r--r-- 1 root root    78 12月 10 16:12 etlS.sh
--rw-r--r-- 1 root root   513 12月 10 16:12 isFileExists.sh
--rw-r--r-- 1 root root   366 12月 10 16:12 mysqld_kill_sleep.sh
--rw-r--r-- 1 root root     0 12月 10 16:35 new.sh
--rw-r--r-- 1 root root    94 12月 10 16:12 reportSource.sh
--rw-r--r-- 1 root root   642 12月 10 16:12 stat.sh
--rw-r--r-- 1 root root   157 12月 10 16:12 stop.sh
-
-#将oldDir目录移动到newDir目录
-[root@demo_mdn script]# mv oldDir/ newDir/
-[root@demo_mdn script]# ll
-总用量 72
--rw-r--r-- 1 root root     0 12月 10 16:35 b.sh
--rw-r--r-- 1 root root   112 12月 10 16:12 etlD.sh
--rw-r--r-- 1 root root   246 12月 10 16:12 etlP.sh
--rw-r--r-- 1 root root 34622 12月 10 16:12 etl.sh
--rw-r--r-- 1 root root    78 12月 10 16:12 etlS.sh
--rw-r--r-- 1 root root   513 12月 10 16:12 isFileExists.sh
--rw-r--r-- 1 root root   366 12月 10 16:12 mysqld_kill_sleep.sh
-drwxr-xr-x 3 root root  4096 12月 10 16:37 newDir
--rw-r--r-- 1 root root     0 12月 10 16:35 new.sh
--rw-r--r-- 1 root root    94 12月 10 16:12 reportSource.sh
--rw-r--r-- 1 root root   642 12月 10 16:12 stat.sh
--rw-r--r-- 1 root root   157 12月 10 16:12 stop.sh
-
-#打印文件移动的详细信息
-[root@demo_mdn script]# mv -v *.sh newDir/
-&quot;b.sh&quot; -&gt; &quot;newDir/b.sh&quot;
-&quot;etlD.sh&quot; -&gt; &quot;newDir/etlD.sh&quot;
-&quot;etlP.sh&quot; -&gt; &quot;newDir/etlP.sh&quot;
-&quot;etl.sh&quot; -&gt; &quot;newDir/etl.sh&quot;
-&quot;etlS.sh&quot; -&gt; &quot;newDir/etlS.sh&quot;
-&quot;isFileExists.sh&quot; -&gt; &quot;newDir/isFileExists.sh&quot;
-&quot;mysqld_kill_sleep.sh&quot; -&gt; &quot;newDir/mysqld_kill_sleep.sh&quot;
-&quot;new.sh&quot; -&gt; &quot;newDir/new.sh&quot;
-&quot;reportSource.sh&quot; -&gt; &quot;newDir/reportSource.sh&quot;
-&quot;stat.sh&quot; -&gt; &quot;newDir/stat.sh&quot;
-&quot;stop.sh&quot; -&gt; &quot;newDir/stop.sh&quot;
-
-# -i 交互模式 确认是否覆盖同名文件
-[root@demo_mdn script]# mv -i  new.sh newDir
-mv：是否覆盖&quot;newDir/new.sh&quot;？ y
-
-# -f 强制覆盖，不进行提示
-[root@demo_mdn script]# mv -f  new.sh newDir
-[root@demo_mdn script]# 
-
-# 不覆盖同名文件，new.sh在newDir目录已存在，没有覆盖
-[root@demo_mdn script]# mv -nv *.sh newDir
-&quot;b.sh&quot; -&gt; &quot;newDir/b.sh&quot;
-&quot;etlD.sh&quot; -&gt; &quot;newDir/etlD.sh&quot;
-&quot;etlP.sh&quot; -&gt; &quot;newDir/etlP.sh&quot;
-&quot;etl.sh&quot; -&gt; &quot;newDir/etl.sh&quot;
-&quot;etlS.sh&quot; -&gt; &quot;newDir/etlS.sh&quot;
-&quot;isFileExists.sh&quot; -&gt; &quot;newDir/isFileExists.sh&quot;
-&quot;mysqld_kill_sleep.sh&quot; -&gt; &quot;newDir/mysqld_kill_sleep.sh&quot;
-&quot;reportSource.sh&quot; -&gt; &quot;newDir/reportSource.sh&quot;
-&quot;stat.sh&quot; -&gt; &quot;newDir/stat.sh&quot;
-&quot;stop.sh&quot; -&gt; &quot;newDir/stop.sh&quot;
-
-# -u 只覆盖源文件比目标文件时间戳新的文件, newDir目录已经存在1.txt文件且时间戳晚于源文件，所以没有操作
-[root@demo_mdn script]# mv -uv *.txt newDir
-[root@demo_mdn script]# 
-
-# -b 对目标文件进行备份，目标目录生成1.txt~文件备份
-[root@demo_mdn script]# mv -bv *.txt newDir
-mv：是否覆盖&quot;newDir/1.txt&quot;？ y
-&quot;1.txt&quot; -&gt; &quot;newDir/1.txt&quot; (备份：&quot;newDir/1.txt~&quot;)
-[root@demo_mdn newDir]# ls
-1.txt  1.txt~  oldDir</code></pre>
-<h2><span id="find命令">find命令</span></h2><p><strong>作用</strong><br>    find命令用来在指定目录下查找对应的文件，如果不设置任何参数的话，则在当前目录下查找，并将结果全部显示。<br><strong>语法</strong><br>find path -option [   -print ]   [ -exec   -ok   command ]   {} ;<br><strong>选项</strong></p>
-<pre><code class="bash">find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 expression。如果 path 是空字串则使用目前路径，如果 expression 是空字串则使用 -print 为预设 expression。
-
-expression 中可使用的选项有二三十个之多，在此只介绍最常用的部份。
-
--mount, -xdev : 只检查和指定目录在同一个文件系统下的文件，避免列出其它文件系统中的文件
-
--amin n : 在过去 n 分钟内被读取过
-
--anewer file : 比文件 file 更晚被读取过的文件
-
--atime n : 在过去n天内被读取过的文件
-
--cmin n : 在过去 n 分钟内被修改过
-
--cnewer file :比文件 file 更新的文件
-
--ctime n : 在过去n天内被修改过的文件
-
--empty : 空的文件-gid n or -group name : gid 是 n 或是 group 名称是 name
-
--ipath p, -path p : 路径名称符合 p 的文件，ipath 会忽略大小写
-
--name name, -iname name : 文件名称符合 name 的文件。iname 会忽略大小写
-
--size n : 文件大小 是 n 单位，b 代表 512 位元组的区块，c 表示字元数，k 表示 kilo bytes，w 是二个位元组。
-
--type c : 文件类型是 c 的文件。
-
-d: 目录
-
-c: 字型装置文件
-
-b: 区块装置文件
-
-p: 具名贮列
-
-f: 一般文件
-
-l: 符号连结
-
-s: socket
-
--pid n : process id 是 n 的文件
-
-你可以使用 ( ) 将运算式分隔，并使用下列运算。
-
-exp1 -and exp2
-
-! expr
-
--not expr
-
-exp1 -or exp2
-
-exp1, exp2    </code></pre>
-<p><strong>实例</strong></p>
-<pre><code class="bash">#/etc、/root 目录下查找passwd字符串，不区分大小写
-[root@demo_mdn ~]# find /etc /root -iname passwd
-/etc/pam.d/passwd
-/etc/passwd
-/root/.vnc/passwd
-
-#/etc目录下查找passwd字符串，？代表通配单个字符
-[root@demo_mdn ~]# find /etc -name &quot;passwd?&quot;
-/etc/passwd-
-
-#/etc目录下查找passwd字符串，[]代表通配任意字符
-[root@demo_mdn script]# find /BI/hrb_BI/etl/script -name &quot;[ab].sh&quot;
-/BI/hrb_BI/etl/script/a.sh
-/BI/hrb_BI/etl/script/b.sh
-
-#-a 连接两个不同的条件（两个条件必须同时满足）
-[root@demo_mdn script]# find /BI/hrb_BI/etl/script -name &quot;*S.sh&quot; -a -user root
-/BI/hrb_BI/etl/script/etlS.sh
-
-#查找/tmp下一般类型文件
-[root@demo_mdn script]# find /tmp -type f
-/tmp/pulse-ft3VHPly7Wmg/pid
-/tmp/orbit-gdm/bonobo-activation-register-914f9f817ba337d787f3493d0000001b.lock
-/tmp/orbit-gdm/bonobo-activation-server-914f9f817ba337d787f3493d0000001b-ior
-/tmp/.X0-lock
-
-#查找/BI/hrb_BI/etl/script 目录下超过30天没有访问过的文件，&#123;&#125; 代表查找到的文件，&#123;&#125;和\之间有空格
-[root@demo_mdn script]# find /BI/hrb_BI/etl/script -atime +30 -exec ls &#123;&#125; \;
-/BI/hrb_BI/etl/script/mysqld_kill_sleep.sh
-/BI/hrb_BI/etl/script/etlP.sh
-/BI/hrb_BI/etl/script/reportSource.sh
-/BI/hrb_BI/etl/script/etlD.sh
-/BI/hrb_BI/etl/script/isFileExists.sh
-/BI/hrb_BI/etl/script/etlS.sh
-/BI/hrb_BI/etl/script/stop.sh
-
-#查找/BI/hrb_BI/etl/script 目录下等于2k的文件
-[root@demo_mdn script]# find /BI/hrb_BI/etl/script/  -size 2M
-[root@demo_mdn script]# 
-
-#查找/BI/hrb_BI/etl/script 目录下大于2k的文件 
-[root@demo_mdn script]# find /BI/hrb_BI/etl/script/  -size +2k
-/BI/hrb_BI/etl/script/
-/BI/hrb_BI/etl/script/etl.sh
-
-#查找/BI/hrb_BI/etl/script 目录下小于2k的文件
-[root@demo_mdn script]# find /BI/hrb_BI/etl/script/  -size -2k
-/BI/hrb_BI/etl/script/mysqld_kill_sleep.sh
-/BI/hrb_BI/etl/script/etlP.sh
-/BI/hrb_BI/etl/script/reportSource.sh
-/BI/hrb_BI/etl/script/etlD.sh
-/BI/hrb_BI/etl/script/a.sh
-/BI/hrb_BI/etl/script/b.sh
-/BI/hrb_BI/etl/script/isFileExists.sh
-/BI/hrb_BI/etl/script/ab.sh
-/BI/hrb_BI/etl/script/stat.sh
-/BI/hrb_BI/etl/script/etlS.sh
-/BI/hrb_BI/etl/script/stop.sh</code></pre>
-<h2><span id="whereis命令">whereis命令</span></h2><p><strong>作用</strong><br>    定位二进制程序文件、man手册、源代码文件所在位置，搜索效率比find命令高，因为查找的是数据库索引文件，和locate命令同理，但索引内容不是实时更新。</p>
-<p><strong>选项</strong></p>
-<pre><code class="bash">-b 只搜索二进制文件
--B 指定搜索的二进制文件所在的目录
--m 只搜索man帮助文件
--M 指定man文件所在的目录
--f 定义搜索范围
--s 只搜索源代码文件
--S 指定搜索源代码文件所在的目录
-（-BMS 必须和-f 选项同时使用）</code></pre>
-<p><strong>实例</strong></p>
-<pre><code class="bash">#搜索ls命令相关文件所在的位置
-[root@demo_mdn /]# whereis ls
-ls: /bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz
-
-#只搜索指定路径下ls相关二进制文件所在位置,只搜索当前指定路径不进行递归搜索
-[root@demo_mdn /]# whereis -b -B /bin -f ls
-ls: /bin/ls
-
-#只搜索指定路径下的ls相关帮助文件,只搜索当前指定路径不进行递归搜索
-[root@demo_mdn /]# whereis -m -M /usr/share/man/man1 -f ls
-ls: /usr/share/man/man1/ls.1.gz</code></pre>
-<h2><span id="locate命令">locate命令</span></h2><p><strong>作用</strong><br>    查找文件或目录所在位置（locate 命令实际是查找的/var/lib/mlocate/mlocate.db 文件，所以查找速度比find命令快的多）</p>
-<p><strong>选项</strong></p>
-<pre><code class="bash"> -V 显示版本信息
- -d dir 指定搜索的数据库文件所在位置</code></pre>
-<p> <strong>实例</strong></p>
-<pre><code class="bash">#指定mlocate.db 文件目录，查找portalOrderInfoTask_0_20201110_010000_0 文件所在位置
-[root@demo_mdn mlocate]# locate -d /var/lib/mlocate/mlocate.db portalOrderInfoTask_0_20201110_010000_0
-/home/report_cd/dhm/portalOrderInfoTask/2020/11/10/portalOrderInfoTask_0_20201110_010000_0
-
-#显示locate 命令版本信息
-[root@demo_mdn mlocate]# locate -V
-mlocate 0.22.2
-Copyright (C) 2007 Red Hat, Inc. All rights reserved.
-This software is distributed under the GPL v.2.
-
-This program is provided with NO WARRANTY, to the extent permitted by law.</code></pre>
-<h2><span id="which命令">which命令</span></h2><p><strong>作用</strong><br>查找命令所在的绝对路径（包含命令别名）。</p>
-<p><strong>选项</strong></p>
-<pre><code class="bash">  --version, -[vV] Print version and exit successfully.
-  --help,          Print this help and exit successfully.
-  --skip-dot       Skip directories in PATH that start with a dot.
-  --skip-tilde     Skip directories in PATH that start with a tilde.
-  --show-dot       Don&#39;t expand a dot to current directory in output.
-  --show-tilde     Output a tilde for HOME directory for non-root.
-  --tty-only       Stop processing options on the right if not on tty.
-  --all, -a        Print all matches in PATH, not just the first
-  --read-alias, -i Read list of aliases from stdin.
-  --skip-alias     Ignore option --read-alias; don&#39;t read stdin.
-  --read-functions Read shell functions from stdin.
-  --skip-functions Ignore option --read-functions; don&#39;t read stdin.</code></pre>
-<p><strong>实例</strong></p>
-<pre><code class="bash">#查找ls命令的绝对路径
-[root@demo_mdn user]# which ls
-alias ls=&#39;ls --color=auto&#39;
-    /bin/ls</code></pre>
-<h2><span id="strings命令">strings命令</span></h2><p><strong>作用</strong><br>在对象或二进制文件中查找可打印的字符串，字符可以是由4个或者更多字符组成的字符序列，以换行符或空字符结束。</p>
-<p><strong>选项</strong></p>
-<pre><code class="bash">    -a 扫描整个文件内容而不是仅仅文件初始化和装载段。
-    -f 显示查找到的字符串之前先打印文件名称。
-    -n number 查找长度为number及以上的字符串序列。
-    -t --radix=&#123;o,d,x&#125; ：输出字符的位置，基于八进制，十进制或者十六进制
-    -o 等价于--radix=o
-    -T --target= ：指定二进制文件格式
-    -e --encoding=&#123;s,S,b,l,B,L&#125; ：选择字符大小和排列顺序:s = 7-bit, S = 8-bit, &#123;b,l&#125; = 16-bit, &#123;B,L&#125; = 32-bit</code></pre>
-<p><strong>实例</strong></p>
-<pre><code class="bash">#以10进制为偏移量，查找profile文件中长度大于60的字符串,输出字符所在文件名称。
-[root@demo_mdn ~]# strings -f -t o -60 /etc/profile
-/etc/profile:      20 # System wide environment and startup programs, for login setup
-/etc/profile:     173 # It&#39;s NOT a good idea to change this file unless you know what you
-/etc/profile:     277 # are doing. It&#39;s much better to create a custom.sh shell script in
-/etc/profile:     403 # /etc/profile.d/ to make custom changes to your environment, as this
-/etc/profile:    3100 # By default, we want umask to get set. This sets it for login shell
-
-#以16进制为偏移量，查找当前目录下jpg文件中长度大于50的字符串，输出所在文件名称。
-[root@demo_mdn user]# strings -f -t o -n 50 *.jpg
-20190605165252_529.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605165255_799.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605165256_156.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605165256_210.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605165256_391.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605165256_561.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605171455_354.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605171455_551.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605171455_574.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605171455_668.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605171455_74.jpg:     153 !22222222222222222222222222222222222222222222222222
-20190605171506_75.jpg:     153 !22222222222222222222222222222222222222222222222222</code></pre>
-<h2><span id="dirname命令">dirname命令</span></h2><p><strong><em>作用</em></strong><br>去除参数里面非目录部分<br>特殊情况1 最后一个字符是”/“,则截断到倒数第二个”/“,并忽略之后的全部字符。<br>特殊情况2 如果参数没有目录对应则返回当前目录。</p>
-<p><strong><em>实例</em></strong></p>
-<pre><code class="bash">[root@demo_mdn user]# dirname /a/b/file1.txt
-/a/b
-
-[root@demo_mdn user]# dirname /a/b
-/a 
-
-[root@demo_mdn user]# dirname /a/b/
-/a
-
-#没有目录对应的情况下，返回当前目录。
-[root@demo_mdn user]# dirname a
-. </code></pre>
-<h2><span id="iconv命令">iconv命令</span></h2><p><strong><em>作用</em></strong><br>    转换文件编码</p>
-<p><strong><em>选项</em></strong></p>
-<pre><code class="bash">    -f 源文件编码方式
-    -t 目的文件编码方式
-    -s 忽略告警信息，但不包括错误信息
-    -o 指明编码后的输出文件
-    -c 忽略非法字符
-    -l 列出当前支持的编码方式</code></pre>
-<p><strong><em>实例</em></strong></p>
-<pre><code class="bash">#列出所有支持的编码方式
-[root@demo_mdn user]# iconv -l
-
-The following list contain all the coded character sets known.  This does
-not necessarily mean that all combinations of these names can be used for
-the FROM and TO command line parameters.  One coded character set can be
-listed with several different names (aliases).
-
-  437, 500, 500V1, 850, 851, 852, 855, 856, 857, 860, 861, 862, 863, 864, 865,
-  866, 866NAV, 869, 874, 904, 1026, 1046, 1047, 8859_1, 8859_2, 8859_3, 8859_4,
-  8859_5, 8859_6, 8859_7, 8859_8, 8859_9, 10646-1:1993, 10646-1:1993/UCS4
-
-#将文件file.txt 由gbk2312编码转换为UTF-8，并输出到file2.txt
-[root@demo_mdn user]# icon file1.txt -f gbk2312 -t UTF-8 -o file2.txt </code></pre>
-<h2><span id="cat命令">cat命令</span></h2><p><strong><em>作用</em></strong><br>    合并文件内容并显示</p>
-<p><strong><em>选项</em></strong></p>
-<pre><code class="bash">    -A //显示特殊字符    
-    -n //对所有输出的行编号</code></pre>
-<p><strong><em>实例</em></strong></p>
-<pre><code class="bash">#显示特殊字符
-[root@demo_mdn user]# cat -A jdbc1.properties
-dbSrc=mysql$
-
-#对输出行编号
-[root@demo_mdn user]# cat -n jdbc2.properties 
- 1    dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;amp;characterEncoding=UTF-8
- 2    dbUserName=root
-
-#合并jdbc1.properties、jdbc2.properties 文件内容到jdbc.properties并输出
-[root@demo_mdn user]# cat jdbc1.properties jdbc2.properties &gt;jdbc.properties
-dbSrc=mysql
-dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;amp;characterEncoding=UTF-8
-dbUserName=root</code></pre>
-<h2><span id="tar命令">tar命令</span></h2><p>选项</p>
-<pre><code class="bash">    运行tar时必须要有下列参数中的至少一个才可运行：
-    -A | --catenate | --concatenate 将一存档与已有的存档合并
-    -c | --create 建立新的存档
-    -d | --diff, --compare 比较存档与当前文件的不同之处
-    --delete 从存档中删除
-    -r | --append 附加到存档结尾
-    -t | --list 列出存档中文件的目录
-    -u |--update 仅将较新的文件附加到存档中
-    -x | --extract | --get 从存档展开文件
-    -z | --gzip | --ungzip 用gzip对存档压缩或解压
-    -f | --file [HOSTNAME:]F 指定存档或设备（缺省为 /dev/rmt0）
-    -x | --extract | --get 从存档展开文件
-    -v | --verbose 详细显示处理的文件</code></pre>
-<p><strong><em>压缩</em></strong></p>
-<pre><code class="shell">命令格式：tar -czf  压缩文件名.tar.gz  被压缩文件名
-
-可先切换到当前目录下。压缩文件名和被压缩文件名都可加入路径。
-
-示例：tar -czf etl.V300R002B042.tar.gz etl.V300R002B042/</code></pre>
-<p><strong><em>解压缩</em></strong></p>
-<pre><code class="shell">　命令格式：tar -zxvf  压缩文件名.tar.gz
-　
-　解压缩后的文件只能放在当前的目录。
-
-  示例：tar -zxvf etl.V300R002B042.tar.gz </code></pre>
+搜索 rel=“tag”&gt;#，将 # 换成&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code></pre>
+<p>效果如图：</p>
+<p><img src="/images/hexo/next/hexo_next_2021_01_10_001.png" alt="hexo修改文章底部标签"></p>
 
           
         
@@ -3086,7 +2200,7 @@ dbUserName=root</code></pre>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
   </nav>
 
 
@@ -3132,7 +2246,7 @@ dbUserName=root</code></pre>
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -3143,7 +2257,7 @@ dbUserName=root</code></pre>
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -3154,7 +2268,7 @@ dbUserName=root</code></pre>
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -3164,6 +2278,22 @@ dbUserName=root</code></pre>
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/vanishke" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:18685129726@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -3205,7 +2335,7 @@ dbUserName=root</code></pre>
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">12.5k</span>
+    <span title="Site words total count">14.8k</span>
   
 </div>
 

@@ -9,6 +9,54 @@ top: 2
 
 # 文件和目录管理 
 
+## unlink命令
+
+**作用**
+删除指定的文件，功能和rm命令一样。
+
+**选项**
+```bash
+--version 
+--help
+```
+**示例**
+```bash
+[root@lwdCSCDN tmp]# ls
+a.txt  elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
+[root@lwdCSCDN tmp]# unlink a.txt 
+[root@lwdCSCDN tmp]# ls
+elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
+```
+
+
+## mkdir命令
+
+**作用**
+mkdir用来创建dirname指定的目录。
+
+**选项**
+```bash
+-Z：设置安全上下文，当使用SELinux时有效；
+-m<目标属性>或--mode<目标属性>建立目录的同时设置目录的权限；
+-p或--parents 若所要建立目录的上层目录目前尚未建立，则会一并建立上层目录；
+--version 显示版本信息。
+```
+
+**示例**
+```bash
+# 不指定目录的情况下，默认当前目录
+[root@lwdCSCDN tmp]# mkdir report
+
+# 父级目录不存在，创建多级目录报错
+[root@lwdCSCDN tmp]# mkdir ./parentDir/newDir
+mkdir: 无法创建目录"./parentDir/newDir": 没有那个文件或目录
+
+# 指定-p选项，创建多级目录
+[root@lwdCSCDN tmp]# mkdir -p ./parentDir/newDir
+[root@lwdCSCDN tmp]# ls
+elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
+```
+
 ## chown命令
 
 **作用**
