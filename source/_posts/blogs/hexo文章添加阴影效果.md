@@ -5,9 +5,9 @@ categories: hexo
 
 ---
 
-## 文章添加阴影效果
+## <span id="inline-blue">文章添加阴影效果</span>
 打开themes/next/source/css/_custom/custom.styl文件添加:
-```bash
+```css
 .post {
   margin-top: 60px;
   margin-bottom: 60px;

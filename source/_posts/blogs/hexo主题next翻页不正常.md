@@ -5,40 +5,38 @@ categories: hexo
 
 ---
 
-## 修改文件
+## <span id="inline-blue">修改文件</span>
 themes\next\layout\_partials\pagination.swig
 
 修改前
-```bash
+```css
 {% if page.prev or page.next %}
-  <nav class="pagination">
+  &lt;nav class=&quot;pagination&quot;&gt;
     {{
       paginator({
-        prev_text: '<i class="fa fa-angle-left"></i>',
-        next_text: '<i class="fa fa-angle-right"></i>',
+        prev_text: &#x27;&lt;i class=&quot;fa fa-angle-left&quot;&gt;&lt;/i&gt;&#x27;,
+        next_text: &#x27;&lt;i class=&quot;fa fa-angle-right&quot;&gt;&lt;/i&gt;&#x27;,
         mid_size: 1
       })
     }}
-  </nav>
+  &lt;/nav&gt;
 {% endif %}
 ```
 
 修改后
-```bash
+```css
 {% if page.prev or page.next %}
-  <nav class="pagination">
+  &lt;nav class=&quot;pagination&quot;&gt;
     {{
       paginator({
-        prev_text: '<',
-        next_text: '>',
+        prev_text: &#x27;&lt;&#x27;,
+        next_text: &#x27;&gt;&#x27;,
         mid_size: 1
       })
     }}
-  </nav>
+  &lt;/nav&gt;
 {% endif %}
 ```
-
-```bash
 
 
 

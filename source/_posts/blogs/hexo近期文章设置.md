@@ -5,9 +5,9 @@ categories: hexo
 
 ---
 
-## 近期文章设置
+## <span id="inline-blue">近期文章设置</span>
 修改themes/next/layout/_macro/sidebar.swig 。找到theme.social板块代码，在该板块最后的endif后隔一行添加如下代码。
-```bash
+```css
 .post {
   margin-top: 60px;
   margin-bottom: 60px;
@@ -19,7 +19,7 @@ categories: hexo
 
 编辑themes/next/source/css/_common/components/sidebar/sidebar-blogroll.styl
 
-```bash
+```css
 li.recent_posts_li {
     text-align: cengter;
     display: block;
@@ -32,7 +32,7 @@ li.recent_posts_li {
 
 在 themes/next/_config.yml中添加下方代码
 
-```bash
+```css
 # 近期文章设置
 recent_posts_title: 近期文章
 recent_posts_layout: block

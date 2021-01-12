@@ -6,16 +6,16 @@ tags: ElasticSearch,windows
 ---
 <!-- toc -->
 
-# 环境
+# <span id="inline-blue">环境</span>
 windows 7
 elasticsearch-2.4.4
 
-# elasticsearch下载
+# <span id="inline-blue">elasticsearch下载</span>
 
 [官方下载地址](https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4)
 笔者使用的elasticsearch-2.4.4版本
 
-# elasticsearch注册
+# <span id="inline-blue">elasticsearch注册</span>
 
 1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin
 
@@ -23,11 +23,11 @@ elasticsearch-2.4.4
 
 3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall
 
-# elasticsearch服务自启动设置
+# <span id="inline-blue">elasticsearch服务自启动设置</span>
 
 ![elasticsearch服务设置](/images/elasticsearch/es_20201231_01.png)
 ![elasticsearch服务设置](/images/elasticsearch/es_20201231_02.png)
 
-# elasticsearch服务验证
+# <span id="inline-blue">elasticsearch服务验证</span>
 
 ![elasticsearch服务验证](/images/elasticsearch/es_20201231_03.png)

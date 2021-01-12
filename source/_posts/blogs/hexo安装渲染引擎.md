@@ -5,28 +5,28 @@ categories: hexo
 
 ---
 
-## 卸载默认引擎
+## <span id="inline-blue">卸载默认引擎</span>
 
 
 
-```bash
+```shell
 npm uninstall hexo-renderer-marked –save
 ```
 
 
 
-## 安装新渲染引擎和katex引擎
+## <span id="inline-blue">安装新渲染引擎和katex引擎</span>
 
-```bash
+```shell
 npm install hexo-renderer-markdown-it --save
 npm install markdown-it-katex --save
 ```
 
-## 引擎设置
+## <span id="inline-blue">引擎设置</span>
 
 修改hexo根目录下_config.xml
 
-```bash
+```shell
 # Markdown-it config
 ## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki/
 markdown:
@@ -54,11 +54,11 @@ math:
 
 ```
 
-## 开启NexT主题math支持
+## <span id="inline-blue">开启NexT主题math支持</span>
 
 修改next主题下_config.xml
 
-```bash
+```shell
 # Math Formulas Render Support
 math:
   # Default (true) will load mathjax / katex script on demand.

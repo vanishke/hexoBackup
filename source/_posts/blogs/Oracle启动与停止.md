@@ -7,7 +7,7 @@ tags: Oracle
 
 <!-- toc -->
 
-## 启动
+## <span id="inline-blue">启动</span>
 
 ```shell
 $ su – oracle 
@@ -24,7 +24,7 @@ $ lsnrctl stop(关闭监听器，在这之前，应该先关闭应用程序）
 
 ​	
 
-## 停止
+## <span id="inline-blue">停止</span>
 
 ```shell
 su - oracle

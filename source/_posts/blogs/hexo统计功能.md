@@ -5,16 +5,16 @@ categories: hexo
 
 ---
 
-## 安装插件
+## <span id="inline-blue">安装插件</span>
 
 
-```bash
+```shell
 
 npm install hexo-wordcount --save
 ```
 
 修改themes/next/_config.yml主题配置文件，搜索关键字post_wordcount,修改如下:
-```bash
+```shell
 post_wordcount:
   item_text: true
   wordcount: true #单篇文章字数

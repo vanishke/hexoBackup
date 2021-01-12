@@ -6,20 +6,21 @@ tags: nginx,windows
 ---
 <!-- toc -->
 
-# 环境
+# <span id="inline-blue">环境
+# <span id="inline-blue">nginx代理设置
 windows 7 
 nginx-1.16.1
 
-# nginx下载
+# <span id="inline-blue">nginx下载</span>
 
 [官方下载地址](http://nginx.org/en/download.html)
 笔者使用的nginx-1.16.1版本
 
 <!-- more -->
 
-# nginx代理设置
+# <span id="inline-blue">nginx代理设置</span>
 ```bash
-# http下server子节点设置
+# <span id="inline-blue">http下server子节点设置</span>
 server {
         listen       8089; #nginx监听访问端口号
         server_name  10.9.212.55; #监听访问IP
@@ -37,6 +38,6 @@ server {
         }
 	}
 ```
-# 反向代理验证
+# <span id="inline-blue">反向代理验证</span>
 ![nginx反向代理验证](/images/nginx/nginx_20210107_05.png)
 

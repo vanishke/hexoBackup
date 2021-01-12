@@ -5,9 +5,9 @@ categories: hexo
 
 ---
 
-## 修改加载特效
+## <span id="inline-blue">修改加载特效</span>
 搜索pace，找到如下代码：
-```bash
+```shell
 # 页面顶部加载条
 # Progress bar in the top during page loading.
 pace: true

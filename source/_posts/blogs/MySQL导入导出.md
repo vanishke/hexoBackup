@@ -6,7 +6,7 @@ tags: MySQL
 ---
 <!-- toc -->
 
-# 导出数据库中的表：
+# <span id="inline-blue">导出数据库中的表</span>
 
 ```sql
 mysqldump -u root -p report_hrb140 > report_hrb140.sql;
@@ -14,7 +14,7 @@ mysqldump -u root -p report_hrb140 > report_hrb140.sql;
 
 
 
-# 导出数据库中的存储过程和事务：
+# <span id="inline-blue">导出数据库中的存储过程和事务</span>
 
 ```sql
 mysqldump -uroot -pcoship -ntd -R report_hrb121> report_hrb121_FP.sql;
@@ -24,7 +24,7 @@ mysqldump -uroot -pcoship -ntd -R report_hrb121> report_hrb121_FP.sql;
 
 
 
-# 导入数据库表结构和数据：
+# <span id="inline-blue">导入数据库表结构和数据</span>
 
 ```sql
 mysql -u root -p

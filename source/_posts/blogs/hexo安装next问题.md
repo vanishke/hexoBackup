@@ -4,9 +4,9 @@ tags: hexo
 categories: hexo
 ---
 
-## 问题描述
+## <span id="inline-blue">问题描述</span>
 
-```bash
+```shell
 Cloning into 'themes/next'...
 remote: Enumerating objects: 12037, done.
 error: RPC failed; curl 18 transfer closed with outstanding read data remaining
@@ -19,13 +19,13 @@ fatal: index-pack failed
 
 
 
-## 问题原因
+## <span id="inline-blue">问题原因</span>
 
 curl的postBuffer的默认值太小，我们需要调整它的大小，在终端重新配置大小
 
-## 解决办法
+## <span id="inline-blue">解决办法</span>
 
-```bash
+```shell
 git config --global http.postBuffer 524288000  //设置为500M
 
 # 查看参数配置

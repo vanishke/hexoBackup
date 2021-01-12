@@ -5,7 +5,7 @@ date: 2020-11-17 8:23:20
 tags: Tomcat
 ---
 
-## 内存优化
+## <span id="inline-blue">内存优化</span>
 
 ```txt
 文件名称：catalina.sh 
@@ -15,7 +15,7 @@ JAVA_OPTS="-Djava.awt.headless=true -Xms1024m -Xmx2048m -XX:PermSize=256M -XX:Ma
 
 
 
-## 连接数优化
+## <span id="inline-blue">连接数优化</span>
 
 ```txt
 文件名称：server.xml  
@@ -25,7 +25,7 @@ JAVA_OPTS="-Djava.awt.headless=true -Xms1024m -Xmx2048m -XX:PermSize=256M -XX:Ma
 
 ```
 
-## 启动参数优化
+## <span id="inline-blue">启动参数优化</span>
 
 ```txt
 文件名称：catalina.properties 

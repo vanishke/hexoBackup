@@ -286,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E4%B8%BB%E9%A2%98next%E7%BF%BB%E9%A1%B5%E4%B8%8D%E6%AD%A3%E5%B8%B8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E5%BD%A9%E8%89%B2%E6%A0%87%E7%AD%BE%E4%BA%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -305,11 +305,12 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E4%B8%BB%E9%A2%98next%E7%BF%BB%E9%A1%B5%E4%B8%8D%E6%AD%A3%E5%B8%B8/" itemprop="url">hexo主题next翻页不正常</a></h1>
+                <a class="post-title-link" href="/hexo/blogs/hexo%E5%BD%A9%E8%89%B2%E6%A0%87%E7%AD%BE%E4%BA%91/" itemprop="url">hexo彩色标签云</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+			
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -371,7 +372,189 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  55
+                  426
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="彩色标签云"><span id="inline-blue">彩色标签云</span></span></h2><p>在/themes/next/layout/目录下，新增tag-color.swig文件，加入下方代码：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">     var alltags = document.getElementsByClassName(&#x27;tag-cloud-tags&#x27;);</span><br><span class="line">     var tags = alltags[0].getElementsByTagName(&#x27;a&#x27;);</span><br><span class="line">     for (var i = tags.length - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">       var r=Math.floor(Math.random()*75+130);</span><br><span class="line">       var g=Math.floor(Math.random()*75+100);</span><br><span class="line">       var b=Math.floor(Math.random()*75+80);</span><br><span class="line">       tags[i].style.background = &quot;rgb(&quot;+r+&quot;,&quot;+g+&quot;,&quot;+b+&quot;)&quot;;</span><br><span class="line">     &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="selector-tag">style</span>&gt;</span><br><span class="line">  <span class="selector-class">.tag-cloud-tags</span>&#123;</span><br><span class="line">    <span class="comment">/*font-family: Helvetica, Tahoma, Arial;*/</span></span><br><span class="line">    <span class="comment">/*font-weight: 100;*/</span></span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">counter-reset</span>: tags;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.tag-cloud-tags</span> <span class="selector-tag">a</span>&#123;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">6px</span>;</span><br><span class="line">    <span class="attribute">padding-right</span>: <span class="number">5px</span>;</span><br><span class="line">    <span class="attribute">padding-left</span>: <span class="number">5px</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">8px</span> <span class="number">5px</span> <span class="number">0px</span> <span class="number">0px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.tag-cloud-tags</span> <span class="selector-tag">a</span><span class="selector-pseudo">:before</span>&#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&quot;?&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.tag-cloud-tags</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>&#123;</span><br><span class="line">     <span class="attribute">box-shadow</span>: <span class="number">0px</span> <span class="number">5px</span> <span class="number">15px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,.<span class="number">4</span>);</span><br><span class="line">     <span class="attribute">transform</span>: <span class="built_in">scale</span>(<span class="number">1.1</span>);</span><br><span class="line">     <span class="comment">/*box-shadow: 10px 10px 15px 2px rgba(0,0,0,.12), 0 0 6px 0 rgba(104, 104, 105, 0.1);*/</span></span><br><span class="line">     <span class="attribute">transition-duration</span>: <span class="number">0.15s</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>在/themes/next/layout/page.swig/中引入tag-color.swig：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">在下方加上 &#123;% include &#x27;tag-color.swig&#x27; %&#125; 代码</span><br><span class="line">&lt;div class=&quot;tag-cloud&quot;&gt;</span><br><span class="line">          &lt;!--    &lt;div class=&quot;tag-cloud-title&quot;&gt;</span><br><span class="line">                &#123;&#123; _p(&#x27;counter.tag_cloud&#x27;, site.tags.length) &#125;&#125;</span><br><span class="line">            &lt;/div&gt;  --&gt;</span><br><span class="line">             &lt;div class=&quot;tag-cloud-tags&quot; id=&quot;tags&quot;&gt;</span><br><span class="line">			  &#123;&#123; tagcloud(&#123;min_font: 16, max_font: 16, amount: 300, color: true, start_color: &#x27;#FFF&#x27;, end_color: &#x27;#FFF&#x27;&#125;) &#125;&#125;            </span><br><span class="line">		  &lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">     &#123;% include &#x27;tag-color.swig&#x27; %&#125;	</span><br></pre></td></tr></table></figure>
+<p>或者将上方代码直接添加到下方</p>
+<h2><span id="将标签云放到首页"><span id="inline-blue">将标签云放到首页</span></span></h2><p>在路径：/themes/next/layout/index.swig 中</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;% block content %&#125;下面添加下方代码</span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line"></span><br><span class="line">	&lt;div class=&quot;tag-cloud&quot;&gt;</span><br><span class="line">	  &lt;div class=&quot;tag-cloud-tags&quot; id=&quot;tags&quot;&gt;</span><br><span class="line">		&#123;&#123; tagcloud(&#123;min_font: 16, max_font: 16, amount: 300, color: true, start_color: &#x27;#fff&#x27;, end_color: &#x27;#fff&#x27;&#125;) &#125;&#125;</span><br><span class="line">	  &lt;/div&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">	&lt;<span class="selector-tag">br</span>&gt;</span><br><span class="line">&#123;% include &#x27;tag-color.swig&#x27; %&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E5%AE%89%E8%A3%85%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexo/blogs/hexo%E5%AE%89%E8%A3%85%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E/" itemprop="url">hexo安装渲染引擎</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  240
                 </span>
               
 
@@ -410,38 +593,937 @@
       
         
           
-            <h2><span id="修改文件">修改文件</span></h2><p>themes\next\layout_partials\pagination.swig</p>
+            <h2><span id="卸载默认引擎"><span id="inline-blue">卸载默认引擎</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked –save</span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="安装新渲染引擎和katex引擎"><span id="inline-blue">安装新渲染引擎和katex引擎</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-renderer-markdown-it --save</span><br><span class="line">npm install markdown-it-katex --save</span><br></pre></td></tr></table></figure>
+
+<h2><span id="引擎设置"><span id="inline-blue">引擎设置</span></span></h2><p>修改hexo根目录下_config.xml</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Markdown-it config</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki/</span></span></span><br><span class="line">markdown:</span><br><span class="line">  render:</span><br><span class="line">    html: true</span><br><span class="line">    xhtmlOut: false</span><br><span class="line">    breaks: true</span><br><span class="line">    linkify: true</span><br><span class="line">    typographer: true</span><br><span class="line">    quotes: &#x27;“”‘’&#x27;</span><br><span class="line">  plugins:</span><br><span class="line">  anchors:</span><br><span class="line">    level: 2</span><br><span class="line">    collisionSuffix: &#x27;&#x27;</span><br><span class="line"></span><br><span class="line">math:</span><br><span class="line">  engine: &#x27;katex&#x27;   </span><br><span class="line">  katex:</span><br><span class="line">    css: https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css</span><br><span class="line">    js: https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js</span><br><span class="line">    config:</span><br><span class="line">      # KaTeX config</span><br><span class="line">      throwOnError: false</span><br><span class="line">      errorColor: &quot;#cc0000&quot;   </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2><span id="开启next主题math支持"><span id="inline-blue">开启NexT主题math支持</span></span></h2><p>修改next主题下_config.xml</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Math Formulas Render Support</span></span><br><span class="line">math:</span><br><span class="line"><span class="meta">  #</span><span class="bash"> Default (<span class="literal">true</span>) will load mathjax / katex script on demand.</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> That is it only render those page <span class="built_in">which</span> has `mathjax: <span class="literal">true</span>` <span class="keyword">in</span> Front-matter.</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> If you <span class="built_in">set</span> it to <span class="literal">false</span>, it will load mathjax / katex srcipt EVERY PAGE.</span></span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line"><span class="meta">  #</span><span class="bash"> hexo-renderer-pandoc (or hexo-renderer-kramed) required <span class="keyword">for</span> full MathJax support.</span></span><br><span class="line">  mathjax:</span><br><span class="line">    enable: false</span><br><span class="line">    # See: https://mhchem.github.io/MathJax-mhchem/</span><br><span class="line">    mhchem: false</span><br><span class="line"></span><br><span class="line"><span class="meta">  #</span><span class="bash"> hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required <span class="keyword">for</span> full Katex support.</span></span><br><span class="line">  katex:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span><br><span class="line">    copy_tex: false</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexo/blogs/hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/" itemprop="url">hexo安装本地搜索功能</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  63
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="新增配置"><span id="inline-blue">新增配置</span></span></h2><p>修改hexo/_config.yml站点配置文件，新增以下内容到任意位置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">path: search.xml</span><br><span class="line">field: post</span><br><span class="line">format: html</span><br><span class="line">limit: 10000</span><br></pre></td></tr></table></figure>
+
+<h2><span id="修改主题配置文件开启本地搜索功能"><span id="inline-blue">修改主题配置文件，开启本地搜索功能</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Local search</span></span><br><span class="line">local_search:</span><br><span class="line">enable: true  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E5%AE%89%E8%A3%85next%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexo/blogs/hexo%E5%AE%89%E8%A3%85next%E9%97%AE%E9%A2%98/" itemprop="url">hexo安装next问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  162
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="问题描述"><span id="inline-blue">问题描述</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Cloning into &#x27;themes/next&#x27;...</span><br><span class="line">remote: Enumerating objects: 12037, done.</span><br><span class="line">error: RPC failed; curl 18 transfer closed with outstanding read data remaining</span><br><span class="line">error: 1285 bytes of body are still expected</span><br><span class="line">fetch-pack: unexpected disconnect while reading sideband packet</span><br><span class="line">fatal: early EOF</span><br><span class="line">fatal: index-pack failed</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="问题原因"><span id="inline-blue">问题原因</span></span></h2><p>curl的postBuffer的默认值太小，我们需要调整它的大小，在终端重新配置大小</p>
+<h2><span id="解决办法"><span id="inline-blue">解决办法</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000  //设置为500M</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看参数配置</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --list</span></span><br><span class="line">diff.astextplain.textconv=astextplain</span><br><span class="line">filter.lfs.clean=git-lfs clean -- %f</span><br><span class="line">filter.lfs.smudge=git-lfs smudge -- %f</span><br><span class="line">filter.lfs.process=git-lfs filter-process</span><br><span class="line">filter.lfs.required=true</span><br><span class="line">http.sslbackend=openssl</span><br><span class="line">http.sslcainfo=D:/Git/mingw64/ssl/certs/ca-bundle.crt</span><br><span class="line">core.autocrlf=true</span><br><span class="line">core.fscache=true</span><br><span class="line">core.symlinks=false</span><br><span class="line">pull.rebase=false</span><br><span class="line">credential.helper=manager-core</span><br><span class="line">credential.https://dev.azure.com.usehttppath=true</span><br><span class="line">init.defaultbranch=master</span><br><span class="line">user.name=vanishke</span><br><span class="line">user.email=18685129726@163.com</span><br><span class="line">http.postbuffer=524288000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E5%AE%89%E8%A3%85GitHub%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexo/blogs/hexo%E5%AE%89%E8%A3%85GitHub%E6%8F%92%E4%BB%B6/" itemprop="url">hexo安装GitHub插件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  53
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="上传配置"><span id="inline-blue">上传配置</span></span></h2><p>hexo配置和文件文件添加如下</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/userName/repoName.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><p>安装GitHub部署插件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<h2><span id="测试部署"><span id="inline-blue">测试部署</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo d   </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E4%B8%BB%E9%A2%98next%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E6%A0%87%E7%AD%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexo/blogs/hexo%E4%B8%BB%E9%A2%98next%E4%BF%AE%E6%94%B9%E6%96%87%E7%AB%A0%E6%A0%87%E7%AD%BE/" itemprop="url">hexo修改主题文章底部标签</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  34
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="修改模板"><span id="inline-blue">修改模板</span></span></h2><p>/themes/next/layout/_macro/post.swig</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">搜索 rel=“tag”&gt;#，将 # 换成&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</span><br></pre></td></tr></table></figure>
+
+<p>效果如图：</p>
+<p><img src="/images/hexo/next/hexo_next_2021_01_10_001.png" alt="hexo修改文章底部标签"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E4%B8%BB%E9%A2%98next%E7%BF%BB%E9%A1%B5%E4%B8%8D%E6%AD%A3%E5%B8%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vanishke个人技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexo/blogs/hexo%E4%B8%BB%E9%A2%98next%E7%BF%BB%E9%A1%B5%E4%B8%8D%E6%AD%A3%E5%B8%B8/" itemprop="url">hexo主题next翻页不正常</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+			
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
+                2021-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  149
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2><span id="修改文件"><span id="inline-blue">修改文件</span></span></h2><p>themes\next\layout_partials\pagination.swig</p>
 <p>修改前</p>
-<pre><code class="bash">&#123;% if page.prev or page.next %&#125;
-  <nav class="pagination">
-    &#123;&#123;
-      paginator(&#123;
-        prev_text: '<i class="fa fa-angle-left"></i>',
-        next_text: '<i class="fa fa-angle-right"></i>',
-        mid_size: 1
-      &#125;)
-    &#125;&#125;
-  </nav>
-&#123;% endif %&#125;</code></pre>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;% if page.prev or page.next %&#125;</span><br><span class="line">  &amp;lt;nav class=&amp;quot;pagination&amp;quot;&amp;gt;</span><br><span class="line">    &#123;&#123;</span><br><span class="line">      <span class="selector-tag">paginator</span>(&#123;</span><br><span class="line">        prev_text: &amp;#x27;&amp;lt;i class=&amp;quot;fa fa-angle-left&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;#x27;,</span><br><span class="line">        next_text: &amp;#x27;&amp;lt;i class=&amp;quot;fa fa-angle-right&amp;quot;&amp;gt;&amp;lt;/i&amp;gt;&amp;#x27;,</span><br><span class="line">        <span class="selector-tag">mid_size</span>: 1</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  &amp;lt;/nav&amp;gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
 <p>修改后</p>
-<pre><code class="bash">&#123;% if page.prev or page.next %&#125;
-  <nav class="pagination">
-    &#123;&#123;
-      paginator(&#123;
-        prev_text: '<', next_text: '>',
-        mid_size: 1
-      &#125;)
-    &#125;&#125;
-  </',></nav>
-&#123;% endif %&#125;</code></pre>
-<pre><code class="bash">
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;% if page.prev or page.next %&#125;</span><br><span class="line">  &amp;lt;nav class=&amp;quot;pagination&amp;quot;&amp;gt;</span><br><span class="line">    &#123;&#123;</span><br><span class="line">      <span class="selector-tag">paginator</span>(&#123;</span><br><span class="line">        prev_text: &amp;#x27;&amp;lt;&amp;#x27;,</span><br><span class="line">        <span class="selector-tag">next_text</span>: &amp;<span class="selector-id">#x27</span>;&amp;<span class="selector-tag">gt</span>;&amp;<span class="selector-id">#x27</span>;,</span><br><span class="line">        <span class="selector-tag">mid_size</span>: 1</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  &amp;lt;/nav&amp;gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 
 
 
-</code></pre>
+
+
 
           
         
@@ -490,7 +1572,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87%E9%85%8D%E7%BD%AE/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -509,11 +1591,12 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87%E9%85%8D%E7%BD%AE/" itemprop="url">hexo阅读全文配置</a></h1>
+                <a class="post-title-link" href="/hexo/blogs/hexo%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87%E9%85%8D%E7%BD%AE/" itemprop="url">hexo阅读全文配置</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+			
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -575,7 +1658,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  82
+                  90
                 </span>
               
 
@@ -613,20 +1696,22 @@
 
       
         
-          <h2 id="修改-阅读全文-前显示文字数量"><a href="#修改-阅读全文-前显示文字数量" class="headerlink" title="修改 阅读全文 前显示文字数量"></a>修改 阅读全文 前显示文字数量</h2><p>第一种方式：<br>打开 themes/next/_config.yml，搜索关键字 auto_excerpt， 修改length即可修改阅读全文前显示文字数量</p>
-<pre><code class="bash"># Automatically Excerpt. Not recommend.
-# Please use &lt;!-- more --&gt; in the post to control excerpt accurately.
-auto_excerpt:
-  enable: false
-  length: 150</code></pre>
-<p>第二种方式：<br>文章任意位置添加
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/01/11/blogs/hexo%E9%98%85%E8%AF%BB%E5%85%A8%E6%96%87%E9%85%8D%E7%BD%AE/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h2><span id="修改阅读全文前显示文字数量"><span id="inline-blue">修改[阅读全文]前显示文字数量</span></span></h2><p>第一种方式：<br>打开 themes/next/_config.yml，搜索关键字 auto_excerpt，开启配置项； 修改length即可修改阅读全文前显示文字数量</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Automatically Excerpt. Not recommend.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Please use &lt;!-- more --&gt; <span class="keyword">in</span> the post to control excerpt accurately.</span></span><br><span class="line">auto_excerpt:</span><br><span class="line">  enable: true</span><br><span class="line">  length: 150</span><br></pre></td></tr></table></figure>
+
+<p>第二种方式：<br>文章任意位置添加</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;!-- more --&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+          
         
       
     </div>
@@ -673,7 +1758,7 @@ auto_excerpt:
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E4%BF%AE%E6%94%B9%E9%93%BE%E6%8E%A5%E6%96%87%E5%AD%97%E6%A0%B7%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E4%BF%AE%E6%94%B9%E9%93%BE%E6%8E%A5%E6%96%87%E5%AD%97%E6%A0%B7%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -692,11 +1777,12 @@ auto_excerpt:
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E4%BF%AE%E6%94%B9%E9%93%BE%E6%8E%A5%E6%96%87%E5%AD%97%E6%A0%B7%E5%BC%8F/" itemprop="url">hexo修改链接文字样式</a></h1>
+                <a class="post-title-link" href="/hexo/blogs/hexo%E4%BF%AE%E6%94%B9%E9%93%BE%E6%8E%A5%E6%96%87%E5%AD%97%E6%A0%B7%E5%BC%8F/" itemprop="url">hexo修改链接文字样式</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+			
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -797,16 +1883,18 @@ auto_excerpt:
       
         
           
-            <h2><span id="修改链接文字样式">修改链接文字样式</span></h2><p>打开themes\next\source\css_common\components\post\post.styl添加以下代码:</p>
-<pre><code class="bash">.post-body p a&#123;
+            <h2><span id="修改链接文字样式"><span id="inline-blue">修改链接文字样式</span></span></h2><p>打开themes\next\source\css_common\components\post\post.styl添加以下代码:</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.post-body</span> <span class="selector-tag">p</span> <span class="selector-tag">a</span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">color</span>: <span class="number">#0593d3</span>;</span><br><span class="line"> <span class="attribute">border-bottom</span>: none;</span><br><span class="line"> &amp;:hover &#123;</span><br><span class="line">   <span class="selector-tag">color</span>: <span class="selector-id">#ff106c</span>;</span><br><span class="line">   <span class="selector-tag">text-decoration</span>: <span class="selector-tag">underline</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
- color: #0593d3;
- border-bottom: none;
- &amp;:hover &#123;
-   color: #ff106c;
-   text-decoration: underline;
- &#125;
-&#125;</code></pre>
+
+
+
+
+
+
+
+
+
 
           
         
@@ -855,7 +1943,7 @@ auto_excerpt:
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/hexo/blogs/hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -874,11 +1962,12 @@ auto_excerpt:
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/" itemprop="url">hexo修改加载特效</a></h1>
+                <a class="post-title-link" href="/hexo/blogs/hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/" itemprop="url">hexo修改加载特效</a></h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+			
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -940,7 +2029,7 @@ auto_excerpt:
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  109
+                  108
                 </span>
               
 
@@ -979,1153 +2068,16 @@ auto_excerpt:
       
         
           
-            <h2><span id="修改加载特效">修改加载特效</span></h2><p>搜索pace，找到如下代码：</p>
-<pre><code class="bash"># 页面顶部加载条
-# Progress bar in the top during page loading.
-pace: true
-# Themes list:
-#pace-theme-big-counter
-#pace-theme-bounce
-#pace-theme-barber-shop
-#pace-theme-center-atom
-#pace-theme-center-circle
-#pace-theme-center-radar
-#pace-theme-center-simple
-#pace-theme-corner-indicator
-#pace-theme-fill-left
-#pace-theme-flash
-#pace-theme-loading-bar
-#pace-theme-mac-osx
-#pace-theme-minimal
-# For example
-# pace_theme: pace-theme-center-simple
-pace_theme: pace-theme-minimal  #默认设置，可以修改为上述任何一个</code></pre>
+            <h2><span id="修改加载特效"><span id="inline-blue">修改加载特效</span></span></h2><p>搜索pace，找到如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 页面顶部加载条</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Progress bar <span class="keyword">in</span> the top during page loading.</span></span><br><span class="line">pace: true</span><br><span class="line"><span class="meta">#</span><span class="bash"> Themes list:</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-big-counter</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-bounce</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-barber-shop</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-atom</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-circle</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-radar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-simple</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-corner-indicator</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-fill-left</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-flash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-loading-bar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-mac-osx</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-minimal</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For example</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pace_theme: pace-theme-center-simple</span></span><br><span class="line">pace_theme: pace-theme-minimal  #默认设置，可以修改为上述任何一个</span><br></pre></td></tr></table></figure>
 
-          
-        
-      
-    </div>
-    
-    
-    
 
-    
 
-    
 
-    
 
-    <footer class="post-footer">
-      
 
-      
 
-      
 
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E4%BF%AE%E6%94%B9%5Bread%20more%5D%E6%A0%B7%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E4%BF%AE%E6%94%B9%5Bread%20more%5D%E6%A0%B7%E5%BC%8F/" itemprop="url">hexo修改[read more]按钮样式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
-                2021-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  115
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2><span id="安装插件">安装插件</span></h2><p>修改themes\next\source\css_custom\custom.styl文件，加入自定义样式</p>
-<pre><code class="bash">
-// [Read More]按钮样式
-.post-button .btn &#123;
-    color: #555 !important;
-    background-color: rgb(255, 255, 255);
-    border-radius: 3px;
-    font-size: 15px;
-    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
-    border: none !important;
-    transition-property: unset;
-    padding: 0px 15px;
-&#125;
-
-.post-button .btn:hover &#123;
-    color: rgb(255, 255, 255) !important;
-    border-radius: 3px;
-    font-size: 15px;
-    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, 0.35);
-    background-image: linear-gradient(90deg, #a166ab 0%, #ef4e7b 25%, #f37055 50%, #ef4e7b 75%, #a166ab 100%);
-&#125;</code></pre>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/" itemprop="url">hexo文章置顶功能</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
-                2021-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  107
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2><span id="移除默认安装的插件">移除默认安装的插件</span></h2><pre><code class="bash">npm uninstall hexo-generator-index --save</code></pre>
-<h2><span id="安装新插件">安装新插件</span></h2><pre><code class="bash">
-npm install hexo-generator-index-pin-top --save</code></pre>
-<h2><span id="置顶操作">置顶操作</span></h2><p>文章开头分割部分添加</p>
-<pre><code class="bash">top: true</code></pre>
-<p>多篇文章置顶，控制顺序，数值较大的排在前面</p>
-<pre><code class="bash">top:n</code></pre>
-<h2><span id="设置置顶图标">设置置顶图标</span></h2><p>打开/themes/next/layout/_macro/post.swig文件，在<div class="post-meta">下方，插入如下代码：</div></p>
-<pre><code class="bash">&#123;% if post.top %&#125;
-    <i class="fa fa-thumb-tack"></i>
-    <font color="7D26CD">置顶</font>
-    <span class="post-meta-divider">|</span>
-&#123;% endif %&#125;</code></pre>
-<p>如下图所示位置：</p>
-<p><img src="/images/hexo/next/hexo_next_2021_01_10_002.png" alt="hexo文章置顶图标"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/" itemprop="url">hexo文章添加阴影效果</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
-                2021-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  54
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2><span id="文章添加阴影效果">文章添加阴影效果</span></h2><p>打开themes/next/source/css/_custom/custom.styl文件添加:</p>
-<pre><code class="bash">.post &#123;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  padding: 25px;
-  -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
-  -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
- &#125;</code></pre>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/11/blogs/hexo%E5%A4%B4%E5%83%8F%E8%AE%BE%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/11/blogs/hexo%E5%A4%B4%E5%83%8F%E8%AE%BE%E7%BD%AE/" itemprop="url">hexo头像设置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-11T09:16:44+08:00">
-                2021-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  80
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2><span id="hexo头像设置">hexo头像设置</span></h2><p>修改themes\next\source\css_common\components\sidebar\sidebar-author.styl,新增以下代码:</p>
-<pre><code class="bash">.site-author-image &#123;
-  display: block;
-  margin: 0 auto;
-  padding: $site-author-image-padding;
-  max-width: $site-author-image-width;
-  height: $site-author-image-height;
-  border: $site-author-image-border-width solid $site-author-image-border-color;
-  //设置圆形
-  border-radius: 50%;
-  transition: 2s all;
-&#125;
-   //旋转
- .site-author-image:hover&#123;
-   transform: rotate(360deg);
- &#125;</code></pre>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/06/blogs/windows%E5%AE%9E%E7%8E%B0nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/01/06/blogs/windows%E5%AE%9E%E7%8E%B0nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" itemprop="url">windows实现nginx反向代理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-06T17:32:20+08:00">
-                2021-01-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  143
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <!-- toc -->
-
-<ul>
-<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
-<li><a href="#nginx%E4%B8%8B%E8%BD%BD">nginx下载</a></li>
-<li><a href="#nginx%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE">nginx代理设置</a></li>
-<li><a href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%AA%8C%E8%AF%81">反向代理验证</a></li>
-</ul>
-<!-- tocstop -->
-
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>windows 7<br>nginx-1.16.1</p>
-<h1 id="nginx下载"><a href="#nginx下载" class="headerlink" title="nginx下载"></a>nginx下载</h1><p><a target="_blank" rel="noopener" href="http://nginx.org/en/download.html">官方下载地址</a><br>笔者使用的nginx-1.16.1版本</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2021/01/06/blogs/windows%E5%AE%9E%E7%8E%B0nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="vanishke个人技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/12/31/blogs/windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/" itemprop="url">windows注册Elasticsearch服务</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-31T17:32:20+08:00">
-                2020-12-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ElasticSearch/" itemprop="url" rel="index">
-                    <span itemprop="name">ElasticSearch</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  116
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- toc -->
-
-<ul>
-<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
-<li><a href="#elasticsearch%E4%B8%8B%E8%BD%BD">elasticsearch下载</a></li>
-<li><a href="#elasticsearch%E6%B3%A8%E5%86%8C">elasticsearch注册</a></li>
-<li><a href="#elasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE">elasticsearch服务自启动设置</a></li>
-<li><a href="#elasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81">elasticsearch服务验证</a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境">环境</span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch下载">elasticsearch下载</span></h1><p><a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
-<h1><span id="elasticsearch注册">elasticsearch注册</span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
-<p>2.执行注册服务命令 elasticsearch.bat install</p>
-<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch服务自启动设置">elasticsearch服务自启动设置</span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch服务验证">elasticsearch服务验证</span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
 
           
         
@@ -2165,7 +2117,7 @@ npm install hexo-generator-index-pin-top --save</code></pre>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
+    <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
   </nav>
 
 
@@ -2200,6 +2152,10 @@ npm install hexo-generator-index-pin-top --save</code></pre>
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="" />
+            
               <p class="site-author-name" itemprop="name"></p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
@@ -2211,7 +2167,7 @@ npm install hexo-generator-index-pin-top --save</code></pre>
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2300,7 +2256,7 @@ npm install hexo-generator-index-pin-top --save</code></pre>
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">14.8k</span>
+    <span title="Site words total count">15.5k</span>
   
 </div>
 

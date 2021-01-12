@@ -5,7 +5,7 @@ date: 2020-11-17 11:23:20
 tags: Oracle
 ---
 
-##  1.清理
+##  <span id="inline-blue">清理</span>
 
 ```sql
 SELECT l.session_id sid,  

@@ -8,9 +8,9 @@ tags: Oracle
 
 #   导入
 
-## 查看所有用户表空间
+## <span id="inline-blue">查看所有用户表空间</span>
 
-```sql
+```oracle
 SELECT * FROM DBA_USERS  /*查看用户及其表空间信息 */
 
 drop user SDP_CMS_HRB cascade; /* 级联删除用户信息*/
@@ -20,18 +20,18 @@ DROP TABLESPACE SDP_CMS_HRB_DATA including contents and datafiles cascade constr
 
 ​	
 
-## 创建数据和索引存储文件目录
+## <span id="inline-blue">创建数据和索引存储文件目录</span>
 
-```SQL
+```oracle
 create tablespace SDP_CMS_HRB_DATA datafile '$ORACLE_BASE/oradata/SDP_CMS_HRB_DATA.dbf' size 500M autoextend on next 12M maxsize unlimited;
 create tablespace SDP_CMS_HRB_IDX datafile '$ORACLE_BASE/oradata/SDP_CMS_HRB_IDX.dbf' size 500M autoextend on next 12M maxsize unlimited;
 ```
 
  
 
-## 创建对应用户并赋予权限
+## <span id="inline-blue">创建对应用户并赋予权限</span>
 
-```SQL
+```oracle
 create user SDP_CMS_HRB identified by SDP_CMS_HRB default tablespace SDP_CMS_HRB_DATA temporary tablespace TEMP profile DEFAULT;
 
 grant connect,resource to SDP_CMS_HRB; 
@@ -49,9 +49,9 @@ grant dba to SDP_CMS_HRB;
 
 
 
-## 导入命令
+## <span id="inline-blue">导入命令</span>
 
-```SQL
+```oracle
 impdp  SDP_CMS_HRB/SDP_CMS_HRB  DIRECTORY=IMPDIR  DUMPFILE=SDP_CMS _2020081010.dmp remap_schema=SDP_CMS:SDP_CMS_HRB remap_tablespace=SDP_CMS_DATA:SDP_CMS_HRB_DATA,SDP_CMS_DATA:SDP_CMS_HRB_IDX
 ```
 
@@ -63,7 +63,7 @@ impdp  SDP_CMS_HRB/SDP_CMS_HRB  DIRECTORY=IMPDIR  DUMPFILE=SDP_CMS _2020081010.d
 
 查看Oracle 用户对应目录命令
 
-```SQL
+```oracle
 SELECT * FROM DBA_Directories /* 查看用户相关的目录信息 */
 ```
 
@@ -71,15 +71,15 @@ SELECT * FROM DBA_Directories /* 查看用户相关的目录信息 */
 
 # 导出
 
-## 创建导出数据文件目录
+## <span id="inline-blue">创建导出数据文件目录</span>
 
-```SQL
+```oracle
 create directory DATA_EXPDP_DIR as '/tmp'; 
 ```
 
-## 执行导出命令
+## <span id="inline-blue">执行导出命令</span>
 
-```SQL
+```oracle
 expdp \'/ as sysdba\' schemas=SDP_CMS_HRB DIRECTORY=DATA_EXPDP_DIR DUMPFILE=SDP_CMS_HRBBAK_20200607.DMP LOGFILE=SDP_CMS_HRBBAK_20200607.LOG
 ```
 

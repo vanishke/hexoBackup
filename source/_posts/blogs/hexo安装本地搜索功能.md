@@ -5,19 +5,19 @@ categories: hexo
 
 ---
 
-## 安装插件
+## <span id="inline-blue">安装插件</span>
 
-```bash
+```shell
 npm install hexo-generator-searchdb --save
 ```
 
 
 
-## 新增配置
+## <span id="inline-blue">新增配置</span>
 
 修改hexo/_config.yml站点配置文件，新增以下内容到任意位置：
 
-```bash
+```shell
 search:
 path: search.xml
 field: post
@@ -25,9 +25,9 @@ format: html
 limit: 10000
 ```
 
-## 修改主题配置文件，开启本地搜索功能
+## <span id="inline-blue">修改主题配置文件，开启本地搜索功能</span>
 
-```bash
+```shell
 # Local search
 local_search:
 enable: true  

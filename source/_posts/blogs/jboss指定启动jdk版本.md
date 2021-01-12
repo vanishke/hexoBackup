@@ -6,7 +6,7 @@ tags: Jboss
 ---
 
 
-## linux环境
+## <span id="inline-blue">linux环境</span>
 
 ```bash
 文件名称：run.conf  文件路径：/usr/local/jboss-5.1.0.GA/bin

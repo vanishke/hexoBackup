@@ -5,21 +5,21 @@ tags: ElasticSearch,NoSQL
 ---
 <!-- toc -->
 
-# 查看所有索引信息
+# <span id="inline-blue">查看所有索引信息</span>
 
 http://10.9.217.3:9200/_cat/indices
 
-# 创建索引
+# <span id="inline-blue">创建索引</span>
 
 POST http://10.9.217.3:9200/coseelog
 
-# 删除索引
+# <span id="inline-blue">删除索引</span>
 
 DELETE http://10.9.217.3:9200/coseelog
 
-# 创建索引mapping
+# <span id="inline-blue">创建索引mapping</span>
 
-## 2.4版本
+## <span id="inline-blue">2.4版本</span>
 
 ```json
 POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
@@ -55,7 +55,7 @@ POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
 }
 ```
 
-## 5.0 版本
+## <span id="inline-blue">5.0 版本</span>
 
 ```json
 mapping POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
@@ -91,7 +91,7 @@ mapping POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
 }
 ```
 
-# 创建模板
+# <span id="inline-blue">创建模板</span>
 
 ```json
 POST http://120.77.8.170:9200/_template/vistors_flow_total/

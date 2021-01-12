@@ -5,10 +5,10 @@ categories: hexo
 
 ---
 
-## 安装插件
+## <span id="inline-blue">安装插件</span>
 修改themes\next\source\css\_custom\custom.styl文件，加入自定义样式
 
-```bash
+```css
 
 // [Read More]按钮样式
 .post-button .btn {

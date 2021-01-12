@@ -7,20 +7,20 @@ top: 2
 ---
 <!-- toc -->
 
-# 文件和目录管理 
+# <span id="inline-blue">文件和目录管理 </span>
 
-## unlink命令
+## <span id="inline-blue">unlink命令</span>
 
 **作用**
 删除指定的文件，功能和rm命令一样。
 
 **选项**
-```bash
+```shell
 --version 
 --help
 ```
 **示例**
-```bash
+```shell
 [root@lwdCSCDN tmp]# ls
 a.txt  elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
 [root@lwdCSCDN tmp]# unlink a.txt 
@@ -29,13 +29,13 @@ elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  puls
 ```
 
 
-## mkdir命令
+## <span id="inline-blue">mkdir命令</span>
 
 **作用**
 mkdir用来创建dirname指定的目录。
 
 **选项**
-```bash
+```shell
 -Z：设置安全上下文，当使用SELinux时有效；
 -m<目标属性>或--mode<目标属性>建立目录的同时设置目录的权限；
 -p或--parents 若所要建立目录的上层目录目前尚未建立，则会一并建立上层目录；
@@ -43,7 +43,7 @@ mkdir用来创建dirname指定的目录。
 ```
 
 **示例**
-```bash
+```shell
 # 不指定目录的情况下，默认当前目录
 [root@lwdCSCDN tmp]# mkdir report
 
@@ -57,10 +57,10 @@ mkdir: 无法创建目录"./parentDir/newDir": 没有那个文件或目录
 elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
 ```
 
-## chown命令
+## <span id="inline-blue">chown命令</span>
 
 **作用**
-```bash
+```shell
 chown命令用于改变一个文件或目录的所有者或用户组，用户可以是用户名或者用户ID，群组可以是群组名或者群组ID，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。
 ```
 **选项**
@@ -76,7 +76,7 @@ chown命令用于改变一个文件或目录的所有者或用户组，用户可
 
 
 **示例**
-```bash
+```shell
 # 将erm_gd目录下的文件和目录所属者更改为report_cd,群组修改为report_cd
 [root@lwdCSCDN tmp]# chown -R report_cd:report_cd erm_gd
 [root@lwdCSCDN tmp]# cd erm_gd/
@@ -87,10 +87,10 @@ You have new mail in /var/spool/mail/root
 -rw-r--r-- 1 report_cd report_cd    681075 1月   5 17:47 dg_global.sql
 ```
 
-## chgrp命令
+## <span id="inline-blue">chgrp命令</span>
 
 **作用**
-```bash
+```shell
 chgrp用来变更文件或目录的所属群组。
 组名可以是用户组的id,也可以是用户组的名称，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。
 ```
@@ -103,7 +103,7 @@ chgrp用来变更文件或目录的所属群组。
 --reference=<参考文件或目录>:把指定文件或目录设置成参考文件或目录相同的群组。
 
 **示例**
-```bash
+```shell
 # 将erm_gd目录的群组递归更改为report_hrb,显示详细的处理过程。
 [root@lwdCSCDN tmp]# ls
 elasticsearch-2738171260560954631  erm_gd  mysql.sock  pulse-24KvvDfOHjjf  v8-compile-cache-0
@@ -112,10 +112,10 @@ elasticsearch-2738171260560954631  erm_gd  mysql.sock  pulse-24KvvDfOHjjf  v8-co
 "erm_gd/dg_erm_mysql.sql" 的所属组已更改为report_hrb
 "erm_gd" 的所属组已更改为report_hrb
 ```
-## chattr命令
+## <span id="inline-blue">chattr命令</span>
 
 **作用**
-```bash
+```shell
 chattr命令用来更改文件属性，这项指令可更改ext32文件系统文件或目录属性，属性一共以下8种模式：
 a:限制文件或目录仅提供附加用途。
 b:不更新文件或目录的最后存取时间。
@@ -135,7 +135,7 @@ u:预防意外性删除。
 =属性：指定文件或目录的该项属性。
 
 **示例**
-```bash
+```shell
 # 防止系统中某个文件系统内容被更改。
 [root@lwdCSCDN erm_gd]# chattr +i a.txt 
 You have new mail in /var/spool/mail/root
@@ -164,7 +164,7 @@ You have new mail in /var/spool/mail/root
 ```
 
 
-## stat命令
+## <span id="inline-blue">stat命令</span>
 
 **作用**
 	显示文件状态信息，stat命令的输出信息比ls命令的输出信息要更详细。
@@ -180,7 +180,7 @@ You have new mail in /var/spool/mail/root
 
 **示例**
 
-```bash
+```shell
 #显示文件状态
 [root@lwdCSCDN log1]# stat ETL.log
   File: "ETL.log"
@@ -205,7 +205,7 @@ Inodes: Total: 11526144   Free: 10551557
 ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 1608274558 4096
 ```
 
-## file命令
+## <span id="inline-blue">file命令</span>
 
 **作用**
     file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.
@@ -223,7 +223,7 @@ ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 16082745
 
 **示例**
 
-```bash
+```shell
 #显示文件类型
 [root@lwdCSCDN log1]# file ETL.log
 ETL.log: ASCII English text, with very long lines
@@ -237,7 +237,7 @@ ASCII English text, with very long lines
 text/plain; charset=us-ascii
 ```
 
-## head命令
+## <span id="inline-blue">head命令</span>
 
 **作用**
 	显示文件开头内容，默认显示前10行
@@ -250,7 +250,7 @@ text/plain; charset=us-ascii
 -q :不显示文件头部信息
 
 **示例**
-```bash
+```shell
 
 # 显示my.cnf.bak文件的前3行内容
 [root@dap mysql]# head -3 my.cnf.bak 
@@ -292,7 +292,7 @@ text/plain; charset=us-ascii
 
 ```
 
-## more命令
+## <span id="inline-blue">more命令</span>
 
 **作用**
 	基于vi编辑文本过滤器，以全屏幕分页显示文件内容，支持vi模式下关键字定位操作。
@@ -312,7 +312,7 @@ text/plain; charset=us-ascii
 -n ：n代表每一屏展示的文本行数。
 
 **示例**
-```bash
+```shell
 # 一屏显示10行文本内容，文本空白行合并，显示提示信息，不进行滚屏，每次刷新整个屏幕。
 [root@lwdCSCDN conf]# more -dsc -10 nginx.conf
 
@@ -339,7 +339,7 @@ worker_processes  1;
 #pid        logs/nginx.pid;
 /limit
 ```
-## touch命令
+## <span id="inline-blue">touch命令
 
 **作用**
 更改已存在文件的时间戳为当前时间戳，或创建新的文件
@@ -352,7 +352,7 @@ worker_processes  1;
 -t :指定时间戳格式，MMDDhhmm 
 **示例**
 
-```bash
+```shell
 # 创建新的文件
 [root@lwdCSCDN bin]# touch b.txt
 [root@lwdCSCDN bin]# ll
@@ -388,7 +388,7 @@ drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
 -rw-r--r-- 1 root root       5 12月 21 16:30 b.txt
 ```
 
-## pwd命令
+## <span id="inline-blue">pwd命令</span>
 
 **作用**
 	以绝对路径显示当前用户的所在目录
@@ -396,18 +396,18 @@ drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
 -L :打印逻辑上的工作目录
 -P :打印物理上的工作目录
 **示例**
-```bash
+```shell
 # 显示当前工作目录
 [root@lwdCSCDN bin]# pwd
 /usr/local/BI/hrb_BI/v300r002b210/apache-tomcat-8.0.38/bin
 ```
 
-## vim命令
+## <span id="inline-blue">vim命令</span>
 
 **作用**
 vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。
 **选项**
-```bash
+```shell
 crtl+u: 向文件首翻半屏。
 crtl+d: 此文件尾翻半屏。
 crtl+f: 向文件首翻一屏。
@@ -424,7 +424,7 @@ ESC:从编辑模式切换到命令模式。
 :set nonumber :命令模式下，不显示行号。
 ```
 **示例**
-```bash
+```shell
 
 # 显示行号
   1 [20201203] 16:47:12 Begin
@@ -503,13 +503,13 @@ ESC:从编辑模式切换到命令模式。
 /columnTask
 ```
 
-## ls命令
+## <span id="inline-blue">ls命令</span>
 
 **作用**
 显示目标文件列表
 
 **选项**
-```bash
+```shell
 -a：显示所有文件和目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
 -A：显示除影藏文件“.”和“..”以外的所有文件列表；
 -C：多列显示输出结果。这是默认选项；
@@ -534,7 +534,7 @@ ESC:从编辑模式切换到命令模式。
 --color[=WHEN]：使用不同的颜色高亮显示不同类型的。
 ```
 **示例**
-```bash
+```shell
 
 #显示当前目录下的非隐藏文件和目录
 [root@lwdCSCDN usr]# ls
@@ -579,13 +579,13 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
 ```
 
-## ln命令
+## <span id="inline-blue">ln命令</span>
 
 **作用**
 	为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上-s 选项。
 **选项**
 
-```bash
+```shell
 -b或--backup：删除，覆盖目标文件之前的备份；
 -d或-F或——directory：建立目录的硬连接；
 -f或——force：强行建立文件或目录的连接，不论文件或目录是否存在；
@@ -600,7 +600,7 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 ```
 
 **示例**
-```bash
+```shell
 # 给文件建立软链接
 [root@lwdCSCDN tmp]# ln -s readme.txt  readme.log
 [root@lwdCSCDN tmp]# ll
@@ -661,13 +661,13 @@ You have new mail in /var/spool/mail/root
 ```
 
 
-## rm命令 
+## <span id="inline-blue">rm命令 </span>
 
 **作用**
 	删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。
 
 **选项** 
-```bash
+```shell
 -d 直接把目录的硬链接数删除为0，删除该目录。
 -f 强制删除该目录。
 -i 删除前先询问是否删除。
@@ -675,7 +675,7 @@ You have new mail in /var/spool/mail/root
 -v 显示详细的删除信息
 ```
 **示例**
-```bash
+```shell
 # 删除b.sh文件
 [root@demo_mdn script]# rm b.sh
 rm：是否删除普通空文件 "b.sh"？y
@@ -693,14 +693,14 @@ rm：是否删除普通空文件 "b.sh"？y
 
 ```
 
-## mv命令
+## <span id="inline-blue">mv命令</span>
 
 **作用**
 	移动文件或将文件改名
 
 **选项**
 
-```bash
+```shell
 -b 为每个已存在的目标文件创建备份
 -f 覆盖前不询问
 -i 覆盖前询问
@@ -708,7 +708,7 @@ rm：是否删除普通空文件 "b.sh"？y
 -v 显示详细进行的步骤
 ```
 **实例**
-```bash
+```shell
 #将a.sh更名为new.sh
 [root@demo_mdn script]# mv a.sh new.sh
 [root@demo_mdn script]# ll
@@ -788,14 +788,14 @@ mv：是否覆盖"newDir/1.txt"？ y
 [root@demo_mdn newDir]# ls
 1.txt  1.txt~  oldDir
 ```
-## find命令
+## <span id="inline-blue">find命令</span>
 
 **作用**
 	find命令用来在指定目录下查找对应的文件，如果不设置任何参数的话，则在当前目录下查找，并将结果全部显示。
 **语法**
 find path -option [   -print ]   [ -exec   -ok   command ]   {} \;
 **选项**
-```bash
+```shell
 find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 expression。如果 path 是空字串则使用目前路径，如果 expression 是空字串则使用 -print 为预设 expression。
 
 expression 中可使用的选项有二三十个之多，在此只介绍最常用的部份。
@@ -855,7 +855,7 @@ exp1, exp2
 
 **实例**
 
-```bash
+```shell
 #/etc、/root 目录下查找passwd字符串，不区分大小写
 [root@demo_mdn ~]# find /etc /root -iname passwd
 /etc/pam.d/passwd
@@ -915,13 +915,13 @@ exp1, exp2
 /BI/hrb_BI/etl/script/etlS.sh
 /BI/hrb_BI/etl/script/stop.sh
 ```
-## whereis命令 
+## <span id="inline-blue">whereis命令 </span>
 
 **作用**
 	定位二进制程序文件、man手册、源代码文件所在位置，搜索效率比find命令高，因为查找的是数据库索引文件，和locate命令同理，但索引内容不是实时更新。
 	
 **选项**
-```bash
+```shell
 -b 只搜索二进制文件
 -B 指定搜索的二进制文件所在的目录
 -m 只搜索man帮助文件
@@ -932,7 +932,7 @@ exp1, exp2
 （-BMS 必须和-f 选项同时使用）
 ```
 **实例**
-```bash
+```shell
 #搜索ls命令相关文件所在的位置
 [root@demo_mdn /]# whereis ls
 ls: /bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz
@@ -946,20 +946,20 @@ ls: /bin/ls
 ls: /usr/share/man/man1/ls.1.gz
 ```
 
-## locate命令
+## <span id="inline-blue">locate命令</span>
 
 **作用**
 	查找文件或目录所在位置（locate 命令实际是查找的/var/lib/mlocate/mlocate.db 文件，所以查找速度比find命令快的多）
 	
 **选项**
 
-```bash
+```shell
  -V 显示版本信息
  -d dir 指定搜索的数据库文件所在位置
 ```
 
  **实例**
- ```bash
+ ```shell
  #指定mlocate.db 文件目录，查找portalOrderInfoTask_0_20201110_010000_0 文件所在位置
  [root@demo_mdn mlocate]# locate -d /var/lib/mlocate/mlocate.db portalOrderInfoTask_0_20201110_010000_0
  /home/report_cd/dhm/portalOrderInfoTask/2020/11/10/portalOrderInfoTask_0_20201110_010000_0
@@ -973,14 +973,14 @@ This software is distributed under the GPL v.2.
 This program is provided with NO WARRANTY, to the extent permitted by law.
  ```
 
-## which命令
+## <span id="inline-blue">which命令
 
 **作用**
 查找命令所在的绝对路径（包含命令别名）。
 
 **选项**
 
-```bash
+```shell
   --version, -[vV] Print version and exit successfully.
   --help,          Print this help and exit successfully.
   --skip-dot       Skip directories in PATH that start with a dot.
@@ -997,19 +997,19 @@ This program is provided with NO WARRANTY, to the extent permitted by law.
 
 **实例**
 
-```bash
+```shell
 #查找ls命令的绝对路径
 [root@demo_mdn user]# which ls
 alias ls='ls --color=auto'
 	/bin/ls
 ```
-## strings命令
+## <span id="inline-blue">strings命令</span>
 
 **作用**
 在对象或二进制文件中查找可打印的字符串，字符可以是由4个或者更多字符组成的字符序列，以换行符或空字符结束。
 
 **选项**
-```bash
+```shell
 	-a 扫描整个文件内容而不是仅仅文件初始化和装载段。
 	-f 显示查找到的字符串之前先打印文件名称。
 	-n number 查找长度为number及以上的字符串序列。
@@ -1021,7 +1021,7 @@ alias ls='ls --color=auto'
 
 **实例**
 
-```bash
+```shell
 #以10进制为偏移量，查找profile文件中长度大于60的字符串,输出字符所在文件名称。
 [root@demo_mdn ~]# strings -f -t o -60 /etc/profile
 /etc/profile:      20 # System wide environment and startup programs, for login setup
@@ -1045,7 +1045,7 @@ alias ls='ls --color=auto'
 20190605171455_74.jpg:     153 !22222222222222222222222222222222222222222222222222
 20190605171506_75.jpg:     153 !22222222222222222222222222222222222222222222222222
 ```
-## dirname命令
+## <span id="inline-blue">dirname命令
 
 ***作用***
 去除参数里面非目录部分
@@ -1054,7 +1054,7 @@ alias ls='ls --color=auto'
 
 ***实例***
 
-```bash
+```shell
 [root@demo_mdn user]# dirname /a/b/file1.txt
 /a/b
 
@@ -1069,13 +1069,13 @@ alias ls='ls --color=auto'
 . 
 ```
 
-## iconv命令
+## <span id="inline-blue">iconv命令</span>
 
 ***作用***
 	转换文件编码
 
 ***选项***
-```bash
+```shell
 	-f 源文件编码方式
 	-t 目的文件编码方式
 	-s 忽略告警信息，但不包括错误信息
@@ -1086,7 +1086,7 @@ alias ls='ls --color=auto'
 ***实例***
 
 
-```bash
+```shell
 #列出所有支持的编码方式
 [root@demo_mdn user]# iconv -l
 
@@ -1104,20 +1104,20 @@ listed with several different names (aliases).
 ```
 
 
-## cat命令
+## <span id="inline-blue">cat命令</span>
 
 ***作用***
 	合并文件内容并显示
 	
 ***选项***
-```bash
+```shell
 	-A //显示特殊字符	
 	-n //对所有输出的行编号
 ```
 
 ***实例***
 
-```bash
+```shell
 #显示特殊字符
 [root@demo_mdn user]# cat -A jdbc1.properties
 dbSrc=mysql$
@@ -1134,10 +1134,10 @@ dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;characterEncoding=U
 dbUserName=root
 ```
 
-## tar命令
+## <span id="inline-blue">tar命令</span>
 
 选项
-```bash
+```shell
 	运行tar时必须要有下列参数中的至少一个才可运行：
 	-A | --catenate | --concatenate 将一存档与已有的存档合并
 	-c | --create 建立新的存档

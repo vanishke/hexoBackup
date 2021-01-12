@@ -5,10 +5,10 @@ categories: hexo
 
 ---
 
-## 彩色标签云
+## <span id="inline-blue">彩色标签云</span>
 在/themes/next/layout/目录下，新增tag-color.swig文件，加入下方代码：
 
-```bash
+```css
 <script type="text/javascript">
      var alltags = document.getElementsByClassName('tag-cloud-tags');
      var tags = alltags[0].getElementsByTagName('a');
@@ -46,7 +46,7 @@ categories: hexo
 </style>
 ```
 在/themes/next/layout/page.swig/中引入tag-color.swig：
-```bash
+```css
 在下方加上 {% include 'tag-color.swig' %} 代码
 <div class="tag-cloud">
           <!--    <div class="tag-cloud-title">
@@ -60,11 +60,11 @@ categories: hexo
 ```
 或者将上方代码直接添加到下方
 
-## 将标签云放到首页
+## <span id="inline-blue">将标签云放到首页</span>
 
 在路径：/themes/next/layout/index.swig 中
 
-```bash
+```css
 {% block content %}下面添加下方代码
 {% block content %}
 

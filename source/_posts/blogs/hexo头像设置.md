@@ -5,9 +5,9 @@ categories: hexo
 
 ---
 
-## hexo头像设置
-修改themes\next\source\css\_common\components\sidebar\sidebar-author.styl,新增以下代码:
-```bash
+## <span id="inline-blue">hexo头像设置</span>
+```css
+# 修改themes\next\source\css\_common\components\sidebar\sidebar-author.styl,新增以下代码:
 .site-author-image {
   display: block;
   margin: 0 auto;
@@ -25,7 +25,16 @@ categories: hexo
  }
 ```
 
+## <span id="inline-blue">添加头像</span>
 
+打开themes/next下的_config.yml文件，搜索 Sidebar Avatar关键字，去掉avatar前面的#
+
+```css
+# Sidebar Avatar
+# in theme directory(source/images): /images/avatar.jpg
+# in site  directory(source/uploads): /uploads/avatar.jpg
+avatar: /images/avatar.png
+```
 
 
 

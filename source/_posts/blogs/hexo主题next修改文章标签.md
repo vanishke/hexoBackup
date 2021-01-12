@@ -5,10 +5,10 @@ categories: hexo
 
 ---
 
-## 修改模板
+## <span id="inline-blue">修改模板</span>
 /themes/next/layout/_macro/post.swig
 
-```bash
+```shell
 
 搜索 rel=“tag”>#，将 # 换成<i class="fa fa-tag"></i>
 ```
