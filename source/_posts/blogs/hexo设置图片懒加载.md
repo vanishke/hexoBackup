@@ -37,8 +37,8 @@ hexo.extend.filter.register('after_render:html', lazyloadImg);
 ```javascript
 lazyLoadPostsImages: function () {
       $('img').lazyload({
-	   //设置懒加载你默认占位图
-         placeholder: '../images/loading.gif',
+	   //设置懒加载你默认占位图,自己下载一张加载图片放在hexo/themes/next/source/images路径下，名称//为loading.gif
+         placeholder: '/images/loading.gif',
 		 // 加载效果
         effect: 'fadeIn',
         threshold : 100, //设置图片在距离屏幕200px时提前加载
