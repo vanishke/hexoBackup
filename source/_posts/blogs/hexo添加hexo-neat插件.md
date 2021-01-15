@@ -1,0 +1,40 @@
+---
+title: hexo添加hexo-neat插件
+categories: hexo
+date: 2021-01-12 10:11:20
+tags: hexo
+---
+
+## <span id="inline-blue">安装插件</span>
+
+```shell
+npm install hexo-neat --save
+```
+## <span id="inline-blue">站点配置</span>
+hexo _config.yml文件添加
+```shell
+# hexo-neat
+# 博文压缩
+neat_enable: true
+# 压缩html
+neat_html:
+  enable: true
+  exclude:
+# 压缩css  
+neat_css:
+  enable: true
+  exclude:
+    - '**/*.min.css'
+# 压缩js
+neat_js:
+  enable: true
+  mangle: true
+  output:
+  compress:
+  exclude:
+    - '**/*.min.js'
+	- '**/*.min.css'
+    - '**/jquery.fancybox.pack.js'
+    - '**/index.js'
+	- '**/comments.gitalk.js'
+```

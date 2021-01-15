@@ -6,10 +6,8 @@ categories: hexo
 ---
 
 ## <span id="inline-blue">背景<span>
-hexo发布的静态文件推送到了github pages，直接访问页面非常慢，借用vercel代理下github page，效果很明显。
-
+hexo发布的静态文件推送到了github pages，直接访问页面非常慢，使用vercel代理github pages，访问页面加载速度有明显提升。
 ##	<span id="inline-blue">注册vercel<span>
-登陆
 <a href="https://vercel.com/">vercel官网地址</a>
 
 绑定github账号：
