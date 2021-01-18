@@ -7,8 +7,107 @@ top: 2
 ---
 <!-- toc -->
 
+
 # <span id="inline-blue">文件和目录管理 </span>
 
+## <span id="inline-blue">rmdir命令</span>
+
+**作用**
+删除空目录
+**选项**
+p: 删除指定空目录后，其父目录如果为空也一并删除
+v: 显示命令的详细执行过程
+
+**示例**
+```shell
+#删除emptyDir/sceondDir/对应空目录，-p选项下指定父级空目录也一并删除，不指定父级目录的情况下不会删除父级目录
+[root@lwdCSCDN tmp]# rmdir -p emptyDir/sceondDir/
+[root@lwdCSCDN tmp]# ls
+elasticsearch-2738171260560954631  erm_zj  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
+```
+
+## <span id="inline-blue">colrm命令</span>
+
+**作用**
+用于从文件或标准输入过滤指定的列。
+**选项**
+开始行数编号： 指定要删除的列的起始编号，可选。
+结束行数编号： 指定要删除的列的结束编号，可选。
+不见参数的情况下默认不过滤，参数中间用空格隔开
+**示例**
+```shell
+# 过滤从标准输入接收的从第4列之后的内容
+[root@lwdCSCDN bin]# colrm 4
+1234567
+123
+
+# 过滤从标准输入接收的第4列和第8列的内容
+[root@lwdCSCDN bin]# colrm 4 8
+linux colrm command        
+linlrm command
+```
+
+## <span id="inline-blue">chmod命令</span>
+
+**作用**
+变更文件或目录的权限
+权限范围说明
+u: 文件或目录所有者权限
+g: 文件或目录所属群组权限
+o: 除了文件拥有者和所属群组之外，其他用户都属于这个范畴
+a: 即全部的用户，包含文件或目录所有者，所属群组，以及其他用户
+r：读取权限，数字代号为4
+w：写权限，数字代号为2
+x: 可执行权限，数字代号为1
+-: 不具备任何权限，数字代号为0
+s: 其他特殊权限
+**选项**
+c: 类似-v,仅回报变更部分
+f: 不显示错误信息
+R: 递归处理文件和目录
+v：显示详细执行信息
+--reference=<参考文件或目录>：把指定文件或目录的所属群组全部设成和参考文件或目录的所属群组相同
+<权限范围>+<权限设置>：开启权限范围的文件或目录的该选项权限设置
+<权限范围>-<权限设置>：关闭权限范围的文件或目录的该选项权限设置
+<权限范围>=<权限设置>：指定权限范围的文件或目录的该选项权限设置
+
+**示例**
+```shell
+# 将tomcat bin目录下的脚本赋予可执行权限
+[root@lwdCSCDN apache-tomcat-8.0.38]# chmod a+x bin
+You have new mail in /var/spool/mail/root
+[root@lwdCSCDN apache-tomcat-8.0.38]# cd bin
+[root@lwdCSCDN bin]# ll
+总用量 3080
+drwxr-xr-x 4 root root    4096 1月   4 15:47 bi_common
+-rwxr-xr-x 1 root root   32279 10月  6 2016 bootstrap.jar
+-rwxr-xr-x 1 root root   15026 10月  6 2016 catalina.bat
+-rwxr-xr-x 1 root root   22443 10月  6 2016 catalina.sh
+-rwxr-xr-x 1 root root    1686 10月  6 2016 catalina-tasks.xml
+-rwxr-xr-x 1 root root   24283 10月  6 2016 commons-daemon.jar
+-rwxr-xr-x 1 root root  204944 10月  6 2016 commons-daemon-native.tar.gz
+-rwxr-xr-x 1 root root    2040 10月  6 2016 configtest.bat
+-rwxr-xr-x 1 root root    1922 10月  6 2016 configtest.sh
+-rwxr-xr-x 1 root root    7888 10月  6 2016 daemon.sh
+-rwxr-xr-x 1 root root    2091 10月  6 2016 digest.bat
+-rwxr-xr-x 1 root root    1965 10月  6 2016 digest.sh
+-rwxr-xr-x 1 root root    6308 10月  6 2016 service.bat
+-rwxr-xr-x 1 root root    3430 10月  6 2016 setclasspath.bat
+-rwxr-xr-x 1 root root    3547 10月  6 2016 setclasspath.sh
+-rwxr-xr-x 1 root root    2020 10月  6 2016 shutdown.bat
+-rwxr-xr-x 1 root root    1902 10月  6 2016 shutdown.sh
+-rwxr-xr-x 1 root root    2022 10月  6 2016 startup.bat
+-rwxr-xr-x 1 root root    1904 10月  6 2016 startup.sh
+-rwxr-xr-x 1 root root 2105344 10月  6 2016 tcnative-1.dll
+-rwxr-xr-x 1 root root  109696 10月  6 2016 tomcat8.exe
+-rwxr-xr-x 1 root root  110208 10月  6 2016 tomcat8w.exe
+-rwxr-xr-x 1 root root   40853 10月  6 2016 tomcat-juli.jar
+-rwxr-xr-x 1 root root  391853 10月  6 2016 tomcat-native.tar.gz
+-rwxr-xr-x 1 root root    4057 10月  6 2016 tool-wrapper.bat
+-rwxr-xr-x 1 root root    5061 10月  6 2016 tool-wrapper.sh
+-rwxr-xr-x 1 root root    2026 10月  6 2016 version.bat
+-rwxr-xr-x 1 root root    1908 10月  6 2016 version.sh
+```
 ## <span id="inline-blue">unlink命令</span>
 
 **作用**
