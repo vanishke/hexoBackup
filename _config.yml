@@ -120,7 +120,7 @@ neat_html:
 neat_css:
   enable: true
   exclude:
-    - '**/*.min.css'
+    - '**/*.css'
 # 压缩js
 neat_js:
   enable: true
