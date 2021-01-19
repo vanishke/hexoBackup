@@ -1,7 +1,11 @@
 ---
 title: hexo归档页优化
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

@@ -1,7 +1,11 @@
 ---
 title: hexo头像设置
-tags: hexo
-categories: hexo
+categories: 
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

@@ -1,7 +1,11 @@
 ---
 title: hexo新建404
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

@@ -1,7 +1,11 @@
 ---
 title: hexo彩色标签云
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 
@@ -34,7 +38,13 @@ categories: hexo
     margin: 8px 5px 0px 0px;
   }
   .tag-cloud-tags a:before{
-    content: "?";
+     content: " ";
+	 width: 0;
+	 height: 0;
+	 position: absolute;
+	 top: 0;
+	 left: -18px;
+	 border: 9px solid transparent;
   }
 
   .tag-cloud-tags a:hover{

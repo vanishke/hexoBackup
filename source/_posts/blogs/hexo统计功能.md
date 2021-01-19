@@ -1,7 +1,11 @@
 ---
 title: hexo统计功能
-tags: hexo
-categories: hexo
+categories: 
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

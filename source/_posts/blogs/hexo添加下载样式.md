@@ -1,8 +1,12 @@
 ---
 title: hexo设置下载样式
-categories: hexo
+categories: 
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 date: 2021-01-12 10:11:20
-tags: hexo
 ---
 
 ## <span id="inline-blue">下载样式</span>

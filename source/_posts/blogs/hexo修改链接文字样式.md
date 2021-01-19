@@ -1,7 +1,11 @@
 ---
 title: hexo修改链接文字样式
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

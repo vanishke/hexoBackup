@@ -1,7 +1,12 @@
 ---
 title: hexo使用next主题异常
-tags: hexo
-categories: hexo
+categories: 
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
+
 
 ---
 

@@ -1,7 +1,11 @@
 ---
 title: hexo修改主题文章底部标签
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

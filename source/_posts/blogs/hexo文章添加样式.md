@@ -1,7 +1,11 @@
 ---
 title: hexo文章添加样式
-tags: hexo
-categories: hexo
+categories: 
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

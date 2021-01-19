@@ -1,7 +1,11 @@
 ---
 title: hexo安装本地搜索功能
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

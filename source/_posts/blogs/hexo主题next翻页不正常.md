@@ -1,7 +1,11 @@
 ---
 title: hexo主题next翻页不正常
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

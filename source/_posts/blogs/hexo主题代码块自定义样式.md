@@ -1,7 +1,11 @@
 ---
 title: hexo主题代码块自定义样式
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

@@ -1,8 +1,13 @@
 ---
 title: Tomcat 指定启动JDK版本
-categories: Tomcat
+categories: 
+	- Linux
+	- WEB容器
+	- Tomcat
+tags: 
+	- Tomcat
+	- jdk
 date: 2020-11-17 10:23:20
-tags: Tomcat
 ---
 
 ## <span id="inline-blue">linux环境</span>

@@ -1,7 +1,11 @@
 ---
 title: hexo修改加载特效
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

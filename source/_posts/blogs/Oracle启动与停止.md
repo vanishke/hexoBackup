@@ -1,8 +1,11 @@
 ---
 title: Oracle启动与停止
-categories: Oracle
+categories: 
+	- 数据库
+	- Oracle
+tags: 
+	- Oracle
 date: 2020-11-17 11:11:20
-tags: Oracle
 ---
 
 <!-- toc -->

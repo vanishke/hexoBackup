@@ -1,7 +1,11 @@
 ---
 title: hexo安装GitHub插件
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

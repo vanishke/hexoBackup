@@ -1,8 +1,13 @@
 ---
 title: Tomcat 启动配置优化
-categories: Tomcat
+categories:
+	- Linux
+	- WEB容器
+	- Tomcat
+tags: 
+	- Linux
+	- Tomcat
 date: 2020-11-17 8:23:20
-tags: Tomcat
 ---
 
 ## <span id="inline-blue">内存优化</span>

@@ -1,8 +1,12 @@
 ---
 title: windows注册nginx服务
-categories: nginx
+categories: 
+	- windows
+	- nginx
+tags: 
+	- windows
+	- nginx
 date: 2020-12-31 17:32:20
-tags: nginx,windows
 ---
 <!-- toc -->
 

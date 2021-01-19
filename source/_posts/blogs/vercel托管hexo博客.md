@@ -1,7 +1,11 @@
 ---
 title: vercel托管hexo博客
-tags: hexo,vercel
-categories: hexo
+categories: 
+	- hexo
+	- Next
+tags: 
+	- hexo 
+	- Next
 
 ---
 

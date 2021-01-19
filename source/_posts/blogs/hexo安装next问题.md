@@ -1,7 +1,11 @@
 ---
 title: hexo安装next问题
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 ---
 
 ## <span id="inline-blue">问题描述</span>

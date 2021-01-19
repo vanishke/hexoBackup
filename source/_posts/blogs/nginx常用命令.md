@@ -1,8 +1,12 @@
 ---
 title: nginx常用启动命令
-categories: nginx
+categories: 
+	- windows
+	- nginx
+tags: 
+	- windows
+	- nginx
 date: 2020-12-24 10:11:20
-tags: nginx,linux
 ---
 <!-- toc -->
 

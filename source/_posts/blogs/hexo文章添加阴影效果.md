@@ -1,7 +1,11 @@
 ---
 title: hexo文章添加阴影效果
-tags: hexo
-categories: hexo
+categories: 
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

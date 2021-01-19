@@ -1,7 +1,12 @@
 ---
 title: ElasticSearch基本操作
-categories: ElasticSearch
-tags: ElasticSearch,NoSQL
+categories: 
+	- windows
+	- Elasticsearch
+tags: 
+	- windows
+	- Elasticsearch
+	- NoSQL
 ---
 <!-- toc -->
 

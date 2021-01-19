@@ -1,8 +1,12 @@
 ---
 title: MySQL运算符对NULL值处理
-categories: MySQL
+categories: 
+	- 数据库
+	- MySQL
+tags: 
+	- 数据库
+	- MySQL
 date: 2020-11-17 10:10:12
-tags: MySQL
 ---
  
 

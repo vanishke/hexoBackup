@@ -1,7 +1,11 @@
 ---
 title: hexo阅读全文配置
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

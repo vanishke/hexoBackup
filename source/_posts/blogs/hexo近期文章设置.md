@@ -1,8 +1,12 @@
 ---
 title: hexo近期文章设置
-tags: hexo
-categories: hexo
-
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
+date: 2021-01-15 15:30:21
 ---
 
 ## <span id="inline-blue">近期文章设置</span>

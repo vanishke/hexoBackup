@@ -1,7 +1,11 @@
 ---
 title: hexo博客源文档备份
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

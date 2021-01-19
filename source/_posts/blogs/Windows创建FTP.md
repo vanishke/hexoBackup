@@ -1,8 +1,12 @@
 ---
 title: Windows创建FTP
-categories: FTP
+categories: 
+	- windows
+	- FTP
+tags: 
+	- windows
+	- FTP
 date: 2020-12-24 10:11:20
-tags: Windows,FTP
 ---
 <!-- toc -->
 

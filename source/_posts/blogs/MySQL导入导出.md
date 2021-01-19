@@ -1,8 +1,13 @@
 ---
 title: MySQL 导入导出
-categories: MySQL
+categories: 
+	- 数据库
+	- MySQL
+tags: 
+	- 数据库
+	- MySQL
 date: 2020-11-17 12:23:20
-tags: MySQL
+
 ---
 <!-- toc -->
 

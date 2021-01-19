@@ -1,8 +1,12 @@
 ---
 title: Oracle查看表空间使用情况
-categories: Oracle
+categories: 
+	- 数据库
+	- Oracle
+tags: 
+	- 数据库
+	- Oracle
 date: 2020-11-17 11:10:12
-tags: Oracle
 ---
 
 ##  <span id="inline-blue">统计</span>

@@ -1,7 +1,11 @@
 ---
 title: hexo修改[read more]按钮样式
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 

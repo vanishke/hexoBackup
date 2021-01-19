@@ -1,7 +1,12 @@
 ---
 title: hexo文章置顶功能
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
+
 ---
 
 ## <span id="inline-blue">移除默认安装的插件</span>

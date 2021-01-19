@@ -1,7 +1,11 @@
 ---
 title: hexo安装渲染引擎
-tags: hexo
-categories: hexo
+categories:
+	- hexo
+	- Next
+tags: 
+	- hexo
+	- Next
 
 ---
 
