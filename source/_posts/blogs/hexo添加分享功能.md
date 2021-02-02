@@ -3,6 +3,11 @@ title: hexo添加分享功能
 tags: hexo
 categories: hexo
 ---
+## <span id="inline-blue">安装插件</span>
+hexo站点根目录目录下执行
+```shell
+git clone https://github.com/theme-next/theme-next-needmoreshare2 themes/next/source/lib/needsharebutton
+```
 
 ## <span id="inline-blue">修改Next主题配置文件</span>
 打开themes/next/_config.yml 搜索关键字needmoreshare2 修改为下面设置
