@@ -28,9 +28,10 @@ github创建一个仓库用于保存评论
 
 ## <span id="inline-blue"> 集成gitalk<span>
 1. 新建gitalk.swig
-文件目录：themes\next\layout_third-party\comments
-内容如下：
+
 ```nodejs
+# 文件目录：themes\next\layout_third-party\comments
+# 内容如下：
 {% if page.comments && theme.gitalk.enable %}
 
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
@@ -59,7 +60,7 @@ github创建一个仓库用于保存评论
 ```nodejs
 {% include 'gitalk.swig' %}
 ```
-3. 打开\hexo\themes\next\layout\_partials\comments.swig,添加以下内容，图中所示位置
+3. 打开\hexo\themes\next\layout\\_partials\comments.swig,添加以下内容，图中所示位置
 ![gitalk评论设置](/images/hexo/gitalk/hexo_gitalk_2021_01-19_003.png)
 
 ```nodejs
@@ -69,9 +70,10 @@ github创建一个仓库用于保存评论
 
 4. 修改hexo根目录_config.xml配置文件
 ```xml
+# 以下内容配置时注释需要去掉，否则会引起报错
 gitalk:
 enable: true #是否开启Gitalk
-  ClientID: xxxxxx #创建应用生成的Client ID
+  ClientID: xxxxxx #创建应用生成的Client ID 
   ClientSecret: xxxxxxxxxxxx #创建应用生成的Client Secret
   repo: gitalk #创建的评论仓库
   owner: iosite #这个项目名的拥有者（GitHub账号或组织）
