@@ -9,7 +9,7 @@ windows7 64位
 MongoDB 4.0.10
 
 ## <span id="inline-blue">安装包下载</span>
-百度网盘地址：https://pan.baidu.com/s/1ivw4tmwJUPZLQtqzxCFlLg
+下载地址：https://pan.baidu.com/s/1ivw4tmwJUPZLQtqzxCFlLg
 提取码：zs5e
 
 安装包说明：
