@@ -4,7 +4,7 @@
 
 # Site
 title: vanishke个人技术博客
-subtitle: '不积跬步，无以至千里；不积小流，无以成江海'
+subtitle: '善始者实繁，克终者盖寡'
 description: '每一个不曾起舞的日子，都是对生命的辜负'
 keywords: Java,Elasticsearch,MySQL,Linux
 author: vanishke
@@ -114,5 +114,5 @@ search:
 #https://github.com/vanishke/hexo.git
 deploy:
   type: git
-  repository:  https://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@github.com/vanishke/hexo.git
+  repository:  https://github.com/vanishke/hexo.git
   branch: master
