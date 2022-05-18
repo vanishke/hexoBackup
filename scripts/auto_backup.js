@@ -14,7 +14,7 @@ function run() {
     } else {
         echo("======================Auto Backup Begin===========================");
         cd('H:/hexo');    //此处修改为Hexo根目录路径
-        if (exec('git add --all').code !== 0) {
+        if (exec('git add .').code !== 0) {
             echo('Error: Git add failed');
             exit(1);
         }
@@ -22,7 +22,7 @@ function run() {
             echo('Error: Git commit failed');
             exit(1);
         }
-        if (exec('git push origin master').code !== 0) {
+        if (exec('git push origin --force --all').code !== 0) {
             echo('Error: Git push failed');
             exit(1);
         }

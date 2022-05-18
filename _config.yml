@@ -114,5 +114,5 @@ search:
 #https://github.com/vanishke/hexo.git
 deploy:
   type: git
-  repository:  https://github.com/vanishke/hexo.git
+  repository:  https://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@github.com/vanishke/hexo.git
   branch: master
