@@ -6,7 +6,7 @@ categories: hexo
 ---
 
 ## <span id="inline-blue">修改链接文字样式</span>
-打开themes\next\source\css\_common\components\post\post.styl添加以下代码:
+打开themes\next\source\css\\_common\components\post\post.styl添加以下代码:
 ```css
 .post-body p a{
 

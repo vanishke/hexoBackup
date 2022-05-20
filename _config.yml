@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: vanishke个人技术博客
+title: vanishke个人博客
 subtitle: '善始者实繁，克终者盖寡'
-description: '每一个不曾起舞的日子，都是对生命的辜负'
+description: ''
 keywords: Java,Elasticsearch,MySQL,Linux
 author: vanishke
-language: zh-Hans
+language: zh-CN
 timezone: 'Asia/Shanghai'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://example.com
+url: https://github.com/vanishke/hexo
 root: /
 permalink: :category/:title/
 permalink_defaults:
@@ -36,7 +36,7 @@ new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link:
-  enable: true # Open external links in new tab
+  enable: false # Open external links in new tab
   field: site # Apply to the whole site
   exclude: ''
 filename_case: 0
@@ -46,8 +46,8 @@ relative_link: false
 future: true
 highlight:
   enable: true
-  line_number: false
-  auto_detect: false
+  line_number: true
+  auto_detect: true
   tab_replace: ''
   wrap: true
   hljs: false
@@ -107,7 +107,38 @@ search:
   field: post
   format: html
   limit: 100
+
+symbols_count_time:
+  symbols: true                
+  time: true                   
+  total_symbols: true         
+  total_time: true             
+  exclude_codeblock: false     
   
+# hexo-neat
+# 博文压缩
+neat_enable: true
+# 压缩html
+neat_html:
+  enable: true
+  exclude:
+# 压缩css  
+neat_css:
+  enable: true
+  exclude:
+    - '**/*.min.css'
+# 压缩js
+neat_js:
+  enable: true
+  mangle: true
+  output:
+  compress:
+  exclude:
+    - '**/*.min.js'
+    - '**/jquery.fancybox.pack.js'
+    - '**/index.js'
+
+
     
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
