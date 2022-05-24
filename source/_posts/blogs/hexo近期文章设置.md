@@ -6,37 +6,73 @@ categories: hexo
 ---
 
 ## <span id="inline-blue">近期文章设置</span>
-修改themes/next/layout/_macro/sidebar.swig 。找到theme.social板块代码，在该板块最后的endif后隔一行添加如下代码。
+新建 source/_data/sidebar.njk 文件(如没有对应目录则自行创建)，内容如下：
 ```css
-.post {
-  margin-top: 60px;
-  margin-bottom: 60px;
-  padding: 25px;
-  -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
-  -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
- }
+{# RecentPosts #}
+{%- if theme.recent_posts %}
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      {%- if theme.recent_posts.icon %}
+      <i class="{{ theme.recent_posts.icon }} fa-fw"></i>
+      {%- endif %}
+      {{ theme.recent_posts.title }}
+    </div>
+    <ul class="links-of-recent-posts-list">
+      {%- set posts = site.posts.sort('date', 'desc').toArray() %}
+      {%- for post in posts.slice('0', theme.recent_posts.max_count) %}
+        <li class="links-of-recent-posts-item">
+          {{ next_url(post.path, post.title, {title: post.path}) }}
+        </li>
+      {%- endfor %}
+    </ul>
+  </div>
+{%- endif %}
+
 ```
 
-编辑themes/next/source/css/_common/components/sidebar/sidebar-blogroll.styl
+修改next主题下_config.yml配置文件,取消 custom_file_path 中的 sidebar 和 style 两个注释，并新增 recent_posts 内容。variable 应该是设置另外的功能时打开的，和此处无关。
 
-```css
-li.recent_posts_li {
-    text-align: cengter;
-    display: block;
-    word-break: keep-all;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+```yml
+custom_file_path:
+  #head: source/_data/head.swig
+  #header: source/_data/header.swig
+  sidebar: source/_data/sidebar.njk
+  #postMeta: source/_data/post-meta.swig
+  #postBodyEnd: source/_data/post-body-end.swig
+  #footer: source/_data/footer.swig
+  #bodyEnd: source/_data/body-end.swig
+  variable: source/_data/variables.styl
+  #mixin: source/_data/mixins.styl
+  style: source/_data/styles.styl
+
+recent_posts:
+# 块标题
+  title: 最近文章
+# 图标
+  icon: fa fa-history
+# 最多多少文章链接
+  max_count: 5
+
 ```
 
-在 themes/next/_config.yml中添加下方代码
+在 next主题目录下source/_data/styles.styl 文件中添加以下内容(文件不存在新建即可):
 
 ```css
-# 近期文章设置
-recent_posts_title: 近期文章
-recent_posts_layout: block
-recent_posts: true
+// 近期文章
+.links-of-recent-posts
+  font-size: 0.8125em
+  margin-top: 10px
+
+.links-of-recent-posts-title
+  font-size: 1.03em
+  font-weight: 600
+  margin-top: 0
+
+.links-of-recent-posts-list
+  list-style: none
+  margin: 0
+  padding: 0
+
 ```
 
 
