@@ -268,6 +268,61 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>MySQL数据丢失原因</title>
+    <url>/Linux/MySQL/blogs/MySQL%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1%E5%8E%9F%E5%9B%A0/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">现象</span></a></li>
+<li><a href="#span-idinline-blue%E5%8E%9F%E5%9B%A0span"><span id="inline-blue">原因</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>线上数据使用mysqldump命令导出的脚本，导入本地MySQL数据库，发现重命名后的数据库名称居然将原始数据库删除，导出命令如下：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump <span class="operator">-</span>uroot <span class="operator">-</span>p <span class="comment">--single-transaction  --add-drop-database --databases iepg  &gt; iepg.sql</span></span><br></pre></td></tr></table></figure>
+<p>导出后的脚本文件内容如下：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*!40101 SET NAMES utf8 */</span>;</span><br><span class="line"><span class="comment">/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */</span>;</span><br><span class="line"><span class="comment">/*!40103 SET TIME_ZONE=&#x27;+00:00&#x27; */</span>;</span><br><span class="line"><span class="comment">/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */</span>;</span><br><span class="line"><span class="comment">/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */</span>;</span><br><span class="line"><span class="comment">/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=&#x27;NO_AUTO_VALUE_ON_ZERO&#x27; */</span>;</span><br><span class="line"><span class="comment">/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- Position to start replication or point-in-time recovery from</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- CHANGE MASTER TO MASTER_LOG_FILE=&#x27;mysql-bin.000114&#x27;, MASTER_LOG_POS=146667627;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- Current Database: `iepg`</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*!40000 DROP DATABASE IF EXISTS `iepg`*/</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> DATABASE <span class="comment">/*!32312 IF NOT EXISTS*/</span> `iepg_xw` <span class="comment">/*!40100 DEFAULT CHARACTER SET utf8 */</span>;</span><br><span class="line"></span><br><span class="line">USE `iepg_xw`;</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- Table structure for table `apkupdatedatetimerange`</span></span><br><span class="line"><span class="comment">--</span></span><br></pre></td></tr></table></figure>
+<p>将/*!40101 SET NAMES utf8 */放到MySQL控制到执行，发现居然执行成功了。<br><img src="/images/Linux//Linux_MySQL_20220527_001.png" alt="MySQL数据丢失"></p>
+<h1><span id="原因"><span id="inline-blue">原因</span></span></h1><p>/*! MySQL-specific code */ 这种注释是mysql注释中的特殊一种,通过使用叹号在注释中,注释中的代码就会被执行.</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL注册为Windows服务</title>
+    <url>/Windows/MySQL/blogs/MySQL%E6%B3%A8%E5%86%8C%E4%B8%BAwindows%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8Fspan"><span id="inline-blue">配置环境变量</span></a></li>
+<li><a href="#span-idinline-blue%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1span"><span id="inline-blue">注册服务</span></a></li>
+<li><a href="#span-idinline-blue%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81span"><span id="inline-blue">修改密码</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="配置环境变量"><span id="inline-blue">配置环境变量</span></span></h1><p>新建系统变量名：MySQL_HOME:<br>路径：D:\MySQL5.6\mysql-5.6.41-winx64\mysql-5.6.41-winx64<br><img src="/images/Windows/MySQL/WM_20220523_001.png" alt="MySQL注册服务"></p>
+<h1><span id="注册服务"><span id="inline-blue">注册服务</span></span></h1><figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">#<span class="built_in">cd</span>命令进入MySQL bin目录，执行以下命令</span><br><span class="line">#MySQL为注册的服务名称</span><br><span class="line">#--defaults-file参数指定对应启动配置文件</span><br><span class="line">#注意生成的默认密码</span><br><span class="line">mysqld install MySQL --defaults-file=&quot;D:\MySQL5.<span class="number">6</span>\mysql-<span class="number">5</span>.<span class="number">6</span>.<span class="number">41</span>-winx64\mysql-<span class="number">5</span>.<span class="number">6</span>.<span class="number">41</span>-winx64\my-default.ini&quot;</span><br></pre></td></tr></table></figure>
+
+<h1><span id="修改密码"><span id="inline-blue">修改密码</span></span></h1><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#方式一</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">set</span> password <span class="keyword">for</span> 用户名<span class="variable">@localhost</span> <span class="operator">=</span> password(<span class="string">&#x27;新密码&#x27;</span>);</span><br><span class="line">#方式二</span><br><span class="line">mysql<span class="operator">&gt;</span> mysqladmin <span class="operator">-</span>u用户名 <span class="operator">-</span>p旧密码 password 新密码;</span><br><span class="line">#方式三</span><br><span class="line">mysql<span class="operator">&gt;</span> use mysql;</span><br><span class="line">mysql<span class="operator">&gt;</span> update <span class="keyword">user</span> <span class="keyword">set</span> password<span class="operator">=</span>password(<span class="string">&#x27;123456&#x27;</span>) <span class="keyword">where</span> <span class="keyword">user</span><span class="operator">=</span><span class="string">&#x27;root&#x27;</span> <span class="keyword">and</span> host<span class="operator">=</span><span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">mysql<span class="operator">&gt;</span> flush privileges;</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>Windows</category>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ElasticSearch开机自启动</title>
     <url>/ElasticSearch/blogs/elasticsearch%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/</url>
     <content><![CDATA[<!-- toc -->
@@ -1337,8 +1392,8 @@
         <category>FTP</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FTP</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1503,8 +1558,8 @@
         <category>Jetty</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>Jetty</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1787,8 +1842,8 @@
         <category>FTP</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>FTP</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1937,33 +1992,6 @@
       </categories>
       <tags>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySQL注册为Windows服务</title>
-    <url>/Windows/MySQL/blogs/MySQL%E6%B3%A8%E5%86%8C%E4%B8%BAwindows%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8Fspan"><span id="inline-blue">配置环境变量</span></a></li>
-<li><a href="#span-idinline-blue%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1span"><span id="inline-blue">注册服务</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="配置环境变量"><span id="inline-blue">配置环境变量</span></span></h1><p>新建系统变量名：MySQL_HOME:<br>路径：D:\MySQL5.6\mysql-5.6.41-winx64\mysql-5.6.41-winx64<br><img src="/images/Windows/MySQL/WM_20220523_001.png" alt="MySQL注册服务"></p>
-<h1><span id="注册服务"><span id="inline-blue">注册服务</span></span></h1><figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">#<span class="built_in">cd</span>命令进入MySQL bin目录，执行以下命令</span><br><span class="line">#MySQL为注册的服务名称</span><br><span class="line">#--defaults-file参数指定对应启动配置文件</span><br><span class="line">mysqld install MySQL --defaults-file=&quot;D:\MySQL5.<span class="number">6</span>\mysql-<span class="number">5</span>.<span class="number">6</span>.<span class="number">41</span>-winx64\mysql-<span class="number">5</span>.<span class="number">6</span>.<span class="number">41</span>-winx64\my-default.ini&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-
-]]></content>
-      <categories>
-        <category>Windows</category>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-        <tag>Windows</tag>
       </tags>
   </entry>
   <entry>
