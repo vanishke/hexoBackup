@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Linux-系统管理</title>
+    <url>/Linux/blogs/Linux-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-bluereboot%E5%91%BD%E4%BB%A4span"><span id="inline-blue">reboot命令</span></a></li>
+<li><a href="#span-idinline-bluesleep%E5%91%BD%E4%BB%A4span"><span id="inline-blue">sleep命令</span></a></li>
+<li><a href="#span-idinline-bluetop%E5%91%BD%E4%BB%A4span"><span id="inline-blue">top命令</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h2><span id="reboot命令"><span id="inline-blue">reboot命令</span></span></h2><p><strong>作用</strong><br>重启<br><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-n ：直接重启，不保存当前资料</span><br><span class="line">-w : 重启过程记录日志</span><br><span class="line">-d ：重启过程不记录日志</span><br><span class="line">-f : 强制重启</span><br><span class="line">-i : 关闭网络服务，然后重启</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@lwdCSCDN local]# reboot</span><br></pre></td></tr></table></figure>
+
+
+<h2><span id="sleep命令"><span id="inline-blue">sleep命令</span></span></h2><p><strong>作用</strong><br>延迟当前命令执行<br><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">--help ：帮助信息</span><br><span class="line">--version :版本信息</span><br><span class="line">-number ：时间长度后面可跟单位smhd</span><br><span class="line">-smhd : s秒 m分钟 h小时 d天</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">显示系统当前时间，休眠10秒钟，再次显示时间</span></span><br><span class="line">[root@lwdCSCDN local]# date;sleep 10s;date</span><br><span class="line">2022年 06月 02日 星期四 17:30:04 CST</span><br><span class="line">2022年 06月 02日 星期四 17:30:14 CST</span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="top命令"><span id="inline-blue">top命令</span></span></h2><p><strong>作用</strong><br>实时显示系统运行状态<br><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-d ：改变更新速度</span><br><span class="line">-c ：切换显示模式</span><br><span class="line">-s ：安全模式，不进行交互指令</span><br><span class="line">-i ：不显示任何闲置或僵死进程</span><br><span class="line">-n ：设置显示的次数，完成后退出</span><br><span class="line">-b ：批处理模式，不进行交互时显示</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安全模式下,批量处理每隔4秒输出一次统计结果</span></span><br><span class="line">[root@lwdCSCDN local]# top -d 4 -c -s -i -n 6 -b</span><br><span class="line">top - 17:39:17 up  8:42,  2 users,  load average: 0.06, 0.05, 0.01</span><br><span class="line">Tasks: 305 total,   1 running, 304 sleeping,   0 stopped,   0 zombie</span><br><span class="line">Cpu(s):  0.7%us,  0.2%sy,  0.0%ni, 98.8%id,  0.2%wa,  0.0%hi,  0.0%si,  0.0%st</span><br><span class="line">Mem:  32693060k total, 12640504k used, 20052556k free,   580116k buffers</span><br><span class="line">Swap: 16777208k total,        0k used, 16777208k free,  3290016k cached</span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND                                                                      </span><br><span class="line">12051 root      20   0 15272 1328  892 R  1.9  0.0   0:00.01 top -d 4 -c -s -i -n 6 -b                                                    </span><br><span class="line"> ***  Delay time Not changed  *** </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux-文档编辑</title>
     <url>/Linux/blogs/Linux-%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91/</url>
     <content><![CDATA[<!-- toc -->
@@ -75,6 +116,11 @@
 <li><a href="#span-idinline-bluepwd%E5%91%BD%E4%BB%A4span"><span id="inline-blue">pwd命令</span></a></li>
 <li><a href="#span-idinline-bluemkdir%E5%91%BD%E4%BB%A4span"><span id="inline-blue">mkdir命令</span></a></li>
 <li><a href="#span-idinline-bluels%E5%91%BD%E4%BB%A4span"><span id="inline-blue">ls命令</span></a></li>
+<li><a href="#span-idinline-bluesz%E5%91%BD%E4%BB%A4span"><span id="inline-blue">sz命令</span></a></li>
+<li><a href="#span-idinline-bluerz%E5%91%BD%E4%BB%A4span"><span id="inline-blue">rz命令</span></a></li>
+<li><a href="#span-idinline-bluetrue%E5%91%BD%E4%BB%A4span"><span id="inline-blue">true命令</span></a></li>
+<li><a href="#span-idinline-bluetree%E5%91%BD%E4%BB%A4span"><span id="inline-blue">tree命令</span></a></li>
+<li><a href="#span-idinline-bluelast%E5%91%BD%E4%BB%A4span"><span id="inline-blue">last命令</span></a></li>
 </ul>
 <!-- tocstop -->
 
@@ -173,6 +219,44 @@
 
 
 
+
+<h2><span id="sz命令"><span id="inline-blue">sz命令</span></span></h2><p><strong>作用</strong><br>基于zmodern协议实现远程文件下载<br><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-a : 以文本形式传输</span><br><span class="line">-b : 以二进制传输</span><br><span class="line">-e ：控制字符转义</span><br><span class="line">-i ：接收端执行命令</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 以文本格式下载服务器上app-info.log文件到本地</span></span><br><span class="line">[root@lwdCSCDN info]# sz -a app-info.log  </span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="rz命令"><span id="inline-blue">rz命令</span></span></h2><p><strong>作用</strong><br>基于zmodern协议实现本地文件上传<br><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-B : 设备缓冲大小</span><br><span class="line">-D : 测试模式，</span><br><span class="line">-e ：控制字符转义</span><br><span class="line">-y ：重名文件直接覆盖</span><br><span class="line">-p : 重名文件不覆盖</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 上传本地文件到当前服务器目录</span></span><br><span class="line">[root@lwdCSCDN info]# rz</span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="true命令"><span id="inline-blue">true命令</span></span></h2><p><strong>作用</strong><br>清空文件内容、不删除文件</p>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">清空app-info.log文件</span></span><br><span class="line">[root@lwdCSCDN info]# true &gt; app-info.log </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="tree命令"><span id="inline-blue">tree命令</span></span></h2><p><strong>作用</strong><br>以树形结构展现当前目录的文件</p>
+<p><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-a ：所有文件</span><br><span class="line">-t : 用文件和目录的更改时间排序</span><br><span class="line">-f : 在每个文件或目录之前，显示完整的相对路径名称</span><br><span class="line">-s : 列出文件或目录大小</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash">[root@lwdCSCDN info]<span class="comment"># tree</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2><span id="last命令"><span id="inline-blue">last命令</span></span></h2><p><strong>作用</strong><br>显示最近终端登录信息</p>
+<p><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-R ：省略hostname栏位</span><br><span class="line">-username : 展示username登入信息</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash">[root@lwdCSCDN info]<span class="comment"># last</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -266,6 +350,42 @@
     <title>前言</title>
     <url>/uncategorized/blogs/indexs/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>C3p0连接池泄漏分析</title>
+    <url>/Linux/MySQL/%E8%BF%9E%E6%8E%A5%E6%B1%A0/blogs/C3p0%E8%BF%9E%E6%8E%A5%E6%B1%A0%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">现象</span></a></li>
+<li><a href="#span-idinline-blue%E5%88%86%E6%9E%90span"><span id="inline-blue">分析</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>线上环境接口突然访问异常，cpu和内存占用率都很低，但出现大量端口close_wait状态。</p>
+<h1><span id="分析"><span id="inline-blue">分析</span></span></h1><p>通过jstack命令抓取了当时故障点的堆栈日志。借助IBM Thread and Monitor Dump Analyzer for Java工具查看当时接口请求状态详情。</p>
+<p>工具下载地址：链接：<a href="https://pan.baidu.com/s/108SB4IywcpspqPrSAwmpEw">https://pan.baidu.com/s/108SB4IywcpspqPrSAwmpEw</a><br>提取码：3bnk</p>
+<p><img src="/images/linux/LM_20220602_001.png" alt="堆栈工具使用"><br><img src="/images/linux/LM_20220602_002.png" alt="堆栈工具使用"><br><img src="/images/linux/LM_20220602_003.png" alt="堆栈工具使用"></p>
+<p>堆栈日志显示调用链一直在等待dasource可用,检查c3p0配置文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jdbc.driverClassName=com.mysql.jdbc.Driver</span><br><span class="line">jdbc.url=jdbc:mysql://10.9.216.12:3306/nanjing_iepg_xw?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeB</span><br><span class="line">ehavior=convertToNull&amp;transformedBitIsBoolean=true&amp;pinGlobalTxToPhysicalConnection=true&amp;autoReconnect=truejdbc.username=root</span><br><span class="line">jdbc.password=coship</span><br><span class="line"></span><br><span class="line">c3p0.acquireIncrement=1</span><br><span class="line">c3p0.initialPoolSize=5</span><br><span class="line">c3p0.idleConnectionTestPeriod=3600</span><br><span class="line">c3p0.minPoolSize=5</span><br><span class="line">c3p0.maxPoolSize=5</span><br><span class="line">c3p0.maxStatements=100</span><br><span class="line">c3p0.numHelperThreads=10</span><br><span class="line">c3p0.maxIdleTime=60</span><br><span class="line">c3p0.testConnectionOnCheckout=false</span><br><span class="line">c3p0.preferredTestQuery=SELECT 1 FROM DUAL </span><br><span class="line">c3p0.breakAfterAcquireFailure=false</span><br><span class="line">c3p0.acquireRetryAttempts=30</span><br><span class="line"><span class="meta">#</span><span class="bash">c3p0.checkoutTimeout=3000</span></span><br><span class="line"><span class="meta">#</span><span class="bash">c3p0.unreturnedConnectionTimeout=100</span></span><br><span class="line"><span class="meta">#</span><span class="bash">c3p0.debugUnreturnedConnectionStackTraces=<span class="literal">true</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> nodeType: beijing=1;wuhan=2</span></span><br><span class="line">sync.sequenceGeneratorDao.nodeType=1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">schedule task timer int [0~23]</span> </span><br><span class="line">cacheRefreshHour=3</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>配置连接池最大连接20，最小为5,初始化大小5,正常来说应该没有问题。猜测可能程序调用存在连接泄漏<br>通过添加unreturnedConnectionTimeout、debugUnreturnedConnectionStackTraces参数追踪可能出现连接泄漏的程序调用点。应用程序重启后发现日志打印泄漏点。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[INFO][2022-05-30 20:16:42,011][resourcepool.BasicResourcePool][Logging the stack trace by which the overdue resource was checked-out.]</span><br><span class="line">java.lang.Exception: DEBUG STACK TRACE: Overdue resource check-out stack trace.</span><br><span class="line">	at com.mchange.v2.resourcepool.BasicResourcePool.checkoutResource(BasicResourcePool.java:588)</span><br><span class="line">	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool.checkoutAndMarkConnectionInUse(C3P0PooledConnectionPool.java:758)</span><br><span class="line">	at com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool.checkoutPooledConnection(C3P0PooledConnectionPool.java:685)</span><br><span class="line">	at com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource.getConnection(AbstractPoolBackedDataSource.java:140)</span><br><span class="line">	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)</span><br><span class="line">	at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:35)</span><br><span class="line">	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:106)</span><br><span class="line">	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getPhysicalConnection(LogicalConnectionManagedImpl.java:136)</span><br><span class="line">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.connection(StatementPreparerImpl.java:50)</span><br><span class="line">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:149)</span><br><span class="line">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:176)</span><br><span class="line">	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:151)</span><br><span class="line">	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:2082)</span><br><span class="line">	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2012)</span><br><span class="line">	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:1990)</span><br><span class="line">	at org.hibernate.loader.Loader.doQuery(Loader.java:949)</span><br><span class="line">	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:351)</span><br><span class="line">	at org.hibernate.loader.Loader.doList(Loader.java:2787)</span><br><span class="line">	at org.hibernate.loader.Loader.doList(Loader.java:2770)</span><br><span class="line">	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2604)</span><br><span class="line">	at org.hibernate.loader.Loader.list(Loader.java:2599)</span><br><span class="line">	at org.hibernate.loader.criteria.CriteriaLoader.list(CriteriaLoader.java:109)</span><br><span class="line">	at org.hibernate.internal.SessionImpl.list(SessionImpl.java:1979)</span><br><span class="line">	at org.hibernate.internal.CriteriaImpl.list(CriteriaImpl.java:370)</span><br><span class="line">	at org.hibernate.internal.CriteriaImpl.uniqueResult(CriteriaImpl.java:392)</span><br><span class="line">	at com.coship.core.dal.base.DalScheduleJob.isDbOnline(DalScheduleJob.java:61)</span><br><span class="line">	at com.coship.core.dal.base.DalScheduleJob.executeInternal(DalScheduleJob.java:24)</span><br><span class="line">	at org.springframework.scheduling.quartz.QuartzJobBean.execute(QuartzJobBean.java:75)</span><br><span class="line">	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)</span><br><span class="line">	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)</span><br><span class="line">[INFO][2022-05-30 20:18:00,010][base.DalScheduleJob][开始刷新缓存数据]</span><br></pre></td></tr></table></figure>
+
+<p>发现泄漏点存在于DalScheduleJob.isDbOnline()方法内部，查看对应代码记录，发现确实是因为hibernate的session使用之后未关闭导致，在调小数据库连接池大小和接口请求一段时间之后很快复现异常情况。修改代码解决连接溢出。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isDbOnline</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">		Session session = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			session = sessionFactory.openSession();</span><br><span class="line">			Criteria criteria = session.createCriteria(Asset.class);</span><br><span class="line">			criteria.add(Restrictions.eq(<span class="string">&quot;resourceCode&quot;</span>, <span class="keyword">new</span> Long(<span class="number">10008</span>)));</span><br><span class="line">			criteria.uniqueResult();</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			logger.error(<span class="string">&quot;刷新缓存前检测数据库连接出错&quot;</span>, e);</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			<span class="comment">//故障点，未关闭连接</span></span><br><span class="line">			<span class="keyword">if</span>(session != <span class="keyword">null</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				session.close();</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>后续应用接口请求正常，没有再出现相应情况。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>MySQL</category>
+        <category>连接池</category>
+      </categories>
+      <tags>
+        <tag>C3p0</tag>
+        <tag>MySQL</tag>
+        <tag>Hibernate</tag>
+      </tags>
   </entry>
   <entry>
     <title>MySQL数据丢失原因</title>
@@ -1392,8 +1512,8 @@
         <category>FTP</category>
       </categories>
       <tags>
-        <tag>FTP</tag>
         <tag>Linux</tag>
+        <tag>FTP</tag>
       </tags>
   </entry>
   <entry>
@@ -1409,8 +1529,8 @@
         <category>MySQL</category>
       </categories>
       <tags>
-        <tag>数据库</tag>
         <tag>MySQL</tag>
+        <tag>数据库</tag>
       </tags>
   </entry>
   <entry>
@@ -1558,8 +1678,8 @@
         <category>Jetty</category>
       </categories>
       <tags>
-        <tag>Jetty</tag>
         <tag>Linux</tag>
+        <tag>Jetty</tag>
       </tags>
   </entry>
   <entry>
@@ -1842,8 +1962,8 @@
         <category>FTP</category>
       </categories>
       <tags>
-        <tag>FTP</tag>
         <tag>Linux</tag>
+        <tag>FTP</tag>
       </tags>
   </entry>
   <entry>

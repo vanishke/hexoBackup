@@ -621,3 +621,101 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
 
 
+
+## <span id="inline-blue">sz命令</span>
+
+**作用**
+基于zmodern协议实现远程文件下载
+**选项**
+```shell
+-a : 以文本形式传输
+-b : 以二进制传输
+-e ：控制字符转义
+-i ：接收端执行命令
+```
+
+**示例**
+```shell
+# 以文本格式下载服务器上app-info.log文件到本地
+[root@lwdCSCDN info]# sz -a app-info.log  
+```
+
+
+
+## <span id="inline-blue">rz命令</span>
+
+**作用**
+基于zmodern协议实现本地文件上传
+**选项**
+```shell
+-B : 设备缓冲大小
+-D : 测试模式，
+-e ：控制字符转义
+-y ：重名文件直接覆盖
+-p : 重名文件不覆盖
+```
+
+**示例**
+```shell
+# 上传本地文件到当前服务器目录
+[root@lwdCSCDN info]# rz
+```
+
+
+
+## <span id="inline-blue">true命令</span>
+
+**作用**
+清空文件内容、不删除文件
+
+
+**示例**
+```shell
+#清空app-info.log文件
+[root@lwdCSCDN info]# true > app-info.log 
+
+```
+
+
+
+## <span id="inline-blue">tree命令</span>
+
+**作用**
+以树形结构展现当前目录的文件
+
+**选项**
+```shell
+-a ：所有文件
+-t : 用文件和目录的更改时间排序
+-f : 在每个文件或目录之前，显示完整的相对路径名称
+-s : 列出文件或目录大小
+```
+**示例**
+```shell
+#
+[root@lwdCSCDN info]# tree
+
+```
+
+
+## <span id="inline-blue">last命令</span>
+
+**作用**
+显示最近终端登录信息
+
+**选项**
+```shell
+-R ：省略hostname栏位
+-username : 展示username登入信息
+
+
+```
+**示例**
+```shell
+#
+[root@lwdCSCDN info]# last
+
+```
+
+
+
