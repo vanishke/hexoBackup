@@ -81,3 +81,33 @@ Swap: 16777208k total,        0k used, 16777208k free,  3290016k cached
 
 ```
 
+
+
+## <span id="inline-blue">who命令</span>
+
+
+**作用**
+查看当前登陆用户信息
+**选项**
+```shell
+-a ：全面信息
+-b : 系统启动时间
+-d ：已死掉进程
+-l : 系统登录进程
+-H :  带有列标题打印用户名、终端和时间
+-t : 上次锁定时间
+-u : 查看已登录用户
+```
+
+**示例**
+```shell
+#查看已登录用户
+[root@demomdn local]# who -u -H
+NAME     LINE         TIME             IDLE          PID COMMENT
+root     pts/0        2022-06-08 08:54 08:26       18361 (10.9.212.70)
+root     pts/1        2022-06-08 17:05 00:33       22909 (10.9.212.52)
+root     pts/2        2022-06-08 15:06   .         21935 (10.9.212.55)
+#查看系统启动时间
+[root@demomdn local]# who -b
+system boot  2022-06-07 09:00
+```
