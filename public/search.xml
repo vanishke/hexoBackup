@@ -360,6 +360,33 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>checkbox控件置灰导致form表单提交失败</title>
+    <url>/Jsp/blogs/checkbox%E6%8E%A7%E4%BB%B6%E7%BD%AE%E7%81%B0%E5%AF%BC%E8%87%B4form%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4%E5%A4%B1%E8%B4%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">现象</span></a></li>
+<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88span"><span id="inline-blue">解决方案</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>checkbox置灰后提交获取对应的值失败<br>置灰代码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//遍历checkbox，对应权限ID为7、71、7101、7102不置灰</span></span><br><span class="line">$(<span class="string">&quot;:checkbox&quot;</span>).each(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.value == <span class="number">7</span> || <span class="built_in">this</span>.value == <span class="number">71</span> || <span class="built_in">this</span>.value == <span class="number">7101</span> || <span class="built_in">this</span>.value == <span class="number">7102</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="built_in">this</span>.checked) &#123;</span><br><span class="line">                <span class="built_in">this</span>.checked = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.disabled = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>测试之后发现后台拿不到默认选中的checkbox参数值。</p>
+<h1><span id="解决方案"><span id="inline-blue">解决方案</span></span></h1><p>form表单提交之前恢复checkbox的disabled属性，再进行表单提交</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sumbit</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">//恢复checkbox状态disabled</span></span><br><span class="line">    $(<span class="string">&quot;:checkbox&quot;</span>).each(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.disabled) &#123;</span><br><span class="line">            <span class="built_in">this</span>.disabled = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">	<span class="built_in">document</span>.getElementById(<span class="string">&quot;AssignPrivileges&quot;</span>).submit();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Jsp</category>
+      </categories>
+      <tags>
+        <tag>Jsp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jboss应用接口无响应</title>
     <url>/Linux/Jboss/blogs/Jboss%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E6%97%A0%E5%93%8D%E5%BA%94/</url>
     <content><![CDATA[<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>java应用程序接口请求数据无响应，抓取堆栈日志如下：</p>
@@ -468,8 +495,8 @@
         <category>Jsp</category>
       </categories>
       <tags>
-        <tag>js</tag>
         <tag>Jsp</tag>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
