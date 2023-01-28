@@ -1,7 +1,6 @@
 ---
 title: MySQL注册为Windows服务
 categories:
-	- Windows
 	- MySQL
 date: 2022-05-26 18:23:20
 tags: 

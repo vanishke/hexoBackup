@@ -1,7 +1,6 @@
 ---
 title: vsftpd同时监听ipv4和ipv6
 categories: 
-	- Linux
 	- FTP
 tags: 
 	- Linux

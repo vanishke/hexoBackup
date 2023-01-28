@@ -1,10 +1,9 @@
 ---
 title: Windows环境下FTP常用命令
 categories: 
-	- windows
 	- FTP
 tags: 
-	- windows
+	- Windows
 	- FTP
 date: 2022-03-15 17:11:20
 ---

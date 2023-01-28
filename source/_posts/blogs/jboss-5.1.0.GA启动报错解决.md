@@ -1,7 +1,6 @@
 ---
 title: jboss-5.1.0.GA启动报错解决
 categories:
-	- Linux
 	- Jboss
 date: 2022-07-06 10:55:20
 tags: 

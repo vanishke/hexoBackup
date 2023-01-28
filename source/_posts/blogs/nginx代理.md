@@ -1,7 +1,6 @@
 ---
 title: nginx代理
 categories: 
-	- Linux
 	- nginx
 tags: 
 	- Linux

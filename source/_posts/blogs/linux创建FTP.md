@@ -1,7 +1,6 @@
 ---
 title: Linux创建FTP
 categories: 
-	- Linux
 	- FTP
 tags: 
 	- Linux

@@ -1,8 +1,11 @@
 ---
 title: windows注册Redis服务
-categories: Redis
+categories: 
+		- Redis
 date: 2020-12-31 17:32:20
-tags: Redis,windows
+tags: 
+		- Redis
+		- Windows
 ---
 <!-- toc -->
 

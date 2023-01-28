@@ -1,7 +1,6 @@
 ---
 title: nginx基本命令
 categories: 
-	- windows
 	- nginx
 tags: 
 	- windows

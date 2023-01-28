@@ -1,10 +1,8 @@
 ---
 title: MySQL存储过程
 categories: 
-	- 数据库
 	- MySQL
 tags: 
-	- 数据库
 	- MySQL
 date: 2022-04-12 10:10:12
 ---

@@ -1,8 +1,6 @@
 ---
 title: Jetty修改端口号
 categories: 
-	- Linux
-	- WEB容器
 	- Jetty
 tags: 
 	- Linux

@@ -1,12 +1,12 @@
 ---
 title: Jboss应用接口无响应
+categories: 
+	- Jboss
 tags: 
-	- Linux
 	- Jboss
 	- Java
-categories: 
 	- Linux
-	- Jboss
+
 ---
 
 # <span id="inline-blue">现象</span> 
