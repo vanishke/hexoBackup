@@ -12,7 +12,9 @@ tags:
 
 # <span id="inline-blue">目的</span>
 解决服务器同级目录下,多个模块使用Jboss容器自动启动脚本设置。
+
 # <span id="inline-blue">脚本内容</span>
+
 ```shell
 #!/bin/sh
 #搜索jboss start.sh&stop.sh脚本所在目录，先执行stop.sh,两秒之后执行start.sh启动
@@ -37,8 +39,8 @@ done
 将脚本上传至需要设置自动启动的项目同级目录下，执行 chmod a+x *.sh
 ![Jboss容器自启动](/images/Jboss/Jboss_20220712_001.png)
 
-
 # <span id="inline-blue">验证</span>
+
 ```shell
 #startsdp.sh脚本
 sh startsdp.sh
