@@ -1,9 +1,9 @@
 ---
 title: elasticsearch导入导出
 tags: 
-	- ElasticSearch
-	- EsTool
-categories: ElasticSearch
+	- Elasticsearch
+categories: 
+	- Elasticsearch
 ---
 
 ## <span id="inline-blue">环境</span>

@@ -14,6 +14,7 @@
   "dependencies": {
     "@iiif/vocabulary": "^1.0.23",
     "animate.css": "^4.1.1",
+    "cross-spawn": "^7.0.3",
     "font-awesome": "^4.7.0",
     "gitalk": "^1.7.0",
     "hexo": "^5.0.0",

@@ -1,10 +1,9 @@
 ---
 title: ElasticSearch开机自启动
 categories: 
-	- ElasticSearch
+	- Elasticsearch
 tags: 
-	- ElasticSearch
-	- NoSQL
+	- Elasticsearch
 ---
 <!-- toc -->
 

@@ -1,9 +1,9 @@
 ---
 title: ELK环境搭建实践
 categories: 
-	- ElasticSearch
+	- Elasticsearch
 tags: 
-	- ElasticSearch
+	- Elasticsearch
 	- logstash
 	- kibana
 	

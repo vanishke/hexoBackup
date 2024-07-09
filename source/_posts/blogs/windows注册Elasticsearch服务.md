@@ -1,11 +1,10 @@
 ---
 title: windows注册Elasticsearch服务
 categories: 
-		- ElasticSearch
+		- Elasticsearch
 date: 2020-12-31 17:32:20
 tags: 
-		- ElasticSearch
-		- Windows
+		- Elasticsearch
 ---
 <!-- toc -->
 

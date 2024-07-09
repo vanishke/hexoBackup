@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: vanishke个人博客
+title: vanishke随笔
 subtitle: '善始者实繁，克终者盖寡'
 description: ''
 keywords: Java,Elasticsearch,MySQL,Linux
@@ -137,8 +137,6 @@ neat_js:
     - '**/*.min.js'
     - '**/jquery.fancybox.pack.js'
     - '**/index.js'
-
-
     
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

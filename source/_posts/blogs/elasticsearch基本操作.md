@@ -1,7 +1,9 @@
 ---
 title: ElasticSearch基本操作
-categories: ElasticSearch
-tags: ElasticSearch,NoSQL
+categories: 
+	- Elasticsearch
+tags: 
+	- Elasticsearch
 ---
 <!-- toc -->
 
@@ -9,13 +11,17 @@ tags: ElasticSearch,NoSQL
 
 http://10.9.217.3:9200/_cat/indices
 
+# <span id="inline-blue">查看指定索引映射Mapping详情</span>
+
+http://10.9.217.3:9200/${indexName}?pretty
+
 # <span id="inline-blue">创建索引</span>
 
-POST http://10.9.217.3:9200/coseelog
+POST http://10.9.217.3:9200/${indexName}
 
 # <span id="inline-blue">删除索引</span>
 
-DELETE http://10.9.217.3:9200/coseelog
+DELETE http://10.9.217.3:9200/${indexName}
 
 # <span id="inline-blue">创建索引mapping</span>
 

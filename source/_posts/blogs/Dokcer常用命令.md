@@ -41,12 +41,8 @@ docker image prune
 docker ps
 #查看所有容器
 docker ps -a 
-#批量删除所有镜像
+#批量删除所有容器
 docker rm -vf $(docker ps -a -q)
-#删除镜像 docker rmi mysql-5.7(镜像名或image ID 前四位)
-docker rmi 镜像名
-#批量删除镜像
-docker rmi -f $(docker images -a -q)
 #停止容器 docker stop mysql5.7(容器名或容器ID)
 docker stop 容器名
 #查看容器日志 docker logs 容器名或容器ID
