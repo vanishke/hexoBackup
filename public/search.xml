@@ -400,8 +400,8 @@
 <!-- tocstop -->
 
 <h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>hexo打包启动之后本地访问特别慢，通过nginx代理静态文件优化访问速度</p>
-<h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>Hexo所在根目录执行Hexo deploy命令之后在public目录生成静态文件，将其拷贝至nginx主目录<br>Hexo静态文件生成目录图<br><img src="/images/hexo/hexo_nginx_20240709_001.png" alt="Hexo优化"></p>
-<p>静态文件所在nginx目录结构图<br><img src="/images/hexo/hexo_nginx_20240709_002.png" alt="Hexo优化"></p>
+<h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>Hexo所在根目录执行Hexo deploy命令之后在public目录生成静态文件，将其拷贝至nginx主目录<br>Hexo静态文件生成目录图<br><img src="/images/hexo/nginx/hexo_nginx_20240709_001.png" alt="Hexo优化"></p>
+<p>静态文件所在nginx目录结构图<br><img src="/images/hexo/nginx/hexo_nginx_20240709_002.png" alt="Hexo优化"></p>
 <p>nginx新增配置如下：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       8888;</span><br><span class="line">        server_name  10.9.212.55;</span><br><span class="line"></span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        access_log  logs/host.access.log ;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">			charset utf-8;</span><br><span class="line">			autoindex on;</span><br><span class="line">            alias  blog/;</span><br><span class="line">        &#125;</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
@@ -410,8 +410,8 @@
         <category>Hexo</category>
       </categories>
       <tags>
-        <tag>Windows</tag>
         <tag>Nginx</tag>
+        <tag>Windows</tag>
         <tag>Hexo</tag>
       </tags>
   </entry>
@@ -1378,7 +1378,7 @@
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x30;&#48;&#x2e;&#49;&#48;&#x31;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x30;&#48;&#x2e;&#49;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#49;&#x30;&#48;&#x2e;&#49;&#x30;&#49;">&#114;&#111;&#111;&#116;&#x40;&#49;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#49;&#x30;&#48;&#x2e;&#49;&#x30;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -1511,31 +1511,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Maven打包resource排除不生效的解决办法</title>
-    <url>/Maven/blogs/Maven%E6%89%93%E5%8C%85resource%E6%8E%92%E9%99%A4%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
-<li><a href="#span-idinline-blue%E5%AE%9E%E7%8E%B0span"><span id="inline-blue">实现</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>SpringBoot: 2.2.6.RELEASE<br>SpringCloud: 2021.0.5<br>nacos: nacos-2.1.1<br>mybatis-plus: 3.3.1<br>Java： 1.8</p>
-<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>微服务生产环境配置文件统一由nacos下发，部署服务模块发现jar内的配置文件没有被排除，导致nacos配置没有生效，pom.xml文件里面文件排除定义如下：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">&lt;finalName&gt;ffcs-admin-biz&lt;/finalName&gt;</span></span><br><span class="line"><span class="attr">&lt;resources&gt;</span></span><br><span class="line">	<span class="attr">&lt;resource&gt;</span></span><br><span class="line">		<span class="attr">&lt;filtering&gt;true&lt;/filtering&gt;</span></span><br><span class="line">		<span class="attr">&lt;directory&gt;src/main/resources&lt;/directory&gt;</span></span><br><span class="line">		<span class="attr">&lt;excludes&gt;</span></span><br><span class="line">			<span class="attr">&lt;exclude&gt;application-*.properties&lt;/exclude&gt;</span></span><br><span class="line">			<span class="attr">&lt;exclude&gt;**/logback-spring.xml&lt;/exclude&gt;</span></span><br><span class="line">		<span class="attr">&lt;/excludes&gt;</span></span><br><span class="line">	<span class="attr">&lt;/resource&gt;</span></span><br><span class="line"><span class="attr">&lt;/resources&gt;</span></span><br></pre></td></tr></table></figure>
-<h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>通过增加maven-jar-plugin插件，实现打包生成的jar里面排除掉对应的配置文件，新增插件配置如下：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-jar-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">excludes</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/application-*.properties<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/logback-spring.xml<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">excludes</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Maven</category>
-      </categories>
-      <tags>
-        <tag>Maven</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>IntelliJ IDEA 设置忽略SVN文件和文件夹无效.</title>
     <url>/IntelliJ/blogs/IntelliJ%20IDEA%20%E8%AE%BE%E7%BD%AE%E5%BF%BD%E7%95%A5SVN%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E6%97%A0%E6%95%88/</url>
     <content><![CDATA[<!-- toc -->
@@ -1561,6 +1536,31 @@
       </categories>
       <tags>
         <tag>IntelliJ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Maven打包resource排除不生效的解决办法</title>
+    <url>/Maven/blogs/Maven%E6%89%93%E5%8C%85resource%E6%8E%92%E9%99%A4%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
+<li><a href="#span-idinline-blue%E5%AE%9E%E7%8E%B0span"><span id="inline-blue">实现</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>SpringBoot: 2.2.6.RELEASE<br>SpringCloud: 2021.0.5<br>nacos: nacos-2.1.1<br>mybatis-plus: 3.3.1<br>Java： 1.8</p>
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>微服务生产环境配置文件统一由nacos下发，部署服务模块发现jar内的配置文件没有被排除，导致nacos配置没有生效，pom.xml文件里面文件排除定义如下：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">&lt;finalName&gt;ffcs-admin-biz&lt;/finalName&gt;</span></span><br><span class="line"><span class="attr">&lt;resources&gt;</span></span><br><span class="line">	<span class="attr">&lt;resource&gt;</span></span><br><span class="line">		<span class="attr">&lt;filtering&gt;true&lt;/filtering&gt;</span></span><br><span class="line">		<span class="attr">&lt;directory&gt;src/main/resources&lt;/directory&gt;</span></span><br><span class="line">		<span class="attr">&lt;excludes&gt;</span></span><br><span class="line">			<span class="attr">&lt;exclude&gt;application-*.properties&lt;/exclude&gt;</span></span><br><span class="line">			<span class="attr">&lt;exclude&gt;**/logback-spring.xml&lt;/exclude&gt;</span></span><br><span class="line">		<span class="attr">&lt;/excludes&gt;</span></span><br><span class="line">	<span class="attr">&lt;/resource&gt;</span></span><br><span class="line"><span class="attr">&lt;/resources&gt;</span></span><br></pre></td></tr></table></figure>
+<h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>通过增加maven-jar-plugin插件，实现打包生成的jar里面排除掉对应的配置文件，新增插件配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-jar-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">excludes</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/application-*.properties<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/logback-spring.xml<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">excludes</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Maven</category>
+      </categories>
+      <tags>
+        <tag>Maven</tag>
       </tags>
   </entry>
   <entry>
@@ -2415,30 +2415,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Dokcer镜像导入导出</title>
-    <url>/Docker/blogs/Dokcer%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blue%E5%AF%BC%E5%87%BAspan"><span id="inline-blue">导出</span></a></li>
-<li><a href="#span-idinline-blue%E5%AF%BC%E5%85%A5span"><span id="inline-blue">导入</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><pre><code>Windows7
-DockerToolbox-18.03.0-ce.exe</code></pre>
-<h1><span id="导出"><span id="inline-blue">导出</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">rm -rf  images</span><br><span class="line">docker images &gt; images.txt</span><br><span class="line">awk &#x27;&#123;print $1&#125;&#x27; images.txt &gt; REPOSITORY.txt</span><br><span class="line">sed -i &#x27;1d&#x27; REPOSITORY.txt</span><br><span class="line">mkdir images</span><br><span class="line">touch tarname.txt</span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker save $LINE &gt; ./images/$&#123;LINE//\//_&#125;.tar</span><br><span class="line">echo &quot;$&#123;LINE//\//_&#125;.tar&quot; &gt;&gt; tarname.txt</span><br><span class="line">done &lt; REPOSITORY.txt</span><br><span class="line">rm -rf images.txt REPOSITORY.txt</span><br><span class="line">cp import.sh ./images/</span><br><span class="line">echo &quot;images export finish&quot;</span><br></pre></td></tr></table></figure>
-<h1><span id="导入"><span id="inline-blue">导入</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker  load -i ./images/$LINE</span><br><span class="line">echo ok</span><br><span class="line">done &lt; tarname.txt</span><br><span class="line">echo finish</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Dokcer常用命令</title>
     <url>/Docker/blogs/Dokcer%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<!-- toc -->
@@ -2462,6 +2438,30 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
 <h1><span id="操作容器"><span id="inline-blue">操作容器</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看正在运行容器</span></span><br><span class="line">docker ps</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有容器</span></span><br><span class="line">docker ps -a </span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除所有容器</span></span><br><span class="line">docker rm -vf $(docker ps -a -q)</span><br><span class="line"><span class="meta">#</span><span class="bash">停止容器 docker stop mysql5.7(容器名或容器ID)</span></span><br><span class="line">docker stop 容器名</span><br><span class="line"><span class="meta">#</span><span class="bash">查看容器日志 docker logs 容器名或容器ID</span></span><br><span class="line">docker logs mysql5.7</span><br><span class="line"><span class="meta">#</span><span class="bash">进入容器内部</span></span><br><span class="line">docker exec -it mysql5.7 /bin/bash</span><br></pre></td></tr></table></figure>
 
 <h1><span id="docker-compose工具"><span id="inline-blue">docker-compose工具</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">启动容器  -d:后台启动 --build:重建镜像 容器名可跟多个,docker-compose半拍工具需要结合docker-compose.yml使用</span></span><br><span class="line">docker-compose up -d --build 容器名</span><br><span class="line"><span class="meta">#</span><span class="bash">停止所有容器</span></span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dokcer镜像导入导出</title>
+    <url>/Docker/blogs/Dokcer%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E5%AF%BC%E5%87%BAspan"><span id="inline-blue">导出</span></a></li>
+<li><a href="#span-idinline-blue%E5%AF%BC%E5%85%A5span"><span id="inline-blue">导入</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><pre><code>Windows7
+DockerToolbox-18.03.0-ce.exe</code></pre>
+<h1><span id="导出"><span id="inline-blue">导出</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">rm -rf  images</span><br><span class="line">docker images &gt; images.txt</span><br><span class="line">awk &#x27;&#123;print $1&#125;&#x27; images.txt &gt; REPOSITORY.txt</span><br><span class="line">sed -i &#x27;1d&#x27; REPOSITORY.txt</span><br><span class="line">mkdir images</span><br><span class="line">touch tarname.txt</span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker save $LINE &gt; ./images/$&#123;LINE//\//_&#125;.tar</span><br><span class="line">echo &quot;$&#123;LINE//\//_&#125;.tar&quot; &gt;&gt; tarname.txt</span><br><span class="line">done &lt; REPOSITORY.txt</span><br><span class="line">rm -rf images.txt REPOSITORY.txt</span><br><span class="line">cp import.sh ./images/</span><br><span class="line">echo &quot;images export finish&quot;</span><br></pre></td></tr></table></figure>
+<h1><span id="导入"><span id="inline-blue">导入</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker  load -i ./images/$LINE</span><br><span class="line">echo ok</span><br><span class="line">done &lt; tarname.txt</span><br><span class="line">echo finish</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
         <category>Docker</category>
       </categories>
@@ -3024,8 +3024,8 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Java</tag>
         <tag>Jboss</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
