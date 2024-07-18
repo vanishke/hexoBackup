@@ -1,12 +1,14 @@
 ---
-title: 微服务模块引入redisson导致@cacheable失效解决办法
+title: 微服务模块引入Redisson导致@cacheable失效解决办法
 categories: 
 	- SpringCloud
 tags: 
 	- SpringCloud
 	- Redisson
 	- Java
+	
 date: 2024-03-06 17:47:20
+updated: 2024-03-06 17:47:20
 ---
 <!-- toc -->
 

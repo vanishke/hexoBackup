@@ -1,13 +1,15 @@
 ---
 title: SpringBoot集成RabbitMQ实现日志批量入库
 categories: 
-	- RabbitMQ
+	- SpringBoot
 tags: 
 	- RabbitMQ
 	- SpringBoot
 	- SpringCloud
 	- Java
+	
 date: 2024-03-15 16:53:20
+updated: 2024-03-15 16:53:20
 ---
 <!-- toc -->
 

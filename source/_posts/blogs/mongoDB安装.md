@@ -1,7 +1,12 @@
 ---
-title: mongoDB安装
-tags: mongoDB
-categories: mongoDB
+title: MongoDB安装
+tags: 
+	- MongoDB
+categories: 
+	- MongoDB
+
+date: 2021-03-11 11:48:32	
+updated: 2021-03-11 11:48:32
 ---
 
 ## <span id="inline-blue">安装环境</span>

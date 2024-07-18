@@ -2,12 +2,13 @@
 title: 解决SpringCloud-Gateway请求favicon.ico出现404
 categories:
 	- SpringCloud
-
-date: 2024-06-21 17:39:20
 tags: 
 	- SpringCloud
 	- Java
 	- knife4j-gateway
+	
+date: 2024-06-21 17:39:20
+updated: 2024-06-21 17:39:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

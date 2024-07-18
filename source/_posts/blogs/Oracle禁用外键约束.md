@@ -1,10 +1,12 @@
 ---
 title: Oracle禁用外键约束
-date: 2024-06-07 09:14:20
 tags:
 	- Oracle
 categories: 
 	- Oracle
+	
+date: 2024-06-07 09:14:20
+updated: 2024-06-07 09:14:20
 ---
 ## <span id="inline-blue">环境</span>
 Oracle:11.2.0.4.0

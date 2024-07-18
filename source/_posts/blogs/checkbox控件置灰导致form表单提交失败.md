@@ -1,11 +1,12 @@
 ---
 title: checkbox控件置灰导致form表单提交失败
 categories:
-	- JSP
-
-date: 2022-12-27 15:32:20
+	- Jsp
 tags: 
-	- JSP
+	- Jsp
+	
+date: 2022-12-27 15:32:20
+updated: 2022-12-27 15:32:20
 ---
 <!-- toc -->
 

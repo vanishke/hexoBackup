@@ -1,12 +1,13 @@
 ---
-title: freemarker宏模板实现ztree栏目树
+title: Freemarker宏模板实现Ztree栏目树
 categories:
 	- Ztree
-date: 2022-07-01 16:23:20
 tags: 
 	- Freemarker
 	- Ztree
 
+date: 2022-07-01 16:23:20
+updated: 2022-07-01 16:23:20
 ---
 <!-- toc -->
 

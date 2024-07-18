@@ -2,10 +2,12 @@
 title: Nginx配置MySQL请求转发
 categories:
 	- Nginx
-
-date: 2024-01-12 11:26:20
 tags: 
 	- Nginx
+	
+date: 2024-01-12 11:26:20
+updated: 2024-01-12 11:26:20
+
 ---
 <!-- toc -->
 

@@ -1,12 +1,14 @@
 ---
-title: hexo设置图片懒加载
+title: Hexo设置图片懒加载
 categories:
-	- hexo
+	- Hexo
 	- Next
 tags: 
-	- hexo
+	- Hexo
 	- Next
+	
 date: 2021-01-15 15:11:20
+updated: 2021-01-15 15:11:20
 ---
 
 ## <span id="inline-blue">下载样式</span>

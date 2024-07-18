@@ -1,7 +1,12 @@
 ---
 title: IntelliJ项目文件同步 
-tags: IntelliJ
-categories: IntelliJ
+tags: 
+	- IntelliJ
+categories: 
+	- IntelliJ
+
+date: 2021-01-15 16:55:20	
+updated: 2021-01-15 16:55:20
 ---
 
 

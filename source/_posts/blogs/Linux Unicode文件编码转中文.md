@@ -1,9 +1,12 @@
 ---
 title: Linux Unicode文件编码转中文
-date: 2024-03-25 9:44:20
 tags:
 	- Linux
-categories: Linux
+categories: 
+	- Linux
+	
+date: 2024-03-25 9:44:20
+updated: 2024-03-25 9:44:20
 ---
 ## <span id="inline-blue">Unicode文件转码</span>
 Linux : CentOS Linux release 7.7.1908 (Core)

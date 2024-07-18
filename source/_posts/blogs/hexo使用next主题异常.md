@@ -1,8 +1,12 @@
 ---
-title: hexo使用next主题异常
-tags: hexo
-categories: hexo
+title: Hexo使用Next主题异常
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2021-01-12 10:11:20
+updated: 2021-01-12 10:11:20
 ---
 
 ## <span id="inline-blue">问题描述<span>

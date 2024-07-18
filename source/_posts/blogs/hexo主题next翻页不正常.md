@@ -1,8 +1,12 @@
 ---
-title: hexo主题next翻页不正常
-tags: hexo
-categories: hexo
+title: Hexo主题next翻页不正常
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2020-11-16 12:23:25
+updated: 2020-11-16 12:23:25
 ---
 
 ## <span id="inline-blue">修改文件</span>

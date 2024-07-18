@@ -1,8 +1,12 @@
 ---
-title: hexo修改主题文章底部标签
-tags: hexo
-categories: hexo
+title: Hexo修改主题文章底部标签
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2020-11-16 11:08:12
+updated: 2020-11-16 11:08:12
 ---
 
 ## <span id="inline-blue">修改模板</span>

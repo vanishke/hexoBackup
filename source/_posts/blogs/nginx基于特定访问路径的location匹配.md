@@ -1,10 +1,12 @@
 ---
-title: nginx基于特定访问路径的location匹配
+title: Nginx基于特定访问路径的location匹配
 categories: 
-	- nginx
+	- Nginx
 tags: 
-	- nginx
+	- Nginx
+	
 date: 2024-01-25 17:11:20
+updated: 2024-01-25 17:11:20
 ---
 <!-- toc -->
 

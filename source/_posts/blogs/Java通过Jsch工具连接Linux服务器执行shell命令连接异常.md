@@ -2,10 +2,12 @@
 title: Java通过Jsch工具连接Linux服务器执行shell命令连接异常
 categories:
 	- Java
-
-date: 2023-11-22 17:55:20
 tags: 
 	- Java
+	- Linux
+	
+date: 2023-11-22 17:55:20
+updated: 2023-11-22 17:55:20
 ---
 <!-- toc -->
 

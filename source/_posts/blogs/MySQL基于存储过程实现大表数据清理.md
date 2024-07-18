@@ -1,10 +1,12 @@
 ---
 title: MySQL基于存储过程实现大表数据清理
-date: 2024-06-06 13:46:20
 tags:
 	- MySQL
 categories: 
 	- MySQL
+	
+date: 2024-06-06 13:46:20
+updated: 2024-06-06 13:46:20
 ---
 ## <span id="inline-blue">环境</span>
 MySQL:5.7

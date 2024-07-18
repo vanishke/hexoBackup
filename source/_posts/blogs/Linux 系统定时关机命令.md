@@ -2,10 +2,11 @@
 title: Linux 系统定时关机命令
 categories:
 	- Linux
-
-date: 2024-06-14 15:03:20
 tags: 
 	- Linux
+	
+date: 2024-06-14 15:03:20
+updated: 2024-06-14 15:03:20
 ---
 <!-- toc -->
 # <span id="inline-blue">目的</span>

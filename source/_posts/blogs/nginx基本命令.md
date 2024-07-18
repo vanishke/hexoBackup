@@ -1,11 +1,13 @@
 ---
-title: nginx基本命令
+title: Nginx基本命令
 categories: 
-	- nginx
+	- Nginx
 tags: 
-	- windows
-	- nginx
+	- Windows
+	- Nginx
+
 date: 2020-12-24 10:11:20
+updated: 2020-12-24 10:11:20
 ---
 <!-- toc -->
 

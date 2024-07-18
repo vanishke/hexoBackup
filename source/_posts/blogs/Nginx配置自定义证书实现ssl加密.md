@@ -2,10 +2,11 @@
 title: Nginx配置自定义证书实现ssl加密
 categories:
 	- Nginx
-
-date: 2024-01-09 9:50:20
 tags: 
 	- Nginx
+	
+date: 2024-01-09 9:50:20
+updated: 2024-01-09 9:50:20
 ---
 <!-- toc -->
 

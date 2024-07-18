@@ -1,8 +1,12 @@
 ---
-title: hexo设置下载样式
-categories: hexo
+title: Hexo设置下载样式
+categories: 
+	- Hexo
+tags: 
+	- Hexo
+
 date: 2021-01-12 10:11:20
-tags: hexo
+updated: 2021-01-12 10:11:20
 ---
 
 ## 下载样式

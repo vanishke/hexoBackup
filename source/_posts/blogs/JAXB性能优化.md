@@ -2,10 +2,11 @@
 title: JAXB性能优化
 categories:
 	- JAXB
-
-date: 2023-04-21 14:35:20
 tags: 
 	- JAXB
+	
+date: 2023-04-21 14:35:20
+updated: 2023-04-21 14:35:20
 ---
 <!-- toc -->
 

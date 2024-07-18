@@ -1,13 +1,15 @@
 ---
-title: SpringCloud Gateway集成sentinel实现nacos和Sentinel控制台双向同步
-date: 2024-04-29 14:11:20
+title: SpringCloud Gateway集成Sentinel实现Nacos和Sentinel控制台双向同步
 tags:
-	- Java
 	- SpringCloud
 	- Sentinel
 	- Java
+	- Nacos
 categories: 
 	- SpringCloud
+	
+date: 2024-04-29 14:11:20
+updated: 2024-04-29 14:11:20
 ---
 ## <span id="inline-blue">环境</span>
 Java: 1.8

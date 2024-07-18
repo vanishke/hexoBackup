@@ -2,7 +2,11 @@
 title: MySQL导入报错解决
 tags: 
 	- MySQL
-categories: MySQL
+categories: 
+	- MySQL
+
+date: 2022-04-12 10:20:07	
+updated: 2022-04-12 10:20:07
 ---
 # <span id="inline-blue">现象</span> 
 ![导入报错](/images/mysql/mysql_20211022_001.png)

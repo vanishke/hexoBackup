@@ -1,9 +1,13 @@
 ---
-title: IntelliJ推送git失败
+title: IntelliJ推送Git失败
 tags: 
 	- IntelliJ
 	- Git
-categories: IntelliJ
+categories: 
+	- IntelliJ
+
+date: 2021-08-23 18:05:15	
+updated: 2021-08-23 18:05:15
 ---
 
 # <span id="inline-blue">现象</span> 

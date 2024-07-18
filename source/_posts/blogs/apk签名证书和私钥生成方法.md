@@ -2,11 +2,12 @@
 title: apk签名证书和私钥生成方法
 categories:
 	- keyTool
-
-date: 2024-06-25 10:39:20
 tags: 
 	- keyTool
 	- Java
+
+date: 2024-06-25 10:39:20
+updated: 2024-06-25 10:39:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

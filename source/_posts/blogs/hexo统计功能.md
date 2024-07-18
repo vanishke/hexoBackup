@@ -1,8 +1,12 @@
 ---
-title: hexo统计功能
-tags: hexo
-categories: hexo
+title: Hexo统计功能
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2022-05-18 09:32:12
+updated: 2022-05-18 09:32:12
 ---
 
 ## <span id="inline-blue">安装插件</span>

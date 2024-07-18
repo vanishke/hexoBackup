@@ -1,12 +1,14 @@
 ---
-title: vercel托管hexo博客
+title: Vercel托管Hexo博客
 categories: 
-	- hexo
+	- Hexo
 	- Next
 tags: 
-	- hexo 
+	- Hexo 
 	- Next
-
+	
+date: 2021-01-15 15:46:20	
+updated: 2021-01-15 15:46:20
 ---
 
 ## <span id="inline-blue">背景<span>

@@ -1,7 +1,12 @@
 ---
-title: easyui-tree三级区域树回显
-tags: easyui
-categories: easyui
+title: Easyui-tree三级区域树回显
+tags: 
+	- Easyui
+categories: 
+	- Easyui
+
+date: 2022-01-17 16:35:12	
+updated: 2022-01-17 16:35:12
 ---
 ## <span id="inline-blue">多层级区域树加载</span>
 

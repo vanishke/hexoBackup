@@ -1,11 +1,13 @@
 ---
-title: nginx反向代理导致接口响应超时
+title: Nginx反向代理导致接口响应超时
 categories: 
-	- nginx
+	- Nginx
 tags: 
 	- Linux
-	- nginx
+	- Nginx
+
 date: 2023-07-18 16:45:20
+updated: 2023-07-18 16:45:20
 ---
 <!-- toc -->
 

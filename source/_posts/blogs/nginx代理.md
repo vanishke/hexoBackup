@@ -1,11 +1,13 @@
 ---
-title: nginx代理
+title: Nginx代理
 categories: 
-	- nginx
+	- Nginx
 tags: 
 	- Linux
-	- nginx
+	- Nginx
+
 date: 2021-05-31 10:11:20
+updated: 2021-05-31 10:11:20
 ---
 <!-- toc -->
 

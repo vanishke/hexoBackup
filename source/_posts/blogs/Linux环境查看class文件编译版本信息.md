@@ -1,10 +1,13 @@
 ---
 title: Linux环境查看class文件编译版本信息
-date: 2023-03-17 17:44:20
 tags:
 	- Linux
 	- Java
-categories: Linux
+categories: 
+	- Linux
+
+date: 2023-03-17 17:44:20
+updated: 2023-03-17 17:44:20
 ---
 ## <span id="inline-blue">查看class文件编译版本信息</span>
 ```shell

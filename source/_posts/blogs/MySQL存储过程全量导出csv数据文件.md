@@ -2,10 +2,11 @@
 title: MySQL存储过程全量导出csv数据文件
 categories:
 	- MySQL
-
-date: 2023-11-10 15:55:20
 tags: 
 	- MySQL
+	
+date: 2023-11-10 15:55:20
+updated: 2023-11-10 15:55:20
 ---
 <!-- toc -->
 

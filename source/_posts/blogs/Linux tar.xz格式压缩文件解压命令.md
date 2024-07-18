@@ -2,10 +2,11 @@
 title: Linux tar.xz格式压缩文件解压命令
 categories:
 	- Linux
-
-date: 2023-08-01 11:35:20
 tags: 
 	- Linux
+	
+date: 2023-08-01 11:35:20
+updated: 2023-08-01 11:35:20
 ---
 <!-- toc -->
 # <span id="inline-blue">目的</span>

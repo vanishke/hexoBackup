@@ -1,6 +1,5 @@
 ---
 title: SpringCloud微服务集成Sleuth+Zipkin实现链路追踪
-date: 2024-06-14 9:45:20
 tags:
 	- Java
 	- SpringCloud
@@ -8,6 +7,9 @@ tags:
 	- Zipkin
 categories: 
 	- SpringCloud
+	
+date: 2024-06-14 9:45:20
+updated: 2024-06-14 9:45:20
 ---
 ## <span id="inline-blue">环境</span>
 Java: 1.8

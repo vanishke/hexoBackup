@@ -1,12 +1,13 @@
 ---
 title: Jsp页面访问异常
 categories:
-	- JSP
-
-date: 2023-01-06 10:44:20
+	- Jsp
 tags: 
 	- Jetty
 	- Jsp
+	
+date: 2023-01-06 10:44:20
+updated: 2023-01-06 10:44:20
 ---
 <!-- toc -->
 

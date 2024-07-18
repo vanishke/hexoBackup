@@ -1,11 +1,13 @@
 ---
 title: 解决Parameter 'albumUids' not found. Available parameters are [collection, list]
 categories:
-	- Java
-
-date: 2023-11-03 10:55:20
+	- Mybatis
 tags: 
+	- Mybatis
 	- Java
+	
+date: 2023-11-03 10:55:20
+updated: 2023-11-03 10:55:20
 ---
 <!-- toc -->
 

@@ -2,10 +2,11 @@
 title: Linux curl命令GET&POST请求示例
 categories:
 	- Linux
-
-date: 2023-08-01 11:29:20
 tags: 
 	- Linux
+	
+date: 2023-08-01 11:29:20
+updated: 2023-08-01 11:29:20
 ---
 <!-- toc -->
 # <span id="inline-blue">目的</span>

@@ -1,11 +1,14 @@
 ---
 title: SpringBoot+Mybatis+Druid批量更新 multi-statement not allow异常
 categories:
+	- SpringBoot
+tags:
+	- SpringBoot
 	- Druid
-
+	- Mybatis-plus
+	
 date: 2023-10-26 14:25:20
-tags: 
-	- Druid
+updated: 2023-10-26 14:25:20
 ---
 <!-- toc -->
 

@@ -2,10 +2,11 @@
 title: Ant从Maven的pom.xml文件获取内容
 categories:
 	- Maven
-
-date: 2023-03-03 11:25:20
 tags: 
 	- Maven
+	
+date: 2023-03-03 11:25:20
+updated: 2023-03-03 11:25:20
 ---
 <!-- toc -->
 

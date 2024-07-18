@@ -2,10 +2,12 @@
 title: Rsync实现服务器目录同步
 categories:
 	- Rsync
-
-date: 2024-01-03 14:50:20
 tags: 
 	- Rsync
+	- Linux
+	
+date: 2024-01-03 14:50:20
+updated: 2024-01-03 14:50:20
 ---
 <!-- toc -->
 

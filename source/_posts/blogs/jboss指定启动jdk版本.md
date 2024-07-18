@@ -1,8 +1,12 @@
 ---
 title: Jboss 指定启动JDK版本
-categories: Jboss
+categories: 
+	- Jboss
+tags: 
+	- Jboss
+
 date: 2020-11-17 10:00:12
-tags: Jboss
+updated: 2020-11-17 10:00:12
 ---
 
 

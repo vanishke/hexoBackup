@@ -1,9 +1,13 @@
 ---
 title: SpringBoot升级问题记录
-date: 2024-05-31 14:11:20
 tags:
 	- Java
-categories: Java
+	- SpringBoot
+categories: 
+	- SpringBoot
+
+date: 2024-05-31 14:11:20
+updated: 2024-05-31 14:11:20
 ---
 ## <span id="inline-blue">项目背景</span>
 项目为实现全链路灰度发布功能，需要引入loadbalance依赖，放弃掉现有hytrix和ribbon,因此将项目微服务框架版本升级

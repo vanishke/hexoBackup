@@ -1,11 +1,13 @@
 ---
-title: p6spy插件跟踪SQL执行耗时
+title: P6spy插件跟踪SQL执行耗时
 categories:
 	- MySQL
-
-date: 2023-12-26 9:50:20
 tags: 
 	- MySQL
+	- P6spy
+	
+date: 2023-12-26 9:50:20
+updated: 2023-12-26 9:50:20
 ---
 <!-- toc -->
 

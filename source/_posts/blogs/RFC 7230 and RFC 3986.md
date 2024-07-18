@@ -2,10 +2,11 @@
 title: RFC 7230 and RFC 3986
 categories:
 	- Tomcat
-
-date: 2022-12-30 11:32:20
 tags: 
 	- Tomcat
+	
+date: 2022-12-30 11:32:20
+updated: 2022-12-30 11:32:20
 ---
 <!-- toc -->
 

@@ -1,7 +1,12 @@
 ---
-title: hexo添加分享功能
-tags: hexo
-categories: hexo
+title: Hexo添加分享功能
+tags: 
+	- Hexo
+categories: 
+	- Hexo
+
+date: 2021-01-15 15:50:20	
+updated: 2021-01-15 15:50:20
 ---
 ## <span id="inline-blue">安装插件</span>
 hexo站点根目录目录下执行

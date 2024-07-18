@@ -1,13 +1,15 @@
 ---
-title: hexo集成gitalk
+title: Hexo集成Gitalk
 categories:
-	- hexo
+	- Hexo
 	- Next
 tags: 
-	- hexo
+	- Hexo
 	- Next
-	- gitalk
-
+	- Gitalk
+	
+date: 2021-01-15 15:55:20	
+updated: 2021-01-15 15:55:20
 ---
 
 ## <span id="inline-blue">注册应用<span>

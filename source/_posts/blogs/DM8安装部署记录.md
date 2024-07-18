@@ -2,10 +2,11 @@
 title: DM8安装部署记录
 categories:
 	- DM8
-
-date: 2024-07-08 11:25:20
 tags: 
 	- DM8
+	
+date: 2024-07-08 11:25:20
+updated: 2024-07-08 11:25:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

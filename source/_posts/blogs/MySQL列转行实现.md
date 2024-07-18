@@ -2,10 +2,11 @@
 title: MySQL列转行实现
 categories:
 	- MySQL
-
-date: 2023-01-09 16:25:20
 tags: 
 	- MySQL
+	
+date: 2023-01-09 16:25:20
+updated: 2023-01-09 16:25:20
 ---
 <!-- toc -->
 

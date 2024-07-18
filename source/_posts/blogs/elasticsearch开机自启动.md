@@ -4,6 +4,9 @@ categories:
 	- Elasticsearch
 tags: 
 	- Elasticsearch
+	
+date: 2024-01-17 16:11:35
+updated: 2024-01-17 16:11:35
 ---
 <!-- toc -->
 

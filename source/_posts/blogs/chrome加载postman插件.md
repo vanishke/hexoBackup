@@ -1,9 +1,13 @@
 ---
-title: chrome加载postman插件
+title: Chrome加载Postman插件
 tags: 
-	- chrome
-	- postman
-categories: 插件
+	- Chrome
+	- Postman
+categories: 
+	- Plugins
+
+date: 2021-02-22 15:56:20	
+updated: 2021-02-22 15:56:20
 ---
 ## <span id="inline-blue">安装环境</span>
 windows7 64

@@ -1,11 +1,13 @@
 ---
 title: Windows创建FTP
 categories: 
-		- FTP
-date: 2020-12-24 10:11:20
+	- FTP
 tags: 
-		- Windows
-		- FTP
+	- Windows
+	- FTP
+		
+date: 2020-12-24 10:11:20
+updated: 2020-12-24 10:11:20
 ---
 <!-- toc -->
 

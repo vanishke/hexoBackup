@@ -1,7 +1,12 @@
 ---
-title: hexo安装next问题
-tags: hexo
-categories: hexo
+title: Hexo安装Next问题
+tags: 
+	- Hexo
+categories: 
+	- Hexo
+
+date: 2022-05-16 18:01:17
+updated: 2022-05-16 18:01:17
 ---
 
 ## <span id="inline-blue">问题描述</span>

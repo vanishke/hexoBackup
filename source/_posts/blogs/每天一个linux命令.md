@@ -1,8 +1,13 @@
 ---
-title: 每天一个linux命令
-categories: Linux
-tags: Linux
+title: 每天一个Linux命令
+categories: 
+	- Linux
+tags: 
+	- Linux
 top: 1
+
+date: 2022-05-19 10:17:29
+updated: 2022-05-19 10:17:29
 ---
 <!-- toc -->
 

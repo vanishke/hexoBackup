@@ -2,10 +2,11 @@
 title: MySQL导出数据库指定忽略多张表
 categories:
 	- MySQL
-
-date: 2023-12-18 16:21:20
 tags: 
 	- MySQL
+	
+date: 2023-12-18 16:21:20
+updated: 2023-12-18 16:21:20
 ---
 <!-- toc -->
 

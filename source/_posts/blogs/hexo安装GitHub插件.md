@@ -1,7 +1,12 @@
 ---
-title: hexo安装GitHub插件
-tags: hexo
-categories: hexo
+title: Hexo安装GitHub插件
+tags: 
+	- Hexo
+categories: 
+	- Hexo
+
+date: 2022-05-15 10:57:21
+updated: 2022-05-15 10:57:21
 
 ---
 

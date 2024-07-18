@@ -1,9 +1,13 @@
 ---
 title: Linux-文件传输
-categories: Linux
-date: 2023-01-29 16:40:20
-tags: Linux
+categories: 
+	- Linux
+tags: 
+	- Linux
 top: 2
+
+date: 2023-01-29 16:40:20
+updated: 2023-01-29 16:40:20
 ---
 <!-- toc -->
 

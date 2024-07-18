@@ -2,10 +2,11 @@
 title: Maven打包resource排除不生效的解决办法
 categories:
 	- Maven
-
-date: 2023-12-08 9:21:20
 tags: 
 	- Maven
+	
+date: 2023-12-08 18:21:37
+updated: 2023-12-08 18:21:37
 ---
 <!-- toc -->
 

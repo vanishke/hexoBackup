@@ -2,11 +2,12 @@
 title: Maven打包项目编译跳过测试类
 categories:
 	- Maven
-
-date: 2022-08-26 16:24:20
 tags: 
 	- Maven
 	- Java
+	
+date: 2022-08-26 16:24:20
+updated: 2022-08-26 16:24:20
 ---
 <!-- toc -->
 

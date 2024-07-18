@@ -1,7 +1,12 @@
 ---
-title: hexo安装本地搜索功能
-tags: hexo
-categories: hexo
+title: Hexo安装本地搜索功能
+tags: 
+	- Hexo
+categories: 
+	- Hexo
+	
+date: 2022-05-17 11:33:49
+updated: 2022-05-17 11:33:49
 
 ---
 

@@ -1,12 +1,14 @@
 ---
-title: hexo博客源文档备份
+title: Hexo博客源文档备份
 categories:
-	- hexo
+	- Hexo
 	- Next
 tags: 
-	- hexo
+	- Hexo
 	- Next
 
+date: 2021-01-15 14:11:20
+updated: 2021-01-15 14:11:20
 ---
 
 ## <span id="inline-blue">实现原理</span>

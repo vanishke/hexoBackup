@@ -1,8 +1,12 @@
 ---
-title: hexo头像设置
-tags: hexo
-categories: hexo
+title: Hexo头像设置
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2022-05-18 09:32:12
+updated: 2022-05-18 09:32:12
 ---
 
 ## <span id="inline-blue">hexo头像设置</span>

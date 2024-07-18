@@ -1,7 +1,12 @@
 ---
 title: Linux查看cpu配置信息
-tags: Linux
-categories: Linux
+tags: 
+	- Linux
+categories: 
+	- Linux
+
+date: 2021-11-29 14:32:11	
+updated: 2021-11-29 14:32:11
 ---
 ## <span id="inline-blue">cpu信息</span>
 

@@ -1,11 +1,14 @@
 ---
-title: windows实现nginx反向代理
+title: Windows实现Nginx反向代理
 categories: 
-		- nginx
-date: 2021-01-06 17:32:20
+	- Nginx
+
 tags: 
-		- nginx
-		- Windows
+	- Nginx
+	- Windows
+		
+date: 2021-01-06 17:32:20
+updated: 2021-01-06 17:32:20
 ---
 <!-- toc -->
 

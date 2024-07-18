@@ -1,11 +1,13 @@
 ---
-title: windows环境Docker拉取mysql镜像
+title: Windows环境Docker拉取MySQL镜像
 categories: 
-	- docker
+	- Docker
 tags: 
-	- docker
+	- Docker
 	- Windows
+
 date: 2021-06-08 15:47:21
+updated: 2021-06-08 15:47:21
 ---
 
 # 拉取镜像

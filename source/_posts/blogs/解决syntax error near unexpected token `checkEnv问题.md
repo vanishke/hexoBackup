@@ -2,10 +2,11 @@
 title: 解决syntax error near unexpected token `checkEnv问题
 categories:
 	- Linux
-
-date: 2023-05-05 13:47:20
 tags: 
 	- Linux
+	
+date: 2023-05-05 13:47:20
+updated: 2023-05-05 13:47:20
 ---
 <!-- toc -->
 

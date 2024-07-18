@@ -1,9 +1,12 @@
 ---
-title: eclipse安装Jetty插件
+title: Eclipse安装Jetty插件
 tags: 
-	- eclipse
+	- Eclipse
 	- Jetty
 categories: eclipse
+
+date: 2021-08-31 18:07:15	
+updated: 2021-08-31 18:07:15
 ---
 # <span id="inline-blue">插件下载地址连接失败解决办法</span> 
 1. 访问https://github.com.ipaddress.com/ 查找到github公网IP地址

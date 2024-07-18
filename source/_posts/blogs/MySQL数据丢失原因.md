@@ -2,10 +2,12 @@
 title: MySQL数据丢失原因
 categories:
 	- MySQL
-date: 2022-05-27 14:23:20
 tags: 
 	- Linux
 	- MySQL
+	
+date: 2022-05-27 14:23:20
+updated: 2022-05-27 14:23:20
 ---
 <!-- toc -->
 

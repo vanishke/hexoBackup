@@ -1,8 +1,12 @@
 ---
-title: hexo修改[read more]按钮样式
-tags: hexo
-categories: hexo
+title: Hexo修改[read more]按钮样式
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2022-05-18 09:32:12
+updated: 2022-05-18 09:32:12
 ---
 
 ## <span id="inline-blue">安装插件</span>

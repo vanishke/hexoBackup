@@ -1,7 +1,12 @@
 ---
-title: hexo大文件推送github失败
-tags: hexo
-categories: hexo
+title: Hexo大文件推送github失败
+tags: 
+	- Hexo
+categories: 
+	- Hexo
+	
+date: 2022-05-19 09:29:51
+updated: 2022-05-19 09:29:51
 ---
 ## <span id="inline-blue">问题现象</span>
 hexo站点根目录目录下执行hexo d命令报错

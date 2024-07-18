@@ -2,10 +2,11 @@
 title: 应用程序兼容DM8数据库
 categories:
 	- DM8
-
-date: 2024-07-08 15:10:20
 tags: 
 	- DM8
+	
+date: 2024-07-08 15:10:20
+updated: 2024-07-08 15:10:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

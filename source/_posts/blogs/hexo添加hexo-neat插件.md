@@ -1,13 +1,13 @@
 ---
-title: hexo添加hexo-neat插件
+title: Hexo添加hexo-neat插件
 categories: 
-	- hexo
+	- Hexo
 	- Next
 tags: 
-	- hexo
+	- Hexo
 	- Next
 date: 2021-01-15 15:46:20
-
+updated: 2021-01-15 15:46:20
 ---
 
 ## <span id="inline-blue">安装插件</span>

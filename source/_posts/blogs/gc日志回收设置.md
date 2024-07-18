@@ -2,11 +2,12 @@
 title: gc日志回收设置
 categories:
 	- Jboss
-
-date: 2022-08-26 16:10:20
 tags: 
 	- Linux
 	- Jboss
+	
+date: 2022-08-26 16:10:20
+updated: 2022-08-26 16:10:20
 ---
 <!-- toc -->
 

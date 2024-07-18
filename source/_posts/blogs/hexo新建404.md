@@ -1,8 +1,12 @@
 ---
-title: hexo新建404
-tags: hexo
-categories: hexo
+title: Hexo新建404
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2022-05-18 09:32:12
+updated: 2022-05-18 09:32:12
 ---
 
 ## <span id="inline-blue">新建404</span>

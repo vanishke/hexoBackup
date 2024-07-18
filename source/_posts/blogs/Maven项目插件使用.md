@@ -2,7 +2,11 @@
 title: Maven项目插件使用
 tags: 
 	- Maven
-categories: Maven
+categories: 
+	- Maven
+
+date: 2022-12-23 15:31:49
+updated: 2022-12-23 15:31:49
 ---
 # <span id="inline-blue">maven生成war包包含空文件</span> 
 ```xml

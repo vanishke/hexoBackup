@@ -2,10 +2,11 @@
 title: MySQL统计数据库表空间大小
 categories:
 	- MySQL
-
-date: 2023-11-07 14:55:20
 tags: 
 	- MySQL
+	
+date: 2023-11-07 14:55:20
+updated: 2023-11-07 14:55:20
 ---
 <!-- toc -->
 

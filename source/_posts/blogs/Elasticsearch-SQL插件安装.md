@@ -2,10 +2,11 @@
 title: Elasticsearch-SQL插件安装.
 categories:
 	- Elasticsearch
-
-date: 2023-08-02 14:35:20
 tags: 
 	- Elasticsearch
+	
+date: 2023-08-02 14:35:20
+updated: 2023-08-02 14:35:20
 ---
 <!-- toc -->
 # <span id="inline-blue">环境</span>

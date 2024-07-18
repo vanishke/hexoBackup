@@ -1,8 +1,12 @@
 ---
-title: hexo主题代码块自定义样式
-tags: hexo
-categories: hexo
+title: Hexo主题代码块自定义样式
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2020-11-17 10:05:12
+updated: 2020-11-17 10:05:12
 ---
 
 ## <span id="inline-blue">代码块自定义样式</span>

@@ -1,9 +1,13 @@
 ---
 title: Linux-系统管理
-categories: Linux
-date: 2022-06-02 17:27:20
-tags: Linux
+categories:
+	- Linux
+tags:
+	- Linux
 top: 2
+
+date: 2022-06-02 17:27:20
+updated: 2022-06-02 17:27:20
 ---
 <!-- toc -->
 

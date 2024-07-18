@@ -1,8 +1,12 @@
 ---
 title: Oracle清理系统僵死SQl进程
-categories: Oracle
+categories: 
+	- Oracle
+tags: 
+	- Oracle
+
 date: 2020-11-17 11:23:20
-tags: Oracle
+updated: 2020-11-17 11:23:20
 ---
 
 ##  <span id="inline-blue">清理</span>

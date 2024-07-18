@@ -2,10 +2,11 @@
 title: maven项目打包将依赖移动至外部lib目录
 categories:
 	- Java
-
-date: 2023-08-11 14:56:20
 tags: 
 	- Java
+	
+date: 2023-08-11 14:56:20
+updated: 2023-08-11 14:56:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

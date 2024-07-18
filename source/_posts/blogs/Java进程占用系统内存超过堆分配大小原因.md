@@ -2,10 +2,11 @@
 title: Java进程占用系统内存超过堆分配大小原因
 categories:
 	- Maven
-
-date: 2023-09-19 09:05:20
 tags: 
 	- Maven
+	
+date: 2023-09-19 09:05:20
+updated: 2023-09-19 09:05:20
 ---
 <!-- toc -->
 

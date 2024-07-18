@@ -1,11 +1,13 @@
 ---
-title: Docker部署minio，分享地址为Docker内ip地址问题
+title: Docker部署Minio，分享地址为Docker内ip地址问题
 categories: 
 	- Minio
 tags: 
 	- Docker
 	- Minio
+
 date: 2023-07-18 17:45:20
+updated: 2023-07-18 17:45:20
 ---
 <!-- toc -->
 

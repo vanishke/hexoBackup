@@ -2,10 +2,11 @@
 title: Hibernate xxx is not mapped 错误原因及解决方法
 categories:
 	- Hibernate
-
-date: 2024-07-08 16:10:20
 tags: 
 	- Hibernate
+	
+date: 2024-07-08 16:10:20	
+updated: 2024-07-08 16:10:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

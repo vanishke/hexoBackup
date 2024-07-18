@@ -2,10 +2,11 @@
 title: Tomcat部署war,访问不带项目名称
 categories:
 	- Tomcat
-
-date: 2023-10-30 9:55:20
 tags: 
 	- Tomcat
+	
+date: 2023-10-30 9:55:20
+updated: 2023-10-30 9:55:20
 ---
 <!-- toc -->
 

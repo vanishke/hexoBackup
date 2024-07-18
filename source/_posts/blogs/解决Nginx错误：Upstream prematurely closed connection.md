@@ -2,10 +2,11 @@
 title: 解决Nginx错误：Upstream prematurely closed connection
 categories:
 	- Nginx
-
-date: 2024-01-03 9:50:20
 tags: 
 	- Nginx
+	
+date: 2024-01-03 9:50:20
+updated: 2024-01-03 9:50:20
 ---
 <!-- toc -->
 

@@ -2,10 +2,11 @@
 title: IntelliJ IDEA 设置忽略SVN文件和文件夹无效.
 categories:
 	- IntelliJ
-
-date: 2023-12-08 9:21:20
 tags: 
 	- IntelliJ
+	
+date: 2023-12-08 9:21:20
+updated: 2023-12-08 9:21:20
 ---
 <!-- toc -->
 

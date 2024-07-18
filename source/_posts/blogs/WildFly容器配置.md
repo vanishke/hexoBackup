@@ -2,11 +2,12 @@
 title: WildFly容器配置
 categories:
 	- WildFly
-
-date: 2022-08-26 13:55:20
 tags: 
 	- WildFly
 	- Https
+	
+date: 2022-08-26 13:55:20
+updated: 2022-08-26 13:55:20
 ---
 <!-- toc -->
 

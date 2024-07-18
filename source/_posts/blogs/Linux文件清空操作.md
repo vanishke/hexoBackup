@@ -1,9 +1,12 @@
 ---
 title: Linux文件清空操作
-date: 2023-03-17 17:44:20
 tags:
 	- Linux
-categories: Linux
+categories: 
+	- Linux
+
+date: 2023-03-17 17:44:20
+updated: 2023-03-17 17:44:20
 ---
 ## <span id="inline-blue">文件清空</span>
 windows7 64

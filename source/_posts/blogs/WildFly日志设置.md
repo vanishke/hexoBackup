@@ -2,10 +2,11 @@
 title: WildFly日志设置
 categories:
 	- JAXB
-
-date: 2023-04-27 16:35:20
 tags: 
 	- WildFly
+	
+date: 2023-04-27 16:35:20
+updated: 2023-04-27 16:35:20
 ---
 <!-- toc -->
 

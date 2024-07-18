@@ -1,9 +1,13 @@
 ---
-title: chrome加载JSONView插件
+title: Chrome加载JSONView插件
 tags:
-	- chrome
+	- Chrome
 	- JSONView
-categories: 插件
+categories: 
+	- Plugins
+
+date: 2021-02-22 15:59:20	
+updated: 2021-02-22 15:59:20
 ---
 ## <span id="inline-blue">安装环境</span>
 windows7 64

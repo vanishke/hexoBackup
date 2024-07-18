@@ -1,8 +1,12 @@
 ---
 title: Jetty 指定启动JDK版本
-categories: Jetty
+categories: 
+	- Jetty
+tags: 
+	- Jetty
+
 date: 2020-11-17 10:11:12
-tags: Jetty
+updated: 2020-11-17 10:11:12
 ---
 
 ## <span id="inline-blue">linux环境</span>

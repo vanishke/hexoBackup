@@ -4,10 +4,11 @@ categories:
 	- Elasticsearch
 tags: 
 	- Elasticsearch
-	- logstash
-	- kibana
+	- Logstash
+	- Kibana
 	
 date: 2021-11-09 11:11:20
+updated: 2021-11-09 11:11:20
 ---
 
 

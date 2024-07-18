@@ -2,10 +2,11 @@
 title: Elasticsearch修改索引模板并应用到历史索引
 categories:
 	- Elasticsearch
-
-date: 2024-01-24 11:26:20
 tags: 
 	- Elasticsearch
+	
+date: 2024-01-24 11:26:20
+updated: 2024-01-24 11:26:20
 ---
 <!-- toc -->
 

@@ -1,11 +1,14 @@
 ---
-title: SpringBoot实现rabbitMQ动态加载
+title: SpringBoot实现RabbitMQ动态加载
 categories: 
 	- SpringBoot
 tags: 
 	- RabbitMQ
 	- Nacos
+	
 date: 2024-03-19 17:24:20
+updated: 2024-03-19 17:24:20
+
 ---
 <!-- toc -->
 

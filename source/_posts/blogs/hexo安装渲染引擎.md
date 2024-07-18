@@ -1,7 +1,12 @@
 ---
-title: hexo安装渲染引擎
-tags: hexo
-categories: hexo
+title: Hexo安装渲染引擎
+tags: 
+	- Hexo
+categories: 
+	- Hexo
+
+date: 2022-05-17 11:33:49
+updated: 2022-05-17 11:33:49
 
 ---
 

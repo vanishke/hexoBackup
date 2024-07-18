@@ -1,13 +1,14 @@
 ---
-title: Windows nginx代理Hexo静态文件部署访问
+title: Windows Nginx代理Hexo静态文件部署访问
 categories:
 	- Hexo
-
-date: 2024-07-09 14:10:20
 tags: 
 	- Hexo
 	- Nginx
 	- Windows
+	
+date: 2024-07-09 14:10:20
+updated: 2024-07-09 14:10:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

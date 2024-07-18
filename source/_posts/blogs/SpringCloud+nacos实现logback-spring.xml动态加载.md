@@ -1,12 +1,14 @@
 ---
-title: SpringCloud+nacos实现logback-spring.xml动态加载
+title: SpringCloud+Nacos实现logback-spring.xml动态加载
 categories:
 	- SpringCloud
-
-date: 2024-06-21 17:25:20
 tags: 
 	- SpringCloud
 	- Java
+	- Nacos
+	
+date: 2024-06-21 17:25:20
+updated: 2024-06-21 17:25:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

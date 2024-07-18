@@ -1,8 +1,12 @@
 ---
-title: hexo文章添加样式
-tags: hexo
-categories: hexo
+title: Hexo文章添加样式
+tags: 
+	- Hexo
+categories: 
+	- Hexo
 
+date: 2022-05-18 09:32:12
+updated: 2022-05-18 09:32:12
 ---
 
 ## <span id="inline-blue">标题添加背景色</span>

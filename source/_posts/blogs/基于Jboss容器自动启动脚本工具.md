@@ -2,11 +2,12 @@
 title: 基于Jboss容器自动启动脚本工具
 categories:
 	- Jboss
-
-date: 2022-07-12 17:32:20
 tags: 
 	- Linux
 	- Jboss
+	
+date: 2022-07-12 17:32:20
+updated: 2022-07-12 17:32:20
 ---
 <!-- toc -->
 

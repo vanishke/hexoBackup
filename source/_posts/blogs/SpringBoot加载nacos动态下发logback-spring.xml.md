@@ -1,11 +1,14 @@
 ---
-title: SpringBoot加载nacos动态下发logback-spring.xml
+title: SpringBoot加载Nacos动态下发logback-spring.xml
 categories:
 	- SpringBoot
-
-date: 2023-12-05 17:21:20
 tags: 
 	- SpringBoot
+	- Nacos
+	- Logback
+	
+date: 2023-12-05 17:21:20
+updated: 2023-12-05 17:21:20
 ---
 <!-- toc -->
 

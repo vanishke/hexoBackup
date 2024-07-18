@@ -2,10 +2,11 @@
 title: Elasticsearch索引出现docs.deleted暴增的解决办法
 categories:
 	- Elasticsearch
-
-date: 2024-01-25 15:26:20
 tags: 
 	- Elasticsearch
+	
+date: 2024-01-25 15:26:20
+updated: 2024-01-25 15:26:20
 ---
 <!-- toc -->
 

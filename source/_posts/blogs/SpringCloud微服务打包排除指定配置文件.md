@@ -1,11 +1,13 @@
 ---
 title: SpringCloud微服务打包排除指定配置文件
 categories:
+	- SpringCloud
+tags:
+	- SpringCloud
 	- Maven
-
+	
 date: 2023-07-18 16:38:20
-tags: 
-	- Maven
+updated: 2023-07-18 16:38:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

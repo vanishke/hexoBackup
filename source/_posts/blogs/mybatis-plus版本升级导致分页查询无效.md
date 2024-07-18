@@ -1,9 +1,12 @@
 ---
-title: mybatis-plus版本升级导致分页查询无效
-date: 2024-05-31 15:43:20
+title: Mybatis-plus版本升级导致分页查询无效
 tags:
 	- Java
-categories: Java
+categories: 
+	- Java
+
+date: 2024-05-31 15:43:20
+updated: 2024-05-31 15:43:20
 ---
 ## <span id="inline-blue">环境</span>
 os: Linux centos 7.9

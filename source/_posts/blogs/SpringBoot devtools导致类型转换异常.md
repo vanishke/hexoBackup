@@ -1,9 +1,14 @@
 ---
-title: SpringBoot devtools导致类型转换异常
-date: 2024-04-29 14:11:20
+title: SpringBoot Devtools导致类型转换异常
 tags:
+	- SpringBoot
 	- Java
-categories: Java
+	- Devtools
+categories: 
+	- SpringBoot
+
+date: 2024-04-29 14:11:20
+updated: 2024-04-29 14:11:20
 ---
 ## <span id="inline-blue">环境</span>
 os: Windows7

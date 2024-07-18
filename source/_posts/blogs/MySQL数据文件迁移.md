@@ -2,10 +2,12 @@
 title: MySQL数据文件迁移
 categories:
 	- MySQL
-date: 2023-07-10 16:23:20
 tags: 
 	- Linux
 	- MySQL
+	
+date: 2023-07-10 16:23:20
+updated: 2023-07-10 16:23:20
 ---
 <!-- toc -->
 
