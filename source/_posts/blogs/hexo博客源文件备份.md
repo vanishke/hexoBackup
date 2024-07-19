@@ -2,7 +2,6 @@
 title: Hexo博客源文档备份
 categories:
 	- Hexo
-	- Next
 tags: 
 	- Hexo
 	- Next

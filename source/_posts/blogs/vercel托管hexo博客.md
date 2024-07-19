@@ -2,7 +2,6 @@
 title: Vercel托管Hexo博客
 categories: 
 	- Hexo
-	- Next
 tags: 
 	- Hexo 
 	- Next

@@ -3,7 +3,8 @@ title: Eclipse安装Jetty插件
 tags: 
 	- Eclipse
 	- Jetty
-categories: eclipse
+categories: 
+	-Eclipse
 
 date: 2021-08-31 18:07:15	
 updated: 2021-08-31 18:07:15

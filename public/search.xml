@@ -1488,7 +1488,7 @@
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x30;&#48;&#x2e;&#49;&#48;&#x31;">&#x72;&#x6f;&#x6f;&#116;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x30;&#48;&#x2e;&#49;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#111;&#x6f;&#116;&#64;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#48;&#48;&#x2e;&#49;&#48;&#49;">&#114;&#111;&#x6f;&#116;&#64;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#48;&#48;&#x2e;&#49;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -3856,6 +3856,29 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Hexo文章添加阴影效果</title>
+    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
+    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开themes/next/source/css/_custom/custom.styl文件添加:</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> &#123;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo文章置顶功能</title>
     <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h2><span id="移除默认安装的插件"><span id="inline-blue">移除默认安装的插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br></pre></td></tr></table></figure>
@@ -3909,29 +3932,6 @@ tmp – 临时文件</code></pre>
 
 <p>修改themes/next/_config.yml主题配置文件，搜索关键字post_wordcount,修改如下:</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">post_wordcount:</span><br><span class="line">  item_text: true</span><br><span class="line">  wordcount: true #单篇文章字数</span><br><span class="line">  min2read: true #单篇阅读时长</span><br><span class="line">  totalcount: true #站点总字数</span><br><span class="line">  separated_meta: true</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo文章添加阴影效果</title>
-    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
-    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开themes/next/source/css/_custom/custom.styl文件添加:</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> &#123;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-
-
 
 
 
@@ -4302,7 +4302,7 @@ tmp – 临时文件</code></pre>
   </entry>
   <entry>
     <title>Eclipse安装Jetty插件</title>
-    <url>/eclipse/blogs/Eclipse%E5%AE%89%E8%A3%85Jetty%E6%8F%92%E4%BB%B6/</url>
+    <url>/Eclipse/blogs/Eclipse%E5%AE%89%E8%A3%85Jetty%E6%8F%92%E4%BB%B6/</url>
     <content><![CDATA[<h1><span id="插件下载地址连接失败解决办法"><span id="inline-blue">插件下载地址连接失败解决办法</span></span></h1><ol>
 <li><p>访问<a href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com/</a> 查找到github公网IP地址<br><img src="/images/intelliJ/intelliJ_2021_04_29_001.png" alt="查找结果"></p>
 </li>
@@ -4316,7 +4316,7 @@ tmp – 临时文件</code></pre>
 <h1><span id="在线安装"><span id="inline-blue">在线安装</span></span></h1><p>eclipse菜单栏依次点击  Help&gt;eclipse Marketplace<br>安装版本选择第一项(可以切换不同的版本),安装之后重启eclispe,jetty插件才能生效<br><img src="/images/eclipse/eclipse_jetty_2021_08_31_001.png" alt="安装步骤1"><br>选中项目可直接右键jetty启动<br><img src="/images/eclipse/eclipse_jetty_2021_08_31_002.png" alt="安装步骤2"><br>配置jetty启动选项<br><img src="/images/eclipse/eclipse_jetty_2021_08_31_003.png" alt="安装步骤3"><br>设置项目启动端口、jetty版本、访问项目名称<br><img src="/images/eclipse/eclipse_jetty_2021_08_31_004.png" alt="安装步骤4"><br>配置jvm启动参数,项目对应启动配置文件所在位置、jrebel插件参数配置<br><img src="/images/eclipse/eclipse_jetty_2021_08_31_005.png" alt="安装步骤5"><br>配置项目部署class文件以及依赖jar包,主要解决子项目依赖导致jar包冲突<br><img src="/images/eclipse/eclipse_jetty_2021_08_31_006.png" alt="安装步骤6"></p>
 ]]></content>
       <categories>
-        <category>eclipse</category>
+        <category>-Eclipse</category>
       </categories>
       <tags>
         <tag>Eclipse</tag>
@@ -4570,7 +4570,7 @@ tmp – 临时文件</code></pre>
   </entry>
   <entry>
     <title>空字符&#39;&#39;和0比较问题</title>
-    <url>/JS/blogs/%E7%A9%BA%E5%AD%97%E7%AC%A6&#39;&#39;%E4%B8%8E0%E7%9A%84%E6%AF%94%E8%BE%83%E9%97%AE%E9%A2%98/</url>
+    <url>/Js/blogs/%E7%A9%BA%E5%AD%97%E7%AC%A6&#39;&#39;%E4%B8%8E0%E7%9A%84%E6%AF%94%E8%BE%83%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h2><span id="实例"><span id="inline-blue">实例</span></span></h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var a&#x3D;&#39;0&#39;,b&#x3D;&#39;&#39;;</span><br><span class="line">console.log(a,b.a&#x3D;&#x3D;b);</span><br><span class="line">var c&#x3D;0,d&#x3D;&#39;&#39;;</span><br><span class="line">console.log(c,d,c&#x3D;&#x3D;d);</span><br></pre></td></tr></table></figure>
 <p>输出结果<br><img src="/images/js/js_2021_02_01_001.png" alt="比较结果"></p>
 <h2><span id="问题分析"><span id="inline-blue">问题分析</span></span></h2><ul>
@@ -4588,10 +4588,10 @@ tmp – 临时文件</code></pre>
 
 ]]></content>
       <categories>
-        <category>JS</category>
+        <category>Js</category>
       </categories>
       <tags>
-        <tag>JS</tag>
+        <tag>Js</tag>
       </tags>
   </entry>
   <entry>
@@ -4608,7 +4608,7 @@ tmp – 临时文件</code></pre>
   </entry>
   <entry>
     <title>Hexo集成Gitalk</title>
-    <url>/Hexo/Next/blogs/Hexo%E9%9B%86%E6%88%90Gitalk/</url>
+    <url>/Hexo/blogs/Hexo%E9%9B%86%E6%88%90Gitalk/</url>
     <content><![CDATA[<h2><span id="注册应用"><span id="inline-blue">注册应用<span></span></span></span></h2><p>注册地址：<a href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a><br><img src="/images/hexo/gitalk/hexo_gitalk_2021_01-19_001.png" alt="应用注册"></p>
 <p>参数说明：<br>Application name //应用名称，随便填<br>Homepage URL //可以填自己的博客地址<br>Application description //应用描述<br>Authorization callback URL //填自己要使用Gitalk的博客地址</p>
 <p>应用注册成功后会生成Client ID和Client Secret，记下这两个参数值，后面配置文件会用到。</p>
@@ -4630,7 +4630,6 @@ tmp – 临时文件</code></pre>
 ]]></content>
       <categories>
         <category>Hexo</category>
-        <category>Next</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
@@ -4658,13 +4657,12 @@ tmp – 临时文件</code></pre>
   </entry>
   <entry>
     <title>Hexo添加hexo-neat插件</title>
-    <url>/Hexo/Next/blogs/Hexo%E6%B7%BB%E5%8A%A0hexo-neat%E6%8F%92%E4%BB%B6/</url>
+    <url>/Hexo/blogs/Hexo%E6%B7%BB%E5%8A%A0hexo-neat%E6%8F%92%E4%BB%B6/</url>
     <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-neat --save</span><br></pre></td></tr></table></figure>
 <h2><span id="站点配置"><span id="inline-blue">站点配置</span></span></h2><p>hexo _config.yml文件添加</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> hexo-neat</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 博文压缩</span></span><br><span class="line">neat_enable: true</span><br><span class="line"><span class="meta">#</span><span class="bash"> 压缩html</span></span><br><span class="line">neat_html:</span><br><span class="line">  enable: true</span><br><span class="line">  exclude:</span><br><span class="line"><span class="meta">#</span><span class="bash"> 压缩css</span>  </span><br><span class="line">neat_css:</span><br><span class="line">  enable: true</span><br><span class="line">  exclude:</span><br><span class="line">    - &#x27;**/*.min.css&#x27;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 压缩js</span></span><br><span class="line">neat_js:</span><br><span class="line">  enable: true</span><br><span class="line">  mangle: true</span><br><span class="line">  output:</span><br><span class="line">  compress:</span><br><span class="line">  exclude:</span><br><span class="line">    - &#x27;**/*.min.js&#x27;</span><br><span class="line">	- &#x27;**/*.min.css&#x27;</span><br><span class="line">    - &#x27;**/jquery.fancybox.pack.js&#x27;</span><br><span class="line">    - &#x27;**/index.js&#x27;</span><br><span class="line">	- &#x27;**/comments.gitalk.js&#x27;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Hexo</category>
-        <category>Next</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
@@ -4673,7 +4671,7 @@ tmp – 临时文件</code></pre>
   </entry>
   <entry>
     <title>Vercel托管Hexo博客</title>
-    <url>/Hexo/Next/blogs/Vercel%E6%89%98%E7%AE%A1Hexo%E5%8D%9A%E5%AE%A2/</url>
+    <url>/Hexo/blogs/Vercel%E6%89%98%E7%AE%A1Hexo%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<h2><span id="背景"><span id="inline-blue">背景<span></span></span></span></h2><p>hexo发布的静态文件推送到了github pages，直接访问页面非常慢，使用vercel代理github pages，访问页面加载速度有明显提升。</p>
 <h2><span id="注册vercel"><span id="inline-blue">注册vercel<span></span></span></span></h2><p><a href="https://vercel.com/">vercel官网地址</a></p>
 <p>绑定github账号：<br><img src="/images/hexo/vercel/hexo_vercel_20210115_001.png" alt="账号绑定"><br>注意github用户验证的邮箱账号，qq邮箱验证无法通过，网易邮箱亲测可行。</p>
@@ -4682,7 +4680,6 @@ tmp – 临时文件</code></pre>
 ]]></content>
       <categories>
         <category>Hexo</category>
-        <category>Next</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
@@ -4691,7 +4688,7 @@ tmp – 临时文件</code></pre>
   </entry>
   <entry>
     <title>Hexo设置图片懒加载</title>
-    <url>/Hexo/Next/blogs/Hexo%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/</url>
+    <url>/Hexo/blogs/Hexo%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/</url>
     <content><![CDATA[<h2><span id="下载样式"><span id="inline-blue">下载样式</span></span></h2><p>在主题文件夹下的scripts文件夹里,新增一个js文件，名字可以任意。</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="meta">&quot;use strict&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">&#x27;cheerio&#x27;</span>); </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">lazyloadImg</span>(<span class="params">source</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> LZ= cheerio.load(source, &#123;</span><br><span class="line">        decodeEntities: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//遍历所有 img 标签，添加data-original属性</span></span><br><span class="line">    LZ(<span class="string">&#x27;img&#x27;</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params">index, element</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> oldsrc = LZ(element).attr(<span class="string">&#x27;src&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (oldsrc) &#123;</span><br><span class="line">            LZ(element).removeAttr(<span class="string">&#x27;src&#x27;</span>);</span><br><span class="line">            LZ(element).attr(&#123;</span><br><span class="line">                </span><br><span class="line">                 <span class="string">&#x27;data-original&#x27;</span>: oldsrc</span><br><span class="line">            &#125;);</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> LZ.html();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在渲染之前，更改 img 标签</span></span><br><span class="line">hexo.extend.filter.register(<span class="string">&#x27;after_render:html&#x27;</span>, lazyloadImg);</span><br></pre></td></tr></table></figure>
 
@@ -4700,7 +4697,6 @@ tmp – 临时文件</code></pre>
 ]]></content>
       <categories>
         <category>Hexo</category>
-        <category>Next</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
@@ -4709,7 +4705,7 @@ tmp – 临时文件</code></pre>
   </entry>
   <entry>
     <title>Hexo博客源文档备份</title>
-    <url>/Hexo/Next/blogs/Hexo%E5%8D%9A%E5%AE%A2%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD/</url>
+    <url>/Hexo/blogs/Hexo%E5%8D%9A%E5%AE%A2%E6%BA%90%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD/</url>
     <content><![CDATA[<h2><span id="实现原理"><span id="inline-blue">实现原理</span></span></h2><p>通过监听hexo事件完成博客源码备份，hexo主要事件如下表</p>
 <table>
 <thead>
@@ -4778,7 +4774,6 @@ tmp – 临时文件</code></pre>
 ]]></content>
       <categories>
         <category>Hexo</category>
-        <category>Next</category>
       </categories>
       <tags>
         <tag>Hexo</tag>

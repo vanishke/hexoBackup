@@ -2,7 +2,6 @@
 title: Hexo集成Gitalk
 categories:
 	- Hexo
-	- Next
 tags: 
 	- Hexo
 	- Next

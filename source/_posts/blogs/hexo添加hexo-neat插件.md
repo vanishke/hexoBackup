@@ -2,7 +2,6 @@
 title: Hexo添加hexo-neat插件
 categories: 
 	- Hexo
-	- Next
 tags: 
 	- Hexo
 	- Next

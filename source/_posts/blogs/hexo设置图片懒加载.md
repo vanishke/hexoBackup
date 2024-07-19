@@ -2,7 +2,6 @@
 title: Hexo设置图片懒加载
 categories:
 	- Hexo
-	- Next
 tags: 
 	- Hexo
 	- Next
