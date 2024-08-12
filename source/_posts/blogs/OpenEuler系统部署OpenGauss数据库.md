@@ -36,7 +36,7 @@ updated: 2024-08-09 15:42:21
 ## <span id="inline-blue">设置字符集和环境变量</span>
 ```shell
 [root@openeuler172 ~]# vim /etc/profile
-#文件末尾添加如下内容,packagePath为安装后OpenGauss所在位置，可执行修改
+#文件末尾添加如下内容,packagePath为安装后OpenGauss所在位置，根据实际安装路径修改
 export LANG=zh_CN.UTF‐8
 export packagePath=/data/openGauss
 export LD_LIBRARY_PATH=$packagePath/script/gspylib/clib:$LD_LIBRARY_PATH
@@ -55,8 +55,10 @@ openGauss下载地址：https://opengauss.org/zh/download/
 ```shell
 #创建openGauss管理员用户组
 [root@openeuler172 ~]# groupadd dbgroup
-#创建openGauss管理员omm,设置密码要求8位字符
+#创建openGauss管理员omm
 [root@openeuler172 ~]# useradd -g dbgroup omm
+#设置密码要求8位字符
+[root@openeuler172 ~]# passwd omm
 #创建openGauss安装路径/data/openGauss
 [root@openeuler172 ~]# mkdir -p /data/openGauss
 [root@openeuler172 ~]# cd /data/openGauss
@@ -157,7 +159,7 @@ libcgroup          openGauss-6.0.0-RC1-openEuler-64bit-om.tar.gz   upgrade_sql.s
 #切换到脚本目录
 [omm@openeuler172 script]$ cd /data/openGauss/script/ 
 #启动openGauss
-[omm@openeuler172 script]$ ./gs_om -t restart
+[omm@openeuler172 script]$ ./gs_om -t start
 #停止openGauss
 [omm@openeuler172 script]$ ./gs_om -t stop
 #重启openGauss
@@ -182,6 +184,12 @@ openGauss=> create table mytable(firstcol int);
 openGauss=> insert into mytable values(100);
 #查询mytable表数据
 openGauss=> select * from  mytable;
+# 查看对象
+openGauss=# \l #查看数据库
+openGauss=# \c test #查看数据库
+openGauss=# \dt #查看数据库所有表名
+openGauss=# \d mytable #查看表结构
+openGauss=# \d+ mytable #查看表结构
 ```
 参考官方文档：<a id="download" href="/images/OpenGauss/openEuler-openGauss.pdf"><i class="fa fa-download"></i><span>官方文档</span> </a>
 
