@@ -29,7 +29,7 @@ none of the server's SASL authentication mechanisms are supported
 ## <span id="inline-blue">修改配置</span>
 修改OpenGauss配置文件postgresql.conf，文件路径如下：
 /data/openGauss/gaussdb/data/db1
-找到password_encryption_type 这个属性，将注释取消，然后将value改成 1（密码格式sha256 MD5 都可用），更改好后按：wq保存
+找到password_encryption_type 这个属性，将注释取消，然后将value改成 0（密码格式sha256 MD5 都可用），更改好后按：wq保存
 ![OpenGauss配置](/images/OpenGauss/OpenGauss_20240812_001.png)
 修改OpenGauss配置文件pg_hba.conf，文件路径如下：
 /data/openGauss/gaussdb/data/db1
