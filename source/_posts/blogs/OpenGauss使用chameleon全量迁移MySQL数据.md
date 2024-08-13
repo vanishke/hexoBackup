@@ -21,8 +21,10 @@ chameleon:
 chameleon是一个用Python3编写的将MySQL迁移至openGauss的实时复制工具，支持初始全量数据的复制以及后续增量数据的实时在线复制功能。chameleon通过一次初始化配置，使用只读模式，将MySQL的数据全量拉取到openGauss。支持在同一快照下，表间数据并行迁移。
 全量迁移支持的功能：支持表及表数据、视图、触发器、自定义函数、存储过程的全量迁移
 
-下载chameleon：https://opengauss.obs.cn-south-1.myhuaweicloud.com/latest/tools/openEuler20.03/chameleon-6.0.0-x86_64.tar.gz
-openEuler20.03操作系统x86_64架构，如果需要其他类型的安装包切换到下面地址：https://gitee.com/opengauss/openGauss-tools-chameleon/blob/master/chameleon%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md
+下载chameleon：
+https://opengauss.obs.cn-south-1.myhuaweicloud.com/latest/tools/openEuler20.03/chameleon-6.0.0-x86_64.tar.gz
+openEuler20.03操作系统x86_64架构，如果需要其他类型的安装包切换到下面地址：
+https://gitee.com/opengauss/openGauss-tools-chameleon/blob/master/chameleon%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md
 2.2节提供所有类型的安装包，可自行选择。
 
 安装过程中，将自动安装该工具依赖的其他库，请确保本机的pip能正常下载安装相关依赖。相关依赖库及版本要求为：
@@ -68,12 +70,24 @@ ln -s libmysqlclient.so.20.3.20 libmysqlclient.so.20
 ```
 ![chameleon数据迁移](/images/Chameleon/Chameleon_20240812_001.png)
 
+创建Python虚拟环境并激活
 ```shell
 cd /chameleon/chameleon-6.0.0/
 python3 -m venv venv
 source venv/bin/activate
 ```
 ## <span id="inline-blue">数据迁移</span>
+
+MySQL开启复制功能,mysql配置文件mysqld节点下新增如下配置，MySQL服务重启生效
+```shell
+[root@S21614 home]# vim /etc/my.cnf
+[mysqld]
+binlog_format = ROW
+log_bin = mysql-bin
+server_id = 1
+binlog_row_image = FULL
+```
+
 创建chameleon配置文件
 进入Python虚拟环境安装好chameleon工具。
 执行如下命令创建chameleon配置文件目录。
@@ -197,8 +211,8 @@ sources:
 初始化迁移
 ```shell
 cd  /chameleon/chameleon-6.0.0/venv/bin
-chameleon create_replica_schema --config default
-chameleon add_source --config default --source mysql
+./chameleon create_replica_schema --config default
+./chameleon add_source --config default --source mysql
 ```
 复制基础数据
 ```shell
@@ -233,9 +247,9 @@ cd /chameleon/chameleon-6.0.0/venv/bin
 
 迁移结束清理资源
 ```shell
-chameleon stop_replica --config default --source mysql
-chameleon detach_replica --config default --source mysql
-chameleon drop_replica_schema --config default
+./chameleon stop_replica --config default --source mysql
+./chameleon detach_replica --config default --source mysql
+./chameleon drop_replica_schema --config default
 ```
 
 # <span id="inline-blue">问题汇总</span>
@@ -273,3 +287,4 @@ alter user admin with Sysadmin;
 更改用户权限之后，执行\du 可以查看用户权限
 ![chameleon数据迁移](/images/Chameleon/Chameleon_20240812_003.png)
 
+参考文档：https://gitee.com/opengauss/openGauss-tools-chameleon/blob/master/chameleon%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.md

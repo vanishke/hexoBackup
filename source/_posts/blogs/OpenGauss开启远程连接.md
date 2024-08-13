@@ -14,16 +14,6 @@ updated: 2024-08-12 09:27:20
 数据库： openGauss-6.0.0-RC1
 # <span id="inline-blue">背景</span>
 使用navicate连接远程OpenGauss数据库，提示没有权限被拒绝。
-## <span id="inline-blue">问题一</span>
-```shell
- Forbid remote connection with initial user.
-```
-openGauss不允许使用超员来远程连接，应该重新创建一个数据库用户进而使用远程连接。
-## <span id="inline-blue">问题二</span>
-```shell
-none of the server's SASL authentication mechanisms are supported
-```
-说明你的用户密码加密方式不支持远程连接，要按如下流程修改。
 # <span id="inline-blue">实现</span>
 
 ## <span id="inline-blue">修改配置</span>
@@ -49,3 +39,16 @@ ALTER ROLE admin IDENTIFIED BY '新密码' REPLACE '旧密码'
 ## <span id="inline-blue">navicate连接OpenGauss</span>
 ![navicate连接OpenGauss](/images/OpenGauss/OpenGauss_20240812_003.png)
 ![navicate连接OpenGauss](/images/OpenGauss/OpenGauss_20240812_004.png)
+
+# <span id="inline-blue">问题总结</span>
+
+## <span id="inline-blue">问题一</span>
+```shell
+ Forbid remote connection with initial user.
+```
+openGauss不允许使用超员来远程连接，应该重新创建一个数据库用户进而使用远程连接。
+## <span id="inline-blue">问题二</span>
+```shell
+none of the server's SASL authentication mechanisms are supported
+```
+说明你的用户密码加密方式不支持远程连接，要按以上流程修改。
