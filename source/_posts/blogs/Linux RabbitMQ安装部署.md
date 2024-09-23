@@ -23,8 +23,10 @@ RabbitMQ安装需要依赖Erlang环境，两者版本对应关系如下：
 选择安装版本如下：
 Erlang: 21.3.8.16
 RabbitMQ：3.8.8
-Erlang下载地址：https://packagecloud.io/rabbitmq/erlang/packages/el/7/erlang-21.3.8.16-1.el7.x86_64.rpm
-RabbitMQ下载地址：https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.8/rabbitmq-server-3.8.8-1.el7.noarch.rpm
+Erlang下载地址：
+https://packagecloud.io/rabbitmq/erlang/packages/el/7/erlang-21.3.8.16-1.el7.x86_64.rpm
+RabbitMQ下载地址：
+https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.8/rabbitmq-server-3.8.8-1.el7.noarch.rpm
 
 # <span id="inline-blue">Erlang安装</span>
 创建RabbitMQ安装包存放路径
