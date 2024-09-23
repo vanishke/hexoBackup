@@ -18,7 +18,7 @@ SpringBoot: 2.6.6
 SpringCloud: 2021.0.6
 Maven: 3.5.4
 # <span id="inline-blue">背景</span>
-微服务项目集成模块越来越多，公共模块的版本管理越来越麻烦，通过集成Flatten-maven-plugin插件，实现版本号统一管理
+微服务项目集成模块越来越多，公共模块的版本管理很麻烦，通过集成Flatten-maven-plugin插件，实现版本号统一管理
 # <span id="inline-blue">Flatten-maven-plugin插件</span>
 项目父级pom.xml引入Flatten-maven-plugin插件及版本占位符${revision}定义
 ```xml
