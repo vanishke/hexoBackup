@@ -89,7 +89,7 @@ idea忽略Flatten-maven-plugin生成的.flattened-pom.xml文件
 模块打包实际执行的pom文件是模块下.flattened-pom.xml
 ![Maven统一版本号管理](/images/Maven/Flatten-maven-plugin/Maven_Flattened_20240923_001.png)
 
-如果在项目内部模块间相互引用不想再填写版本号，可通过一下方法实现
+如果在项目内部模块间相互引用不想再填写版本号，可通过以下方法实现
 在公共模块下新增一个模块管理
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
