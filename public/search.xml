@@ -389,6 +389,40 @@
       </tags>
   </entry>
   <entry>
+    <title>Ibatis中报There is no READABLE property name</title>
+    <url>/JDK/blogs/Ibatis%E4%B8%AD%E6%8A%A5There%20is%20no%20READABLE%20property%20name/</url>
+    <content><![CDATA[<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>项目打包之后部署启动出现报错</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2024-10-18 13:39:00,296 ERROR [org.springframework.web.context.ContextLoader] (ServerService Thread Pool -- 94) Context initialization failed: org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#x27;LogDao&#x27; defined in class path resource [conf/appContextDaoLog.xml]: Cannot resolve reference to bean &#x27;sqlMapClient&#x27; while setting bean property &#x27;sqlMapClient&#x27;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#x27;sqlMapClient&#x27; defined in class path resource [conf/appContextDao.xml]: Invocation of init method failed; nested exception is org.springframework.core.NestedIOException: Failed to parse config resource: class path resource [conf/sql-map-config-oracle.xml]; nested exception is com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath &#x27;/sqlMapConfig/sqlMap&#x27;.  Cause: com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath &#x27;/sqlMap/resultMap/result&#x27;.  Cause: com.ibatis.common.beans.ProbeException: There is no WRITEABLE property named &#x27;sTBSuggestedPrice&#x27; in class &#x27;com.xxx.dhm.core.dao.resource.po.PAsset&#x27;</span><br><span class="line">        at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:328)</span><br><span class="line">        at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:106)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1325)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1086)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:517)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:291)</span><br><span class="line">        at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</span><br><span class="line">        at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:580)</span><br><span class="line">        at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:895)</span><br><span class="line">        at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:425)</span><br><span class="line">        at org.springframework.web.context.ContextLoader.createWebApplicationContext(ContextLoader.java:276)</span><br><span class="line">        at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:197)</span><br><span class="line">        at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:47)</span><br><span class="line">        at com.xxx.dhm.common.uif.system.StartupListener.contextInitialized(StartupListener.java:27)</span><br><span class="line">        at io.undertow.servlet.core.ApplicationListeners.contextInitialized(ApplicationListeners.java:187)</span><br><span class="line">        at io.undertow.servlet.core.DeploymentManagerImpl$1.call(DeploymentManagerImpl.java:219)</span><br><span class="line">        at io.undertow.servlet.core.DeploymentManagerImpl$1.call(DeploymentManagerImpl.java:187)</span><br><span class="line">        at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:42)</span><br><span class="line">        at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1544)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction$$Lambda$982/1450947022.call(Unknown Source)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1544)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction$$Lambda$982/1450947022.call(Unknown Source)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1544)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction$$Lambda$982/1450947022.call(Unknown Source)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction.lambda$create$0(UndertowDeploymentInfoService.java:1544)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentInfoService$UndertowThreadSetupAction$$Lambda$982/1450947022.call(Unknown Source)</span><br><span class="line">        at io.undertow.servlet.core.DeploymentManagerImpl.deploy(DeploymentManagerImpl.java:255)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentService.startContext(UndertowDeploymentService.java:105)</span><br><span class="line">        at org.wildfly.extension.undertow.deployment.UndertowDeploymentService$1.run(UndertowDeploymentService.java:87)</span><br><span class="line">        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</span><br><span class="line">        at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">        at org.jboss.threads.ContextClassLoaderSavingRunnable.run(ContextClassLoaderSavingRunnable.java:35)</span><br><span class="line">        at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:1990)</span><br><span class="line">        at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1486)</span><br><span class="line">        at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1377)</span><br><span class="line">        at java.lang.Thread.run(Thread.java:745)</span><br><span class="line">        at org.jboss.threads.JBossThread.run(JBossThread.java:513)</span><br><span class="line">Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#x27;sqlMapClient&#x27; defined in class path resource [conf/appContextDao.xml]: Invocation of init method failed; nested exception is org.springframework.core.NestedIOException: Failed to parse config resource: class path resource [conf/sql-map-config-oracle.xml]; nested exception is com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath &#x27;/sqlMapConfig/sqlMap&#x27;.  Cause: com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath &#x27;/sqlMap/resultMap/result&#x27;.  Cause: com.ibatis.common.beans.ProbeException: There is no WRITEABLE property named &#x27;sTBSuggestedPrice&#x27; in class &#x27;com.xxx.dhm.core.dao.resource.po.PAsset&#x27;</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1420)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:519)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:291)</span><br><span class="line">        at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:288)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:190)</span><br><span class="line">        at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:322)</span><br><span class="line">        ... 40 more</span><br><span class="line">Caused by: org.springframework.core.NestedIOException: Failed to parse config resource: class path resource [conf/sql-map-config-oracle.xml]; nested exception is com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath &#x27;/sqlMapConfig/sqlMap&#x27;.  Cause: com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath &#x27;/sqlMap/resultMap/result&#x27;.  Cause: com.ibatis.common.beans.ProbeException: There is no WRITEABLE property named &#x27;sTBSuggestedPrice&#x27; in class &#x27;com.xxx.dhm.core.dao.resource.po.PAsset&#x27;</span><br><span class="line">        at org.springframework.orm.ibatis.SqlMapClientFactoryBean.buildSqlMapClient(SqlMapClientFactoryBean.java:341)</span><br><span class="line">        at org.springframework.orm.ibatis.SqlMapClientFactoryBean.afterPropertiesSet(SqlMapClientFactoryBean.java:291)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1477)</span><br><span class="line">        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1417)</span><br><span class="line">        ... 47 more</span><br></pre></td></tr></table></figure>
+<h1><span id="原因分析"><span id="inline-blue">原因分析</span></span></h1><p>问题咋一看之下以为是ibatis对应的实体类属性驼峰命名不规范导致，替换过报错对应实体属性对应的get/set方法，启动依然报错，察觉新版本才有这个问题，之前发布的版本也有这个实体类，并且没有做过改动，按道理应该不会报错，有可能是最近做的改动导致的问题，于是通过比对不同版本的pom.xml及发布后WEB-INF/lib目录下的jar包，发下如下差异：<br>pom.xml差异：<br><img src="/images/Ibatis/Ibatis_20241021_001.png" alt="Ibatis报错"><br>lib目录差异：<br><img src="/images/Ibatis/Ibatis_20241021_002.png" alt="Ibatis报错"><br><img src="/images/Ibatis/Ibatis_20241021_003.png" alt="Ibatis报错"><br>最终定位是由于添加了如下依赖导致报错，pom.xml去掉依赖即可。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-ibatis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>JDK</category>
+      </categories>
+      <tags>
+        <tag>JDK</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows 安装JDK版本不生效</title>
+    <url>/JDK/blogs/Windows%20%E5%AE%89%E8%A3%85JDK%E7%89%88%E6%9C%AC%E4%B8%8D%E7%94%9F%E6%95%88/</url>
+    <content><![CDATA[<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>Windows安装新版本JDK8，安装之后更改系统环境变量发现不生效</p>
+<h1><span id="解决方案"><span id="inline-blue">解决方案</span></span></h1><p>查看系统环境变量下JDK和JRE路径是否正常，如下所示：<br><img src="/images/Windows/FTP/Windows_FTP_20241021_001.png" alt="Windows JDK设置"><br>查看系统Path环境变量如下所示：<br><img src="/images/Windows/FTP/Windows_FTP_20241021_002.png" alt="Windows JDK设置"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">D:\SecureCRT\;%SystemRoot%\system32;</span><br><span class="line"><span class="meta">%</span><span class="bash">SystemRoot%;%SystemRoot%\System32\Wbem;</span></span><br><span class="line">C:\Program Files (x86)\Common Files\Oracle\Java\javapath;</span><br><span class="line"><span class="meta">%</span><span class="bash">JAVA_HOME%\bin;%JRE_HOME%\bin;</span></span><br><span class="line">D:\Python\Scripts\;D:\Python\;C:\Program Files (x86)\Common Files\NetSarang;</span><br><span class="line"><span class="meta">%</span><span class="bash">SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;E:\st-android\android-sdk\platform-tools;</span></span><br><span class="line"><span class="meta">%</span><span class="bash">ANT_HOME%\bin;%MAVEN_HOME%/bin;%MySQL_HOME%/bin;D:\sqlite-tools;</span></span><br><span class="line">D:\redis_3.2.100\Redis-x64-3.2.100;D:\ffmpeg\bin;D:\nodeJs\;</span><br><span class="line">H:\Git\bin;%MONGODB_HOME%\bin;%PYTHON_HOME%;%PYTHON_HOME%\Scripts;</span><br><span class="line">D:\Python\Scripts\;C:\msys64\mingw64\bin;C:\msys64\mingw64\x86_64-w64-mingw32\bin;%NEXUS_HOME%\bin;</span><br><span class="line">C:\Program Files\TortoiseSVN\bin;C:\Users\909754\AppData\Roaming\npm;%MVND_HOME%\bin</span><br></pre></td></tr></table></figure>
+<p>%JAVA_HOME%\bin;%JRE_HOME%\bin; 路径引用在C:\Program Files (x86)\Common Files\Oracle\Java\javapath后面，发现在对应路径下面存在java.exe执行文件，Path路径命令查找逻辑是只要找到对应的命令就成功返回，不会全部扫描。<br>将%JAVA_HOME%\bin;%JRE_HOME%\bin;移动到命令扫描的第一行即可。</p>
+<h1><span id="验证"><span id="inline-blue">验证</span></span></h1><p><img src="/images/Windows/FTP/Windows_FTP_20241021_003.png" alt="Windows JDK设置"></p>
+]]></content>
+      <categories>
+        <category>JDK</category>
+      </categories>
+      <tags>
+        <tag>JDK</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Idea设置yml格式文件缩进不生效的解决办法</title>
     <url>/Idea/blogs/Idea%E8%AE%BE%E7%BD%AEyml%E6%A0%BC%E5%BC%8F%E6%96%87%E4%BB%B6%E7%BC%A9%E8%BF%9B%E4%B8%8D%E7%94%9F%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>微服务模块yml格式配置文件配置项缩进修改为2个空格，已经在外部调整好了，但是粘贴进Idea,缩进又变成了4个空格</p>
@@ -854,8 +888,8 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-        <tag>Nginx</tag>
         <tag>Windows</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -1356,6 +1390,26 @@
       </tags>
   </entry>
   <entry>
+    <title>SpringBoot Devtools导致类型转换异常</title>
+    <url>/SpringBoot/blogs/SpringBoot%20Devtools%E5%AF%BC%E8%87%B4%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<h2><span id="环境"><span id="inline-blue">环境</span></span></h2><p>os: Windows7<br>Java: 1.8<br>SpringBoot: 2.2.6.Release<br>SpringCloud: 2021.0.5<br>spring-boot-devtools: 2.2.6.Release</p>
+<h3><span id="现象"><span id="inline-blue">现象</span></span></h3><p>本地启动SpringBoot项目，请求后天接口提示错误，错误信息如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java.lang.ClassCastException: com.ffcs.common.model.LoginUser cannot be cast to com.ffcs.common.model.LoginUser</span><br></pre></td></tr></table></figure>
+<h3><span id="代码调用"><span id="inline-blue">代码调用</span></span></h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserUtils</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LoginUser <span class="title">getLoginUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LoginUser loginUser = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            loginUser = (LoginUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;UserUtils异常:&quot;</span>, e);</span><br><span class="line">            UserUtils.log.info(<span class="string">&quot;============当前无登录信息，请注意================&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> loginUser;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="问题排查"><span id="inline-blue">问题排查</span></span></h3><p>错误信息很奇怪，同一个Class类对象居然不能转换，本地存在转换异常，但是如果打包后部署到Linux服务器上后，请求一切正常，接下来就是逐步排查提交的代码是否是因为修改代码逻辑导致出现请求异常。<br>代码没有找到特别的地方，怀疑是否是编译器做了什么优化，导致本地编译运行的class和打包后的不一致导致运行出现异常，特别检查了本地的class和反编译后的jar包内容是否一致，结果也没有变化。<br>因为重写了SpringSecurity的UserDetails对象，怀疑是否是loadUserByUsername方法和当前调用不一致导致，修改为一致的对象发现也没有效果，最后查看资料发现spring-boot-devtools依赖使用的是自己的类加载器，导致对象无法正常转换。</p>
+<h3><span id="问题原因"><span id="inline-blue">问题原因</span></span></h3><p>项目启动时加载项目中的类使用的加载器都是org.springframework.boot.devtools.restart.classloader.RestartClassLoader，代码调用处左右两边的对象使用的不同的类加载器，左边使用的是sun.misc.Launcher.AppClassLoader，而右边使用的是org.springframework.boot.devtools.restart.classloader.RestartClassLoader<br>这是spring-boot-devtools自己封装的类加载器，方便重新加载变化的对象。就因为这个差别导致异常发生。</p>
+<h3><span id="解决办法"><span id="inline-blue">解决办法</span></span></h3><p>项目pom.xml删除所有spring-boot-devtools依赖项</p>
+]]></content>
+      <categories>
+        <category>SpringBoot</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>SpringBoot</tag>
+        <tag>Devtools</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SpringCloud Gateway集成Sentinel实现Nacos和Sentinel控制台双向同步</title>
     <url>/SpringCloud/blogs/SpringCloud%20Gateway%E9%9B%86%E6%88%90Sentinel%E5%AE%9E%E7%8E%B0Nacos%E5%92%8CSentinel%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%8F%8C%E5%90%91%E5%90%8C%E6%AD%A5/</url>
     <content><![CDATA[<h2><span id="环境"><span id="inline-blue">环境</span></span></h2><p>Java: 1.8<br>SpringBoot: 2.2.6.Release<br>SpringCloud: 2021.0.5<br>Sentinel: 1.8.7<br>nacos：2.2.0</p>
@@ -1386,26 +1440,6 @@
         <tag>Nacos</tag>
         <tag>SpringCloud</tag>
         <tag>Sentinel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SpringBoot Devtools导致类型转换异常</title>
-    <url>/SpringBoot/blogs/SpringBoot%20Devtools%E5%AF%BC%E8%87%B4%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%BC%82%E5%B8%B8/</url>
-    <content><![CDATA[<h2><span id="环境"><span id="inline-blue">环境</span></span></h2><p>os: Windows7<br>Java: 1.8<br>SpringBoot: 2.2.6.Release<br>SpringCloud: 2021.0.5<br>spring-boot-devtools: 2.2.6.Release</p>
-<h3><span id="现象"><span id="inline-blue">现象</span></span></h3><p>本地启动SpringBoot项目，请求后天接口提示错误，错误信息如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java.lang.ClassCastException: com.ffcs.common.model.LoginUser cannot be cast to com.ffcs.common.model.LoginUser</span><br></pre></td></tr></table></figure>
-<h3><span id="代码调用"><span id="inline-blue">代码调用</span></span></h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserUtils</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LoginUser <span class="title">getLoginUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        LoginUser loginUser = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            loginUser = (LoginUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;UserUtils异常:&quot;</span>, e);</span><br><span class="line">            UserUtils.log.info(<span class="string">&quot;============当前无登录信息，请注意================&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> loginUser;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3><span id="问题排查"><span id="inline-blue">问题排查</span></span></h3><p>错误信息很奇怪，同一个Class类对象居然不能转换，本地存在转换异常，但是如果打包后部署到Linux服务器上后，请求一切正常，接下来就是逐步排查提交的代码是否是因为修改代码逻辑导致出现请求异常。<br>代码没有找到特别的地方，怀疑是否是编译器做了什么优化，导致本地编译运行的class和打包后的不一致导致运行出现异常，特别检查了本地的class和反编译后的jar包内容是否一致，结果也没有变化。<br>因为重写了SpringSecurity的UserDetails对象，怀疑是否是loadUserByUsername方法和当前调用不一致导致，修改为一致的对象发现也没有效果，最后查看资料发现spring-boot-devtools依赖使用的是自己的类加载器，导致对象无法正常转换。</p>
-<h3><span id="问题原因"><span id="inline-blue">问题原因</span></span></h3><p>项目启动时加载项目中的类使用的加载器都是org.springframework.boot.devtools.restart.classloader.RestartClassLoader，代码调用处左右两边的对象使用的不同的类加载器，左边使用的是sun.misc.Launcher.AppClassLoader，而右边使用的是org.springframework.boot.devtools.restart.classloader.RestartClassLoader<br>这是spring-boot-devtools自己封装的类加载器，方便重新加载变化的对象。就因为这个差别导致异常发生。</p>
-<h3><span id="解决办法"><span id="inline-blue">解决办法</span></span></h3><p>项目pom.xml删除所有spring-boot-devtools依赖项</p>
-]]></content>
-      <categories>
-        <category>SpringBoot</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>SpringBoot</tag>
-        <tag>Devtools</tag>
       </tags>
   </entry>
   <entry>
@@ -1906,7 +1940,7 @@
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#56;&#x2e;&#49;&#48;&#48;&#x2e;&#x31;&#48;&#49;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#49;&#x39;&#50;&#x2e;&#x31;&#x36;&#56;&#x2e;&#49;&#48;&#48;&#x2e;&#x31;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#48;&#x30;&#x2e;&#49;&#48;&#x31;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#48;&#x30;&#x2e;&#49;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -3244,6 +3278,24 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Linux环境查看class文件编译版本信息</title>
+    <url>/Linux/blogs/Linux%E7%8E%AF%E5%A2%83%E6%9F%A5%E7%9C%8Bclass%E6%96%87%E4%BB%B6%E7%BC%96%E8%AF%91%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[<h2><span id="查看class文件编译版本信息"><span id="inline-blue">查看class文件编译版本信息</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@lwdCSCDN common]# javap -v CommonContent.class </span><br><span class="line">Classfile /usr/local/moui_nanjing/V242/coship-oms/webapps/oms/WEB-INF/classes/com/coship/oms/common/CommonContent.class</span><br><span class="line">  Last modified 2021-11-16; size 474 bytes</span><br><span class="line">  MD5 checksum def74d7189fc3d20401e9070e4c8ad37</span><br><span class="line">  Compiled from &quot;CommonContent.java&quot;</span><br><span class="line">public class com.coship.oms.common.CommonContent</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line"><span class="meta">#</span><span class="bash"> major version: 52  代表是java编译版本为1.8</span></span><br></pre></td></tr></table></figure>
+<h2><span id="java编译器版本对应关系"><span id="inline-blue">Java编译器版本对应关系</span></span></h2><pre><code>Unsupported major.minor version 52.0 对应于 JDK1.8（JRE1.8） </code></pre>
+<p>　　Unsupported major.minor version 51.0 对应于 JDK1.7（JRE1.7） </p>
+<p>　　Unsupported major.minor version 50.0 对应于 JDK1.6（JRE1.6） </p>
+<p>　　Unsupported major.minor version 49.0 对应于 JDK1.5（JRE1.5）</p>
+<h2><span id="兼容关系"><span id="inline-blue">兼容关系</span></span></h2><p>Java低版本编译的jar包，可以在高版本Java编译环境下运行，反之，Java高版本编译的jar包不能在低版本Java环境运行</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux文件清空操作</title>
     <url>/Linux/blogs/Linux%E6%96%87%E4%BB%B6%E6%B8%85%E7%A9%BA%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h2><span id="文件清空"><span id="inline-blue">文件清空</span></span></h2><p>windows7 64</p>
@@ -3260,24 +3312,6 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux环境查看class文件编译版本信息</title>
-    <url>/Linux/blogs/Linux%E7%8E%AF%E5%A2%83%E6%9F%A5%E7%9C%8Bclass%E6%96%87%E4%BB%B6%E7%BC%96%E8%AF%91%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF/</url>
-    <content><![CDATA[<h2><span id="查看class文件编译版本信息"><span id="inline-blue">查看class文件编译版本信息</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@lwdCSCDN common]# javap -v CommonContent.class </span><br><span class="line">Classfile /usr/local/moui_nanjing/V242/coship-oms/webapps/oms/WEB-INF/classes/com/coship/oms/common/CommonContent.class</span><br><span class="line">  Last modified 2021-11-16; size 474 bytes</span><br><span class="line">  MD5 checksum def74d7189fc3d20401e9070e4c8ad37</span><br><span class="line">  Compiled from &quot;CommonContent.java&quot;</span><br><span class="line">public class com.coship.oms.common.CommonContent</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line"><span class="meta">#</span><span class="bash"> major version: 52  代表是java编译版本为1.8</span></span><br></pre></td></tr></table></figure>
-<h2><span id="java编译器版本对应关系"><span id="inline-blue">Java编译器版本对应关系</span></span></h2><pre><code>Unsupported major.minor version 52.0 对应于 JDK1.8（JRE1.8） </code></pre>
-<p>　　Unsupported major.minor version 51.0 对应于 JDK1.7（JRE1.7） </p>
-<p>　　Unsupported major.minor version 50.0 对应于 JDK1.6（JRE1.6） </p>
-<p>　　Unsupported major.minor version 49.0 对应于 JDK1.5（JRE1.5）</p>
-<h2><span id="兼容关系"><span id="inline-blue">兼容关系</span></span></h2><p>Java低版本编译的jar包，可以在高版本Java编译环境下运行，反之，Java高版本编译的jar包不能在低版本Java环境运行</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -4564,8 +4598,8 @@ tmp – 临时文件</code></pre>
         <category>FTP</category>
       </categories>
       <tags>
-        <tag>FTP</tag>
         <tag>Windows</tag>
+        <tag>FTP</tag>
       </tags>
   </entry>
   <entry>
@@ -5270,8 +5304,8 @@ tmp – 临时文件</code></pre>
         <category>Nginx</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Windows</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -5294,6 +5328,36 @@ tmp – 临时文件</code></pre>
       </categories>
       <tags>
         <tag>Elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows注册Elasticsearch服务</title>
+    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch下载</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch注册</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch服务自启动设置</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch服务验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
+<h1><span id="elasticsearch下载"><span id="inline-blue">elasticsearch下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
+<h1><span id="elasticsearch注册"><span id="inline-blue">elasticsearch注册</span></span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
+<p>2.执行注册服务命令 elasticsearch.bat install</p>
+<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
+<h1><span id="elasticsearch服务自启动设置"><span id="inline-blue">elasticsearch服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
+<h1><span id="elasticsearch服务验证"><span id="inline-blue">elasticsearch服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>Elasticsearch</tag>
+        <tag>Windows</tag>
       </tags>
   </entry>
   <entry>
@@ -5328,8 +5392,8 @@ tmp – 临时文件</code></pre>
         <category>Nginx</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Windows</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -5360,36 +5424,6 @@ tmp – 临时文件</code></pre>
       <tags>
         <tag>Windows</tag>
         <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows注册Elasticsearch服务</title>
-    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch下载</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch注册</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch服务自启动设置</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch服务验证</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch下载"><span id="inline-blue">elasticsearch下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
-<h1><span id="elasticsearch注册"><span id="inline-blue">elasticsearch注册</span></span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
-<p>2.执行注册服务命令 elasticsearch.bat install</p>
-<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch服务自启动设置"><span id="inline-blue">elasticsearch服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch服务验证"><span id="inline-blue">elasticsearch服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>Elasticsearch</tag>
-        <tag>Windows</tag>
       </tags>
   </entry>
   <entry>
@@ -5455,8 +5489,8 @@ tmp – 临时文件</code></pre>
         <category>Nginx</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Windows</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -5560,8 +5594,8 @@ tmp – 临时文件</code></pre>
         <category>FTP</category>
       </categories>
       <tags>
-        <tag>FTP</tag>
         <tag>Windows</tag>
+        <tag>FTP</tag>
       </tags>
   </entry>
   <entry>
