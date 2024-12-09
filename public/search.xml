@@ -389,6 +389,76 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker部署微服务集群(一)</title>
+    <url>/Docker/blogs/Docker%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%9B%86%E7%BE%A4(%E4%B8%80)/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
+<li><a href="#span-idinline-blue%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8Fspan"><span id="inline-blue">构建基础镜像</span></a><ul>
+<li><a href="#span-idinline-bluemysqlspan"><span id="inline-blue">MySQL</span></a></li>
+<li><a href="#span-idinline-blueredisspan"><span id="inline-blue">Redis</span></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><pre><code>Docker: 26.1.4</code></pre>
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>项目模块打包后希望能通过Docker构建镜像部署，包括微服务模块以及基础服务模块（MySQL、redis、elasticsearch等）</p>
+<h1><span id="构建基础镜像"><span id="inline-blue">构建基础镜像</span></span></h1><h2><span id="mysql"><span id="inline-blue">MySQL</span></span></h2><p>构建镜像上下文文件预览：<br><img src="/images/docker/20241124/Docker_MySQL_20241124_001.png" alt="Dockerfile MySQL"></p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> mysql:<span class="number">5.7</span></span><br><span class="line"><span class="comment"># author</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> <span class="number">909754</span> &lt;<span class="number">18685129726</span>@<span class="number">163</span>.com&gt;</span><br><span class="line"><span class="comment">#工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /docker-entrypoint-initdb.d</span></span><br><span class="line"><span class="comment">#编码</span></span><br><span class="line"><span class="keyword">ENV</span> LANG=C.UTF-<span class="number">8</span></span><br><span class="line"><span class="comment"># 拷贝初始化脚本</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> db/init/start.sql /docker-entrypoint-initdb.d/</span></span><br><span class="line"><span class="comment">#拷贝SQL脚本</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> db/sql/*.sql /opt/sql/</span></span><br></pre></td></tr></table></figure>
+<p>/docker-entrypoint-initdb.d/ : MySQL容器初始化执行的SQL脚本<br>db/sql/*.sql: 目录包含启动SQL文件start.sql,内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">source &#x2F;opt&#x2F;sql&#x2F;nacos_config.sql;</span><br><span class="line">source &#x2F;opt&#x2F;sql&#x2F;init_table.sql;</span><br><span class="line">source &#x2F;opt&#x2F;sql&#x2F;init_data.sql;</span><br></pre></td></tr></table></figure>
+<p>MySQL配置文件my.cnf如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Example MySQL config file <span class="keyword">for</span> very large systems.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># This is for a large system with memory of 1G-2G where the system runs mainly</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> MySQL.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># MySQL programs look for option files in a set of</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> locations <span class="built_in">which</span> depend on the deployment platform.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> You can copy this option file to one of those</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> locations. For information about these locations, see:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/mysql/en/option-files.html</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># In this file, you can use all long options that a program supports.</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> If you want to know <span class="built_in">which</span> options a program supports, run the program</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> with the <span class="string">&quot;--help&quot;</span> option.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> The following options will be passed to all MySQL clients</span></span><br><span class="line">[client]</span><br><span class="line"><span class="meta">#</span><span class="bash">password	= your_password</span></span><br><span class="line">port		= 3306</span><br><span class="line"><span class="meta">#</span><span class="bash">socket		= /home/mysqldata/mysql.sock</span></span><br><span class="line">default-character-set=utf8</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Here follows entries <span class="keyword">for</span> some specific programs</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> The MySQL server</span></span><br><span class="line">[mysqld]</span><br><span class="line">port		= 3306</span><br><span class="line"><span class="meta">#</span><span class="bash">socket		= /home/mysqldata/mysql.sock</span></span><br><span class="line">lower_case_table_names=1</span><br><span class="line">sql_mode=&quot;NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash">skip_grant_tables</span></span><br><span class="line">datadir=/var/mysql/data</span><br><span class="line">skip-external-locking</span><br><span class="line">key_buffer_size = 384M</span><br><span class="line">max_allowed_packet = 1000M</span><br><span class="line">table_open_cache = 512</span><br><span class="line">sort_buffer_size = 2M</span><br><span class="line">read_buffer_size = 2M</span><br><span class="line">read_rnd_buffer_size = 8M</span><br><span class="line">myisam_sort_buffer_size = 64M</span><br><span class="line">thread_cache_size = 8</span><br><span class="line">query_cache_size = 32M</span><br><span class="line"><span class="meta">#</span><span class="bash"> Try number of CPU<span class="string">&#x27;s*2 for #thread_concurrency</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">thread_concurrency = 8</span></span><br><span class="line">default-storage-engine=INNODB</span><br><span class="line">innodb-file-per-table=1</span><br><span class="line">event_scheduler = 1</span><br><span class="line">max_connections = 1000</span><br><span class="line">character_set_server = utf8</span><br><span class="line"><span class="meta">#</span><span class="bash">log-bin=<span class="string">&quot;/var/log/mysql-bin.log&quot;</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">read-only=0</span></span><br><span class="line"><span class="meta">#</span><span class="bash">binlog-do-db=sync_test</span></span><br><span class="line"><span class="meta">#</span><span class="bash">binlog-ignore-db=mysql</span></span><br><span class="line">max_binlog_size = 500M</span><br><span class="line">expire_logs_days = 7</span><br><span class="line">log_bin_trust_function_creators=TRUE</span><br><span class="line"><span class="meta">#</span><span class="bash">log_error=/var/mysql/<span class="built_in">log</span>/mysql-error.log</span></span><br><span class="line">log_timestamps=SYSTEM</span><br><span class="line"><span class="meta">#</span><span class="bash"> Don<span class="string">&#x27;t listen on a TCP/IP port at all. This can be a security enhancement,</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">if</span> all processes that need to connect to mysqld run on the same host.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> All interaction with mysqld must be made via Unix sockets or named pipes.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Note that using this option without enabling named pipes on Windows</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> (via the <span class="string">&quot;enable-named-pipe&quot;</span> option) will render mysqld useless!</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#skip-networking</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Replication Master Server (default)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> binary logging is required <span class="keyword">for</span> replication</span></span><br><span class="line"><span class="meta">#</span><span class="bash">log-bin=mysql-bin</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> required unique id between 1 and 2^32 - 1</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> defaults to 1 <span class="keyword">if</span> master-host is not <span class="built_in">set</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> but will not <span class="keyword">function</span> as a master <span class="keyword">if</span> omitted</span></span><br><span class="line">server-id	= 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Replication Slave (comment out master section to use this)</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># To configure this host as a replication slave, you can choose between</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> two methods :</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># 1) Use the CHANGE MASTER TO command (fully described in our manual) -</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    the syntax is:</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#    CHANGE MASTER TO MASTER_HOST=&lt;host&gt;, MASTER_PORT=&lt;port&gt;,</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    MASTER_USER=&lt;user&gt;, MASTER_PASSWORD=&lt;password&gt; ;</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#    where you replace &lt;host&gt;, &lt;user&gt;, &lt;password&gt; by quoted strings and</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    &lt;port&gt; by the master<span class="string">&#x27;s port number (3306 by default).</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#    Example:</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment">#    CHANGE MASTER TO MASTER_HOST=&#x27;125.564.12.1&#x27;, MASTER_PORT=3306,</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    MASTER_USER=<span class="string">&#x27;joe&#x27;</span>, MASTER_PASSWORD=<span class="string">&#x27;secret&#x27;</span>;</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># OR</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># 2) Set the variables below. However, in case you choose this method, then</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    start replication <span class="keyword">for</span> the first time (even unsuccessfully, <span class="keyword">for</span> example</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    <span class="keyword">if</span> you mistyped the password <span class="keyword">in</span> master-password and the slave fails to</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    connect), the slave will create a master.info file, and any later</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    change <span class="keyword">in</span> this file to the variables<span class="string">&#x27; values below will be ignored and</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    overridden by the content of the master.info file, unless you shutdown</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    the slave server, delete master.info and restart the slaver server.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    For that reason, you may want to leave the lines below untouched</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    (commented) and instead use CHANGE MASTER TO (see above)</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># required unique id between 2 and 2^32 - 1</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> (and different from the master)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> defaults to 2 <span class="keyword">if</span> master-host is <span class="built_in">set</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> but will not <span class="keyword">function</span> as a slave <span class="keyword">if</span> omitted</span></span><br><span class="line"><span class="meta">#</span><span class="bash">server-id       = 2</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># The replication master for this slave - required</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">master-host     =   &lt;hostname&gt;</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># The username the slave will use for authentication when connecting</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> to the master - required</span></span><br><span class="line"><span class="meta">#</span><span class="bash">master-user     =   &lt;username&gt;</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># The password the slave will authenticate with when connecting to</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> the master - required</span></span><br><span class="line"><span class="meta">#</span><span class="bash">master-password =   &lt;password&gt;</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># The port the master is listening on.</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> optional - defaults to 3306</span></span><br><span class="line"><span class="meta">#</span><span class="bash">master-port     =  &lt;port&gt;</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># binary logging - not required for slaves, but recommended</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">log-bin=mysql-bin</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># binary logging format - mixed recommended</span></span></span><br><span class="line">binlog_format=ROW</span><br><span class="line">binlog_row_image=FULL</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Uncomment the following <span class="keyword">if</span> you are using InnoDB tables</span></span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_data_home_dir = /data/mysqldata/mysql</span></span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_data_file_path = ibdata1:2000M;ibdata2:10M:autoextend</span></span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_log_group_home_dir = /data/mysqldata/mysql</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> You can <span class="built_in">set</span> .._buffer_pool_size up to 50 - 80 %</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> of RAM but beware of setting memory usage too high</span></span><br><span class="line">innodb_buffer_pool_size = 384M</span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_additional_mem_pool_size = 20M</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Set .._log_file_size to 25 % of buffer pool size</span></span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_log_file_size = 100M</span></span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_log_buffer_size = 8M</span></span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_flush_log_at_trx_commit = 1</span></span><br><span class="line"><span class="meta">#</span><span class="bash">innodb_lock_wait_timeout = 50</span></span><br><span class="line"><span class="meta">#</span><span class="bash">secure-file-priv=<span class="string">&quot;&quot;</span></span></span><br><span class="line">[mysqldump]</span><br><span class="line">quick</span><br><span class="line">max_allowed_packet = 16M</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line">no-auto-rehash</span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove the next comment character <span class="keyword">if</span> you are not familiar with SQL</span></span><br><span class="line"><span class="meta">#</span><span class="bash">safe-updates</span></span><br><span class="line"></span><br><span class="line">[myisamchk]</span><br><span class="line">key_buffer_size = 256M</span><br><span class="line">sort_buffer_size = 256M</span><br><span class="line">read_buffer = 2M</span><br><span class="line">write_buffer = 2M</span><br><span class="line"></span><br><span class="line">[mysqlhotcopy]</span><br><span class="line">interactive-timeout</span><br></pre></td></tr></table></figure>
+<p>/opt/sql/: 数据库初始化脚本nacos_config.sql、init_table.sql、init_data.sql所在位置</p>
+<h2><span id="redis"><span id="inline-blue">Redis</span></span></h2><p>构建镜像上下文文件预览：<br><img src="/images/docker/20241124/Docker_Redis_20241124_002.png" alt="Dockerfile Redis"></p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment">#基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> redis:<span class="number">5.0</span>.<span class="number">14</span></span><br><span class="line"><span class="comment">#author</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> <span class="number">909754</span> &lt;<span class="number">18685129726</span>@<span class="number">163</span>.com&gt;</span><br><span class="line"><span class="comment">#拷贝配置文件</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> ./conf/redis.conf /etc/redis/redis.conf</span></span><br><span class="line"><span class="comment">#暴露服务端口</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">6379</span></span><br><span class="line"><span class="comment"># 启动Redis服务器</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [ <span class="string">&quot;redis-server&quot;</span>, <span class="string">&quot;/etc/redis/redis.conf&quot;</span> ]</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>SpringCloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微服务集成dockerfile-maven-plugin插件</title>
+    <url>/Docker/blogs/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%9B%86%E6%88%90dockerfile-maven-plugin%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
+<li><a href="#span-idinline-bluedocker%E5%BC%80%E6%94%BE%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5span"><span id="inline-blue">Docker开放远程连接</span></a></li>
+<li><a href="#span-idinline-blue%E9%87%8D%E5%90%AFdocker%E6%9C%8D%E5%8A%A1span"><span id="inline-blue">重启Docker服务</span></a></li>
+<li><a href="#span-idinline-blueidea%E9%85%8D%E7%BD%AEdocker%E8%BF%9E%E6%8E%A5span"><span id="inline-blue">idea配置Docker连接</span></a></li>
+<li><a href="#span-idinline-blue%E6%B7%BB%E5%8A%A0maven%E6%8F%92%E4%BB%B6%E4%BE%9D%E8%B5%96span"><span id="inline-blue">添加maven插件依赖</span></a></li>
+<li><a href="#span-idinline-blue%E9%AA%8C%E8%AF%81span"><span id="inline-blue">验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><pre><code>Docker: 26.1.4
+idea: 2018-2-1
+dockerfile-maven-plugin: 1.4.9</code></pre>
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>微服务打包之后希望Docker构建镜像生成容器运行，使用dockerfile-maven-plugin插件实现</p>
+<h1><span id="docker开放远程连接"><span id="inline-blue">Docker开放远程连接</span></span></h1><p>修改Docker服务配置文件，增加远程连接端口监听，文件所在位置<br>vim /lib/systemd/system/docker.service</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Type=notify</span><br><span class="line"><span class="meta">#</span><span class="bash"> the default is not to use systemd <span class="keyword">for</span> cgroups because the delegate issues still</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> exists and systemd currently does not support the cgroup feature <span class="built_in">set</span> required</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">for</span> containers run by docker</span></span><br><span class="line">ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375  -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">ExecReload=/bin/kill -s HUP $MAINPID</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">RestartSec=2</span><br><span class="line">Restart=always</span><br></pre></td></tr></table></figure>
+<p>-H tcp://0.0.0.0:2375  指定监听所有地址的2375端口连接</p>
+<h1><span id="重启docker服务"><span id="inline-blue">重启Docker服务</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker.service</span><br></pre></td></tr></table></figure>
+<h1><span id="idea配置docker连接"><span id="inline-blue">idea配置Docker连接</span></span></h1><p><img src="/images/docker/20241118/Docker_Idea_20241118_001.png" alt="Docker远程连接"></p>
+<h1><span id="添加maven插件依赖"><span id="inline-blue">添加maven插件依赖</span></span></h1><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--控制微服务build阶段生成jar时构建镜像 true:不执行 false:执行--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dockerfile-maven-plugin.version</span>&gt;</span>1.4.9<span class="tag">&lt;/<span class="name">dockerfile-maven-plugin.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Dockerfile.skip</span>&gt;</span>true<span class="tag">&lt;/<span class="name">Dockerfile.skip</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--   dockerfile-maven-plugin      --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dockerfile-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">id</span>&gt;</span>default<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">goal</span>&gt;</span>build<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">skip</span>&gt;</span>$&#123;Dockerfile.skip&#125;<span class="tag">&lt;/<span class="name">skip</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">repository</span>&gt;</span>$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">tag</span>&gt;</span>$&#123;project.version&#125;<span class="tag">&lt;/<span class="name">tag</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">buildArgs</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">JAR_FILE</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">JAR_FILE</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">buildArgs</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+<h1><span id="验证"><span id="inline-blue">验证</span></span></h1><p>maven clean install 执行后微服务模块自动构建对应镜像<br><img src="/images/docker/20241118/Docker_Idea_20241118_002.png" alt="Docker构建镜像验证"></p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ibatis中报There is no READABLE property name</title>
     <url>/JDK/blogs/Ibatis%E4%B8%AD%E6%8A%A5There%20is%20no%20READABLE%20property%20name/</url>
     <content><![CDATA[<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>项目打包之后部署启动出现报错</p>
@@ -1065,8 +1135,8 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>knife4j-gateway</tag>
       </tags>
   </entry>
@@ -1091,9 +1161,9 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
+        <tag>SpringCloud</tag>
         <tag>Java</tag>
         <tag>Nacos</tag>
-        <tag>SpringCloud</tag>
       </tags>
   </entry>
   <entry>
@@ -1133,8 +1203,8 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Sleuth</tag>
         <tag>Zipkin</tag>
         <tag>Zipkin-dependencies</tag>
@@ -1169,8 +1239,8 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Sleuth</tag>
         <tag>Zipkin</tag>
       </tags>
@@ -1270,8 +1340,8 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>SpringDoc</tag>
         <tag>Knife4j-gateway</tag>
       </tags>
@@ -1436,9 +1506,9 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
+        <tag>SpringCloud</tag>
         <tag>Java</tag>
         <tag>Nacos</tag>
-        <tag>SpringCloud</tag>
         <tag>Sentinel</tag>
       </tags>
   </entry>
@@ -1575,10 +1645,10 @@
         <category>SpringBoot</category>
       </categories>
       <tags>
+        <tag>SpringCloud</tag>
         <tag>Java</tag>
         <tag>RabbitMQ</tag>
         <tag>SpringBoot</tag>
-        <tag>SpringCloud</tag>
       </tags>
   </entry>
   <entry>
@@ -1610,8 +1680,8 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Redisson</tag>
       </tags>
   </entry>
@@ -1940,7 +2010,7 @@
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#48;&#x30;&#x2e;&#49;&#48;&#x31;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x39;&#50;&#46;&#x31;&#54;&#56;&#x2e;&#x31;&#48;&#x30;&#x2e;&#49;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#x2e;&#x31;&#x30;&#48;&#x2e;&#49;&#48;&#x31;">&#x72;&#111;&#x6f;&#116;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#x2e;&#x31;&#x30;&#48;&#x2e;&#49;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -3009,7 +3079,7 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
 
 <h1><span id="操作容器"><span id="inline-blue">操作容器</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看正在运行容器</span></span><br><span class="line">docker ps</span><br><span class="line"><span class="meta">#</span><span class="bash">查看所有容器</span></span><br><span class="line">docker ps -a </span><br><span class="line"><span class="meta">#</span><span class="bash">批量删除所有容器</span></span><br><span class="line">docker rm -vf $(docker ps -a -q)</span><br><span class="line"><span class="meta">#</span><span class="bash">停止容器 docker stop mysql5.7(容器名或容器ID)</span></span><br><span class="line">docker stop 容器名</span><br><span class="line"><span class="meta">#</span><span class="bash">查看容器日志 docker logs 容器名或容器ID</span></span><br><span class="line">docker logs mysql5.7</span><br><span class="line"><span class="meta">#</span><span class="bash">进入容器内部</span></span><br><span class="line">docker exec -it mysql5.7 /bin/bash</span><br></pre></td></tr></table></figure>
 
-<h1><span id="docker-compose工具"><span id="inline-blue">docker-compose工具</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">启动容器  -d:后台启动 --build:重建镜像 容器名可跟多个,docker-compose半拍工具需要结合docker-compose.yml使用</span></span><br><span class="line">docker-compose up -d --build 容器名</span><br><span class="line"><span class="meta">#</span><span class="bash">停止所有容器</span></span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>]]></content>
+<h1><span id="docker-compose工具"><span id="inline-blue">docker-compose工具</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">启动容器  -d:后台启动 --build:重建镜像 容器名可跟多个,docker-compose编排工具需要结合docker-compose.yml使用</span></span><br><span class="line">docker-compose up -d --build 容器名</span><br><span class="line"><span class="meta">#</span><span class="bash">停止所有容器</span></span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Docker</category>
       </categories>
@@ -3278,24 +3348,6 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Linux环境查看class文件编译版本信息</title>
-    <url>/Linux/blogs/Linux%E7%8E%AF%E5%A2%83%E6%9F%A5%E7%9C%8Bclass%E6%96%87%E4%BB%B6%E7%BC%96%E8%AF%91%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF/</url>
-    <content><![CDATA[<h2><span id="查看class文件编译版本信息"><span id="inline-blue">查看class文件编译版本信息</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@lwdCSCDN common]# javap -v CommonContent.class </span><br><span class="line">Classfile /usr/local/moui_nanjing/V242/coship-oms/webapps/oms/WEB-INF/classes/com/coship/oms/common/CommonContent.class</span><br><span class="line">  Last modified 2021-11-16; size 474 bytes</span><br><span class="line">  MD5 checksum def74d7189fc3d20401e9070e4c8ad37</span><br><span class="line">  Compiled from &quot;CommonContent.java&quot;</span><br><span class="line">public class com.coship.oms.common.CommonContent</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line"><span class="meta">#</span><span class="bash"> major version: 52  代表是java编译版本为1.8</span></span><br></pre></td></tr></table></figure>
-<h2><span id="java编译器版本对应关系"><span id="inline-blue">Java编译器版本对应关系</span></span></h2><pre><code>Unsupported major.minor version 52.0 对应于 JDK1.8（JRE1.8） </code></pre>
-<p>　　Unsupported major.minor version 51.0 对应于 JDK1.7（JRE1.7） </p>
-<p>　　Unsupported major.minor version 50.0 对应于 JDK1.6（JRE1.6） </p>
-<p>　　Unsupported major.minor version 49.0 对应于 JDK1.5（JRE1.5）</p>
-<h2><span id="兼容关系"><span id="inline-blue">兼容关系</span></span></h2><p>Java低版本编译的jar包，可以在高版本Java编译环境下运行，反之，Java高版本编译的jar包不能在低版本Java环境运行</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux文件清空操作</title>
     <url>/Linux/blogs/Linux%E6%96%87%E4%BB%B6%E6%B8%85%E7%A9%BA%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h2><span id="文件清空"><span id="inline-blue">文件清空</span></span></h2><p>windows7 64</p>
@@ -3312,6 +3364,24 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux环境查看class文件编译版本信息</title>
+    <url>/Linux/blogs/Linux%E7%8E%AF%E5%A2%83%E6%9F%A5%E7%9C%8Bclass%E6%96%87%E4%BB%B6%E7%BC%96%E8%AF%91%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF/</url>
+    <content><![CDATA[<h2><span id="查看class文件编译版本信息"><span id="inline-blue">查看class文件编译版本信息</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">[root@lwdCSCDN common]# javap -v CommonContent.class </span><br><span class="line">Classfile /usr/local/moui_nanjing/V242/coship-oms/webapps/oms/WEB-INF/classes/com/coship/oms/common/CommonContent.class</span><br><span class="line">  Last modified 2021-11-16; size 474 bytes</span><br><span class="line">  MD5 checksum def74d7189fc3d20401e9070e4c8ad37</span><br><span class="line">  Compiled from &quot;CommonContent.java&quot;</span><br><span class="line">public class com.coship.oms.common.CommonContent</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line"><span class="meta">#</span><span class="bash"> major version: 52  代表是java编译版本为1.8</span></span><br></pre></td></tr></table></figure>
+<h2><span id="java编译器版本对应关系"><span id="inline-blue">Java编译器版本对应关系</span></span></h2><pre><code>Unsupported major.minor version 52.0 对应于 JDK1.8（JRE1.8） </code></pre>
+<p>　　Unsupported major.minor version 51.0 对应于 JDK1.7（JRE1.7） </p>
+<p>　　Unsupported major.minor version 50.0 对应于 JDK1.6（JRE1.6） </p>
+<p>　　Unsupported major.minor version 49.0 对应于 JDK1.5（JRE1.5）</p>
+<h2><span id="兼容关系"><span id="inline-blue">兼容关系</span></span></h2><p>Java低版本编译的jar包，可以在高版本Java编译环境下运行，反之，Java高版本编译的jar包不能在低版本Java环境运行</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>

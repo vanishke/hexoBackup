@@ -54,7 +54,7 @@ docker exec -it mysql5.7 /bin/bash
 
 # <span id="inline-blue">docker-compose工具</span>
 ```shell
-#启动容器  -d:后台启动 --build:重建镜像 容器名可跟多个,docker-compose半拍工具需要结合docker-compose.yml使用
+#启动容器  -d:后台启动 --build:重建镜像 容器名可跟多个,docker-compose编排工具需要结合docker-compose.yml使用
 docker-compose up -d --build 容器名
 #停止所有容器
 docker-compose down
