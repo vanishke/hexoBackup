@@ -1637,7 +1637,7 @@ rdb-save-incremental-fsync yes
 ```
 ## <span id="inline-blue">nacos</span>
 构建镜像上下文文件预览：
-![Dockerfile nacos](/images/docker/20241124/Docker_Redis_20241124_003.png)
+![Dockerfile nacos](/images/docker/20241124/Docker_nacos_20241124_003.png)
 ```Dockerfile
 # 基础镜像
 FROM nacos/nacos-server:v2.1.1
