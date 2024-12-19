@@ -58,7 +58,7 @@ redis:
 ```
 	
 V2: 
-	docker-compose-1.6~1.21.0版本配合Docker engine-1.10.0~1.13.0版本兼容V2文件格式
+	docker-compose-1.6至1.21.0版本配合Docker engine-1.10.0至1.13.0版本兼容V2文件格式
 	版本特性：
 	支持 depends_on 关键字定义服务之间的依赖关系。
 	支持 healthcheck 关键字定义健康检查。
@@ -88,7 +88,7 @@ services:
 ```
 
 V3: 
-	docker-compose-1.13.0版本配合Docker engine-1.13.0~19.03.0版本兼容V3文件格式,主要是为了解决docker-compose支持集群swarm模式部署
+	docker-compose-1.13.0版本配合Docker engine-1.13.0至19.03.0版本兼容V3文件格式,主要是为了解决docker-compose支持集群swarm模式部署
 	版本特性：
 	支持新的服务控制指令，如 up, down, start, stop, restart, kill, ps, logs, pause, unpause, rm 等。
 	支持新的服务编排功能，如 profiles 和 stack。
