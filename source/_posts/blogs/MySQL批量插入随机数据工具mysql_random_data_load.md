@@ -4,7 +4,6 @@ categories:
 	- MySQL
 tags: 
     - MySQL
-	- mysql_random_data_load
 	
 date: 2024-12-24 16:29:41
 updated: 2024-12-24 16:29:41
