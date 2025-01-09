@@ -1,5 +1,5 @@
 ---
-title: MySQL批量插入随机数据工具mysql_random_data_load.md
+title: MySQL批量插入随机数据工具mysql_random_data_load
 categories:
 	- MySQL
 tags: 

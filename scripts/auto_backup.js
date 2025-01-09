@@ -15,7 +15,7 @@ try {
 function copy()
 {
 	echo("====================== Copy resources to nginx start ===========================");
-	cp('-R', 'H:/hexo/public/*', 'D:/nginx-1.16.1/nginx-1.16.1/blog');
+	cp('-R', 'G:/hexo/public/*', 'D:/nginx-1.16.1/nginx-1.16.1/blog');
 	echo("====================== Copy resources to nginx end ===========================");
 }
 function run() {
@@ -26,7 +26,7 @@ function run() {
         exit(1);
     } else {
         echo("======================Auto Backup Begin===========================");
-        cd('H:/hexo');    //此处修改为Hexo根目录路径
+        cd('G:/hexo');    //此处修改为Hexo根目录路径
         if (exec('git add .').code !== 0) {
             echo('Error: Git add failed');
             exit(1);

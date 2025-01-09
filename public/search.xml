@@ -84,61 +84,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux-文档编辑</title>
-    <url>/Linux/blogs/Linux-%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-bluevim%E5%91%BD%E4%BB%A4span"><span id="inline-blue">vim命令</span></a></li>
-<li><a href="#span-idinline-bluehead%E5%91%BD%E4%BB%A4span"><span id="inline-blue">head命令</span></a></li>
-<li><a href="#span-idinline-bluerm%E5%91%BD%E4%BB%A4-span"><span id="inline-blue">rm命令 </span></a></li>
-<li><a href="#span-idinline-bluecat%E5%91%BD%E4%BB%A4span"><span id="inline-blue">cat命令</span></a></li>
-<li><a href="#span-idinline-bluetar%E5%91%BD%E4%BB%A4span"><span id="inline-blue">tar命令</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h2><span id="vim命令"><span id="inline-blue">vim命令</span></span></h2><p><strong>作用</strong><br>vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。<br><strong>选项</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">crtl+u: 向文件首翻半屏。</span><br><span class="line">crtl+d: 此文件尾翻半屏。</span><br><span class="line">crtl+f: 向文件首翻一屏。</span><br><span class="line">crtl+b: 向文件尾翻一屏。</span><br><span class="line">ESC:从编辑模式切换到命令模式。</span><br><span class="line">:行号 :光标跳到指定行的行首。</span><br><span class="line">:$ :光标跳到文件尾。</span><br><span class="line">/字符串 :文本查找操作，从光标所在当前位置向文件尾部查找指定的字符串，查找到的字符串高亮显示。</span><br><span class="line">:wq :命令模式下，执行存盘并退出。</span><br><span class="line">:q :命令模式下，执行退出。</span><br><span class="line">:w! :命令模式下，强制执行存盘操作。</span><br><span class="line">:q! :命令模式下，强制执行退出vi命令。</span><br><span class="line">:set number :命令模式下，显示行号。</span><br><span class="line">:set nonumber :命令模式下，不显示行号。</span><br></pre></td></tr></table></figure>
-<p><strong>示例</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 显示行号</span></span><br><span class="line">  1 [20201203] 16:47:12 Begin</span><br><span class="line">  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3</span><br><span class="line">  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4</span><br><span class="line">  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3</span><br><span class="line">  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4</span><br><span class="line">  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9</span><br><span class="line">  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10</span><br><span class="line">  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11</span><br><span class="line">  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12</span><br><span class="line"> 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3</span><br><span class="line"> 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4</span><br><span class="line"> 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0</span><br><span class="line"> 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15</span><br><span class="line"> 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16</span><br><span class="line"> 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17</span><br><span class="line"> 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18</span><br><span class="line"> 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19</span><br><span class="line"> 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20</span><br><span class="line"> 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0</span><br><span class="line"> 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0</span><br><span class="line"> 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0</span><br><span class="line"> 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0</span><br><span class="line"> 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0</span><br><span class="line"> 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0</span><br><span class="line"> 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0</span><br><span class="line"> 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0</span><br><span class="line"> 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0</span><br><span class="line"> 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0</span><br><span class="line"> 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0</span><br><span class="line"> 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0</span><br><span class="line"> 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0</span><br><span class="line"> 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0</span><br><span class="line"> 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0</span><br><span class="line"> 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69</span><br><span class="line"> 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70</span><br><span class="line">:set number   </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找columnTask字符串对应的内容。</span></span><br><span class="line">  1 [20201203] 16:47:12 Begin</span><br><span class="line">  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3</span><br><span class="line">  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4</span><br><span class="line">  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3</span><br><span class="line">  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4</span><br><span class="line">  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9</span><br><span class="line">  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10</span><br><span class="line">  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11</span><br><span class="line">  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12</span><br><span class="line"> 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3</span><br><span class="line"> 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4</span><br><span class="line"> 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0</span><br><span class="line"> 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15</span><br><span class="line"> 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16</span><br><span class="line"> 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17</span><br><span class="line"> 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18</span><br><span class="line"> 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19</span><br><span class="line"> 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20</span><br><span class="line"> 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0</span><br><span class="line"> 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0</span><br><span class="line"> 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0</span><br><span class="line"> 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0</span><br><span class="line"> 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0</span><br><span class="line"> 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0</span><br><span class="line"> 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0</span><br><span class="line"> 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0</span><br><span class="line"> 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0</span><br><span class="line"> 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0</span><br><span class="line"> 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0</span><br><span class="line"> 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0</span><br><span class="line"> 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0</span><br><span class="line"> 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0</span><br><span class="line"> 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0</span><br><span class="line"> 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69</span><br><span class="line"> 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70</span><br><span class="line">/columnTask</span><br></pre></td></tr></table></figure>
-
-<h2><span id="head命令"><span id="inline-blue">head命令</span></span></h2><p><strong>作用</strong><br>    显示文件开头内容，默认显示前10行</p>
-<p><strong>选项</strong></p>
-<p>-n&lt;数字&gt; :指定显示的行数<br>-c&lt;数字&gt; :指定显示的字符数<br>-v :显示文件头部信息<br>-q :不显示文件头部信息</p>
-<p><strong>示例</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 显示my.cnf.bak文件的前3行内容</span></span><br><span class="line">[root@dap mysql]# head -3 my.cnf.bak </span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 显示100个字符</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For advi[root@dap mysql]<span class="comment"># head -c 100 my.cnf.bak</span></span> </span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-co</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">显示my.cnf.bak 文件头部信息</span></span><br><span class="line">[root@dap mysql]# head -v my.cnf.bak </span><br><span class="line">==&gt; my.cnf.bak &lt;==</span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html</span></span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># and set to the amount of RAM for the most important data</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cache <span class="keyword">in</span> MySQL. Start at 70% of total RAM <span class="keyword">for</span> dedicated server, <span class="keyword">else</span> 10%.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> innodb_buffer_pool_size = 128M</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># to turn on a very important data integrity option: logging</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">不显示my.cnf.bak文件头部信息</span></span><br><span class="line">[root@dap mysql]# head -q my.cnf.bak </span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html</span></span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># and set to the amount of RAM for the most important data</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cache <span class="keyword">in</span> MySQL. Start at 70% of total RAM <span class="keyword">for</span> dedicated server, <span class="keyword">else</span> 10%.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> innodb_buffer_pool_size = 128M</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># to turn on a very important data integrity option: logging</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2><span id="rm命令"><span id="inline-blue">rm命令 </span></span></h2><p><strong>作用</strong><br>    删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。</p>
-<p><strong>选项</strong> </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-d 直接把目录的硬链接数删除为0，删除该目录。</span><br><span class="line">-f 强制删除该目录。</span><br><span class="line">-i 删除前先询问是否删除。</span><br><span class="line">-r 递归删除目录下的文件和子目录。</span><br><span class="line">-v 显示详细的删除信息</span><br></pre></td></tr></table></figure>
-<p><strong>示例</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 删除b.sh文件</span></span><br><span class="line">[root@demo_mdn script]# rm b.sh</span><br><span class="line">rm：是否删除普通空文件 &quot;b.sh&quot;？y</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 强制删除b.sh文件</span></span><br><span class="line">[root@demo_mdn script]# rm -f b.sh</span><br><span class="line">[root@demo_mdn script]# </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 强制递归删除newDir目录，并显示详细信息</span></span><br><span class="line">[root@demo_mdn script]# rm -rfv newDir</span><br><span class="line">已删除&quot;newDir/1.txt&quot;</span><br><span class="line">已删除&quot;newDir/1.txt~&quot;</span><br><span class="line">已删除目录：&quot;newDir/oldDir&quot;</span><br><span class="line">已删除目录：&quot;newDir&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2><span id="cat命令"><span id="inline-blue">cat命令</span></span></h2><p><strong><em>作用</em></strong><br>    合并文件内容并显示</p>
-<p><strong><em>选项</em></strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-A //显示特殊字符	</span><br><span class="line">-n //对所有输出的行编号</span><br></pre></td></tr></table></figure>
-
-<p><strong><em>实例</em></strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">显示特殊字符</span></span><br><span class="line">[root@demo_mdn user]# cat -A jdbc1.properties</span><br><span class="line">dbSrc=mysql$</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">对输出行编号</span></span><br><span class="line">[root@demo_mdn user]# cat -n jdbc2.properties </span><br><span class="line"> 1	dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;amp;characterEncoding=UTF-8</span><br><span class="line"> 2	dbUserName=root</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">合并jdbc1.properties、jdbc2.properties 文件内容到jdbc.properties并输出</span></span><br><span class="line">[root@demo_mdn user]# cat jdbc1.properties jdbc2.properties &gt;jdbc.properties</span><br><span class="line">dbSrc=mysql</span><br><span class="line">dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;amp;characterEncoding=UTF-8</span><br><span class="line">dbUserName=root</span><br></pre></td></tr></table></figure>
-
-<h2><span id="tar命令"><span id="inline-blue">tar命令</span></span></h2><p>选项</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">运行tar时必须要有下列参数中的至少一个才可运行：</span><br><span class="line">-A | --catenate | --concatenate 将一存档与已有的存档合并</span><br><span class="line">-c | --create 建立新的存档</span><br><span class="line">-d | --diff, --compare 比较存档与当前文件的不同之处</span><br><span class="line">--delete 从存档中删除</span><br><span class="line">-r | --append 附加到存档结尾</span><br><span class="line">-t | --list 列出存档中文件的目录</span><br><span class="line">-u |--update 仅将较新的文件附加到存档中</span><br><span class="line">-x | --extract | --get 从存档展开文件</span><br><span class="line">-z | --gzip | --ungzip 用gzip对存档压缩或解压</span><br><span class="line">-f | --file [HOSTNAME:]F 指定存档或设备（缺省为 /dev/rmt0）</span><br><span class="line">-x | --extract | --get 从存档展开文件</span><br><span class="line">-v | --verbose 详细显示处理的文件</span><br></pre></td></tr></table></figure>
-<p><strong><em>压缩</em></strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">命令格式：tar -czf  压缩文件名.tar.gz  被压缩文件名</span><br><span class="line"></span><br><span class="line">可先切换到当前目录下。压缩文件名和被压缩文件名都可加入路径。</span><br><span class="line"></span><br><span class="line">示例：tar -czf etl.V300R002B042.tar.gz etl.V300R002B042/</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux-文件管理</title>
     <url>/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<!-- toc -->
@@ -308,6 +253,61 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux-文档编辑</title>
+    <url>/Linux/blogs/Linux-%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-bluevim%E5%91%BD%E4%BB%A4span"><span id="inline-blue">vim命令</span></a></li>
+<li><a href="#span-idinline-bluehead%E5%91%BD%E4%BB%A4span"><span id="inline-blue">head命令</span></a></li>
+<li><a href="#span-idinline-bluerm%E5%91%BD%E4%BB%A4-span"><span id="inline-blue">rm命令 </span></a></li>
+<li><a href="#span-idinline-bluecat%E5%91%BD%E4%BB%A4span"><span id="inline-blue">cat命令</span></a></li>
+<li><a href="#span-idinline-bluetar%E5%91%BD%E4%BB%A4span"><span id="inline-blue">tar命令</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h2><span id="vim命令"><span id="inline-blue">vim命令</span></span></h2><p><strong>作用</strong><br>vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。<br><strong>选项</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">crtl+u: 向文件首翻半屏。</span><br><span class="line">crtl+d: 此文件尾翻半屏。</span><br><span class="line">crtl+f: 向文件首翻一屏。</span><br><span class="line">crtl+b: 向文件尾翻一屏。</span><br><span class="line">ESC:从编辑模式切换到命令模式。</span><br><span class="line">:行号 :光标跳到指定行的行首。</span><br><span class="line">:$ :光标跳到文件尾。</span><br><span class="line">/字符串 :文本查找操作，从光标所在当前位置向文件尾部查找指定的字符串，查找到的字符串高亮显示。</span><br><span class="line">:wq :命令模式下，执行存盘并退出。</span><br><span class="line">:q :命令模式下，执行退出。</span><br><span class="line">:w! :命令模式下，强制执行存盘操作。</span><br><span class="line">:q! :命令模式下，强制执行退出vi命令。</span><br><span class="line">:set number :命令模式下，显示行号。</span><br><span class="line">:set nonumber :命令模式下，不显示行号。</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 显示行号</span></span><br><span class="line">  1 [20201203] 16:47:12 Begin</span><br><span class="line">  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3</span><br><span class="line">  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4</span><br><span class="line">  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3</span><br><span class="line">  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4</span><br><span class="line">  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9</span><br><span class="line">  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10</span><br><span class="line">  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11</span><br><span class="line">  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12</span><br><span class="line"> 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3</span><br><span class="line"> 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4</span><br><span class="line"> 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0</span><br><span class="line"> 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15</span><br><span class="line"> 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16</span><br><span class="line"> 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17</span><br><span class="line"> 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18</span><br><span class="line"> 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19</span><br><span class="line"> 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20</span><br><span class="line"> 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0</span><br><span class="line"> 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0</span><br><span class="line"> 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0</span><br><span class="line"> 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0</span><br><span class="line"> 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0</span><br><span class="line"> 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0</span><br><span class="line"> 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0</span><br><span class="line"> 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0</span><br><span class="line"> 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0</span><br><span class="line"> 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0</span><br><span class="line"> 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0</span><br><span class="line"> 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0</span><br><span class="line"> 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0</span><br><span class="line"> 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0</span><br><span class="line"> 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0</span><br><span class="line"> 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69</span><br><span class="line"> 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70</span><br><span class="line">:set number   </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找columnTask字符串对应的内容。</span></span><br><span class="line">  1 [20201203] 16:47:12 Begin</span><br><span class="line">  2 [20201203] 16:47:13 Import assetFileTask_0_20201203_010000_3</span><br><span class="line">  3 [20201203] 16:47:16 Import assetFileTask_0_20201203_010020_4</span><br><span class="line">  4 [20201203] 16:47:22 Import assetMapAssetTypeTask_0_20201203_010000_3</span><br><span class="line">  5 [20201203] 16:47:24 Import assetMapAssetTypeTask_0_20201203_010003_4</span><br><span class="line">  6 [20201203] 16:47:26 Import assetOrAssetFileTask_0_20201203_010000_9</span><br><span class="line">  7 [20201203] 16:47:28 Import assetOrAssetFileTask_0_20201203_010040_10</span><br><span class="line">  8 [20201203] 16:47:30 Import assetOrAssetFileTask_0_20201203_010047_11</span><br><span class="line">  9 [20201203] 16:47:32 Import assetOrAssetFileTask_0_20201203_010055_12</span><br><span class="line"> 10 [20201203] 16:47:34 Import assetTask_0_20201203_010000_3</span><br><span class="line"> 11 [20201203] 16:47:38 Import assetTask_0_20201203_010019_4</span><br><span class="line"> 12 [20201203] 16:47:41 Import assetTypeTask_0_20201203_010000_0</span><br><span class="line"> 13 [20201203] 16:47:43 Import cdrTask_0_20201203_020000_15</span><br><span class="line"> 14 [20201203] 16:47:46 Import cdrTask_0_20201203_021042_16</span><br><span class="line"> 15 [20201203] 16:47:52 Import cdrTask_0_20201203_021201_17</span><br><span class="line"> 16 [20201203] 16:47:59 Import cdrTask_0_20201203_021321_18</span><br><span class="line"> 17 [20201203] 16:48:06 Import cdrTask_0_20201203_021441_19</span><br><span class="line"> 18 [20201203] 16:48:14 Import cdrTask_0_20201203_021600_20</span><br><span class="line"> 19 [20201203] 16:48:20 Import channelTask_0_20201203_010000_0</span><br><span class="line"> 20 [20201203] 16:48:22 Import cmsDictTask_0_20201203_010000_0</span><br><span class="line"> 21 [20201203] 16:48:23 Import columnTask_0_20201203_010000_0</span><br><span class="line"> 22 [20201203] 16:48:25 Import orderTask_0_20201203_010000_0</span><br><span class="line"> 23 [20201203] 16:48:27 Import portalOrderInfoTask_0_20201203_010000_0</span><br><span class="line"> 24 [20201203] 16:48:28 Import productColumnTask_0_20201203_010000_0</span><br><span class="line"> 25 [20201203] 16:48:29 Import productResourceTask_0_20201203_010000_0</span><br><span class="line"> 26 [20201203] 16:48:30 Import productSpecMapTask_0_20201203_010000_0</span><br><span class="line"> 27 [20201203] 16:48:32 Import programGuideTask_0_20201203_010000_0</span><br><span class="line"> 28 [20201203] 16:48:33 Import providerTask_0_20201203_010000_0</span><br><span class="line"> 29 [20201203] 16:48:34 Import resColumnTask_0_20201203_010000_0</span><br><span class="line"> 30 [20201203] 16:48:38 Import resourcePkgTask_0_20201203_010000_0</span><br><span class="line"> 31 [20201203] 16:48:41 Import serviceProductInfo_0_20201203_010000_0</span><br><span class="line"> 32 [20201203] 16:48:42 Import serviceResourceInfo_0_20201203_010000_0</span><br><span class="line"> 33 [20201203] 16:48:44 Import userRelationTask_0_20201203_010000_0</span><br><span class="line"> 34 [20201203] 16:48:45 Import userTask_0_20201203_010000_69</span><br><span class="line"> 35 [20201203] 16:48:48 Import userTask_0_20201203_010117_70</span><br><span class="line">/columnTask</span><br></pre></td></tr></table></figure>
+
+<h2><span id="head命令"><span id="inline-blue">head命令</span></span></h2><p><strong>作用</strong><br>    显示文件开头内容，默认显示前10行</p>
+<p><strong>选项</strong></p>
+<p>-n&lt;数字&gt; :指定显示的行数<br>-c&lt;数字&gt; :指定显示的字符数<br>-v :显示文件头部信息<br>-q :不显示文件头部信息</p>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 显示my.cnf.bak文件的前3行内容</span></span><br><span class="line">[root@dap mysql]# head -3 my.cnf.bak </span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 显示100个字符</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For advi[root@dap mysql]<span class="comment"># head -c 100 my.cnf.bak</span></span> </span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-co</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">显示my.cnf.bak 文件头部信息</span></span><br><span class="line">[root@dap mysql]# head -v my.cnf.bak </span><br><span class="line">==&gt; my.cnf.bak &lt;==</span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html</span></span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># and set to the amount of RAM for the most important data</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cache <span class="keyword">in</span> MySQL. Start at 70% of total RAM <span class="keyword">for</span> dedicated server, <span class="keyword">else</span> 10%.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> innodb_buffer_pool_size = 128M</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># to turn on a very important data integrity option: logging</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">不显示my.cnf.bak文件头部信息</span></span><br><span class="line">[root@dap mysql]# head -q my.cnf.bak </span><br><span class="line"><span class="meta">#</span><span class="bash"> For advice on how to change settings please see</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/refman/5.6/en/server-configuration-defaults.html</span></span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># and set to the amount of RAM for the most important data</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> cache <span class="keyword">in</span> MySQL. Start at 70% of total RAM <span class="keyword">for</span> dedicated server, <span class="keyword">else</span> 10%.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> innodb_buffer_pool_size = 128M</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Remove leading <span class="comment"># to turn on a very important data integrity option: logging</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2><span id="rm命令"><span id="inline-blue">rm命令 </span></span></h2><p><strong>作用</strong><br>    删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。</p>
+<p><strong>选项</strong> </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-d 直接把目录的硬链接数删除为0，删除该目录。</span><br><span class="line">-f 强制删除该目录。</span><br><span class="line">-i 删除前先询问是否删除。</span><br><span class="line">-r 递归删除目录下的文件和子目录。</span><br><span class="line">-v 显示详细的删除信息</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 删除b.sh文件</span></span><br><span class="line">[root@demo_mdn script]# rm b.sh</span><br><span class="line">rm：是否删除普通空文件 &quot;b.sh&quot;？y</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 强制删除b.sh文件</span></span><br><span class="line">[root@demo_mdn script]# rm -f b.sh</span><br><span class="line">[root@demo_mdn script]# </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 强制递归删除newDir目录，并显示详细信息</span></span><br><span class="line">[root@demo_mdn script]# rm -rfv newDir</span><br><span class="line">已删除&quot;newDir/1.txt&quot;</span><br><span class="line">已删除&quot;newDir/1.txt~&quot;</span><br><span class="line">已删除目录：&quot;newDir/oldDir&quot;</span><br><span class="line">已删除目录：&quot;newDir&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2><span id="cat命令"><span id="inline-blue">cat命令</span></span></h2><p><strong><em>作用</em></strong><br>    合并文件内容并显示</p>
+<p><strong><em>选项</em></strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">-A //显示特殊字符	</span><br><span class="line">-n //对所有输出的行编号</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>实例</em></strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">显示特殊字符</span></span><br><span class="line">[root@demo_mdn user]# cat -A jdbc1.properties</span><br><span class="line">dbSrc=mysql$</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">对输出行编号</span></span><br><span class="line">[root@demo_mdn user]# cat -n jdbc2.properties </span><br><span class="line"> 1	dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;amp;characterEncoding=UTF-8</span><br><span class="line"> 2	dbUserName=root</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">合并jdbc1.properties、jdbc2.properties 文件内容到jdbc.properties并输出</span></span><br><span class="line">[root@demo_mdn user]# cat jdbc1.properties jdbc2.properties &gt;jdbc.properties</span><br><span class="line">dbSrc=mysql</span><br><span class="line">dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;amp;characterEncoding=UTF-8</span><br><span class="line">dbUserName=root</span><br></pre></td></tr></table></figure>
+
+<h2><span id="tar命令"><span id="inline-blue">tar命令</span></span></h2><p>选项</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">运行tar时必须要有下列参数中的至少一个才可运行：</span><br><span class="line">-A | --catenate | --concatenate 将一存档与已有的存档合并</span><br><span class="line">-c | --create 建立新的存档</span><br><span class="line">-d | --diff, --compare 比较存档与当前文件的不同之处</span><br><span class="line">--delete 从存档中删除</span><br><span class="line">-r | --append 附加到存档结尾</span><br><span class="line">-t | --list 列出存档中文件的目录</span><br><span class="line">-u |--update 仅将较新的文件附加到存档中</span><br><span class="line">-x | --extract | --get 从存档展开文件</span><br><span class="line">-z | --gzip | --ungzip 用gzip对存档压缩或解压</span><br><span class="line">-f | --file [HOSTNAME:]F 指定存档或设备（缺省为 /dev/rmt0）</span><br><span class="line">-x | --extract | --get 从存档展开文件</span><br><span class="line">-v | --verbose 详细显示处理的文件</span><br></pre></td></tr></table></figure>
+<p><strong><em>压缩</em></strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">命令格式：tar -czf  压缩文件名.tar.gz  被压缩文件名</span><br><span class="line"></span><br><span class="line">可先切换到当前目录下。压缩文件名和被压缩文件名都可加入路径。</span><br><span class="line"></span><br><span class="line">示例：tar -czf etl.V300R002B042.tar.gz etl.V300R002B042/</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>每天一个Linux命令</title>
     <url>/Linux/blogs/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AALinux%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<!-- toc -->
@@ -389,7 +389,41 @@
       </tags>
   </entry>
   <entry>
-    <title>MySQL批量插入随机数据工具mysql_random_data_load.md</title>
+    <title>Linux shell脚本实现MySQL数据库备份</title>
+    <url>/MySQL/blogs/Linux%20shell%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
+<li><a href="#span-idinline-bluemysqlbackupshspan"><span id="inline-blue">mysqlBackup.sh</span></a></li>
+<li><a href="#span-idinline-bluecrontab%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1span"><span id="inline-blue">crontab定时任务</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><pre><code>Linux: CentOS Linux release 7.7.1908 (Core)
+MySQL：5.7</code></pre>
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>线上服务对应数据库没有做备份，担心故障会导致数据丢失和业务异常，所以使用shell脚本定时备份数据库。</p>
+<h1><span id="mysqlbackupsh"><span id="inline-blue">mysqlBackup.sh</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置部分</span></span><br><span class="line">DB_USER=&quot;root&quot;</span><br><span class="line">DB_PASSWORD=&quot;coship&quot;</span><br><span class="line">DB_NAME_LOVEHOME=&quot;lovehome_xw&quot;</span><br><span class="line">DB_NAME_IHOME_ALBUM=&quot;ihome_album_xw&quot;</span><br><span class="line">BACKUP_DIR=&quot;/home/mysqldump/backup/&quot;</span><br><span class="line">DATE=$(date +%Y%m%d)</span><br><span class="line">BACKUP_SAVE_DAYS=7</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建备份目录（如果不存在）</span></span><br><span class="line">mkdir -p $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行备份lovehome_xw</span></span><br><span class="line">/home/mysql/bin/mysqldump -u$&#123;DB_USER&#125; -p$&#123;DB_PASSWORD&#125; $&#123;DB_NAME_LOVEHOME&#125;  --ignore-table=$&#123;DB_NAME_LOVEHOME&#125;.sys_log_api_his  --ignore-table=$&#123;DB_NAME_LOVEHOME&#125;.read_msg_record_his  --ignore-table=$&#123;DB_NAME_LOVEHOME&#125;.push_record_his &gt; $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;/$&#123;DB_NAME_LOVEHOME&#125;_$&#123;DATE&#125;.sql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 检查lovehome_xw备份是否成功</span></span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">  echo &quot;Backup successful: $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;/$&#123;DB_NAME_LOVEHOME&#125;_$&#123;DATE&#125;.sql&quot; &gt;&gt; $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;/backup.log</span><br><span class="line">else</span><br><span class="line">  echo &quot;Backup failed for $&#123;DB_NAME_LOVEHOME&#125; at $&#123;DATE&#125;&quot; &gt;&gt; $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;/backup.log</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行备份ihome_album_xw</span></span><br><span class="line">/home/mysql/bin/mysqldump -u$&#123;DB_USER&#125; -p$&#123;DB_PASSWORD&#125; $&#123;DB_NAME_IHOME_ALBUM&#125; &gt; $&#123;BACKUP_DIR&#125;$&#123;DATE&#125;/$&#123;DB_NAME_IHOME_ALBUM&#125;_$&#123;DATE&#125;.sql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 检查ihome_album_xw备份是否成功</span></span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">  echo &quot;Backup successful: $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;/$&#123;DB_NAME_IHOME_ALBUM&#125;_$&#123;DATE&#125;.sql&quot; &gt;&gt; $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;/backup.log</span><br><span class="line">else</span><br><span class="line">  echo &quot;Backup failed for $&#123;DB_NAME_IHOME_ALBUM&#125; at $&#123;DATE&#125;&quot; &gt;&gt; $&#123;BACKUP_DIR&#125;/$&#123;DATE&#125;/backup.log</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $&#123;BACKUP_DIR&#125;</span><br><span class="line">rm -rf `find $&#123;BACKUP_DIR&#125;  -type d -mtime +$&#123;BACKUP_SAVE_DAYS&#125;` &gt;&gt; $&#123;BACKUP_DIR&#125;/backupClear.log</span><br><span class="line">echo &quot;删除$&#123;BACKUP_SAVE_DAYS&#125;天前的备份文件完成&quot; &gt;&gt; $&#123;BACKUP_DIR&#125;/backupClear.log</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>mysqldump使用绝对路径，否则通过crontab系统定时任务支持脚本备份数据为空。<br>–ignore-table用于指定备份需要忽略的表项，忽略多个表的情况下指定多次。<br>BACKUP_SAVE_DAYS参数控制备份文件只保留7天以内。</p>
+<h1><span id="crontab定时任务"><span id="inline-blue">crontab定时任务</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">0 1  * * * cd /DB  &amp;&amp; sh mysqlBackup.sh /dev/null 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>凌晨一点执行数据库备份脚本。</p>
+<p>参考：</p>
+<p><a href="https://liam.page/2016/06/19/best-match-using-find-and-crontab-to-removed-outdated-files/">https://liam.page/2016/06/19/best-match-using-find-and-crontab-to-removed-outdated-files/</a></p>
+<p><a href="http://www.360doc.com/content/24/0701/12/83536423_1127581357.shtml">http://www.360doc.com/content/24/0701/12/83536423_1127581357.shtml</a></p>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL批量插入随机数据工具mysql_random_data_load</title>
     <url>/MySQL/blogs/MySQL%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%8D%AE%E5%B7%A5%E5%85%B7mysql_random_data_load/</url>
     <content><![CDATA[<!-- toc -->
 
@@ -1762,8 +1796,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>knife4j-gateway</tag>
       </tags>
   </entry>
@@ -1788,9 +1822,9 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
+        <tag>SpringCloud</tag>
         <tag>Java</tag>
         <tag>Nacos</tag>
-        <tag>SpringCloud</tag>
       </tags>
   </entry>
   <entry>
@@ -1830,8 +1864,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Sleuth</tag>
         <tag>Zipkin</tag>
         <tag>Zipkin-dependencies</tag>
@@ -1866,8 +1900,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Sleuth</tag>
         <tag>Zipkin</tag>
       </tags>
@@ -1967,8 +2001,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>SpringDoc</tag>
         <tag>Knife4j-gateway</tag>
       </tags>
@@ -2133,10 +2167,10 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
-        <tag>Nacos</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Sentinel</tag>
+        <tag>Nacos</tag>
       </tags>
   </entry>
   <entry>
@@ -2272,10 +2306,10 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringBoot</category>
       </categories>
       <tags>
+        <tag>SpringCloud</tag>
         <tag>Java</tag>
         <tag>RabbitMQ</tag>
         <tag>SpringBoot</tag>
-        <tag>SpringCloud</tag>
       </tags>
   </entry>
   <entry>
@@ -2307,8 +2341,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Redisson</tag>
       </tags>
   </entry>
@@ -2637,7 +2671,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#x31;&#48;&#x30;&#46;&#x31;&#48;&#49;">&#114;&#x6f;&#111;&#116;&#x40;&#49;&#x39;&#x32;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#x31;&#48;&#x30;&#46;&#x31;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#48;&#x30;&#x2e;&#49;&#x30;&#x31;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#46;&#x31;&#48;&#x30;&#x2e;&#49;&#x30;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -6058,6 +6092,36 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>windows注册Redis服务</title>
+    <url>/Redis/blogs/Windows%E6%B3%A8%E5%86%8CRedis%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blueredis%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">Redis下载</span></a></li>
+<li><a href="#span-idinline-blueredis%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">Redis注册</span></a></li>
+<li><a href="#span-idinline-blueredis%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">Redis服务自启动设置</span></a></li>
+<li><a href="#span-idinline-blueredis%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">Redis服务验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>Redis-x64-3.2.100</p>
+<h1><span id="redis下载"><span id="inline-blue">Redis下载</span></span></h1><p><a href="https://github.com/microsoftarchive/redis/releases">下载地址</a><br>笔者使用的Redis-x64-3.2.100版本</p>
+<h1><span id="redis注册"><span id="inline-blue">Redis注册</span></span></h1><p>1.运行windows cmd命令，进入Redis安装目录D:\redis_3.2.100\Redis-x64-3.2.100</p>
+<p>2.执行注册服务命令 redis-server –service-install redis.windows-service.conf </p>
+<p>3.如果需要卸载Redis服务，执行redis-server –service-uninstall</p>
+<h1><span id="redis服务自启动设置"><span id="inline-blue">Redis服务自启动设置</span></span></h1><p><img src="/images/redis/20210104_01.png" alt="Redis服务设置"></p>
+<h1><span id="redis服务验证"><span id="inline-blue">Redis服务验证</span></span></h1><p><img src="/images/redis/20210104_02.png" alt="Redis服务验证"></p>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Windows</tag>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows注册Nginx服务</title>
     <url>/Nginx/blogs/Windows%E6%B3%A8%E5%86%8CNginx%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<!-- toc -->
@@ -6091,36 +6155,6 @@ tmp – 临时文件</code></pre>
       <tags>
         <tag>Windows</tag>
         <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows注册Redis服务</title>
-    <url>/Redis/blogs/Windows%E6%B3%A8%E5%86%8CRedis%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blueredis%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">Redis下载</span></a></li>
-<li><a href="#span-idinline-blueredis%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">Redis注册</span></a></li>
-<li><a href="#span-idinline-blueredis%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">Redis服务自启动设置</span></a></li>
-<li><a href="#span-idinline-blueredis%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">Redis服务验证</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>Redis-x64-3.2.100</p>
-<h1><span id="redis下载"><span id="inline-blue">Redis下载</span></span></h1><p><a href="https://github.com/microsoftarchive/redis/releases">下载地址</a><br>笔者使用的Redis-x64-3.2.100版本</p>
-<h1><span id="redis注册"><span id="inline-blue">Redis注册</span></span></h1><p>1.运行windows cmd命令，进入Redis安装目录D:\redis_3.2.100\Redis-x64-3.2.100</p>
-<p>2.执行注册服务命令 redis-server –service-install redis.windows-service.conf </p>
-<p>3.如果需要卸载Redis服务，执行redis-server –service-uninstall</p>
-<h1><span id="redis服务自启动设置"><span id="inline-blue">Redis服务自启动设置</span></span></h1><p><img src="/images/redis/20210104_01.png" alt="Redis服务设置"></p>
-<h1><span id="redis服务验证"><span id="inline-blue">Redis服务验证</span></span></h1><p><img src="/images/redis/20210104_02.png" alt="Redis服务验证"></p>
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Windows</tag>
-        <tag>Redis</tag>
       </tags>
   </entry>
   <entry>
