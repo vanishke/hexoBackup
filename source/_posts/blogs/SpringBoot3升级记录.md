@@ -38,6 +38,17 @@ mysql maven依赖坐标由com.mysql:mysql-connector-java更新为mysql:mysql-con
         </dependency>
 ```
 
+## <span id="inline-blue">Mybatis-plus</span>
+
+Mybatis-plus升级到3.5.9版本后，MybatisPlusInterceptor代码爆红，提示类缺失，查了之后发现3.5.9之后MybatisPlusInterceptor被拆分到mybatis-plus-jsqlparser依赖里面，添加如下依赖：
+
+```xml
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+        </dependency>
+```
+
 ## <span id="inline-blue">Jakarta EE</span>
 
 ![Jakarta EE依赖迁移](/images/SpringBoot/20250228/SpringBoot_20250228_002.png)
@@ -53,7 +64,7 @@ maven依赖坐标javax.servlet:javax.servlet-api更新为jakarta.servlet:jakarta
 </dependency>
 ```
 
-## <span id="inline-blue">Reis</span>
+## <span id="inline-blue">Redis</span>
 
 ![redis配置迁移](/images/SpringBoot/20250228/SpringBoot_20250228_003.png)
 
@@ -101,7 +112,8 @@ SpringBoot3默认使用的Elasticsearch版本为8.8.0,和项目里面使用的�
 
 ## <span id="inline-blue">AutoConfiguration</span>
 
-SpringBoot2.7时已经提出使用 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 代替 spring.factories：
+SpringBoot2.7时已经提出使用META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 代替 spring.factories
+
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#changes-to-auto-configuration
 
@@ -648,6 +660,25 @@ Unexpected token (START_OBJECT), expected START_ARRAY:
 need JSON Array to contain As.WRAPPER_ARRAY type information for class java.lang.Object
 ```
 原因是因为升级前redis里面存储的数据没有清除，导致反序列化时报错，redis清掉数据再重启就好了。
+
+### <span id="inline-blue">登录报错</span>
+
+错误信息：
+```log
+[Given that there is no default password encoder configured, each password must have a password encoding prefix. Please either prefix this password with '{noop}' or set a default password encoder in `DelegatingPasswordEncoder`.] 
+```
+因为升级之后使用的DelegatingPasswordEncoder代理密码加密，需要添加前缀表明加密类型，未升级前的密码都没有密码前缀导致不能正确识别。
+
+解决办法： 
+
+之前的密码加密使用的加密类型是bcrypt,所以只需要更新密码添加对应的前缀即可。
+
+```sql
+
+update sys_user set password = concat('{bcrypt}',password);
+
+```
+
 
 ## <span id="inline-blue">参考</span>
 
