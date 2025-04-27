@@ -59,3 +59,17 @@ docker-compose up -d --build 容器名
 #停止所有容器
 docker-compose down
 ```
+
+# <span id="inline-blue">清理虚悬镜像</span>
+```shell
+#清理没有容器使用的镜像
+#清理构建缓存
+docker image prune
+#清理 Docker 系统中未被使用的资源​​，释放磁盘空间
+#作用范围
+#1 虚悬镜像
+#2 挺值得容器
+#3 未被使用的网络
+#4 构建缓存
+docker system prune
+```

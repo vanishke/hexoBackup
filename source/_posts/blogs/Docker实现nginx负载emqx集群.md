@@ -226,7 +226,7 @@ http {
 		 # knife4j反向代理
         location /prod/ {
             #rewrite ^/prod-api(.*)$ $1 break; #去除prod-api这层目录
-			proxy_pass http://photoframe-gateway:9001/prod/;
+			proxy_pass http://xxx-gateway:9001/prod/;
             proxy_set_header    Host                $http_host;
 			proxy_set_header    X-Real-IP           $realip_remote_addr;
 			proxy_set_header    X-Forwarded-Proto   $scheme;
