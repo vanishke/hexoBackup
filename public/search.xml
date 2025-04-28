@@ -389,6 +389,47 @@
       </tags>
   </entry>
   <entry>
+    <title>Nginx禁止恶意扫描和爬虫</title>
+    <url>/Nginx/blogs/Nginx%E7%A6%81%E6%AD%A2%E6%81%B6%E6%84%8F%E6%89%AB%E6%8F%8F%E5%92%8C%E7%88%AC%E8%99%AB/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
+<li><a href="#span-idinline-blue%E8%BF%87%E6%BB%A4%E9%9D%9E%E6%B3%95%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6span"><span id="inline-blue">过滤非法特殊字符</span></a></li>
+<li><a href="#span-idinline-blue%E8%BF%87%E6%BB%A4ipspan"><span id="inline-blue">过滤ip</span></a></li>
+<li><a href="#span-idinline-blue%E8%BF%87%E6%BB%A4%E7%88%AC%E8%99%AB%E8%AF%B7%E6%B1%82span"><span id="inline-blue">过滤爬虫请求</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>nginx: 1.24.0</p>
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>阿里云服务器部署微服务，Nginx请求日志出现大量莫名其妙的请求日志，并且请求路径携带非法特殊字符竟然导致微服务挂掉，所以需要增加访问过滤和反爬虫设置。</p>
+<h1><span id="过滤非法特殊字符"><span id="inline-blue">过滤非法特殊字符</span></span></h1><p>http节点增加如下内容，修复nginx漏洞攻击，并定义非法控制字符</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">......</span><br><span class="line">http&#123;</span><br><span class="line"></span><br><span class="line">	server_tokens off;</span><br><span class="line"><span class="meta">	#</span><span class="bash">漏洞攻击</span></span><br><span class="line">    add_header Content-Security-Policy &quot;script-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27;&quot; always;</span><br><span class="line">    add_header Referrer-Policy &quot;same-origin&quot; always;</span><br><span class="line">    add_header Strict-Transport-Security &quot;max-age=63072000; includeSubdomains; preload&quot; always;</span><br><span class="line">    add_header X-Content-Type-Options &quot;nosniff&quot; always;</span><br><span class="line">    add_header X-Download-Options &quot;noopen&quot; always;</span><br><span class="line">    add_header X-Frame-Options &quot;sameorigin&quot; always;</span><br><span class="line">    add_header X-Permitted-Cross-Domain-Policies  &quot;none&quot; always;                                          </span><br><span class="line">    add_header X-Robots-Tag &quot;none&quot; always;</span><br><span class="line">    add_header X-XSS-Protection &quot;1; mode=block&quot; always;</span><br><span class="line">    proxy_hide_header  X-Powered-By;</span><br><span class="line">    fastcgi_hide_header X-Powered-By;</span><br><span class="line">	</span><br><span class="line">	map $request_method $invalid_method &#123;</span><br><span class="line">		~*^[a-zA-Z0-9\-._%~]+$ 0;  # 合法方法返回 0</span><br><span class="line">		default 1;                 # 其他情况视为非法，返回 1</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	map $uri $invalid_uri &#123;</span><br><span class="line">		~*[^\x20-\x7E] 1;          # 包含非法字符返回 1</span><br><span class="line">		default 0;                 # 默认合法</span><br><span class="line">	&#125;</span><br><span class="line">	......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>server节点增加如下内容，过滤掉携带非法控制字符的请求</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">......</span><br><span class="line">server&#123;</span><br><span class="line">	......</span><br><span class="line">	client_max_body_size 1024m;  </span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  dev-api.coframe.coship.com;</span><br><span class="line"><span class="meta">	#</span><span class="bash"><span class="comment">## 引入屏蔽规则ip</span></span></span><br><span class="line">    include /usr/local/nginx/conf/block_spiders.conf;</span><br><span class="line">	</span><br><span class="line"><span class="meta">	#</span><span class="bash"> 综合判断：方法或URI任一非法则拦截</span></span><br><span class="line">    if ($invalid_method) &#123;</span><br><span class="line">            return 400;</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if ($invalid_uri) &#123;</span><br><span class="line">            return 400;</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">	.......</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h1><span id="过滤ip"><span id="inline-blue">过滤ip</span></span></h1><p>nginx配置文件nginx.conf http节点增加如下配置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">......</span><br><span class="line">http&#123;</span><br><span class="line">	</span><br><span class="line"><span class="meta">	#</span><span class="bash"><span class="comment">## 引入屏蔽规则ip</span></span></span><br><span class="line">    include /usr/local/nginx/conf/block_ips.conf;</span><br><span class="line">	.......</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>nginx配置目录下增加配置文件block_ips.conf，路径: /usr/local/nginx/conf<br>block_ips.conf文件内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">deny 223.70.213.73;</span><br><span class="line">deny 45.148.10.4;</span><br><span class="line">deny 78.153.140.151;</span><br><span class="line">deny 45.148.10.97;</span><br></pre></td></tr></table></figure>
+
+<h1><span id="过滤爬虫请求"><span id="inline-blue">过滤爬虫请求</span></span></h1><p>nginx配置文件nginx.conf server节点增加如下配置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">......</span><br><span class="line">server&#123;</span><br><span class="line">	......</span><br><span class="line">	client_max_body_size 1024m;  </span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  dev-api.coframe.coship.com;</span><br><span class="line"><span class="meta">	#</span><span class="bash"><span class="comment">## 引入屏蔽规则ip</span></span></span><br><span class="line">    include /usr/local/nginx/conf/block_spiders.conf;</span><br><span class="line">	.......</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>nginx配置目录下增加配置文件block_spiders.conf，路径: /usr/local/nginx/conf<br>block_spiders.conf文件内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 禁止Scrapy等工具的抓取</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="keyword">if</span> (<span class="variable">$http_user_agent</span> ~* (Scrapy|HttpClient|PostmanRuntime|ApacheBench|Java||python-requests|Python-urllib|node-fetch)) &#123;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    <span class="built_in">return</span> 403;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 禁止指定的 user agent 以及为空的访问</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="keyword">if</span> (<span class="variable">$http_user_agent</span> ~ <span class="string">&quot;Nimbostratus|MJ12bot|MegaIndex|YisouSpider|^$&quot;</span> ) &#123;</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    <span class="built_in">return</span> 403;</span>             </span><br><span class="line"><span class="meta">#</span><span class="bash">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 屏蔽恶意访问</span></span><br><span class="line">if ($document_uri ~* \.(php|asp|aspx|jsp|swp|git|env|yaml|yml|sql|db|bak|ini|docx|doc|rar|tar|gz|zip|log|txt)$) &#123;</span><br><span class="line">    return 404;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 屏蔽指定关键词</span></span><br><span class="line">if ($document_uri ~* (wordpress|phpinfo|wlwmanifest|phpMyAdmin|xmlrpc)) &#123;</span><br><span class="line">    return 404;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker Portainer容器可视化部署</title>
     <url>/Docker/blogs/Docker%20Portainer%E5%AE%B9%E5%99%A8%E5%8F%AF%E8%A7%86%E5%8C%96%E9%83%A8%E7%BD%B2/</url>
     <content><![CDATA[<!-- toc -->
@@ -715,7 +756,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#101;&#x6d;&#113;&#x78;&#49;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#46;&#x31;&#x30;&#x30;">&#101;&#x6d;&#113;&#x78;&#49;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#46;&#x31;&#x30;&#x30;</a><br><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#x32;&#64;&#98;&#x72;&#111;&#107;&#x65;&#114;&#x2e;&#x65;&#x6d;&#x71;&#120;&#x2e;&#105;&#111;">&#110;&#x6f;&#x64;&#x65;&#x32;&#64;&#98;&#x72;&#111;&#107;&#x65;&#114;&#x2e;&#x65;&#x6d;&#x71;&#120;&#x2e;&#105;&#111;</a><br><a href="mailto:&#101;&#109;&#x71;&#x78;&#64;&#49;&#48;&#x2e;&#48;&#x2e;&#x30;&#x2e;&#49;">&#101;&#109;&#x71;&#x78;&#64;&#49;&#48;&#x2e;&#48;&#x2e;&#x30;&#x2e;&#49;</a></p>
+<p><a href="mailto:&#x65;&#109;&#113;&#120;&#49;&#x40;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#49;&#46;&#x31;&#x30;&#x30;">&#x65;&#109;&#113;&#120;&#49;&#x40;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#x38;&#x2e;&#49;&#46;&#x31;&#x30;&#x30;</a><br><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#50;&#64;&#98;&#114;&#111;&#x6b;&#101;&#x72;&#x2e;&#x65;&#x6d;&#113;&#120;&#x2e;&#105;&#111;">&#110;&#x6f;&#x64;&#x65;&#50;&#64;&#98;&#114;&#111;&#x6b;&#101;&#x72;&#x2e;&#x65;&#x6d;&#113;&#120;&#x2e;&#105;&#111;</a><br><a href="mailto:&#x65;&#109;&#113;&#120;&#x40;&#x31;&#48;&#46;&#x30;&#46;&#x30;&#46;&#x31;">&#x65;&#109;&#113;&#120;&#x40;&#x31;&#48;&#46;&#x30;&#46;&#x30;&#46;&#x31;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -3477,7 +3518,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#48;&#x30;&#x2e;&#49;&#48;&#49;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#48;&#x30;&#x2e;&#49;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#111;&#x6f;&#116;&#64;&#x31;&#57;&#50;&#46;&#49;&#54;&#x38;&#46;&#49;&#48;&#48;&#x2e;&#49;&#48;&#49;">&#x72;&#111;&#x6f;&#116;&#64;&#x31;&#57;&#50;&#46;&#49;&#54;&#x38;&#46;&#49;&#48;&#48;&#x2e;&#49;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -4462,8 +4503,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>Nginx</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Linux</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -4524,6 +4565,30 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Dokcer镜像导入导出</title>
+    <url>/Docker/blogs/Dokcer%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E5%AF%BC%E5%87%BAspan"><span id="inline-blue">导出</span></a></li>
+<li><a href="#span-idinline-blue%E5%AF%BC%E5%85%A5span"><span id="inline-blue">导入</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><pre><code>Windows7
+DockerToolbox-18.03.0-ce.exe</code></pre>
+<h1><span id="导出"><span id="inline-blue">导出</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">rm -rf  images</span><br><span class="line">docker images &gt; images.txt</span><br><span class="line">awk &#x27;&#123;print $1&#125;&#x27; images.txt &gt; REPOSITORY.txt</span><br><span class="line">sed -i &#x27;1d&#x27; REPOSITORY.txt</span><br><span class="line">mkdir images</span><br><span class="line">touch tarname.txt</span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker save $LINE &gt; ./images/$&#123;LINE//\//_&#125;.tar</span><br><span class="line">echo &quot;$&#123;LINE//\//_&#125;.tar&quot; &gt;&gt; tarname.txt</span><br><span class="line">done &lt; REPOSITORY.txt</span><br><span class="line">rm -rf images.txt REPOSITORY.txt</span><br><span class="line">cp import.sh ./images/</span><br><span class="line">echo &quot;images export finish&quot;</span><br></pre></td></tr></table></figure>
+<h1><span id="导入"><span id="inline-blue">导入</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker  load -i ./images/$LINE</span><br><span class="line">echo ok</span><br><span class="line">done &lt; tarname.txt</span><br><span class="line">echo finish</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dokcer常用命令</title>
     <url>/Docker/blogs/Dokcer%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<!-- toc -->
@@ -4550,30 +4615,6 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
 <h1><span id="docker-compose工具"><span id="inline-blue">docker-compose工具</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">启动容器  -d:后台启动 --build:重建镜像 容器名可跟多个,docker-compose编排工具需要结合docker-compose.yml使用</span></span><br><span class="line">docker-compose up -d --build 容器名</span><br><span class="line"><span class="meta">#</span><span class="bash">停止所有容器</span></span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
 
 <h1><span id="清理虚悬镜像"><span id="inline-blue">清理虚悬镜像</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">清理没有容器使用的镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash">清理构建缓存</span></span><br><span class="line">docker image prune</span><br><span class="line"><span class="meta">#</span><span class="bash">清理 Docker 系统中未被使用的资源​​，释放磁盘空间</span></span><br><span class="line"><span class="meta">#</span><span class="bash">作用范围</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1 虚悬镜像</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2 挺值得容器</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3 未被使用的网络</span></span><br><span class="line"><span class="meta">#</span><span class="bash">4 构建缓存</span></span><br><span class="line">docker system prune</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dokcer镜像导入导出</title>
-    <url>/Docker/blogs/Dokcer%E9%95%9C%E5%83%8F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blue%E5%AF%BC%E5%87%BAspan"><span id="inline-blue">导出</span></a></li>
-<li><a href="#span-idinline-blue%E5%AF%BC%E5%85%A5span"><span id="inline-blue">导入</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><pre><code>Windows7
-DockerToolbox-18.03.0-ce.exe</code></pre>
-<h1><span id="导出"><span id="inline-blue">导出</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">rm -rf  images</span><br><span class="line">docker images &gt; images.txt</span><br><span class="line">awk &#x27;&#123;print $1&#125;&#x27; images.txt &gt; REPOSITORY.txt</span><br><span class="line">sed -i &#x27;1d&#x27; REPOSITORY.txt</span><br><span class="line">mkdir images</span><br><span class="line">touch tarname.txt</span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker save $LINE &gt; ./images/$&#123;LINE//\//_&#125;.tar</span><br><span class="line">echo &quot;$&#123;LINE//\//_&#125;.tar&quot; &gt;&gt; tarname.txt</span><br><span class="line">done &lt; REPOSITORY.txt</span><br><span class="line">rm -rf images.txt REPOSITORY.txt</span><br><span class="line">cp import.sh ./images/</span><br><span class="line">echo &quot;images export finish&quot;</span><br></pre></td></tr></table></figure>
-<h1><span id="导入"><span id="inline-blue">导入</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">while read LINE</span><br><span class="line">do</span><br><span class="line">docker  load -i ./images/$LINE</span><br><span class="line">echo ok</span><br><span class="line">done &lt; tarname.txt</span><br><span class="line">echo finish</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
       <categories>
         <category>Docker</category>
       </categories>
@@ -5629,8 +5670,8 @@ tmp – 临时文件</code></pre>
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>MySQL</tag>
         <tag>C3p0</tag>
+        <tag>MySQL</tag>
         <tag>Hibernate</tag>
       </tags>
   </entry>
@@ -6403,8 +6444,8 @@ tmp – 临时文件</code></pre>
         <category>Nginx</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Linux</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -7054,8 +7095,8 @@ tmp – 临时文件</code></pre>
         <category>Nginx</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Linux</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -7095,8 +7136,8 @@ tmp – 临时文件</code></pre>
         <category>Nginx</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
         <tag>Linux</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
