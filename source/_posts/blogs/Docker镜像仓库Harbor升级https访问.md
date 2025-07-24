@@ -42,7 +42,7 @@ HTTPS 通过 TLS/SSL 协议对通信内容加密，避免镜像传输、用户�
 公司内网环境下部署harbor一直使用的http,导致docker配置harbor镜像仓库需要添加如下配置：
 ```yml
 {
-    "insecure-registries": ["http://my.harbor.com"
+    "insecure-registries": ["http://my.harbor.com"]
 }
 ```
 拉取镜像文件经常出现超时，所以决定将Harbor仓库通信协议升级为https，并配置好局域网内的域名和IP之间映射，这样既保证了docker拉取镜像文件时的安全保证，同时也为harbor服务后续升级到公网打下基础。
