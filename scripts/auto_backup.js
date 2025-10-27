@@ -17,6 +17,9 @@ function copy()
 	echo("====================== Copy resources to nginx start ===========================");
 	cp('-R', 'G:/hexo/public/*', 'D:/nginx-1.16.1/nginx-1.16.1/blog');
 	echo("====================== Copy resources to nginx end ===========================");
+	echo("====================== Copy resources to Docker nginx start ===========================");
+	cp('-R', 'G:/hexo/public/*', 'D:/dockerVolume/nginx/html/blog');
+	echo("====================== Copy resources to Docker nginx end ===========================");
 }
 function run() {
 	
