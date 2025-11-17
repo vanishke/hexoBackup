@@ -389,6 +389,78 @@
       </tags>
   </entry>
   <entry>
+    <title>jboss-4.2.3部署应用程序log4j日志冲突解决办法</title>
+    <url>/Jboss/blogs/jboss-4.2.3%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8Flog4j%E6%97%A5%E5%BF%97%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">现象</span></a></li>
+<li><a href="#span-idinline-blue%E5%8E%9F%E5%9B%A0span"><span id="inline-blue">原因</span></a></li>
+<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95span"><span id="inline-blue">解决办法</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>jboss-4.2.3容器部署java应用程序，启动日志出现如下报错：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR A &quot;org.jboss.logging.appender.FileAppender&quot; object is not assignable to a &quot;org.apache.log4j.Appender&quot; variable.</span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR The class &quot;org.apache.log4j.Appender&quot; was loaded by </span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR [WebappClassLoader</span><br><span class="line">  delegate: false</span><br><span class="line">  repositories:</span><br><span class="line">    /WEB-INF/classes/</span><br><span class="line"><span class="meta">----------&gt;</span><span class="bash"> Parent Classloader:</span></span><br><span class="line">java.net.FactoryURLClassLoader@5a347448</span><br><span class="line">] whereas object of type </span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR &quot;org.jboss.logging.appender.FileAppender&quot; was loaded by [org.jboss.system.server.NoAnnotationURLClassLoader@26021b6d].</span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR Could not instantiate appender named &quot;FILE&quot;.</span><br></pre></td></tr></table></figure>
+
+<h1><span id="原因"><span id="inline-blue">原因</span></span></h1><p>jboss自身日志系统已经集成log4j,并且jboss和应用程序使用的日志收集器不一致，导致转换失败，jboss自身集成log4j的配置文件路径如下：<br>/usr/local//jboss-4.2.3.GA/server/default/conf/jboss-log4j.xml</p>
+<p>关键配置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!-- A time/date based rolling appender --&gt;</span><br><span class="line">&lt;appender name=&quot;FILE&quot; class=&quot;org.jboss.logging.appender.DailyRollingFileAppender&quot;&gt;</span><br><span class="line">   &lt;errorHandler class=&quot;org.jboss.logging.util.OnlyOnceErrorHandler&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;File&quot; value=&quot;$&#123;jboss.server.log.dir&#125;/server.log&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;Append&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;Threshold&quot; value=&quot;INFO&quot;/&gt;</span><br><span class="line">&lt;param name=&quot;DatePattern&quot; value=&quot;&#x27;.&#x27;yyyy-MM-dd&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;layout class=&quot;org.apache.log4j.PatternLayout&quot;&gt;</span><br><span class="line">      &lt;param name=&quot;ConversionPattern&quot; value=&quot;%d %-5p [%c] (%t) %m%n&quot;/&gt;</span><br><span class="line">   &lt;/layout&gt;</span><br><span class="line">&lt;/appender&gt; </span><br></pre></td></tr></table></figure>
+
+<h1><span id="解决办法"><span id="inline-blue">解决办法</span></span></h1><p>将/usr/local/jboss-4.2.3.GA/lib下jboss-common.jar依赖拷贝到应用程序lib目录下，重启jboss，日志输出即可恢复正常，如果需要获取jboss容器自身jboss-common.jar依赖版本信息，可以通过java反编译工具luyten-0.5.3.jar本地打开。<br><img src="images/Jboss/20251114/Jboss_20251114_001.png" alt="jboss-common版本信息查看"></p>
+<p>maven项目添加如下依赖坐标：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jboss<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jboss-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.1.GA<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Jboss</category>
+      </categories>
+      <tags>
+        <tag>Jboss</tag>
+        <tag>Log4j</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apk签名证书和私钥生成方法</title>
+    <url>/keyTool/blogs/apk%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E5%92%8C%E7%A7%81%E9%92%A5%E7%94%9F%E6%88%90%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E4%BD%BF%E7%94%A8keytool%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5%E5%AF%B9%E5%AD%98%E5%82%A8%E5%88%B0jks%E6%A0%BC%E5%BC%8F%E7%9A%84%E5%AF%86%E9%92%A5%E5%BA%93%E4%B8%ADspan"><span id="inline-blue">使用keytool生成密钥对，存储到JKS格式的密钥库中</span></a></li>
+<li><a href="#span-idinline-blue%E4%BB%8Ejks%E5%AF%86%E9%92%A5%E5%BA%93%E4%B8%AD%E5%AF%BC%E5%87%BA%E8%AF%81%E4%B9%A6der%E6%A0%BC%E5%BC%8F%E5%8C%85%E5%90%AB%E5%85%AC%E9%92%A5span"><span id="inline-blue">从JKS密钥库中导出证书（DER格式，包含公钥</span></a></li>
+<li><a href="#span-idinline-blue%E4%BD%BF%E7%94%A8openssl%E5%B0%86der%E6%A0%BC%E5%BC%8F%E8%AF%81%E4%B9%A6%E8%BD%AC%E6%8D%A2%E4%B8%BApem%E6%A0%BC%E5%BC%8F%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F%E4%BE%BF%E4%BA%8E%E6%9F%A5%E7%9C%8B%E5%92%8C%E4%BD%BF%E7%94%A8span"><span id="inline-blue">使用openssl将DER格式证书转换为PEM格式（文本格式，便于查看和使用</span></a></li>
+<li><a href="#span-idinline-blue%E5%B0%86jks%E6%A0%BC%E5%BC%8F%E5%AF%86%E9%92%A5%E5%BA%93%E8%BD%AC%E6%8D%A2%E4%B8%BApkcs12%E6%A0%BC%E5%BC%8F%E6%9B%B4%E9%80%9A%E7%94%A8%E7%9A%84%E5%AF%86%E9%92%A5%E5%BA%93%E6%A0%BC%E5%BC%8F%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%94%AF%E6%8C%81%E6%9B%B4%E5%A5%BDspan"><span id="inline-blue">将JKS格式密钥库转换为PKCS12格式(更通用的密钥库格式，跨平台支持更好)</span></a></li>
+<li><a href="#span-idinline-blue%E4%BB%8Epkcs12%E5%AF%86%E9%92%A5%E5%BA%93%E4%B8%AD%E6%8F%90%E5%8F%96%E7%A7%81%E9%92%A5pem%E6%A0%BC%E5%BC%8F%E6%96%87%E6%9C%ACspan"><span id="inline-blue">从PKCS12密钥库中提取私钥(PEM格式，文本)</span></a></li>
+<li><a href="#span-idinline-blue%E5%B0%86pem%E6%A0%BC%E5%BC%8F%E7%A7%81%E9%92%A5%E8%BD%AC%E6%8D%A2%E4%B8%BApkcs8-der%E6%A0%BC%E5%BC%8F%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%B8%B8%E7%94%A8%E4%BA%8Ejava%E7%AD%89%E5%B9%B3%E5%8F%B0span"><span id="inline-blue">将PEM格式私钥转换为PKCS#8 DER格式(二进制，常用于Java等平台)</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="使用keytool生成密钥对存储到jks格式的密钥库中"><span id="inline-blue">使用keytool生成密钥对，存储到JKS格式的密钥库中</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">keytool -genkeypair \</span><br><span class="line">  -alias istore \                  </span><br><span class="line">  -keyalg RSA \                    </span><br><span class="line">  -keysize 2048 \                  </span><br><span class="line">  -validity 3650 \                 </span><br><span class="line">  -keystore istore.jks \           </span><br><span class="line">  -storepass 123456 \              </span><br><span class="line">  -keypass 123456                  </span><br></pre></td></tr></table></figure>
+<p>参数 <br><br>-alias      密钥对的别名（用于标识该密钥对，后续操作需引用）<br><br>-keyalg     加密算法为RSA（非对称加密算法）<br><br>-keysize    密钥长度2048位（安全性较高，常用长度）<br><br>-validity   证书有效期10年（3650天）<br><br>-keystore   生成的密钥库文件名为istore.jks（JKS是Java默认格式）<br><br>-storepass  密钥库的访问密码（保护整个密钥库）<br><br>-keypass    密钥对自身的密码（保护私钥，此处与密钥库密码相同）<br></p>
+<h1><span id="从jks密钥库中导出证书der格式包含公钥"><span id="inline-blue">从JKS密钥库中导出证书（DER格式，包含公钥</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">keytool -exportcert \</span><br><span class="line">  -alias istore \                  </span><br><span class="line">  -keystore istore.jks \           </span><br><span class="line">  -storepass 123456 \              </span><br><span class="line">  -file istore.cer                 </span><br></pre></td></tr></table></figure>
+
+<p>参数 <br><br>-alias      要导出的密钥对别名（需与生成时一致）<br><br>-keystore   源密钥库文件 <br><br>-storepass  密钥库访问密码（验证权限）<br><br>-file       导出的证书文件名（DER格式，二进制）<br></p>
+<h1><span id="使用openssl将der格式证书转换为pem格式文本格式便于查看和使用"><span id="inline-blue">使用openssl将DER格式证书转换为PEM格式（文本格式，便于查看和使用</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl x509 \</span><br><span class="line">  -inform der \                    </span><br><span class="line">  -in istore.cer \                 </span><br><span class="line">  -out public.pem                  </span><br></pre></td></tr></table></figure>
+<p>参数 <br><br>-inform      输入格式为DER（二进制）<br><br>-in          输入的DER格式证书文件 <br><br>-out         输出的PEM格式文件（包含公钥）<br></p>
+<h1><span id="将jks格式密钥库转换为pkcs12格式更通用的密钥库格式跨平台支持更好"><span id="inline-blue">将JKS格式密钥库转换为PKCS12格式(更通用的密钥库格式，跨平台支持更好)</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">keytool -importkeystore \</span><br><span class="line">  -srckeystore istore.jks \        </span><br><span class="line">  -srcstoretype JKS \              </span><br><span class="line">  -srcstorepass 123456 \           </span><br><span class="line">  -destkeystore istore.p12 \       </span><br><span class="line">  -deststoretype PKCS12 \          </span><br><span class="line">  -deststorepass 123456 \          </span><br><span class="line">  -alias istore                    </span><br></pre></td></tr></table></figure>
+
+<p>参数 <br><br>-srckeystore   源JKS密钥库 <br><br>-srcstoretype  源密钥库类型为JKS <br><br>-srcstorepass  源密钥库密码 <br><br>-destkeystore  目标PKCS12密钥库文件名 <br><br>-deststoretype 目标密钥库类型为PKCS12 <br><br>-deststorepass 目标密钥库密码 <br><br>-alias         要转换的密钥对别名 <br></p>
+<h1><span id="从pkcs12密钥库中提取私钥pem格式文本"><span id="inline-blue">从PKCS12密钥库中提取私钥(PEM格式，文本)</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 \</span><br><span class="line">  -in istore.p12 \                 </span><br><span class="line">  -nodes \                         </span><br><span class="line">  -nocerts \                       </span><br><span class="line">  -out temp_private_key.pem        </span><br></pre></td></tr></table></figure>
+
+<p>参数 <br><br>-in      输入的PKCS12密钥库 <br><br>-nodes   不加密私钥（否则会要求设置私钥密码）<br><br>-nocerts 只提取私钥，不提取证书 <br><br>-out     输出的临时私钥文件（PEM格式）<br></p>
+<h1><span id="将pem格式私钥转换为pkcs8-der格式二进制常用于java等平台"><span id="inline-blue">将PEM格式私钥转换为PKCS#8 DER格式(二进制，常用于Java等平台)</span></span></h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 \</span><br><span class="line">  -topk8 \                         </span><br><span class="line">  -inform PEM \                    </span><br><span class="line">  -outform DER \                   </span><br><span class="line">  -in temp_private_key.pem \       </span><br><span class="line">  -out private.pk8 \               </span><br><span class="line">  -nocrypt                         </span><br></pre></td></tr></table></figure>
+
+<p>参数 <br><br>-topk8   转换为PKCS#8格式（私钥的标准格式）<br><br>-inform  输入格式为PEM（文本）<br><br>-outform 输出格式为DER（二进制）<br><br>-in      输入的PEM格式私钥 <br><br>-out     输出的PKCS#8 DER格式私钥文件 <br><br>-nocrypt 不加密输出文件（否则会要求设置密码）<br></p>
+]]></content>
+      <categories>
+        <category>keyTool</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>keyTool</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Maven项目本地依赖打包无效的解决办法</title>
     <url>/Maven/blogs/Maven%E9%A1%B9%E7%9B%AE%E6%9C%AC%E5%9C%B0%E4%BE%9D%E8%B5%96%E6%89%93%E5%8C%85%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<!-- toc -->
@@ -1070,7 +1142,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#x65;&#x6d;&#x71;&#x78;&#x31;&#x40;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#46;&#49;&#x30;&#48;">&#x65;&#x6d;&#x71;&#x78;&#x31;&#x40;&#x31;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#46;&#49;&#x30;&#48;</a><br><a href="mailto:&#110;&#x6f;&#100;&#101;&#50;&#64;&#98;&#x72;&#x6f;&#x6b;&#101;&#x72;&#x2e;&#101;&#109;&#113;&#x78;&#x2e;&#105;&#111;">&#110;&#x6f;&#100;&#101;&#50;&#64;&#98;&#x72;&#x6f;&#x6b;&#101;&#x72;&#x2e;&#101;&#109;&#113;&#x78;&#x2e;&#105;&#111;</a><br><a href="mailto:&#x65;&#x6d;&#x71;&#x78;&#x40;&#x31;&#x30;&#46;&#x30;&#x2e;&#x30;&#46;&#49;">&#x65;&#x6d;&#x71;&#x78;&#x40;&#x31;&#x30;&#46;&#x30;&#x2e;&#x30;&#46;&#49;</a></p>
+<p><a href="mailto:&#x65;&#109;&#113;&#x78;&#49;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x2e;&#49;&#x30;&#x30;">&#x65;&#109;&#113;&#x78;&#49;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#46;&#x31;&#x2e;&#49;&#x30;&#x30;</a><br><a href="mailto:&#110;&#x6f;&#100;&#101;&#50;&#64;&#98;&#114;&#111;&#107;&#x65;&#114;&#46;&#x65;&#109;&#x71;&#x78;&#46;&#x69;&#111;">&#110;&#x6f;&#100;&#101;&#50;&#64;&#98;&#114;&#111;&#107;&#x65;&#114;&#46;&#x65;&#109;&#x71;&#x78;&#46;&#x69;&#111;</a><br><a href="mailto:&#x65;&#x6d;&#113;&#x78;&#x40;&#x31;&#48;&#46;&#48;&#x2e;&#48;&#46;&#x31;">&#x65;&#x6d;&#113;&#x78;&#x40;&#x31;&#48;&#46;&#48;&#x2e;&#48;&#46;&#x31;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -2900,44 +2972,6 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>apk签名证书和私钥生成方法</title>
-    <url>/keyTool/blogs/apk%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E5%92%8C%E7%A7%81%E9%92%A5%E7%94%9F%E6%88%90%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
-<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95span"><span id="inline-blue">解决办法</span></a><ul>
-<li><a href="#span-idinline-blue%E7%94%9F%E6%88%90appkestore%E6%96%87%E4%BB%B6span"><span id="inline-blue">生成app.kestore文件</span></a></li>
-<li><a href="#span-idinline-blue%E8%BD%AC%E6%8D%A2key%E7%9A%84%E6%A0%BC%E5%BC%8F%E4%B8%BApkcs12span"><span id="inline-blue">转换key的格式为pkcs12</span></a></li>
-<li><a href="#span-idinline-blue%E5%B0%86pkcs12%E6%A0%BC%E5%BC%8F%E7%9A%84key-dump%E4%B8%BA%E5%8F%AF%E7%9B%B4%E6%8E%A5%E9%98%85%E8%AF%BB%E7%9A%84%E6%96%87%E6%9C%ACspan"><span id="inline-blue">将PKCS12格式的key dump为可直接阅读的文本</span></a></li>
-<li><a href="#span-idinline-blue%E6%8F%90%E5%8F%96%E5%85%AC%E9%92%A5span"><span id="inline-blue">提取公钥</span></a></li>
-<li><a href="#span-idinline-blue%E8%BD%AC%E6%8D%A2%E7%94%9F%E6%88%90pk8%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%A7%81%E9%92%A5span"><span id="inline-blue">转换，生成pk8格式的私钥</span></a></li>
-<li><a href="#span-idinline-blue%E7%AD%BE%E5%90%8Dspan"><span id="inline-blue">签名</span></a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>apk应用上传缺失签名文件无法对apk进行签名导致应用上架不了</p>
-<h1><span id="解决办法"><span id="inline-blue">解决办法</span></span></h1><h2><span id="生成appkestore文件"><span id="inline-blue">生成app.kestore文件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">keytool -genkey -v -keystore app.keystore -alias coship -keyalg RSA -validity 3650</span><br></pre></td></tr></table></figure>
-<p>执行上述命令之后在当前路径下生成文件app.kestore</p>
-<h2><span id="转换key的格式为pkcs12"><span id="inline-blue">转换key的格式为pkcs12</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">keytool -importkeystore -srckeystore app.keystore -destkeystore tmp.p12 -srcstoretype JKS -deststoretype PKCS12</span><br></pre></td></tr></table></figure>
-<p>控制台会提示输出tmp.p12的密码以及app.keystore的密码，输入正确之后将会生成tmp.p12文件</p>
-<h2><span id="将pkcs12格式的key-dump为可直接阅读的文本"><span id="inline-blue">将PKCS12格式的key dump为可直接阅读的文本</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -in tmp.p12 -nodes -out tmp.rsa.pem </span><br></pre></td></tr></table></figure>
-<p>dump过程中也会提示输入密码，正确输入之后可阅读的token会存储在tmp.rsa.pem中</p>
-<h2><span id="提取公钥"><span id="inline-blue">提取公钥</span></span></h2><p> 用文本编辑器打开tmp.rsa.pem，将从<br> —–BEGIN PRIVATE KEY—–<br> 到<br> —–END PRIVATE KEY—–<br> 这一段（包含这两个tag）的文本复制出来，新建为文件my_private.rsa.pem<br> 将从<br> —–BEGIN CERTIFICATE—–<br> 到<br> —–END CERTIFICATE—–<br> 这一段（包含这两个tag）的文本复制出来，certificate.pem （签名时用到的公钥）</p>
-<h2><span id="转换生成pk8格式的私钥"><span id="inline-blue">转换，生成pk8格式的私钥</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -topk8 -outform DER -in my_private.rsa.pem -inform PEM -out private.pk8 -nocrypt</span><br></pre></td></tr></table></figure>
-<h2><span id="签名"><span id="inline-blue">签名</span></span></h2> <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java -jar signapk.jar certificate.pem private.pk8 my.apk my_signed.apk </span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>keyTool</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>keyTool</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决SpringCloud-Gateway请求favicon.ico出现404</title>
     <url>/SpringCloud/blogs/%E8%A7%A3%E5%86%B3SpringCloud-Gateway%E8%AF%B7%E6%B1%82favicon.ico%E5%87%BA%E7%8E%B0404/</url>
     <content><![CDATA[<!-- toc -->
@@ -3832,7 +3866,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#x6f;&#116;&#64;&#49;&#x39;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#x30;&#48;&#46;&#49;&#48;&#x31;">&#x72;&#x6f;&#x6f;&#116;&#64;&#49;&#x39;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#x30;&#48;&#46;&#49;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#111;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#56;&#x2e;&#49;&#x30;&#48;&#46;&#49;&#x30;&#49;">&#x72;&#111;&#111;&#x74;&#x40;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#56;&#x2e;&#49;&#x30;&#48;&#46;&#49;&#x30;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -5615,8 +5649,8 @@ DockerToolbox-18.03.0-ce.exe</code></pre>
         <category>Jsp</category>
       </categories>
       <tags>
-        <tag>Js</tag>
         <tag>Jsp</tag>
+        <tag>Js</tag>
       </tags>
   </entry>
   <entry>
@@ -6295,6 +6329,28 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Hexo安装本地搜索功能</title>
+    <url>/Hexo/blogs/Hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="新增配置"><span id="inline-blue">新增配置</span></span></h2><p>修改hexo/_config.yml站点配置文件，新增以下内容到任意位置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">path: search.xml</span><br><span class="line">field: post</span><br><span class="line">format: html</span><br><span class="line">limit: 10000</span><br></pre></td></tr></table></figure>
+
+<h2><span id="修改主题配置文件开启本地搜索功能"><span id="inline-blue">修改主题配置文件，开启本地搜索功能</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Local search</span></span><br><span class="line">local_search:</span><br><span class="line">enable: true  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo安装渲染引擎</title>
     <url>/Hexo/blogs/Hexo%E5%AE%89%E8%A3%85%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E/</url>
     <content><![CDATA[<h2><span id="卸载默认引擎"><span id="inline-blue">卸载默认引擎</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked –save</span><br></pre></td></tr></table></figure>
@@ -6309,28 +6365,6 @@ tmp – 临时文件</code></pre>
 <h2><span id="开启next主题math支持"><span id="inline-blue">开启NexT主题math支持</span></span></h2><p>修改next主题下_config.xml</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Math Formulas Render Support</span></span><br><span class="line">math:</span><br><span class="line"><span class="meta">  #</span><span class="bash"> Default (<span class="literal">true</span>) will load mathjax / katex script on demand.</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> That is it only render those page <span class="built_in">which</span> has `mathjax: <span class="literal">true</span>` <span class="keyword">in</span> Front-matter.</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> If you <span class="built_in">set</span> it to <span class="literal">false</span>, it will load mathjax / katex srcipt EVERY PAGE.</span></span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line"><span class="meta">  #</span><span class="bash"> hexo-renderer-pandoc (or hexo-renderer-kramed) required <span class="keyword">for</span> full MathJax support.</span></span><br><span class="line">  mathjax:</span><br><span class="line">    enable: false</span><br><span class="line">    # See: https://mhchem.github.io/MathJax-mhchem/</span><br><span class="line">    mhchem: false</span><br><span class="line"></span><br><span class="line"><span class="meta">  #</span><span class="bash"> hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required <span class="keyword">for</span> full Katex support.</span></span><br><span class="line">  katex:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span><br><span class="line">    copy_tex: false</span><br></pre></td></tr></table></figure>
 
-
-
-
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo安装本地搜索功能</title>
-    <url>/Hexo/blogs/Hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-
-
-<h2><span id="新增配置"><span id="inline-blue">新增配置</span></span></h2><p>修改hexo/_config.yml站点配置文件，新增以下内容到任意位置：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">path: search.xml</span><br><span class="line">field: post</span><br><span class="line">format: html</span><br><span class="line">limit: 10000</span><br></pre></td></tr></table></figure>
-
-<h2><span id="修改主题配置文件开启本地搜索功能"><span id="inline-blue">修改主题配置文件，开启本地搜索功能</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Local search</span></span><br><span class="line">local_search:</span><br><span class="line">enable: true  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
@@ -7226,6 +7260,36 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>windows注册Elasticsearch服务</title>
+    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch下载</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch注册</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch服务自启动设置</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch服务验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
+<h1><span id="elasticsearch下载"><span id="inline-blue">elasticsearch下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
+<h1><span id="elasticsearch注册"><span id="inline-blue">elasticsearch注册</span></span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
+<p>2.执行注册服务命令 elasticsearch.bat install</p>
+<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
+<h1><span id="elasticsearch服务自启动设置"><span id="inline-blue">elasticsearch服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
+<h1><span id="elasticsearch服务验证"><span id="inline-blue">elasticsearch服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>Elasticsearch</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows注册Nginx服务</title>
     <url>/Nginx/blogs/Windows%E6%B3%A8%E5%86%8CNginx%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<!-- toc -->
@@ -7292,36 +7356,6 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>windows注册Elasticsearch服务</title>
-    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch下载</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch注册</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch服务自启动设置</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch服务验证</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch下载"><span id="inline-blue">elasticsearch下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
-<h1><span id="elasticsearch注册"><span id="inline-blue">elasticsearch注册</span></span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
-<p>2.执行注册服务命令 elasticsearch.bat install</p>
-<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch服务自启动设置"><span id="inline-blue">elasticsearch服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch服务验证"><span id="inline-blue">elasticsearch服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>Elasticsearch</tag>
-        <tag>Windows</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux创建FTP</title>
     <url>/FTP/blogs/Linux%E5%88%9B%E5%BB%BAFTP/</url>
     <content><![CDATA[<!-- toc -->
@@ -7345,31 +7379,6 @@ tmp – 临时文件</code></pre>
       <tags>
         <tag>Linux</tag>
         <tag>FTP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nginx常用启动命令</title>
-    <url>/Nginx/blogs/Nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E5%90%AF%E5%8A%A8span"><span id="inline-blue">启动</span></a></li>
-<li><a href="#span-idinline-blue%E5%81%9C%E6%AD%A2span"><span id="inline-blue">停止</span></a></li>
-<li><a href="#span-idinline-blue%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDspan"><span id="inline-blue">重新加载</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="启动"><span id="inline-blue">启动</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx </span><br><span class="line">./nginx -c dir(指定配置文件所在路径)</span><br></pre></td></tr></table></figure>
-
-<h1><span id="停止"><span id="inline-blue">停止</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s quit /nginx处理完任务后停止</span><br><span class="line">./nginx -s stop /强制停止nginx进程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1><span id="重新加载"><span id="inline-blue">重新加载</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s reload /重新加载nginx.cnf配置文件</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Nginx</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
@@ -7411,6 +7420,31 @@ tmp – 临时文件</code></pre>
       <tags>
         <tag>Nginx</tag>
         <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx常用启动命令</title>
+    <url>/Nginx/blogs/Nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E5%90%AF%E5%8A%A8span"><span id="inline-blue">启动</span></a></li>
+<li><a href="#span-idinline-blue%E5%81%9C%E6%AD%A2span"><span id="inline-blue">停止</span></a></li>
+<li><a href="#span-idinline-blue%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDspan"><span id="inline-blue">重新加载</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="启动"><span id="inline-blue">启动</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx </span><br><span class="line">./nginx -c dir(指定配置文件所在路径)</span><br></pre></td></tr></table></figure>
+
+<h1><span id="停止"><span id="inline-blue">停止</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s quit /nginx处理完任务后停止</span><br><span class="line">./nginx -s stop /强制停止nginx进程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1><span id="重新加载"><span id="inline-blue">重新加载</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s reload /重新加载nginx.cnf配置文件</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
