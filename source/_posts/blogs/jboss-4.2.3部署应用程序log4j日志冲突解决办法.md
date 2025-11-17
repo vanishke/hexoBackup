@@ -50,7 +50,7 @@ jboss自身日志系统已经集成log4j,并且jboss和应用程序使用的日�
 # <span id="inline-blue">解决办法</span>
 
 将/usr/local/jboss-4.2.3.GA/lib下jboss-common.jar依赖拷贝到应用程序lib目录下，重启jboss，日志输出即可恢复正常，如果需要获取jboss容器自身jboss-common.jar依赖版本信息，可以通过java反编译工具luyten-0.5.3.jar本地打开。
-![jboss-common版本信息查看](images/Jboss/20251114/Jboss_20251114_001.png)
+![jboss-common版本信息查看](/images/Jboss/20251114/Jboss_20251114_001.png)
 
 maven项目添加如下依赖坐标：
 ```xml
