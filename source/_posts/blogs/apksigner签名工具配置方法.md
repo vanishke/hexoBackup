@@ -34,7 +34,7 @@ unzip commandlinetools-linux-9123335_latest.zip
 ```
 
 解压之后生成cmdline-tools目录，需要在cmdline-tools目录下新建latest子目录，并将cmdline-tools目录下的内容移动到latest目录下，这样做是为了解决后续命令行执行sdkmanager 安装build-tools报错问题,最终cmdline-tools目录如下：
-![cmdline-tools目录](/images/apksigner_Linux_20251118_001.png)
+![cmdline-tools目录](/images/Apksigner_Linux_20251118_001.png)
 
 
 ### <span id="inline-blue">赋予可执行权限</span>
