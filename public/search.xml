@@ -389,6 +389,48 @@
       </tags>
   </entry>
   <entry>
+    <title>Elasticsearch基于策略实现索引自动删除</title>
+    <url>/Elasticsearch/blogs/Elasticsearch%E5%9F%BA%E4%BA%8E%E7%AD%96%E7%95%A5%E5%AE%9E%E7%8E%B0%E7%B4%A2%E5%BC%95%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
+<li><a href="#span-idinline-blue%E5%AE%9E%E7%8E%B0span"><span id="inline-blue">实现</span></a><ul>
+<li><a href="#span-idinline-blue%E5%88%9B%E5%BB%BA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9Fspan"><span id="inline-blue">创建生命周期</span></a></li>
+<li><a href="#span-idinline-blue%E7%B4%A2%E5%BC%95%E6%A8%A1%E6%9D%BF%E5%85%B3%E8%81%94%E7%AD%96%E7%95%A5span"><span id="inline-blue">索引模板关联策略</span></a></li>
+<li><a href="#span-idinline-blue%E9%AA%8C%E8%AF%81span"><span id="inline-blue">验证</span></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>微服务基于zipkin上述微服务调用链路追踪信息，数据存储Elasticsearch之后没有自动删除机制导致数据越来越多，已经快要超过数据节点设置的分片大小导致数据写入失败，接下来借助Elasticsearch生命周期管理实现自动清除过期的索引。</p>
+<h1><span id="实现"><span id="inline-blue">实现</span></span></h1><h2><span id="创建生命周期"><span id="inline-blue">创建生命周期</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">PUT http://120.76.251.149:9200/_ilm/policy/zipkin_delete_policy</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;policy&quot;: &#123;</span><br><span class="line">    &quot;phases&quot;: &#123;</span><br><span class="line">      &quot;delete&quot;: &#123;</span><br><span class="line">        &quot;min_age&quot;: &quot;7d&quot;,</span><br><span class="line">        &quot;actions&quot;: &#123;</span><br><span class="line">          &quot;delete&quot;: &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>上述命令表示创建zipkin_delete_policy策略，最大保存索引时间为7天。</p>
+<h2><span id="索引模板关联策略"><span id="inline-blue">索引模板关联策略</span></span></h2><p>zipkin-dependency索引模板设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">PUT http://120.76.251.149:9200/_template/zipkin-dependency_template</span><br><span class="line">&#123;</span><br><span class="line">  &quot;index_patterns&quot;: [&quot;zipkin-dependency-*&quot;],</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">		&quot;index&quot;: &#123;</span><br><span class="line">      &quot;lifecycle&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;zipkin_delete_policy&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;number_of_shards&quot;: 1,          </span><br><span class="line">    &quot;number_of_replicas&quot;: 0,       </span><br><span class="line">    &quot;index.refresh_interval&quot;: &quot;30s&quot; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>zipkin-span索引模板设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">PUT http://120.76.251.149:9200/_template/zipkin-span_template</span><br><span class="line">&#123;</span><br><span class="line">  &quot;index_patterns&quot;: [&quot;zipkin-span-*&quot;],</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">		&quot;index&quot;: &#123;</span><br><span class="line">      &quot;lifecycle&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;zipkin_delete_policy&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;number_of_shards&quot;: 1,          </span><br><span class="line">    &quot;number_of_replicas&quot;: 0,       </span><br><span class="line">    &quot;index.refresh_interval&quot;: &quot;30s&quot; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述索引策略设置对后续自动生成的索引生效，之前已经存在的索引无效，将已存在的索引关联自动删除策略，方法如下：</p>
+<p>zipkin-span索引设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">PUT http://120.76.251.149:9200/zipkin-span-*/_settings</span><br><span class="line">&#123;</span><br><span class="line">  &quot;index&quot;: &#123;</span><br><span class="line">    &quot;lifecycle&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;zipkin_delete_policy&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>zipkin-dependency索引设置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">PUT http://120.76.251.149:9200/zipkin-dependency-*/_settings</span><br><span class="line">&#123;</span><br><span class="line">  &quot;index&quot;: &#123;</span><br><span class="line">    &quot;lifecycle&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &quot;zipkin_delete_policy&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>索引生命周期检测自动删除的检测机制是10分钟执行一次<br><img src="/images/Zipkin/Zipkin_20251124_006.png" alt="Zipkin索引自动删除_01"></p>
+<h2><span id="验证"><span id="inline-blue">验证</span></span></h2><p><img src="/images/Zipkin/Zipkin_20251124_007.png" alt="Zipkin索引自动删除_02"></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>Elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker基于zipkin+sleuth实现链路追踪数据上报无效的排查过程</title>
     <url>/Docker/blogs/Docker%E5%9F%BA%E4%BA%8Ezipkin+sleuth%E5%AE%9E%E7%8E%B0%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E6%95%B0%E6%8D%AE%E4%B8%8A%E6%8A%A5%E6%97%A0%E6%95%88%E7%9A%84%E6%8E%92%E6%9F%A5%E8%BF%87%E7%A8%8B/</url>
     <content><![CDATA[<!-- toc -->
@@ -463,7 +505,8 @@
 <h2><span id="解决办法"><span id="inline-blue">解决办法</span></span></h2><p>更改Elasticsearch数据节点分片大小。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">PUT http://47.89.174.246:9200/_cluster/settings</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;persistent&quot;:</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;cluster.max_shards_per_node&quot;: 5000</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2><span id="验证"><span id="inline-blue">验证</span></span></h2><p><img src="/images/Zipkin/Zipkin_20251124_004.png" alt="Zipkin数据上报"></p>
+<h2><span id="验证"><span id="inline-blue">验证</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">GET http://120.76.251.149:9200/_cluster/settings</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/images/Zipkin/Zipkin_20251124_004.png" alt="Zipkin数据上报"><br><img src="/images/Zipkin/Zipkin_20251124_005.png" alt="Zipkin数据上报"></p>
 <p>参考：<a href="https://blog.csdn.net/u010383467/article/details/134702660">https://blog.csdn.net/u010383467/article/details/134702660</a></p>
 ]]></content>
       <categories>
@@ -1364,7 +1407,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#101;&#109;&#x71;&#x78;&#x31;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#46;&#x31;&#48;&#x30;">&#101;&#109;&#x71;&#x78;&#x31;&#x40;&#x31;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#46;&#x31;&#48;&#x30;</a><br><a href="mailto:&#110;&#x6f;&#x64;&#101;&#50;&#64;&#x62;&#114;&#x6f;&#x6b;&#101;&#x72;&#x2e;&#x65;&#x6d;&#x71;&#x78;&#46;&#105;&#111;">&#110;&#x6f;&#x64;&#101;&#50;&#64;&#x62;&#114;&#x6f;&#x6b;&#101;&#x72;&#x2e;&#x65;&#x6d;&#x71;&#x78;&#46;&#105;&#111;</a><br><a href="mailto:&#x65;&#x6d;&#113;&#x78;&#64;&#x31;&#48;&#x2e;&#x30;&#x2e;&#x30;&#46;&#49;">&#x65;&#x6d;&#113;&#x78;&#64;&#x31;&#48;&#x2e;&#x30;&#x2e;&#x30;&#46;&#49;</a></p>
+<p><a href="mailto:&#101;&#109;&#113;&#x78;&#49;&#x40;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#46;&#49;&#48;&#x30;">&#101;&#109;&#113;&#x78;&#49;&#x40;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#56;&#46;&#x31;&#46;&#49;&#48;&#x30;</a><br><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#50;&#64;&#98;&#x72;&#x6f;&#107;&#101;&#114;&#x2e;&#101;&#x6d;&#x71;&#x78;&#x2e;&#105;&#x6f;">&#110;&#x6f;&#x64;&#x65;&#50;&#64;&#98;&#x72;&#x6f;&#107;&#101;&#114;&#x2e;&#101;&#x6d;&#x71;&#x78;&#x2e;&#105;&#x6f;</a><br><a href="mailto:&#x65;&#x6d;&#x71;&#x78;&#64;&#49;&#x30;&#46;&#48;&#x2e;&#x30;&#46;&#49;">&#x65;&#x6d;&#x71;&#x78;&#64;&#49;&#x30;&#46;&#48;&#x2e;&#x30;&#46;&#49;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -4088,7 +4131,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#48;&#x30;&#46;&#x31;&#48;&#49;">&#114;&#x6f;&#x6f;&#116;&#64;&#x31;&#x39;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#x31;&#48;&#x30;&#46;&#x31;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#111;&#111;&#x74;&#64;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#x31;&#x30;&#x30;&#x2e;&#x31;&#x30;&#x31;">&#x72;&#111;&#111;&#x74;&#64;&#x31;&#x39;&#50;&#46;&#49;&#54;&#56;&#46;&#x31;&#x30;&#x30;&#x2e;&#x31;&#x30;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -6459,6 +6502,29 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Hexo文章添加阴影效果</title>
+    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
+    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开themes/next/source/css/_custom/custom.styl文件添加:</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> &#123;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo文章置顶功能</title>
     <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h2><span id="移除默认安装的插件"><span id="inline-blue">移除默认安装的插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br></pre></td></tr></table></figure>
@@ -6475,29 +6541,6 @@ tmp – 临时文件</code></pre>
 
 <p>如下图所示位置：</p>
 <p><img src="/images/hexo/next/hexo_next_2021_01_10_002.png" alt="hexo文章置顶图标"></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo文章添加阴影效果</title>
-    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
-    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开themes/next/source/css/_custom/custom.styl文件添加:</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> &#123;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -6551,28 +6594,6 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Hexo安装本地搜索功能</title>
-    <url>/Hexo/blogs/Hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-
-
-<h2><span id="新增配置"><span id="inline-blue">新增配置</span></span></h2><p>修改hexo/_config.yml站点配置文件，新增以下内容到任意位置：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">path: search.xml</span><br><span class="line">field: post</span><br><span class="line">format: html</span><br><span class="line">limit: 10000</span><br></pre></td></tr></table></figure>
-
-<h2><span id="修改主题配置文件开启本地搜索功能"><span id="inline-blue">修改主题配置文件，开启本地搜索功能</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Local search</span></span><br><span class="line">local_search:</span><br><span class="line">enable: true  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo安装渲染引擎</title>
     <url>/Hexo/blogs/Hexo%E5%AE%89%E8%A3%85%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E/</url>
     <content><![CDATA[<h2><span id="卸载默认引擎"><span id="inline-blue">卸载默认引擎</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked –save</span><br></pre></td></tr></table></figure>
@@ -6587,6 +6608,28 @@ tmp – 临时文件</code></pre>
 <h2><span id="开启next主题math支持"><span id="inline-blue">开启NexT主题math支持</span></span></h2><p>修改next主题下_config.xml</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Math Formulas Render Support</span></span><br><span class="line">math:</span><br><span class="line"><span class="meta">  #</span><span class="bash"> Default (<span class="literal">true</span>) will load mathjax / katex script on demand.</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> That is it only render those page <span class="built_in">which</span> has `mathjax: <span class="literal">true</span>` <span class="keyword">in</span> Front-matter.</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> If you <span class="built_in">set</span> it to <span class="literal">false</span>, it will load mathjax / katex srcipt EVERY PAGE.</span></span><br><span class="line">  per_page: true</span><br><span class="line"></span><br><span class="line"><span class="meta">  #</span><span class="bash"> hexo-renderer-pandoc (or hexo-renderer-kramed) required <span class="keyword">for</span> full MathJax support.</span></span><br><span class="line">  mathjax:</span><br><span class="line">    enable: false</span><br><span class="line">    # See: https://mhchem.github.io/MathJax-mhchem/</span><br><span class="line">    mhchem: false</span><br><span class="line"></span><br><span class="line"><span class="meta">  #</span><span class="bash"> hexo-renderer-markdown-it-plus (or hexo-renderer-markdown-it with markdown-it-katex plugin) required <span class="keyword">for</span> full Katex support.</span></span><br><span class="line">  katex:</span><br><span class="line">    enable: true</span><br><span class="line">    # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex</span><br><span class="line">    copy_tex: false</span><br></pre></td></tr></table></figure>
 
+
+
+
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo安装本地搜索功能</title>
+    <url>/Hexo/blogs/Hexo%E5%AE%89%E8%A3%85%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+
+
+<h2><span id="新增配置"><span id="inline-blue">新增配置</span></span></h2><p>修改hexo/_config.yml站点配置文件，新增以下内容到任意位置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">path: search.xml</span><br><span class="line">field: post</span><br><span class="line">format: html</span><br><span class="line">limit: 10000</span><br></pre></td></tr></table></figure>
+
+<h2><span id="修改主题配置文件开启本地搜索功能"><span id="inline-blue">修改主题配置文件，开启本地搜索功能</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Local search</span></span><br><span class="line">local_search:</span><br><span class="line">enable: true  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 

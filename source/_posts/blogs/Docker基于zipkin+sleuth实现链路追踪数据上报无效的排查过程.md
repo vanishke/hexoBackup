@@ -165,7 +165,13 @@ PUT http://47.89.174.246:9200/_cluster/settings
 ```
 
 ## <span id="inline-blue">验证</span>
+
+```shell
+GET http://120.76.251.149:9200/_cluster/settings
+
+```
 ![Zipkin数据上报](/images/Zipkin/Zipkin_20251124_004.png)
+![Zipkin数据上报](/images/Zipkin/Zipkin_20251124_005.png)
 
 
 参考：https://blog.csdn.net/u010383467/article/details/134702660
