@@ -389,6 +389,44 @@
       </tags>
   </entry>
   <entry>
+    <title>knife4j同时接收文件和json对象展示异常的解决办法</title>
+    <url>/Knife4j/blogs/knife4j%E5%90%8C%E6%97%B6%E6%8E%A5%E6%94%B6%E6%96%87%E4%BB%B6%E5%92%8Cjson%E5%AF%B9%E8%B1%A1%E5%B1%95%E7%A4%BA%E5%BC%82%E5%B8%B8%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">现象</span></a></li>
+<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95span"><span id="inline-blue">解决办法</span></a></li>
+<li><a href="#span-idinline-blue%E9%AA%8C%E8%AF%81span"><span id="inline-blue">验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>knife4j-openapi3-spring-boot-starter：4.5.0<br>knife4j-gateway-spring-boot-starter：4.5.0<br>springdoc-openapi-ui: 1.7.0<br>Springboot: 2.6.6<br>Springcloud: 2021.0.6<br>JDK: 1.8</p>
+<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>微服务网关统一集成knife4j依赖，实现微服务模块在线接口文档，模块接口参数需要同时传递接口json对象和文件时，在线接口文档展示错乱。</p>
+<p>微服务对应模块knife4j相关配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">knife4j:</span></span><br><span class="line">  <span class="attr">basic:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">admin</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">admin</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">production:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">setting:</span></span><br><span class="line">    <span class="attr">enable-filter-multipart-apis:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">language:</span> <span class="string">zh_cn</span></span><br><span class="line"></span><br><span class="line"><span class="attr">springdoc:</span></span><br><span class="line">  <span class="comment">#default-flat-param-object: true</span></span><br><span class="line">  <span class="attr">swagger-ui:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">/v3/api-docs</span></span><br><span class="line">    <span class="attr">config-url:</span> <span class="string">/v3/api-docs/swagger-config</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">license:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">Apache</span> <span class="string">License,</span> <span class="string">Version</span> <span class="number">2.0</span></span><br><span class="line">    <span class="attr">license-url:</span> <span class="string">https://www.apache.org/licenses/LICENSE-2.0.html</span></span><br><span class="line">  <span class="attr">contact:</span></span><br><span class="line">    <span class="attr">email:</span> <span class="string">test.com</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">test.com</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">test.com</span></span><br><span class="line">  <span class="attr">packages-to-scan:</span> <span class="string">com.test.adminbiz.controller</span></span><br><span class="line">  <span class="attr">api-docs:</span></span><br><span class="line">    <span class="attr">version:</span> <span class="string">openapi_3_0</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">termsOfService:</span> <span class="string">服务条款</span></span><br><span class="line">  <span class="attr">version:</span> <span class="string">V1.0</span></span><br><span class="line">  <span class="attr">title:</span> <span class="string">ffcs-admin-biz</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">admin后台业务接口</span></span><br></pre></td></tr></table></figure>
+
+<p>开启default-flat-param-object配置，则接口存在文件类型的参数在在线文档上不可见，原因是springdoc对应/v3/api-docs接口获取到的参数不正确，导致UI展现失败，如下图所示：<br><img src="/images/Knife4j/Knife4j_20251126_001.png" alt="Knife4j在线文档_01"></p>
+<p>关闭default-flat-param-object配置，则接口传递json对象在UI上展现异常，如下图所示：<br><img src="/images/Knife4j/Knife4j_20251126_002.png" alt="Knife4j在线文档_01"></p>
+<h1><span id="解决办法"><span id="inline-blue">解决办法</span></span></h1><p>如果想要同时传递对象和文件，解决办法是关闭default-flat-param-object配置，同时在传递对象参数上添加@ParameterObject注解，这样使得对象参数可以以表单参数的形式展现。</p>
+<p>接口传递对象定义如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&#123;&quot;/page&quot;&#125;)</span></span><br><span class="line">    <span class="meta">@Parameters(&#123;</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;versionNo&quot;, description = &quot;版本号&quot;,in = ParameterIn.QUERY),</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;updateType&quot;, description = &quot;更新方式 0:强制更新；1：非强制更新&quot;,in = ParameterIn.QUERY),</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;hardwareType&quot;, description = &quot;硬件类型 0：平板；1：手机&quot;,in = ParameterIn.QUERY),</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;operatingSystem&quot;, description = &quot;操作系统 0：IOS 1：安卓&quot;,in = ParameterIn.QUERY),</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;channelType&quot;, description = &quot;渠道类型（取数据字典）&quot;,in = ParameterIn.QUERY),</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;publishStatus&quot;, description = &quot;发布状态&quot;,in = ParameterIn.QUERY),</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;current&quot;, description = &quot;页数&quot;,in = ParameterIn.QUERY),</span></span><br><span class="line"><span class="meta">            @Parameter(name=&quot;size&quot;, description = &quot;每页大小&quot;,in = ParameterIn.QUERY)</span></span><br><span class="line"><span class="meta">    &#125;)</span></span><br><span class="line">    <span class="meta">@Operation(summary = &quot;分页查询APP版本&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ApiResponse <span class="title">page</span><span class="params">( <span class="meta">@ParameterObject</span>  AppVersion version,</span></span></span><br><span class="line"><span class="function"><span class="params">                            <span class="meta">@RequestParam(name = &quot;current&quot;,required = false)</span>Long current,</span></span></span><br><span class="line"><span class="function"><span class="params">                            <span class="meta">@RequestParam(name = &quot;size&quot;,required = false)</span>Long size)</span></span>&#123;</span><br><span class="line">        Page&lt;AppVersion&gt; page = PageUtil.getPage(current,size);</span><br><span class="line">        <span class="keyword">return</span> success(<span class="keyword">this</span>.appVersionService.findPage(page, version));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接口传递文件定义如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&#123;&quot;upload/&#123;id&#125;&quot;&#125;)</span></span><br><span class="line">    <span class="meta">@PreAuthorize(&quot;hasAnyAuthority(&#x27;version:upload&#x27;)&quot;)</span></span><br><span class="line">    <span class="meta">@Operation(summary = &quot;上传文件&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ApiResponse <span class="title">upload</span><span class="params">(<span class="meta">@RequestPart</span> MultipartFile file, <span class="meta">@PathVariable</span> Long id)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> success(<span class="keyword">this</span>.appVersionService.upload(file, id));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1><span id="验证"><span id="inline-blue">验证</span></span></h1><p><img src="/images/Knife4j/Knife4j_20251126_003.png" alt="Knife4j在线文档_01"><br><img src="/images/Knife4j/Knife4j_20251126_004.png" alt="Knife4j在线文档_01"></p>
+<p>参考：<a href="https://github.com/xiaoymin/knife4j/issues/922">https://github.com/xiaoymin/knife4j/issues/922</a></p>
+]]></content>
+      <categories>
+        <category>Knife4j</category>
+      </categories>
+      <tags>
+        <tag>Knife4j</tag>
+        <tag>Springdoc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Elasticsearch基于策略实现索引自动删除</title>
     <url>/Elasticsearch/blogs/Elasticsearch%E5%9F%BA%E4%BA%8E%E7%AD%96%E7%95%A5%E5%AE%9E%E7%8E%B0%E7%B4%A2%E5%BC%95%E8%87%AA%E5%8A%A8%E5%88%A0%E9%99%A4/</url>
     <content><![CDATA[<!-- toc -->
@@ -582,38 +620,6 @@
       </tags>
   </entry>
   <entry>
-    <title>jboss-4.2.3部署应用程序log4j日志冲突解决办法</title>
-    <url>/Jboss/blogs/jboss-4.2.3%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8Flog4j%E6%97%A5%E5%BF%97%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">现象</span></a></li>
-<li><a href="#span-idinline-blue%E5%8E%9F%E5%9B%A0span"><span id="inline-blue">原因</span></a></li>
-<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95span"><span id="inline-blue">解决办法</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>jboss-4.2.3容器部署java应用程序，启动日志出现如下报错：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR A &quot;org.jboss.logging.appender.FileAppender&quot; object is not assignable to a &quot;org.apache.log4j.Appender&quot; variable.</span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR The class &quot;org.apache.log4j.Appender&quot; was loaded by </span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR [WebappClassLoader</span><br><span class="line">  delegate: false</span><br><span class="line">  repositories:</span><br><span class="line">    /WEB-INF/classes/</span><br><span class="line"><span class="meta">----------&gt;</span><span class="bash"> Parent Classloader:</span></span><br><span class="line">java.net.FactoryURLClassLoader@5a347448</span><br><span class="line">] whereas object of type </span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR &quot;org.jboss.logging.appender.FileAppender&quot; was loaded by [org.jboss.system.server.NoAnnotationURLClassLoader@26021b6d].</span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR Could not instantiate appender named &quot;FILE&quot;.</span><br></pre></td></tr></table></figure>
-
-<h1><span id="原因"><span id="inline-blue">原因</span></span></h1><p>jboss自身日志系统已经集成log4j,并且jboss和应用程序使用的日志收集器不一致，导致转换失败，jboss自身集成log4j的配置文件路径如下：<br>/usr/local//jboss-4.2.3.GA/server/default/conf/jboss-log4j.xml</p>
-<p>关键配置：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!-- A time/date based rolling appender --&gt;</span><br><span class="line">&lt;appender name=&quot;FILE&quot; class=&quot;org.jboss.logging.appender.DailyRollingFileAppender&quot;&gt;</span><br><span class="line">   &lt;errorHandler class=&quot;org.jboss.logging.util.OnlyOnceErrorHandler&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;File&quot; value=&quot;$&#123;jboss.server.log.dir&#125;/server.log&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;Append&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;Threshold&quot; value=&quot;INFO&quot;/&gt;</span><br><span class="line">&lt;param name=&quot;DatePattern&quot; value=&quot;&#x27;.&#x27;yyyy-MM-dd&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;layout class=&quot;org.apache.log4j.PatternLayout&quot;&gt;</span><br><span class="line">      &lt;param name=&quot;ConversionPattern&quot; value=&quot;%d %-5p [%c] (%t) %m%n&quot;/&gt;</span><br><span class="line">   &lt;/layout&gt;</span><br><span class="line">&lt;/appender&gt; </span><br></pre></td></tr></table></figure>
-
-<h1><span id="解决办法"><span id="inline-blue">解决办法</span></span></h1><p>将/usr/local/jboss-4.2.3.GA/lib下jboss-common.jar依赖拷贝到应用程序lib目录下，重启jboss，日志输出即可恢复正常，如果需要获取jboss容器自身jboss-common.jar依赖版本信息，可以通过java反编译工具luyten-0.5.3.jar本地打开。<br><img src="/images/Jboss/20251114/Jboss_20251114_001.png" alt="jboss-common版本信息查看"></p>
-<p>maven项目添加如下依赖坐标：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jboss<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jboss-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.1.GA<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Jboss</category>
-      </categories>
-      <tags>
-        <tag>Jboss</tag>
-        <tag>Log4j</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>apksigner签名工具配置方法</title>
     <url>/Apksigner/blogs/apksigner%E7%AD%BE%E5%90%8D%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<!-- toc -->
@@ -683,6 +689,38 @@
       <tags>
         <tag>Java</tag>
         <tag>Apksigner</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jboss-4.2.3部署应用程序log4j日志冲突解决办法</title>
+    <url>/Jboss/blogs/jboss-4.2.3%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8Flog4j%E6%97%A5%E5%BF%97%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">现象</span></a></li>
+<li><a href="#span-idinline-blue%E5%8E%9F%E5%9B%A0span"><span id="inline-blue">原因</span></a></li>
+<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95span"><span id="inline-blue">解决办法</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="现象"><span id="inline-blue">现象</span></span></h1><p>jboss-4.2.3容器部署java应用程序，启动日志出现如下报错：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR A &quot;org.jboss.logging.appender.FileAppender&quot; object is not assignable to a &quot;org.apache.log4j.Appender&quot; variable.</span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR The class &quot;org.apache.log4j.Appender&quot; was loaded by </span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR [WebappClassLoader</span><br><span class="line">  delegate: false</span><br><span class="line">  repositories:</span><br><span class="line">    /WEB-INF/classes/</span><br><span class="line"><span class="meta">----------&gt;</span><span class="bash"> Parent Classloader:</span></span><br><span class="line">java.net.FactoryURLClassLoader@5a347448</span><br><span class="line">] whereas object of type </span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR &quot;org.jboss.logging.appender.FileAppender&quot; was loaded by [org.jboss.system.server.NoAnnotationURLClassLoader@26021b6d].</span><br><span class="line">2022-12-13 11:03:22,436 ERROR [STDERR] (main) log4j:ERROR Could not instantiate appender named &quot;FILE&quot;.</span><br></pre></td></tr></table></figure>
+
+<h1><span id="原因"><span id="inline-blue">原因</span></span></h1><p>jboss自身日志系统已经集成log4j,并且jboss和应用程序使用的日志收集器不一致，导致转换失败，jboss自身集成log4j的配置文件路径如下：<br>/usr/local//jboss-4.2.3.GA/server/default/conf/jboss-log4j.xml</p>
+<p>关键配置：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!-- A time/date based rolling appender --&gt;</span><br><span class="line">&lt;appender name=&quot;FILE&quot; class=&quot;org.jboss.logging.appender.DailyRollingFileAppender&quot;&gt;</span><br><span class="line">   &lt;errorHandler class=&quot;org.jboss.logging.util.OnlyOnceErrorHandler&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;File&quot; value=&quot;$&#123;jboss.server.log.dir&#125;/server.log&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;Append&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">   &lt;param name=&quot;Threshold&quot; value=&quot;INFO&quot;/&gt;</span><br><span class="line">&lt;param name=&quot;DatePattern&quot; value=&quot;&#x27;.&#x27;yyyy-MM-dd&quot;/&gt;</span><br><span class="line"></span><br><span class="line">   &lt;layout class=&quot;org.apache.log4j.PatternLayout&quot;&gt;</span><br><span class="line">      &lt;param name=&quot;ConversionPattern&quot; value=&quot;%d %-5p [%c] (%t) %m%n&quot;/&gt;</span><br><span class="line">   &lt;/layout&gt;</span><br><span class="line">&lt;/appender&gt; </span><br></pre></td></tr></table></figure>
+
+<h1><span id="解决办法"><span id="inline-blue">解决办法</span></span></h1><p>将/usr/local/jboss-4.2.3.GA/lib下jboss-common.jar依赖拷贝到应用程序lib目录下，重启jboss，日志输出即可恢复正常，如果需要获取jboss容器自身jboss-common.jar依赖版本信息，可以通过java反编译工具luyten-0.5.3.jar本地打开。<br><img src="/images/Jboss/20251114/Jboss_20251114_001.png" alt="jboss-common版本信息查看"></p>
+<p>maven项目添加如下依赖坐标：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>jboss<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jboss-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.1.GA<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Jboss</category>
+      </categories>
+      <tags>
+        <tag>Jboss</tag>
+        <tag>Log4j</tag>
       </tags>
   </entry>
   <entry>
@@ -1407,7 +1445,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#x65;&#109;&#x71;&#120;&#x31;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#49;&#46;&#x31;&#48;&#x30;">&#x65;&#109;&#x71;&#120;&#x31;&#64;&#x31;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#49;&#46;&#x31;&#48;&#x30;</a><br><a href="mailto:&#x6e;&#x6f;&#100;&#101;&#50;&#64;&#98;&#114;&#x6f;&#x6b;&#x65;&#114;&#x2e;&#101;&#x6d;&#x71;&#120;&#x2e;&#x69;&#x6f;">&#x6e;&#x6f;&#100;&#101;&#50;&#64;&#98;&#114;&#x6f;&#x6b;&#x65;&#114;&#x2e;&#101;&#x6d;&#x71;&#120;&#x2e;&#x69;&#x6f;</a><br><a href="mailto:&#101;&#x6d;&#x71;&#x78;&#64;&#x31;&#x30;&#x2e;&#x30;&#46;&#48;&#x2e;&#49;">&#101;&#x6d;&#x71;&#x78;&#64;&#x31;&#x30;&#x2e;&#x30;&#46;&#48;&#x2e;&#49;</a></p>
+<p><a href="mailto:&#x65;&#109;&#x71;&#120;&#49;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#x31;&#46;&#49;&#48;&#48;">&#x65;&#109;&#x71;&#120;&#49;&#x40;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#x31;&#46;&#49;&#48;&#48;</a><br><a href="mailto:&#x6e;&#111;&#100;&#x65;&#x32;&#x40;&#98;&#114;&#x6f;&#107;&#x65;&#114;&#x2e;&#101;&#x6d;&#x71;&#120;&#x2e;&#x69;&#x6f;">&#x6e;&#111;&#100;&#x65;&#x32;&#x40;&#98;&#114;&#x6f;&#107;&#x65;&#114;&#x2e;&#101;&#x6d;&#x71;&#120;&#x2e;&#x69;&#x6f;</a><br><a href="mailto:&#x65;&#109;&#113;&#x78;&#x40;&#49;&#48;&#46;&#48;&#x2e;&#x30;&#x2e;&#49;">&#x65;&#109;&#113;&#x78;&#x40;&#49;&#48;&#46;&#48;&#x2e;&#x30;&#x2e;&#49;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -3088,8 +3126,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>Java</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>Lombok</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -4131,7 +4169,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#48;&#x30;&#46;&#49;&#48;&#x31;">&#x72;&#x6f;&#111;&#116;&#64;&#x31;&#57;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#48;&#x30;&#46;&#49;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#46;&#49;&#48;&#48;&#46;&#49;&#x30;&#49;">&#114;&#111;&#x6f;&#x74;&#64;&#x31;&#x39;&#50;&#46;&#49;&#x36;&#x38;&#46;&#49;&#48;&#48;&#46;&#49;&#x30;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -7525,6 +7563,36 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>windows注册Elasticsearch服务</title>
+    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch下载</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch注册</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch服务自启动设置</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch服务验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
+<h1><span id="elasticsearch下载"><span id="inline-blue">elasticsearch下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
+<h1><span id="elasticsearch注册"><span id="inline-blue">elasticsearch注册</span></span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
+<p>2.执行注册服务命令 elasticsearch.bat install</p>
+<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
+<h1><span id="elasticsearch服务自启动设置"><span id="inline-blue">elasticsearch服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
+<h1><span id="elasticsearch服务验证"><span id="inline-blue">elasticsearch服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>Elasticsearch</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows注册Nginx服务</title>
     <url>/Nginx/blogs/Windows%E6%B3%A8%E5%86%8CNginx%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<!-- toc -->
@@ -7557,36 +7625,6 @@ tmp – 临时文件</code></pre>
       </categories>
       <tags>
         <tag>Nginx</tag>
-        <tag>Windows</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows注册Elasticsearch服务</title>
-    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch下载</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch注册</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch服务自启动设置</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch服务验证</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch下载"><span id="inline-blue">elasticsearch下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的elasticsearch-2.4.4版本</p>
-<h1><span id="elasticsearch注册"><span id="inline-blue">elasticsearch注册</span></span></h1><p>1.运行windows cmd命令，进入nginx安装目录D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
-<p>2.执行注册服务命令 elasticsearch.bat install</p>
-<p>3.如果需要卸载elasticsearch服务，执行elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch服务自启动设置"><span id="inline-blue">elasticsearch服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch服务验证"><span id="inline-blue">elasticsearch服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>Elasticsearch</tag>
         <tag>Windows</tag>
       </tags>
   </entry>
@@ -7647,31 +7685,6 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Nginx常用启动命令</title>
-    <url>/Nginx/blogs/Nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E5%90%AF%E5%8A%A8span"><span id="inline-blue">启动</span></a></li>
-<li><a href="#span-idinline-blue%E5%81%9C%E6%AD%A2span"><span id="inline-blue">停止</span></a></li>
-<li><a href="#span-idinline-blue%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDspan"><span id="inline-blue">重新加载</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="启动"><span id="inline-blue">启动</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx </span><br><span class="line">./nginx -c dir(指定配置文件所在路径)</span><br></pre></td></tr></table></figure>
-
-<h1><span id="停止"><span id="inline-blue">停止</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s quit /nginx处理完任务后停止</span><br><span class="line">./nginx -s stop /强制停止nginx进程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1><span id="重新加载"><span id="inline-blue">重新加载</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s reload /重新加载nginx.cnf配置文件</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Nginx</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nginx基本命令</title>
     <url>/Nginx/blogs/Nginx%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<!-- toc -->
@@ -7710,6 +7723,31 @@ tmp – 临时文件</code></pre>
       <tags>
         <tag>Nginx</tag>
         <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx常用启动命令</title>
+    <url>/Nginx/blogs/Nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E5%90%AF%E5%8A%A8span"><span id="inline-blue">启动</span></a></li>
+<li><a href="#span-idinline-blue%E5%81%9C%E6%AD%A2span"><span id="inline-blue">停止</span></a></li>
+<li><a href="#span-idinline-blue%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDspan"><span id="inline-blue">重新加载</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="启动"><span id="inline-blue">启动</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx </span><br><span class="line">./nginx -c dir(指定配置文件所在路径)</span><br></pre></td></tr></table></figure>
+
+<h1><span id="停止"><span id="inline-blue">停止</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s quit /nginx处理完任务后停止</span><br><span class="line">./nginx -s stop /强制停止nginx进程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1><span id="重新加载"><span id="inline-blue">重新加载</span></span></h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nginx -s reload /重新加载nginx.cnf配置文件</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Nginx</tag>
       </tags>
   </entry>
   <entry>
