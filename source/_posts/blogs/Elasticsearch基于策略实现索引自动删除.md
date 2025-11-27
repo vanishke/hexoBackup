@@ -4,12 +4,17 @@ categories:
 	- Elasticsearch
 tags: 
 	- Elasticsearch
+	- Zipkin
 
 date: 2025-11-24 17:34:09
 updated: 2025-11-24 17:34:09
 ---
 <!-- toc -->
 
+# <span id="inline-blue">环境</span>
+
+Zipkin: zipkin-server-2.26.0
+Elasticsearch: 8.8.0
 # <span id="inline-blue">背景</span>
 
 微服务基于zipkin上述微服务调用链路追踪信息，数据存储Elasticsearch之后没有自动删除机制导致数据越来越多，已经快要超过数据节点设置的分片大小导致数据写入失败，接下来借助Elasticsearch生命周期管理实现自动清除过期的索引。
