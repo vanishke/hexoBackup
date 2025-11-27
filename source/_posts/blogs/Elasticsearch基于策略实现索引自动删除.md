@@ -39,7 +39,12 @@ PUT http://120.76.251.149:9200/_ilm/policy/zipkin_delete_policy
 
 ## <span id="inline-blue">索引模板关联策略</span>
 
-zipkin-dependency索引模板设置
+Elasticsearch索引模板关联删除策略一定是在模板完整配置内容中添加删除策略才是正确的方法，如果使用以下方式进行关联，虽然策略能够正常关联上，但这种设置会导致其他有关索引动态字段映射的相关内容全部丢失，导致zipkin后台查询总是报错，通过比对不同日期的索引发现索引字段traceId字段的类型不一致。
+
+### <span id="inline-blue">zipkin-dependency_template</span>
+
+错误的方式:
+
 ```shell
 PUT http://120.76.251.149:9200/_template/zipkin-dependency_template
 {
@@ -57,7 +62,75 @@ PUT http://120.76.251.149:9200/_template/zipkin-dependency_template
 }
 ```
 
-zipkin-span索引模板设置
+正确的方式:
+
+先查询出对应模板的映射设置
+
+```shell
+GET http://120.76.251.149:9200/_template/zipkin-dependency_template
+{
+  "zipkin-dependency_template": {
+    "order": 0,
+    "index_patterns": [
+      "zipkin-dependency-*"
+    ],
+    "settings": {
+      "index": {
+        "requests": {
+          "cache": {
+            "enable": "true"
+          }
+        },
+        "number_of_shards": "3",
+        "number_of_replicas": "0"
+      }
+    },
+    "mappings": {
+      "enabled": false
+    },
+    "aliases": { }
+  }
+}
+```
+
+为zipkin-dependency_template索引模板添加删除策略
+
+在上述查询获取到的索引模板内容添加索引删除策略，并将最外层的zipkin-dependency_template节点信息去除，然后执行以下命令
+
+```shell
+PUT http://120.76.251.149:9200/_template/zipkin-dependency_template
+{
+    "order": 0,
+    "index_patterns": [
+      "zipkin-dependency-*"
+    ],
+    "settings": {
+      "index": {
+				"lifecycle":
+				{
+					"name": "zipkin_delete_policy"
+				},
+        "number_of_shards": "3",
+        "number_of_replicas": "0",
+        "requests": {
+          "cache": {
+            "enable": "true"
+          }
+        }
+      }
+    },
+    "mappings": {
+      "enabled": false
+    },
+    "aliases": { }
+  }
+
+```
+
+### <span id="inline-blue">zipkin-span_template</span>
+
+错误的方式:
+
 ```shell
 PUT http://120.76.251.149:9200/_template/zipkin-span_template
 {
@@ -75,32 +148,197 @@ PUT http://120.76.251.149:9200/_template/zipkin-span_template
 }
 ```
 
-上述索引策略设置对后续自动生成的索引生效，之前已经存在的索引无效，将已存在的索引关联自动删除策略，方法如下：
+正确的方式:
 
-zipkin-span索引设置
+先查询出对应模板的映射设置
 
 ```shell
-PUT http://120.76.251.149:9200/zipkin-span-*/_settings
+GET http://120.76.251.149:9200/_template/zipkin-span_template
 {
-  "index": {
-    "lifecycle": {
-      "name": "zipkin_delete_policy"
-    }
+  "zipkin-span_template": {
+    "order": 0,
+    "index_patterns": [
+      "zipkin-span-*"
+    ],
+    "settings": {
+      "index": {
+        "requests": {
+          "cache": {
+            "enable": "true"
+          }
+        },
+        "number_of_shards": "3",
+        "number_of_replicas": "0"
+      }
+    },
+    "mappings": {
+      "_source": {
+        "excludes": [
+          "_q"
+        ]
+      },
+      "dynamic_templates": [
+        {
+          "strings": {
+            "mapping": {
+              "norms": false,
+              "ignore_above": 256,
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "properties": {
+        "traceId": {
+          "norms": false,
+          "type": "keyword"
+        },
+        "duration": {
+          "type": "long"
+        },
+        "remoteEndpoint": {
+          "dynamic": false,
+          "type": "object",
+          "properties": {
+            "serviceName": {
+              "norms": false,
+              "type": "keyword"
+            }
+          }
+        },
+        "localEndpoint": {
+          "dynamic": false,
+          "type": "object",
+          "properties": {
+            "serviceName": {
+              "norms": false,
+              "type": "keyword"
+            }
+          }
+        },
+        "_q": {
+          "norms": false,
+          "type": "keyword"
+        },
+        "timestamp_millis": {
+          "format": "epoch_millis",
+          "type": "date"
+        },
+        "name": {
+          "norms": false,
+          "type": "keyword"
+        },
+        "annotations": {
+          "enabled": false
+        },
+        "tags": {
+          "enabled": false
+        }
+      }
+    },
+    "aliases": { }
   }
 }
 ```
 
-zipkin-dependency索引设置
+为zipkin-span_template索引模板添加删除策略
+
+在上述查询获取到的索引模板内容添加索引删除策略，并将最外层的zipkin-span_template节点信息去除，然后执行以下命令
 
 ```shell
-PUT http://120.76.251.149:9200/zipkin-dependency-*/_settings
-{
-  "index": {
-    "lifecycle": {
-      "name": "zipkin_delete_policy"
-    }
+PUT http://120.76.251.149:9200/_template/zipkin-span_template
+ {
+    "order": 0,
+    "index_patterns": [
+      "zipkin-span-*"
+    ],
+    "settings": {
+      "index": {
+				"lifecycle":
+				{
+					"name": "zipkin_delete_policy"
+				},
+        "number_of_shards": "3",
+        "number_of_replicas": "0",
+        "requests": {
+          "cache": {
+            "enable": "true"
+          }
+        }
+      }
+    },
+    "mappings": {
+      "_source": {
+        "excludes": [
+          "_q"
+        ]
+      },
+      "dynamic_templates": [
+        {
+          "strings": {
+            "mapping": {
+              "norms": false,
+              "ignore_above": 256,
+              "type": "keyword"
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "properties": {
+        "traceId": {
+          "norms": false,
+          "type": "keyword"
+        },
+        "duration": {
+          "type": "long"
+        },
+        "remoteEndpoint": {
+          "dynamic": false,
+          "type": "object",
+          "properties": {
+            "serviceName": {
+              "norms": false,
+              "type": "keyword"
+            }
+          }
+        },
+        "localEndpoint": {
+          "dynamic": false,
+          "type": "object",
+          "properties": {
+            "serviceName": {
+              "norms": false,
+              "type": "keyword"
+            }
+          }
+        },
+        "_q": {
+          "norms": false,
+          "type": "keyword"
+        },
+        "timestamp_millis": {
+          "format": "epoch_millis",
+          "type": "date"
+        },
+        "name": {
+          "norms": false,
+          "type": "keyword"
+        },
+        "annotations": {
+          "enabled": false
+        },
+        "tags": {
+          "enabled": false
+        }
+      }
+    },
+    "aliases": { }
   }
-}
+
 ```
 
 索引生命周期检测自动删除的检测机制是10分钟执行一次
@@ -109,3 +347,6 @@ PUT http://120.76.251.149:9200/zipkin-dependency-*/_settings
 
 ## <span id="inline-blue">验证</span>
 ![Zipkin索引自动删除_02](/images/Zipkin/Zipkin_20251124_007.png)
+
+
+参考：https://github.com/openzipkin/zipkin-support/issues/23
