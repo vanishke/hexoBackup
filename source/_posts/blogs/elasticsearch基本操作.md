@@ -12,26 +12,42 @@ updated: 2024-06-13 10:34:23
 
 # <span id="inline-blue">查看所有索引信息</span>
 
-http://10.9.217.3:9200/_cat/indices
+http://10.9.216.14:9200/_cat/indices
 
 # <span id="inline-blue">查看指定索引映射Mapping详情</span>
 
-http://10.9.217.3:9200/${indexName}?pretty
+http://10.9.216.14:9200/${indexName}?pretty
 
 # <span id="inline-blue">创建索引</span>
 
-POST http://10.9.217.3:9200/${indexName}
+POST http://10.9.216.14:9200/${indexName}
 
 # <span id="inline-blue">删除索引</span>
 
-DELETE http://10.9.217.3:9200/${indexName}
+DELETE http://10.9.216.14:9200/${indexName}
+
+# <span id="inline-blue">查看模板配置</span>
+
+GET http://10.9.216.14:9200/_template/*
+
+# <span id="inline-blue">查看集群配置</span>
+
+GET http://10.9.216.14:9200/_cluster/settings
+
+# <span id="inline-blue">查看集群健康状态</span>
+
+GET http://10.9.216.14:9200/_cluster/health
+
+# <span id="inline-blue">查看节点索引分片状态</span>
+
+GET http://10.9.216.14:9200/_cat/shards?v&h=index,shard,prirep,state,unassigned.reason
 
 # <span id="inline-blue">创建索引mapping</span>
 
 ## <span id="inline-blue">2.4版本</span>
 
 ```json
-POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
+POST http://10.9.216.14:9200/coseelog/doc/_mapping?pretty
 {"doc": {
 	"properties":  {
 		"logId": {
@@ -67,7 +83,7 @@ POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
 ## <span id="inline-blue">5.0 版本</span>
 
 ```json
-mapping POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
+mapping POST http://10.9.216.14:9200/coseelog/doc/_mapping?pretty
 {"doc": {
 	"properties":  {
 		"logId": {
@@ -103,7 +119,7 @@ mapping POST http://10.9.217.3:9200/coseelog/doc/_mapping?pretty
 # <span id="inline-blue">创建模板</span>
 
 ```json
-POST http://120.77.8.170:9200/_template/vistors_flow_total/
+POST http://10.9.216.14:9200/_template/vistors_flow_total/
 
 {
 	"template" : "vistors_flow_total_*",
