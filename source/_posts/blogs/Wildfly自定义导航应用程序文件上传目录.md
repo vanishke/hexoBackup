@@ -59,4 +59,4 @@ Wildfly: 26.1.0-Final
 
 # <span id="inline-blue">验证</span>
 
-![WildFly自定义导航](/images/WildFly/WildFly_20251205_001.png)
+![WildFly自定义导航](/images/WildFly/20251205/WildFly_20251205_001.png)
