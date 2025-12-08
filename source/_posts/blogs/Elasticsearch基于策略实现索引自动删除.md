@@ -349,6 +349,35 @@ PUT http://120.76.251.149:9200/_template/zipkin-span_template
 索引生命周期检测自动删除的检测机制是10分钟执行一次
 ![Zipkin索引自动删除_01](/images/Zipkin/Zipkin_20251124_006.png)
 
+## <span id="inline-blue">已存在索引关联删除策略方式</span>
+
+上述操作只能保证新生成的索引能够自动关联删除策略，之前生成的索引无法自动应用上述删除策略，解决办法如下：
+
+zipkin-span相关索引：
+
+```shell
+PUT  http://47.89.174.246:9200/zipkin-span-*/_settings
+{
+  "index": {
+    "lifecycle": {
+      "name": "zipkin_delete_policy"
+    }
+  }
+}
+```
+
+zipkin-dependency相关索引：
+
+```shell
+PUT http://47.89.174.246:9200/zipkin-dependency-*/_settings
+{
+  "index": {
+    "lifecycle": {
+      "name": "zipkin_delete_policy"
+    }
+  }
+}
+```
 
 ## <span id="inline-blue">验证</span>
 ![Zipkin索引自动删除_02](/images/Zipkin/Zipkin_20251124_007.png)
