@@ -389,6 +389,88 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker部署微服务网关cpu占用问题排查</title>
+    <url>/Docker/blogs/Docker%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3cpu%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a></li>
+<li><a href="#span-idinline-blue%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90span"><span id="inline-blue">问题分析</span></a><ul>
+<li><a href="#span-idinline-bluezipkin%E4%B8%8A%E6%8A%A5%E6%8E%92%E6%9F%A5span"><span id="inline-blue">zipkin上报排查</span></a></li>
+<li><a href="#span-idinline-bluetcpdump%E6%8A%93%E5%8C%85span"><span id="inline-blue">tcpdump抓包</span></a></li>
+<li><a href="#span-idinline-bluejstack%E5%91%BD%E4%BB%A4%E6%8A%93%E5%8F%96%E5%BA%94%E7%94%A8%E5%A0%86%E6%A0%88span"><span id="inline-blue">jstack命令抓取应用堆栈</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0span"><span id="inline-blue">问题原因</span></a></li>
+<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95span"><span id="inline-blue">解决办法</span></a></li>
+<li><a href="#span-idinline-blue%E9%AA%8C%E8%AF%81span"><span id="inline-blue">验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>springCloud微服务网关通过docker部署之后，阿里云服务器经常出现cpu占用156%，但是查看业务请求日志，对应的请求日志很少，并发请求并不高，所以估计是网关服务自身的服务出现了问题。</p>
+<h1><span id="问题分析"><span id="inline-blue">问题分析</span></span></h1><h2><span id="zipkin上报排查"><span id="inline-blue">zipkin上报排查</span></span></h2><p>微服务因为集成zipkin+sleuth实现链路追踪，第一时间感觉可能是zipkin的问题导致cpu占用，所以直接在nacos上将zipkin的相关上报配置给关掉了，zipkin的配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">sleuth:</span></span><br><span class="line">  <span class="comment">#是否启用sleuth</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">sampler:</span></span><br><span class="line">      <span class="attr">probability:</span> <span class="number">1.0</span> </span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">client:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">zipkin:</span></span><br><span class="line">    <span class="attr">base-url:</span> <span class="string">http://10.9.216.12:9411/</span></span><br><span class="line">    <span class="attr">discoveryClientEnabled:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">sender:</span></span><br><span class="line">      <span class="attr">type:</span> <span class="string">web</span></span><br><span class="line">      <span class="attr">web:</span></span><br><span class="line">	  <span class="comment">#是否启用zipkin</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>修改完上述配置之后在portainer可视化容器管理后台重启了相关的微服务应用，cpu占用短暂下降之后立马就上升到了156%，这下意识到问题不是由zipkin引起的，继续排查。</p>
+<h2><span id="tcpdump抓包"><span id="inline-blue">tcpdump抓包</span></span></h2><p>因为应用部署在docker容器，并且容器基于openjdk:8-jre基础镜像构建，导致容器内部无法使用jdk排查应用堆栈命令jstack和top命令(依赖版本有冲突)，所以采用tcpdump抓包的方式先看看微服务网关和其他模块的交互请求。<br>使用的tcpdump命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tcpdump -i eth0  port 9001 -s 0 -vv -w /tmp/1.cap</span><br></pre></td></tr></table></figure>
+
+<p>上述tcpdump命令实现抓取经过9001端口和eth0网口的网络包，将抓取到的网络包拷贝到宿主机，使用docker cp命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker cp containerId:/tmp/q.cap  /usr/local/1.cap</span><br></pre></td></tr></table></figure>
+<p>拷贝命令中的containerId为容器ID，自行替换为实际部署微服务的容器ID，通过XFTP将网络包拷贝到本地，使用wireshark工具打开，http格式报文过滤后内容截图如下：<br><img src="/images/docker/20251209/docker_20251209_001.png" alt="微服务容器抓包"></p>
+<p>分析网关的请求交互没有出现特殊的请求内容，不应该出现cpu占用异常的情况。</p>
+<h2><span id="jstack命令抓取应用堆栈"><span id="inline-blue">jstack命令抓取应用堆栈</span></span></h2><p>微服务因为基于openjdk:8-jre基础镜像构建，导致容器内部无法使用jdk排查应用堆栈命令jstack和top命令,下载第三方轻量工具jattach实现对java应用程序堆栈的抓取，配置jattach命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">containerId替换为实际容器ID</span></span><br><span class="line">docker exec -it containerId /bin/bash</span><br><span class="line"></span><br><span class="line">wget https://github.com/apangin/jattach/releases/download/v1.5/jattach -O /usr/bin/jattach</span><br><span class="line"></span><br><span class="line">chmod +x /usr/bin/jattach</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查询容器内java进程pid</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">containerId替换为实际容器ID</span></span><br><span class="line">docker exec -it containerId /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找占用9001端口的进程PID</span></span><br><span class="line">netstat -tlnp | grep 9001</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">输出</span></span><br><span class="line">tcp6       0      0 :::9001                 :::*                    LISTEN      8/java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>打印java进程堆栈</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">containerId替换为实际容器ID</span></span><br><span class="line">docker exec -it containerId /bin/bash</span><br><span class="line"></span><br><span class="line">jattach 8 threaddump  &gt; /tmp/java_stack_force.log</span><br></pre></td></tr></table></figure>
+
+<p>获取到java应用程序堆栈之后需要定位到cpu占用高的对应线程，如果容器内top命令可用的情况下，显示占用高的线程命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">containerId替换为实际容器ID</span></span><br><span class="line">docker exec -it containerId /bin/bash</span><br><span class="line"></span><br><span class="line">top -H -p 8</span><br></pre></td></tr></table></figure>
+
+<p>top命令不可用的情况下，容器内使用如下命令输出cpu占用线程详情</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"></span><br><span class="line">PID=8</span><br><span class="line">for tid in $(ls /proc/$PID/task); do</span><br><span class="line">    utime=$(cat /proc/$PID/task/$tid/stat | awk &#x27;&#123;print $14&#125;&#x27;)</span><br><span class="line">    stime=$(cat /proc/$PID/task/$tid/stat | awk &#x27;&#123;print $15&#125;&#x27;)</span><br><span class="line">    total=$((utime + stime))</span><br><span class="line">    echo &quot;线程ID: $tid, CPU耗时: $total&quot;</span><br><span class="line">done | sort -k4 -rn | head -5</span><br></pre></td></tr></table></figure>
+<p>上述命令可以在容器内保存为cpu_usage.sh脚本，然后通过sh  cpu_usage.sh 执行获取到cpu占用高的线程<br>输出内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">线程ID: 22, CPU耗时: 3250</span><br><span class="line">线程ID: 38, CPU耗时: 883</span><br><span class="line">线程ID: 9, CPU耗时: 868</span><br><span class="line">线程ID: 23, CPU耗时: 803</span><br><span class="line">线程ID: 86, CPU耗时: 203</span><br></pre></td></tr></table></figure>
+
+<p>上述命令得到线程占用高的线程id之后需要转换为16进制，以便通过grep命令搜索堆栈中对应线程的详细内容。</p>
+<p>线程ID转换为16进制的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">printf &quot;%x\n&quot;  线程ID</span><br></pre></td></tr></table></figure>
+
+<p>查找java堆栈中对应线程ID的内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">假设16进制的线程ID为56</span></span><br><span class="line">grep -A 10 -B 10 &quot;0x56&quot; /tmp/java_stack_force.log</span><br></pre></td></tr></table></figure>
+
+<p>对应cpu占用高的线程详情如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">&quot;XNIO-1 I/O-2&quot; #74 prio=5 os_prio=0 tid=0x00007fbee66d1000 nid=0x56 runnable [0x00007fbe8f0ef000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">        at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)</span><br><span class="line">        at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)</span><br><span class="line">        at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)</span><br><span class="line">        at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)</span><br><span class="line">        - locked &lt;0x0000000081104310&gt; (a sun.nio.ch.Util$3)</span><br><span class="line">        - locked &lt;0x0000000081104300&gt; (a java.util.Collections$UnmodifiableSet)</span><br><span class="line">        - locked &lt;0x0000000081104320&gt; (a sun.nio.ch.EPollSelectorImpl)</span><br><span class="line">        at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)</span><br><span class="line">        at org.xnio.nio.WorkerThread.run(WorkerThread.java:551)</span><br><span class="line"></span><br><span class="line">&quot;XNIO-1 I/O-1&quot; #73 prio=5 os_prio=0 tid=0x00007fbee66d0000 nid=0x55 runnable [0x00007fbe8f1f0000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">        at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)</span><br><span class="line">        at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)</span><br><span class="line">        at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)</span><br><span class="line">        at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)</span><br><span class="line">        - locked &lt;0x0000000081104688&gt; (a sun.nio.ch.Util$3)</span><br><span class="line">        - locked &lt;0x0000000081104678&gt; (a java.util.Collections$UnmodifiableSet)</span><br><span class="line">        - locked &lt;0x0000000081104630&gt; (a sun.nio.ch.EPollSelectorImpl)</span><br><span class="line">        at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)</span><br><span class="line">        at org.xnio.nio.WorkerThread.run(WorkerThread.java:551) </span><br></pre></td></tr></table></figure>
+
+<h1><span id="问题原因"><span id="inline-blue">问题原因</span></span></h1><p>JDK NIO的BUG epoll，导致Selector空轮询，最终导致CPU 占用居高不下。官方声称在JDK1.6版本的update18修复了该问题，但是直到JDK1.7版本该问题仍旧存在，只不过该BUG发生概率降低了一些而已，它并没有被根本解决。该BUG以及与该BUG相关的问题单可以参见以下链接内容。</p>
+<p><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=2147719">https://bugs.java.com/bugdatabase/view_bug.do?bug_id=2147719</a></p>
+<p><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6403933">https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6403933</a></p>
+<h1><span id="解决办法"><span id="inline-blue">解决办法</span></span></h1><p>微服务网关集成的应用容器为undertow,该容器没有对JDK epoll模型进行优化导致上述问题，Tomcat已经对epoll bug进行封装和改进，需要将项目中的undertow依赖替换为tomcat.</p>
+<p>去除undertow依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-undertow<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>添加tomcat依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>重新执行clean install命令打包部署后，微服务网关的cpu占用恢复正常。</p>
+<h1><span id="验证"><span id="inline-blue">验证</span></span></h1><p><img src="/images/docker/20251209/docker_20251209_002.png" alt="微服务网关cpu占用问题分析"></p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Java</tag>
+        <tag>SpringCloud</tag>
+        <tag>JDK</tag>
+        <tag>epoll</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Wildfly自定义导航应用程序文件上传目录</title>
     <url>/Wildfly/blogs/Wildfly%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%BC%E8%88%AA%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%9B%AE%E5%BD%95/</url>
     <content><![CDATA[<!-- toc -->
@@ -1540,7 +1622,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#101;&#109;&#x71;&#x78;&#49;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#46;&#x31;&#x30;&#x30;">&#101;&#109;&#x71;&#x78;&#49;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#x2e;&#x31;&#46;&#x31;&#x30;&#x30;</a><br><a href="mailto:&#110;&#111;&#100;&#101;&#50;&#64;&#x62;&#114;&#111;&#107;&#101;&#114;&#46;&#101;&#x6d;&#x71;&#x78;&#x2e;&#x69;&#111;">&#110;&#111;&#100;&#101;&#50;&#64;&#x62;&#114;&#111;&#107;&#101;&#114;&#46;&#101;&#x6d;&#x71;&#x78;&#x2e;&#x69;&#111;</a><br><a href="mailto:&#x65;&#109;&#x71;&#120;&#x40;&#49;&#48;&#x2e;&#48;&#x2e;&#48;&#46;&#x31;">&#x65;&#109;&#x71;&#120;&#x40;&#49;&#48;&#x2e;&#48;&#x2e;&#48;&#46;&#x31;</a></p>
+<p><a href="mailto:&#101;&#x6d;&#x71;&#120;&#x31;&#64;&#49;&#57;&#50;&#46;&#x31;&#54;&#56;&#46;&#x31;&#x2e;&#x31;&#x30;&#48;">&#101;&#x6d;&#x71;&#120;&#x31;&#64;&#49;&#57;&#50;&#46;&#x31;&#54;&#56;&#46;&#x31;&#x2e;&#x31;&#x30;&#48;</a><br><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#50;&#x40;&#98;&#114;&#x6f;&#x6b;&#101;&#114;&#46;&#101;&#109;&#x71;&#x78;&#x2e;&#x69;&#x6f;">&#110;&#x6f;&#x64;&#x65;&#50;&#x40;&#98;&#114;&#x6f;&#x6b;&#101;&#114;&#46;&#101;&#109;&#x71;&#x78;&#x2e;&#x69;&#x6f;</a><br><a href="mailto:&#x65;&#109;&#x71;&#x78;&#x40;&#49;&#48;&#x2e;&#x30;&#x2e;&#x30;&#46;&#49;">&#x65;&#109;&#x71;&#x78;&#x40;&#49;&#48;&#x2e;&#x30;&#x2e;&#x30;&#46;&#49;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -3221,8 +3303,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>Java</category>
       </categories>
       <tags>
-        <tag>Lombok</tag>
         <tag>Java</tag>
+        <tag>Lombok</tag>
       </tags>
   </entry>
   <entry>
@@ -3389,8 +3471,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>knife4j-gateway</tag>
       </tags>
   </entry>
@@ -3415,8 +3497,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>Nacos</tag>
       </tags>
   </entry>
@@ -3458,8 +3540,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
       </categories>
       <tags>
         <tag>Zipkin</tag>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>Sleuth</tag>
         <tag>Zipkin-dependencies</tag>
       </tags>
@@ -3494,8 +3576,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
       </categories>
       <tags>
         <tag>Zipkin</tag>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>Sleuth</tag>
       </tags>
   </entry>
@@ -3602,8 +3684,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>SpringDoc</tag>
         <tag>Knife4j-gateway</tag>
       </tags>
@@ -3768,8 +3850,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>Nacos</tag>
         <tag>Sentinel</tag>
       </tags>
@@ -3907,8 +3989,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringBoot</category>
       </categories>
       <tags>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>RabbitMQ</tag>
         <tag>SpringBoot</tag>
       </tags>
@@ -3942,8 +4024,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>SpringCloud</tag>
         <tag>Java</tag>
+        <tag>SpringCloud</tag>
         <tag>Redisson</tag>
       </tags>
   </entry>
@@ -4272,7 +4354,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#111;&#111;&#x74;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#46;&#49;&#x30;&#x30;&#46;&#49;&#48;&#49;">&#x72;&#111;&#111;&#x74;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#54;&#56;&#46;&#49;&#x30;&#x30;&#46;&#49;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#111;&#x6f;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#x31;&#48;&#48;&#x2e;&#x31;&#48;&#x31;">&#x72;&#111;&#x6f;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#x31;&#48;&#48;&#x2e;&#x31;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -6666,28 +6748,6 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Hexo新建404</title>
-    <url>/Hexo/blogs/Hexo%E6%96%B0%E5%BB%BA404/</url>
-    <content><![CDATA[<h2><span id="新建404"><span id="inline-blue">新建404</span></span></h2><p>在站点根目录下,输入 hexo new page 404,默认在Hexo 站点下/source/404/index.md<br>打开新建的404界面，在顶部插入一行，写上permalink: /404，这表示指定该页固定链接为 http://“主页”/404.html</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">permalink: /404</span><br><span class="line">---</span><br><span class="line">title: #404 Not Found：该页无法显示</span><br><span class="line">date: 2017-09-06 15:37:18</span><br><span class="line">comments: false</span><br><span class="line">permalink: /404</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo文章置顶功能</title>
     <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h2><span id="移除默认安装的插件"><span id="inline-blue">移除默认安装的插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br></pre></td></tr></table></figure>
@@ -6704,6 +6764,28 @@ tmp – 临时文件</code></pre>
 
 <p>如下图所示位置：</p>
 <p><img src="/images/hexo/next/hexo_next_2021_01_10_002.png" alt="hexo文章置顶图标"></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo新建404</title>
+    <url>/Hexo/blogs/Hexo%E6%96%B0%E5%BB%BA404/</url>
+    <content><![CDATA[<h2><span id="新建404"><span id="inline-blue">新建404</span></span></h2><p>在站点根目录下,输入 hexo new page 404,默认在Hexo 站点下/source/404/index.md<br>打开新建的404界面，在顶部插入一行，写上permalink: /404，这表示指定该页固定链接为 http://“主页”/404.html</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">permalink: /404</span><br><span class="line">---</span><br><span class="line">title: #404 Not Found：该页无法显示</span><br><span class="line">date: 2017-09-06 15:37:18</span><br><span class="line">comments: false</span><br><span class="line">permalink: /404</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
 ]]></content>
       <categories>
         <category>Hexo</category>
