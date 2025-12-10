@@ -103,38 +103,25 @@ docker exec -it containerId /bin/bash
 jattach 8 threaddump  > /tmp/java_stack_force.log
 ```
 
+top命令不可用的情况下，需要安装procps依赖
+
+
+```shell
+apt update && apt install -y procps
+```
+
+
 获取到java应用程序堆栈之后需要定位到cpu占用高的对应线程，如果容器内top命令可用的情况下，显示占用高的线程命令如下：
 
 ```shell
 #containerId替换为实际容器ID
 docker exec -it containerId /bin/bash
 
+#8为容器内运行的java进程ID
 top -H -p 8
 ```
 
-top命令不可用的情况下，容器内使用如下命令输出cpu占用线程详情
 
-```shell
-#!/bin/sh
-
-PID=8
-for tid in $(ls /proc/$PID/task); do
-    utime=$(cat /proc/$PID/task/$tid/stat | awk '{print $14}')
-    stime=$(cat /proc/$PID/task/$tid/stat | awk '{print $15}')
-    total=$((utime + stime))
-    echo "线程ID: $tid, CPU耗时: $total"
-done | sort -k4 -rn | head -5
-```
-上述命令可以在容器内保存为cpu_usage.sh脚本，然后通过sh  cpu_usage.sh 执行获取到cpu占用高的线程
-输出内容如下：
-
-```shell
-线程ID: 22, CPU耗时: 3250
-线程ID: 38, CPU耗时: 883
-线程ID: 9, CPU耗时: 868
-线程ID: 23, CPU耗时: 803
-线程ID: 86, CPU耗时: 203
-```
 
 上述命令得到线程占用高的线程id之后需要转换为16进制，以便通过grep命令搜索堆栈中对应线程的详细内容。
 
