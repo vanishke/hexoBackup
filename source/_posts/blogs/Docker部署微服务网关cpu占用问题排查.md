@@ -107,6 +107,9 @@ top命令不可用的情况下，需要安装procps依赖
 
 
 ```shell
+#containerId替换为实际容器ID
+docker exec -it containerId /bin/bash
+
 apt update && apt install -y procps
 ```
 
