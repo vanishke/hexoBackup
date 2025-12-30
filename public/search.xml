@@ -389,6 +389,232 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker本地部署MySQL、Redis、Nginx基础服务</title>
+    <url>/Docker/blogs/Docker%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2MySQL%E3%80%81Redis%E3%80%81Nginx%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blue%E8%83%8C%E6%99%AFspan"><span id="inline-blue">背景</span></a><ul>
+<li><a href="#span-idinline-blue%E4%BC%A0%E7%BB%9F%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8Fspan"><span id="inline-blue">传统本地安装方式</span></a><ul>
+<li><a href="#%E4%BC%98%E7%82%B9">优点</a></li>
+<li><a href="#%E7%BC%BA%E7%82%B9">缺点</a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-bluedocker%E5%AE%B9%E5%99%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8Fspan"><span id="inline-blue">Docker容器化部署方式</span></a><ul>
+<li><a href="#%E4%BC%98%E7%82%B9-1">优点</a></li>
+<li><a href="#%E7%BC%BA%E7%82%B9-1">缺点</a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9docker%E9%83%A8%E7%BD%B2span"><span id="inline-blue">为什么选择Docker部署</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E5%AE%9E%E7%8E%B0span"><span id="inline-blue">实现</span></a><ul>
+<li><a href="#span-idinline-bluemysqlspan"><span id="inline-blue">MySQL</span></a><ul>
+<li><a href="#span-idinline-bluemysql-57span"><span id="inline-blue">MySQL-5.7</span></a></li>
+<li><a href="#span-idinline-bluemysql-80span"><span id="inline-blue">MySQL-8.0</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blueredisspan"><span id="inline-blue">Redis</span></a></li>
+<li><a href="#span-idinline-blueelasticsearchspan"><span id="inline-blue">Elasticsearch</span></a></li>
+<li><a href="#span-idinline-bluenginxspan"><span id="inline-blue">Nginx</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E5%8F%82%E8%80%83span"><span id="inline-blue">参考</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>OS： Windows10<br>MySQL： 5.7.41、8.0<br>Redis: 5.0.14<br>Elasticsearch： 8.8.0</p>
+<h1><span id="背景"><span id="inline-blue">背景</span></span></h1><p>在现代软件开发中，本地开发环境往往需要部署多种基础服务，如MySQL、Redis、Elasticsearch、Nginx等。选择合适的部署方式对于提升开发效率和维护成本至关重要。下面我们将对比传统本地安装方式和Docker容器化部署方式的优缺点。</p>
+<h2><span id="传统本地安装方式"><span id="inline-blue">传统本地安装方式</span></span></h2><h3><span id="优点">优点</span></h3><ul>
+<li><strong>性能优势</strong>：直接运行在宿主机上，没有容器虚拟化层的性能开销</li>
+<li><strong>资源占用</strong>：无需额外的容器运行时环境，资源占用相对较小</li>
+<li><strong>系统集成</strong>：可以更好地与操作系统集成，便于系统级监控和管理</li>
+</ul>
+<h3><span id="缺点">缺点</span></h3><ul>
+<li><strong>安装复杂</strong>：需要下载安装包、配置环境变量、修改系统配置等，步骤繁琐</li>
+<li><strong>版本管理困难</strong>：不同版本之间切换需要卸载重装，无法同时运行多个版本</li>
+<li><strong>环境污染</strong>：安装过程中会在系统目录留下大量文件，卸载时容易产生残留</li>
+<li><strong>配置分散</strong>：配置文件、数据文件、日志文件分散在系统各处，管理不便</li>
+<li><strong>跨平台差异</strong>：Windows、Linux、macOS上的安装和配置方式差异较大</li>
+<li><strong>团队协作困难</strong>：不同开发者的环境配置可能不一致，导致”在我机器上能跑”的问题</li>
+<li><strong>清理困难</strong>：卸载服务后，注册表、配置文件、日志等残留文件难以彻底清理</li>
+</ul>
+<h2><span id="docker容器化部署方式"><span id="inline-blue">Docker容器化部署方式</span></span></h2><h3><span id="优点">优点</span></h3><ul>
+<li><strong>快速部署</strong>：一条命令即可启动服务，无需复杂的安装配置过程，几分钟内完成环境搭建</li>
+<li><strong>环境隔离</strong>：每个服务运行在独立的容器中，互不干扰，避免版本冲突和依赖问题</li>
+<li><strong>版本灵活</strong>：可以同时运行多个版本的服务（如MySQL 5.7和8.0），通过端口映射轻松区分</li>
+<li><strong>易于管理</strong>：可以轻松启动、停止、删除容器，一键清理，不会在系统中留下残留文件</li>
+<li><strong>配置集中</strong>：通过数据卷挂载，配置文件、数据、日志统一管理，结构清晰</li>
+<li><strong>跨平台一致性</strong>：Docker镜像在不同操作系统上表现一致，减少环境差异带来的问题</li>
+<li><strong>团队协作</strong>：使用相同的镜像和配置，确保团队成员环境一致，避免环境问题</li>
+<li><strong>数据持久化</strong>：通过数据卷挂载，确保数据安全可靠，容器删除不影响数据</li>
+<li><strong>资源可控</strong>：可以限制容器的CPU、内存使用，更好地管理系统资源</li>
+</ul>
+<h3><span id="缺点">缺点</span></h3><ul>
+<li><strong>性能开销</strong>：存在容器虚拟化层的性能开销，但对于开发环境影响可忽略不计</li>
+<li><strong>学习成本</strong>：需要学习Docker的基本概念和命令，有一定的学习曲线</li>
+<li><strong>资源占用</strong>：需要运行Docker守护进程，占用一定的系统资源</li>
+<li><strong>网络配置</strong>：容器网络配置相对复杂，需要理解端口映射、网络模式等概念</li>
+</ul>
+<h2><span id="为什么选择docker部署"><span id="inline-blue">为什么选择Docker部署</span></span></h2><p>综合对比两种方式，<strong>对于本地开发环境，Docker容器化部署方式具有明显优势</strong>：</p>
+<ol>
+<li><p><strong>开发效率优先</strong>：开发环境更注重快速搭建和灵活切换，而非极致性能。Docker的一条命令部署相比传统方式的繁琐安装，能显著提升开发效率。</p>
+</li>
+<li><p><strong>多版本共存需求</strong>：在实际开发中，经常需要同时测试不同版本的服务（如MySQL 5.7和8.0），Docker可以轻松实现，而传统方式几乎不可能。</p>
+</li>
+<li><p><strong>环境一致性保障</strong>：团队协作中，Docker确保所有开发者使用相同的环境配置，减少”环境问题”导致的bug，提高协作效率。</p>
+</li>
+<li><p><strong>清理和维护便利</strong>：开发环境经常需要重置和重建，Docker的容器化特性使得清理和维护变得极其简单，不会污染系统。</p>
+</li>
+<li><p><strong>学习成本可控</strong>：虽然需要学习Docker，但一旦掌握，可以应用到所有服务的部署，学习成本分摊后非常值得。</p>
+</li>
+<li><p><strong>生产环境对接</strong>：使用Docker部署本地环境，可以更好地模拟生产环境的容器化部署，减少开发和生产环境的差异。</p>
+</li>
+</ol>
+<p>因此，<strong>本文选择使用Docker方式部署本地开发环境</strong>，帮助开发者快速、灵活、一致地搭建基础服务环境。</p>
+<p>本文将详细介绍如何在Windows环境下使用Docker部署MySQL、Redis、Elasticsearch和Nginx等常用基础服务，提供完整的部署步骤和配置说明。</p>
+<h1><span id="实现"><span id="inline-blue">实现</span></span></h1><h2><span id="mysql"><span id="inline-blue">MySQL</span></span></h2><p> MySQL部署常用版本分为5.7和8.0，两个版本部署方式分别介绍如下：</p>
+<h3><span id="mysql-57"><span id="inline-blue">MySQL-5.7</span></span></h3><p> 在部署MySQL 5.7之前，需要先在Windows系统上创建对应的目录用于数据持久化：</p>
+<ul>
+<li><p><code>D:/dockerVolume/mysql7/conf/</code> - 配置文件目录</p>
+</li>
+<li><p><code>D:/dockerVolume/mysql7/data</code> - 数据存储目录</p>
+</li>
+<li><p><code>D:/dockerVolume/mysql7/log</code> - 日志目录</p>
+<p>执行以下命令启动MySQL 5.7容器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -v D:/dockerVolume/mysql7/conf/:/etc/mysql/mysql.conf.d \</span><br><span class="line">  -v D:/dockerVolume/mysql7/data:/var/lib/mysql \</span><br><span class="line">  -v D:/dockerVolume/mysql7/<span class="built_in">log</span>:/var/<span class="built_in">log</span>/mysql \</span><br><span class="line">  --name mysql5.7 \</span><br><span class="line">  -e MYSQL_ROOT_PASSWORD=coship \</span><br><span class="line">  -p 3307:3306 \</span><br><span class="line">  -d mysql:5.7.41</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p> <strong>参数说明：</strong></p>
+<ul>
+<li><code>-v D:/dockerVolume/mysql7/conf/:/etc/mysql/mysql.conf.d</code> - 挂载配置文件目录</li>
+<li><code>-v D:/dockerVolume/mysql7/data:/var/lib/mysql</code> - 挂载数据目录，实现数据持久化</li>
+<li><code>-v D:/dockerVolume/mysql7/log:/var/log/mysql</code> - 挂载日志目录</li>
+<li><code>--name mysql5.7</code> - 容器名称</li>
+<li><code>-e MYSQL_ROOT_PASSWORD=coship</code> - 设置root用户密码</li>
+<li><code>-p 3307:3306</code> - 端口映射，将容器3306端口映射到主机3307端口</li>
+<li><code>-d</code> - 后台运行</li>
+</ul>
+<p> <strong>配置文件位置：</strong></p>
+<p> MySQL 5.7的配置文件位于 <code>D:/dockerVolume/mysql7/conf/</code> 目录下，可根据需要进行自定义配置。</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta"> #</span><span class="bash"> Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># This program is free software; you can redistribute it and/or modify</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> it under the terms of the GNU General Public License as published by</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> the Free Software Foundation; version 2 of the License.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># This program is distributed in the hope that it will be useful,</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> but WITHOUT ANY WARRANTY; without even the implied warranty of</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> GNU General Public License <span class="keyword">for</span> more details.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># You should have received a copy of the GNU General Public License</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> along with this program; <span class="keyword">if</span> not, write to the Free Software</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># The MySQL  Server configuration file.</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># For explanations see</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> http://dev.mysql.com/doc/mysql/en/server-system-variables.html</span></span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置mysql客户端默认字符集</span></span><br><span class="line">default-character-set=utf8</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">pid-file        = /var/run/mysqld/mysqld.pid</span><br><span class="line">socket          = /var/run/mysqld/mysqld.sock</span><br><span class="line">datadir         = /var/lib/mysql</span><br><span class="line">secure-file-priv= NULL</span><br><span class="line"><span class="meta">#</span><span class="bash"> Disabling symbolic-links is recommended to prevent assorted security risks</span></span><br><span class="line">symbolic-links=0</span><br><span class="line"></span><br><span class="line">sql_mode=&quot;NO_ENGINE_SUBSTITUTION&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash">服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line">character_set_server = utf8</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">创建新表时将使用的默认存储引擎</span></span><br><span class="line">default-storage-engine=INNODB</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置不区分大小写</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 必须在安装好MySQL后 修改mySQL配置文件设置为不敏感，一旦启动后，再设置是无效的，而且启动报错；</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果已经晚了，那必须把MySQL数据库文件全部 删除，修改配置文件再启动。</span></span><br><span class="line">lower_case_table_names=1</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 错误日志（必须开启）</span></span><br><span class="line">log-error = /var/log/mysql/error.log  </span><br><span class="line"><span class="meta">#</span><span class="bash"> 慢查询日志（可选，需开启）</span></span><br><span class="line">slow_query_log = 1  </span><br><span class="line">slow_query_log_file = /var/log/mysql/slow.log </span><br><span class="line"><span class="meta">#</span><span class="bash"> 超过2秒的查询记录为慢查询</span> </span><br><span class="line">long_query_time = 2  </span><br><span class="line"><span class="meta">#</span><span class="bash"> 二进制日志（可选，需开启）</span></span><br><span class="line">log-bin = /var/lib/mysql/mysql-bin  </span><br><span class="line">binlog_format = ROW  </span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3><span id="mysql-80"><span id="inline-blue">MySQL-8.0</span></span></h3><p> MySQL 8.0的部署方式与5.7类似，同样需要创建对应的目录：</p>
+<ul>
+<li><p><code>D:/dockerVolume/mysql8/conf/</code> - 配置文件目录</p>
+</li>
+<li><p><code>D:/dockerVolume/mysql8/data</code> - 数据存储目录</p>
+</li>
+<li><p><code>D:/dockerVolume/mysql8/log</code> - 日志目录</p>
+<p>执行以下命令启动MySQL 8.0容器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -v D:/dockerVolume/mysql8/conf/:/etc/mysql/conf.d \</span><br><span class="line">  -v D:/dockerVolume/mysql8/data:/var/lib/mysql \</span><br><span class="line">  -v D:/dockerVolume/mysql8/<span class="built_in">log</span>:/var/<span class="built_in">log</span>/mysql \</span><br><span class="line">  --name mysql8 \</span><br><span class="line">  -e MYSQL_ROOT_PASSWORD=coship \</span><br><span class="line">  -p 3308:3306 \</span><br><span class="line">  -d mysql:8.0</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p> <strong>参数说明：</strong></p>
+<ul>
+<li><code>-v D:/dockerVolume/mysql8/conf/:/etc/mysql/conf.d</code> - 挂载配置文件目录（8.0版本配置路径与5.7不同）</li>
+<li><code>-v D:/dockerVolume/mysql8/data:/var/lib/mysql</code> - 挂载数据目录</li>
+<li><code>-v D:/dockerVolume/mysql8/log:/var/log/mysql</code> - 挂载日志目录</li>
+<li><code>--name mysql8</code> - 容器名称</li>
+<li><code>-e MYSQL_ROOT_PASSWORD=coship</code> - 设置root用户密码</li>
+<li><code>-p 3308:3306</code> - 端口映射，将容器3306端口映射到主机3308端口（避免与5.7版本冲突）</li>
+<li><code>-d</code> - 后台运行</li>
+</ul>
+<p> <strong>配置文件位置：</strong></p>
+<p> MySQL 8.0的配置文件位于 <code>D:/dockerVolume/mysql8/conf/</code> 目录下，可根据需要进行自定义配置。</p>
+<h2><span id="redis"><span id="inline-blue">Redis</span></span></h2><p> Redis部署前需要准备配置文件和数据目录：</p>
+<ul>
+<li><p><code>D:/dockerVolume/redis/data</code> - 数据存储目录</p>
+</li>
+<li><p><code>D:/dockerVolume/redis/conf/redis.conf</code> - Redis配置文件</p>
+<p>执行以下命令启动Redis容器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name redis \</span><br><span class="line">  -p 6379:6379 \</span><br><span class="line">  -v D:/dockerVolume/redis/data:/data \</span><br><span class="line">  -v D:/dockerVolume/redis/conf/redis.conf:/etc/redis/redis.conf \</span><br><span class="line">  redis:5.0.14 \</span><br><span class="line">  redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p> <strong>参数说明：</strong></p>
+<ul>
+<li><code>-d</code> - 后台运行</li>
+<li><code>--name redis</code> - 容器名称</li>
+<li><code>-p 6379:6379</code> - 端口映射，Redis默认端口</li>
+<li><code>-v D:/dockerVolume/redis/data:/data</code> - 挂载数据目录</li>
+<li><code>-v D:/dockerVolume/redis/conf/redis.conf:/etc/redis/redis.conf</code> - 挂载配置文件</li>
+<li><code>redis-server /etc/redis/redis.conf</code> - 使用指定配置文件启动Redis服务</li>
+</ul>
+<p> <strong>配置文件位置：</strong></p>
+<p> Redis配置文件位于 <code>D:/dockerVolume/redis/conf/redis.conf</code>，可根据需要进行自定义配置。</p>
+<p> <strong>Redis配置文件示例：</strong></p>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 请使用 redis-server 配置文件路径 来启动redis</span><br><span class="line"></span><br><span class="line"># 请注意一下配置文件的数据单位，大小写不敏感</span><br><span class="line"># 1k &#x3D;&gt; 1000 bytes</span><br><span class="line"># 1kb &#x3D;&gt; 1024 bytes</span><br><span class="line"># 1m &#x3D;&gt; 1000000 bytes</span><br><span class="line"># 1mb &#x3D;&gt; 1024*1024 bytes</span><br><span class="line"># 1g &#x3D;&gt; 1000000000 bytes</span><br><span class="line"># 1gb &#x3D;&gt; 1024*1024*1024 bytes</span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                               redis 的基础配置                                 #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 是否作为守护进程运行，生产环境用yes</span><br><span class="line">daemonize no</span><br><span class="line"></span><br><span class="line"># 如果作为守护进程运行的话，redis会把pid打印到这个文件</span><br><span class="line"># 主要多实例的时候需要写成不同的文件</span><br><span class="line">pidfile &#x2F;var&#x2F;run&#x2F;redis_6379.pid</span><br><span class="line"></span><br><span class="line"># redis监听的端口，注意多实例的情况</span><br><span class="line">port 6379</span><br><span class="line"></span><br><span class="line"># 允许访问redis的ip</span><br><span class="line"># 测试环境注释该选项，生产环境把所有允许访问的ip都打一次</span><br><span class="line">bind 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 关闭无消息的客户端的间隔，0为关闭该功能</span><br><span class="line">timeout 0</span><br><span class="line"></span><br><span class="line"># 对客户端发送ACK信息，linux中单位为秒</span><br><span class="line">tcp-keepalive 0</span><br><span class="line"></span><br><span class="line"># 数据库的数量，我们的游戏建议为1，然后多开实例</span><br><span class="line">databases 16</span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                              redis 的持久化配置                                #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># save 间隔 最小更新操作</span><br><span class="line"># 900秒（15分钟）之后，且至少1次变更</span><br><span class="line"># 300秒（5分钟）之后，且至少10次变更</span><br><span class="line"># 60秒之后，且至少10000次变更</span><br><span class="line"># 如果完全作为缓存开启把save全删了</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line"></span><br><span class="line"># 持久化失败以后，redis是否停止</span><br><span class="line">stop-writes-on-bgsave-error no</span><br><span class="line"></span><br><span class="line"># 持久化的时候是否运行对字符串对象进行压缩，算法为LZF</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line"># 文件末尾是否包含一个CRC64的校验和</span><br><span class="line">rdbchecksum yes</span><br><span class="line"></span><br><span class="line"># redis存储数据的文件，注意多实例的时候该不同名字或者用不同的工作目录</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line"># redis的工作目录，注意多实例的时候该不同名字或者用不同的工作目录</span><br><span class="line"># 建议用不同的工作目录</span><br><span class="line">dir &#x2F;data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                                 redis 的限制                                  #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 设置最多同时连接客户端数量。</span><br><span class="line"># 默认没有限制，这个关系到Redis进程能够打开的文件描述符数量。</span><br><span class="line"># 特殊值&quot;0&quot;表示没有限制。</span><br><span class="line"># 一旦达到这个限制，Redis会关闭所有新连接并发送错误&quot;达到最大用户数上限（max number of</span><br><span class="line"># clients reached）&quot;</span><br><span class="line">#</span><br><span class="line"># maxclients 128</span><br><span class="line"></span><br><span class="line"># 不要用比设置的上限更多的内存。一旦内存使用达到上限，Redis会根据选定的回收策略</span><br><span class="line">#（参见：maxmemmory-policy）删除key。</span><br><span class="line">#</span><br><span class="line"># 如果因为删除策略问题Redis无法删除key，或者策略设置为 &quot;noeviction&quot;，Redis会回复需要更多内存</span><br><span class="line"># 的错误信息给命令。</span><br><span class="line"># 例如，SET,LPUSH等等。但是会继续合理响应只读命令，比如：GET。</span><br><span class="line">#</span><br><span class="line"># 在使用Redis作为LRU缓存，或者为实例设置了硬性内存限制的时候（使用 &quot;noeviction&quot; 策略）的时候，</span><br><span class="line"># 这个选项还是满有用的。</span><br><span class="line">#</span><br><span class="line"># 警告：当一堆slave连上达到内存上限的实例的时候，响应slave需要的输出缓存所需内存不计算在使用内存</span><br><span class="line"># 当中。</span><br><span class="line"># 这样当请求一个删除掉的key的时候就不会触发网络问题／重新同步的事件，然后slave就会收到一堆删除指</span><br><span class="line"># 令，直到数据库空了为止。</span><br><span class="line">#</span><br><span class="line"># 简而言之，如果你有slave连上一个master的话，那建议你把master内存限制设小点儿，确保有足够的系统</span><br><span class="line"># 内存用作输出缓存。</span><br><span class="line"># （如果策略设置为&quot;noeviction&quot;的话就不无所谓了）</span><br><span class="line">#</span><br><span class="line">maxmemory 1gb</span><br><span class="line"></span><br><span class="line"># 内存策略：如果达到内存限制了，Redis如何删除key。你可以在下面五个策略里面选：</span><br><span class="line">#</span><br><span class="line"># volatile-lru -&gt; 根据LRU算法生成的过期时间来删除。</span><br><span class="line"># allkeys-lru -&gt; 根据LRU算法删除任何key。</span><br><span class="line"># volatile-random -&gt; 根据过期设置来随机删除key。</span><br><span class="line"># allkeys-&gt;random -&gt; 无差别随机删。</span><br><span class="line"># volatile-ttl -&gt; 根据最近过期时间来删除（辅以TTL）</span><br><span class="line"># noeviction -&gt; 谁也不删，直接在写操作时返回错误。</span><br><span class="line">#</span><br><span class="line"># 注意：对所有策略来说，如果Redis找不到合适的可以删除的key都会在写操作时返回一个错误。</span><br><span class="line">#</span><br><span class="line">#     这里涉及的命令：set setnx setex append</span><br><span class="line">#     incr decr rpush lpush rpushx lpushx linsert lset rpoplpush sadd</span><br><span class="line">#     sinter sinterstore sunion sunionstore sdiff sdiffstore zadd zincrby</span><br><span class="line">#     zunionstore zinterstore hset hsetnx hmset hincrby incrby decrby</span><br><span class="line">#     getset mset msetnx exec sort</span><br><span class="line">#</span><br><span class="line"># 默认值如下：</span><br><span class="line">#</span><br><span class="line"># maxmemory-policy volatile-lru</span><br><span class="line"></span><br><span class="line">maxmemory-policy allkeys-lru</span><br><span class="line"></span><br><span class="line"># LRU和最小TTL算法的实现都不是很精确，但是很接近（为了省内存），所以你可以用样例做测试。</span><br><span class="line"># 例如：默认Redis会检查三个key然后取最旧的那个，你可以通过下面的配置项来设置样本的个数。</span><br><span class="line">#</span><br><span class="line"># maxmemory-samples 3</span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                               redis 的累加模式                                 #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 默认情况下，Redis是异步的把数据导出到磁盘上。这种情况下，当Redis挂掉的时候，最新的数据就丢了。</span><br><span class="line"># 如果不希望丢掉任何一条数据的话就该用纯累加模式：一旦开启这个模式，Redis会把每次写入的数据在接收</span><br><span class="line"># 后都写入 appendonly.aof 文件。</span><br><span class="line"># 每次启动时Redis都会把这个文件的数据读入内存里。</span><br><span class="line">#</span><br><span class="line"># 注意，异步导出的数据库文件和纯累加文件可以并存（你得把上面所有&quot;save&quot;设置都注释掉，关掉导出机制）。</span><br><span class="line"># 如果纯累加模式开启了，那么Redis会在启动时载入日志文件而忽略导出的 dump.rdb 文件。</span><br><span class="line">#</span><br><span class="line"># 重要：查看 BGREWRITEAOF 来了解当累加日志文件太大了之后，怎么在后台重新处理这个日志文件。</span><br><span class="line">appendonly yes</span><br><span class="line"></span><br><span class="line"># 纯累加文件名字（默认：&quot;appendonly.aof&quot;）</span><br><span class="line">appendfilename appendonly.aof</span><br><span class="line"></span><br><span class="line"># 纯累加文件的flush频率</span><br><span class="line"># always    -&gt;  每次写入都flush，最安全，资源开销最大</span><br><span class="line"># everysec  -&gt;  每秒 (推荐)</span><br><span class="line"># no        -&gt;  由系统确定</span><br><span class="line"></span><br><span class="line"># appendfsync always</span><br><span class="line">appendfsync everysec</span><br><span class="line"># appendfsync no</span><br><span class="line"></span><br><span class="line"># 当纯累加文件进行rewrite时，是否需要fsync</span><br><span class="line"># 当且仅当appendfsync &#x3D; always || everysec 时该参数生效</span><br><span class="line">no-appendfsync-on-rewrite no</span><br><span class="line"></span><br><span class="line"># 纯累加文件下次rewrite的比例，与纯累加文件文件的最小size</span><br><span class="line"># 下面的参数意味着纯累加文件会在512mb的时候进行一次rewrite</span><br><span class="line"># 若rewrite后的文件大小为x mb，则下次纯累加文件将会在2x mb时rewrite</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line">auto-aof-rewrite-min-size 128mb</span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                                redis 的高级配置                                #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 如果hash中的数量超出hash-max-ziplist-entries，或者value的长度超出</span><br><span class="line"># hash-max-ziplist-value，将改成保存dict，否则以ziphash的方式存储以节省空间。以下同理。</span><br><span class="line">hash-max-ziplist-entries 64</span><br><span class="line">hash-max-ziplist-value 128</span><br><span class="line"></span><br><span class="line">list-max-ziplist-entries 64</span><br><span class="line">list-max-ziplist-value 128</span><br><span class="line"></span><br><span class="line">set-max-intset-entries 64</span><br><span class="line"></span><br><span class="line">zset-max-ziplist-entries 64</span><br><span class="line">zset-max-ziplist-value 128</span><br><span class="line"></span><br><span class="line"># 是否resize hash? 如果你设置成no需要在源码做一定的修改以防止有人进行hash攻击</span><br><span class="line">activerehashing yes</span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                               redis 的日志配置                                 #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 日志等级 debug, verbose, notice, warning。生产环境建议用notice</span><br><span class="line">loglevel notice</span><br><span class="line"></span><br><span class="line"># 日志输出的文件名</span><br><span class="line">logfile &quot;&quot;</span><br><span class="line"></span><br><span class="line"># 是否将日志写入系统日志，默认为no，建议为no</span><br><span class="line">syslog-enabled no</span><br><span class="line"></span><br><span class="line"># 在系统日志中的标识</span><br><span class="line"># syslog-ident redis</span><br><span class="line"></span><br><span class="line"># 写到哪个系统日志中 USER或者LOCAL0-LOCAL7.</span><br><span class="line"># syslog-facility local0</span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                               redis 的主从配置                                 #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 主从同步。通过 slaveof 配置来实现Redis实例的备份。本实例作为远程redis的从服务器。</span><br><span class="line"># 注意，这里是本地从远端复制数据。也就是说，本地可以有不同的数据库文件、绑定不同的IP、监听不同的</span><br><span class="line"># 端口。</span><br><span class="line"># 注意如果不在本机的话，需要bind ip</span><br><span class="line">#</span><br><span class="line"># slaveof &lt;masterip&gt; &lt;masterport&gt;</span><br><span class="line"></span><br><span class="line"># 如果master设置了密码（通过下面的 &quot;requirepass&quot; 选项来配置），那么slave在开始同步之前必须</span><br><span class="line"># 进行身份验证，否则它的同步请求会被拒绝。</span><br><span class="line">#</span><br><span class="line"># masterauth &lt;master-password&gt;</span><br><span class="line"></span><br><span class="line"># 当一个slave失去和master的连接，或者同步正在进行中，slave的行为有两种可能：</span><br><span class="line">#</span><br><span class="line"># 1) 如果 slave-serve-stale-data 设置为 &quot;yes&quot; (默认值)，slave会继续响应客户端请求，可能</span><br><span class="line"># 是正常数据，也可能是还没获得值的空数据。</span><br><span class="line"># 2) 如果 slave-serve-stale-data 设置为 &quot;no&quot;，slave会回复&quot;正在从master同步（SYNC with</span><br><span class="line"># master in progress）&quot;来处理各种请求，除了 INFO 和 SLAVEOF 命令。</span><br><span class="line">#</span><br><span class="line"># slave-serve-stale-data yes</span><br><span class="line"></span><br><span class="line"># 从数据库是否只读</span><br><span class="line">#slave-read-only yes</span><br><span class="line"></span><br><span class="line"># slave根据指定的时间间隔向服务器发送ping请求。</span><br><span class="line"># 时间间隔可以通过 repl_ping_slave_period 来设置。</span><br><span class="line"># 默认10秒。</span><br><span class="line">#</span><br><span class="line"># repl-ping-slave-period 10</span><br><span class="line"></span><br><span class="line"># 下面的选项设置了大块数据I&#x2F;O、向master请求数据和ping响应的过期时间。</span><br><span class="line"># 默认值60秒。</span><br><span class="line">#</span><br><span class="line"># 一个很重要的事情是：确保这个值比 repl-ping-slave-period 大，否则master和slave之间的传输</span><br><span class="line"># 过期时间比预想的要短。</span><br><span class="line">#</span><br><span class="line"># repl-timeout 60</span><br><span class="line"></span><br><span class="line"># 主服务器是否将部分数据包合并成一个大的数据包再发出</span><br><span class="line"># 在内网情况请设置为no</span><br><span class="line">#repl-disable-tcp-nodelay no</span><br><span class="line"></span><br><span class="line"># 从服务器的优先级，默认为100。</span><br><span class="line"># 当主服务器挂掉的时候，选择哪个从服务器作为主服务器，优先级数字低的会优先成为主服务器。</span><br><span class="line"># 0代表永远不做主服务器。</span><br><span class="line">#slave-priority 100</span><br><span class="line"></span><br><span class="line"># 对客户端输出缓冲进行限制可以强迫那些就不从服务器读取数据的客户端断开连接。对于normal client，</span><br><span class="line"># 第一个0表示取消hard limit，第二个0和第三个0表示取消soft limit，normal client默认取消限</span><br><span class="line"># 制，因为如果没有寻问，他们是不会接收数据的。</span><br><span class="line">#client-output-buffer-limit normal 0 0 0</span><br><span class="line"># 对于slave client和MONITER client，如果client-output-buffer一旦超过256mb，又或者超过</span><br><span class="line"># 64mb持续60秒，那么服务器就会立即断开客户端连接。</span><br><span class="line">#client-output-buffer-limit slave 256mb 64mb 60</span><br><span class="line"># 对于pubsub client，如果client-output-buffer一旦超过32mb，又或者超过8mb持续60秒，那么</span><br><span class="line"># 服务器就会立即断开客户端连接。</span><br><span class="line">#client-output-buffer-limit pubsub 32mb 8mb 60</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">################################################################################</span><br><span class="line">#                               redis 的安全配置                                 #</span><br><span class="line">################################################################################</span><br><span class="line"></span><br><span class="line"># 要求客户端在处理任何命令时都要验证身份和密码。</span><br><span class="line"># 这在你信不过来访者时很有用。</span><br><span class="line">#</span><br><span class="line"># 为了向后兼容的话，这段应该注释掉。而且大多数人不需要身份验证（例如：它们运行在自己的服务器上。）</span><br><span class="line">#</span><br><span class="line"># 警告：因为Redis太快了，所以居心不良的人可以每秒尝试150k的密码来试图破解密码。</span><br><span class="line"># 这意味着你需要一个高强度的密码，否则破解太容易了。</span><br><span class="line">#</span><br><span class="line">requirepass coshipOk698?</span><br><span class="line"></span><br><span class="line"># 命令重命名</span><br><span class="line"># 当redis至于外网环境的时候需要重命名一些危险的命令如CONFIG:</span><br><span class="line"># rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52</span><br></pre></td></tr></table></figure>
+
+<h2><span id="elasticsearch"><span id="inline-blue">Elasticsearch</span></span></h2><p> Elasticsearch部署需要先从一个临时容器中拷贝默认配置，然后再启动正式容器。</p>
+<p> <strong>步骤1：启动临时容器并拷贝配置</strong></p>
+<p> 首先启动一个临时Elasticsearch容器（容器ID示例：0133）：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name elasticsearch-temp elasticsearch:8.8.0</span><br></pre></td></tr></table></figure>
+
+<p> 从临时容器中拷贝配置、数据和日志目录到本地：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker cp 0133:/usr/share/elasticsearch/data D:/dockerVolume/elasticsearch/</span><br><span class="line">docker cp 0133:/usr/share/elasticsearch/config D:/dockerVolume/elasticsearch/</span><br><span class="line">docker cp 0133:/usr/share/elasticsearch/logs D:/dockerVolume/elasticsearch/</span><br></pre></td></tr></table></figure>
+
+<p> 拷贝完成后，删除临时容器：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker rm -f elasticsearch-temp</span><br></pre></td></tr></table></figure>
+
+<p> <strong>步骤2：启动正式容器</strong></p>
+<p> 执行以下命令启动Elasticsearch容器：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -v D:/dockerVolume/elasticsearch/data/:/usr/share/elasticsearch/data \</span><br><span class="line">  -v D:/dockerVolume/elasticsearch/config/:/usr/share/elasticsearch/config \</span><br><span class="line">  -v D:/dockerVolume/elasticsearch/logs/:/usr/share/elasticsearch/logs \</span><br><span class="line">  --name elasticsearch \</span><br><span class="line">  -p 9200:9200 \</span><br><span class="line">  -p 9300:9300 \</span><br><span class="line">  -d elasticsearch:8.8.0</span><br></pre></td></tr></table></figure>
+
+<p> <strong>参数说明：</strong></p>
+<ul>
+<li><code>-v D:/dockerVolume/elasticsearch/data/:/usr/share/elasticsearch/data</code> - 挂载数据目录</li>
+<li><code>-v D:/dockerVolume/elasticsearch/config/:/usr/share/elasticsearch/config</code> - 挂载配置目录</li>
+<li><code>-v D:/dockerVolume/elasticsearch/logs/:/usr/share/elasticsearch/logs</code> - 挂载日志目录</li>
+<li><code>--name elasticsearch</code> - 容器名称</li>
+<li><code>-p 9200:9200</code> - HTTP API端口映射</li>
+<li><code>-p 9300:9300</code> - 节点间通信端口映射</li>
+<li><code>-d</code> - 后台运行</li>
+</ul>
+<p> <strong>配置文件位置：</strong></p>
+<p> Elasticsearch配置文件位于 <code>D:/dockerVolume/elasticsearch/config/</code> 目录下，可根据需要进行自定义配置。</p>
+<p> <strong>Elasticsearch配置文件示例：</strong></p>
+ <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"> <span class="attr">cluster.name:</span> <span class="string">&quot;docker-cluster&quot;</span></span><br><span class="line"><span class="attr">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The following settings, TLS certificates, and keys have been automatically      </span></span><br><span class="line"><span class="comment"># generated to configure Elasticsearch security features on 17-10-2025 08:20:43</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># --------------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable security features</span></span><br><span class="line"><span class="attr">xpack.security.enabled:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">xpack.security.enrollment.enabled:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents</span></span><br><span class="line"><span class="attr">xpack.security.http.ssl:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">keystore.path:</span> <span class="string">certs/http.p12</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable encryption and mutual authentication between cluster nodes</span></span><br><span class="line"><span class="attr">xpack.security.transport.ssl:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">verification_mode:</span> <span class="string">certificate</span></span><br><span class="line">  <span class="attr">keystore.path:</span> <span class="string">certs/transport.p12</span></span><br><span class="line">  <span class="attr">truststore.path:</span> <span class="string">certs/transport.p12</span></span><br><span class="line"><span class="comment"># Create a new cluster with the current node only</span></span><br><span class="line"><span class="comment"># Additional nodes can still join the cluster later</span></span><br><span class="line"><span class="attr">cluster.initial_master_nodes:</span> [<span class="string">&quot;01334468b92f&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#----------------------- END SECURITY AUTO CONFIGURATION -------------------------</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="nginx"><span id="inline-blue">Nginx</span></span></h2><p> Nginx部署同样需要先从临时容器中拷贝默认配置，然后再启动正式容器。</p>
+<p> <strong>步骤1：启动临时容器并拷贝配置</strong></p>
+<p> 首先启动一个临时Nginx容器（容器ID示例：a904）：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name nginx-temp nginx:1.28-alpine</span><br></pre></td></tr></table></figure>
+
+<p> 从临时容器中拷贝配置、静态资源和日志目录到本地：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker cp a904:/usr/share/nginx/html/ D:/dockerVolume/nginx/</span><br><span class="line">docker cp a904:/etc/nginx/conf.d/ D:/dockerVolume/nginx/</span><br><span class="line">docker cp a904:/var/<span class="built_in">log</span>/nginx/ D:/dockerVolume/nginx/logs/</span><br></pre></td></tr></table></figure>
+
+<p> 拷贝完成后，删除临时容器：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker rm -f nginx-temp</span><br></pre></td></tr></table></figure>
+
+<p> <strong>步骤2：启动正式容器</strong></p>
+<p> 执行以下命令启动Nginx容器：</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -v D:/dockerVolume/nginx/conf.d/:/etc/nginx/conf.d \</span><br><span class="line">  -v D:/dockerVolume/nginx/html:/usr/share/nginx/html/ \</span><br><span class="line">  -v D:/dockerVolume/nginx/logs:/var/<span class="built_in">log</span>/nginx \</span><br><span class="line">  --name nginx \</span><br><span class="line">  -p 80:80 \</span><br><span class="line">  -d nginx:1.28-alpine</span><br></pre></td></tr></table></figure>
+
+<p> <strong>参数说明：</strong></p>
+<ul>
+<li><code>-v D:/dockerVolume/nginx/conf.d/:/etc/nginx/conf.d</code> - 挂载配置文件目录</li>
+<li><code>-v D:/dockerVolume/nginx/html:/usr/share/nginx/html/</code> - 挂载静态资源目录</li>
+<li><code>-v D:/dockerVolume/nginx/logs:/var/log/nginx</code> - 挂载日志目录</li>
+<li><code>--name nginx</code> - 容器名称</li>
+<li><code>-p 80:80</code> - 端口映射，HTTP默认端口</li>
+<li><code>-d</code> - 后台运行</li>
+</ul>
+<p> <strong>配置文件位置：</strong></p>
+<p> Nginx配置文件位于 <code>D:/dockerVolume/nginx/conf.d/</code> 目录下，可根据需要进行自定义配置。</p>
+<h1><span id="参考"><span id="inline-blue">参考</span></span></h1><p>参考：<a href="https://www.cnblogs.com/chen2ha/p/15914157.html">https://www.cnblogs.com/chen2ha/p/15914157.html</a></p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>Nginx</tag>
+        <tag>Redis</tag>
+        <tag>Elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>markdown转换为word实现</title>
     <url>/markdown/blogs/markdown%E8%BD%AC%E6%8D%A2%E4%B8%BAword%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<!-- toc -->
@@ -1065,8 +1291,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>Docker</tag>
         <tag>MySQL</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1691,7 +1917,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#x65;&#x6d;&#x71;&#x78;&#x31;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#x2e;&#49;&#x30;&#48;">&#x65;&#x6d;&#x71;&#x78;&#x31;&#x40;&#49;&#x39;&#x32;&#x2e;&#49;&#x36;&#x38;&#x2e;&#49;&#x2e;&#49;&#x30;&#48;</a><br><a href="mailto:&#x6e;&#111;&#x64;&#101;&#50;&#64;&#x62;&#x72;&#111;&#107;&#x65;&#x72;&#46;&#x65;&#x6d;&#x71;&#120;&#46;&#x69;&#111;">&#x6e;&#111;&#x64;&#101;&#50;&#64;&#x62;&#x72;&#111;&#107;&#x65;&#x72;&#46;&#x65;&#x6d;&#x71;&#120;&#46;&#x69;&#111;</a><br><a href="mailto:&#101;&#109;&#113;&#x78;&#64;&#x31;&#x30;&#46;&#x30;&#x2e;&#x30;&#x2e;&#49;">&#101;&#109;&#113;&#x78;&#64;&#x31;&#x30;&#46;&#x30;&#x2e;&#x30;&#x2e;&#49;</a></p>
+<p><a href="mailto:&#101;&#109;&#x71;&#x78;&#49;&#x40;&#x31;&#57;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#x2e;&#49;&#48;&#48;">&#101;&#109;&#x71;&#x78;&#49;&#x40;&#x31;&#57;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#x2e;&#49;&#48;&#48;</a><br><a href="mailto:&#x6e;&#x6f;&#100;&#x65;&#50;&#64;&#x62;&#114;&#x6f;&#x6b;&#x65;&#x72;&#x2e;&#101;&#x6d;&#113;&#x78;&#x2e;&#x69;&#111;">&#x6e;&#x6f;&#100;&#x65;&#50;&#64;&#x62;&#114;&#x6f;&#x6b;&#x65;&#x72;&#x2e;&#101;&#x6d;&#113;&#x78;&#x2e;&#x69;&#111;</a><br><a href="mailto:&#x65;&#109;&#x71;&#x78;&#64;&#49;&#48;&#x2e;&#x30;&#x2e;&#48;&#x2e;&#49;">&#x65;&#109;&#x71;&#x78;&#64;&#49;&#48;&#x2e;&#x30;&#x2e;&#48;&#x2e;&#49;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -4423,7 +4649,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#111;&#x6f;&#x74;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#48;&#48;&#x2e;&#49;&#x30;&#x31;">&#x72;&#111;&#x6f;&#x74;&#x40;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#48;&#48;&#x2e;&#49;&#x30;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#49;&#57;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x30;&#48;&#46;&#x31;&#x30;&#49;">&#114;&#x6f;&#x6f;&#116;&#64;&#49;&#57;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#x31;&#x30;&#48;&#46;&#x31;&#x30;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -6705,10 +6931,12 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Hexo修改加载特效</title>
-    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/</url>
-    <content><![CDATA[<h2><span id="修改加载特效"><span id="inline-blue">修改加载特效</span></span></h2><p>搜索pace，找到如下代码：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 页面顶部加载条</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Progress bar <span class="keyword">in</span> the top during page loading.</span></span><br><span class="line">pace: true</span><br><span class="line"><span class="meta">#</span><span class="bash"> Themes list:</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-big-counter</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-bounce</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-barber-shop</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-atom</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-circle</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-radar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-simple</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-corner-indicator</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-fill-left</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-flash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-loading-bar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-mac-osx</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-minimal</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For example</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pace_theme: pace-theme-center-simple</span></span><br><span class="line">pace_theme: pace-theme-minimal  #默认设置，可以修改为上述任何一个</span><br></pre></td></tr></table></figure>
+    <title>Hexo修改[read more]按钮样式</title>
+    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%5Bread%20more%5D%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><p>修改themes\next\source\css_custom\custom.styl文件，加入自定义样式</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">// <span class="selector-attr">[Read More]</span>按钮样式</span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#555</span> <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">border</span>: none <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">transition-property</span>: unset;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0px</span> <span class="number">15px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">90deg</span>, <span class="number">#a166ab</span> <span class="number">0%</span>, <span class="number">#ef4e7b</span> <span class="number">25%</span>, <span class="number">#f37055</span> <span class="number">50%</span>, <span class="number">#ef4e7b</span> <span class="number">75%</span>, <span class="number">#a166ab</span> <span class="number">100%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 
 
@@ -6726,12 +6954,10 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Hexo修改[read more]按钮样式</title>
-    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%5Bread%20more%5D%E6%A0%B7%E5%BC%8F/</url>
-    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><p>修改themes\next\source\css_custom\custom.styl文件，加入自定义样式</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">// <span class="selector-attr">[Read More]</span>按钮样式</span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#555</span> <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">border</span>: none <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">transition-property</span>: unset;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0px</span> <span class="number">15px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">90deg</span>, <span class="number">#a166ab</span> <span class="number">0%</span>, <span class="number">#ef4e7b</span> <span class="number">25%</span>, <span class="number">#f37055</span> <span class="number">50%</span>, <span class="number">#ef4e7b</span> <span class="number">75%</span>, <span class="number">#a166ab</span> <span class="number">100%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+    <title>Hexo修改加载特效</title>
+    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/</url>
+    <content><![CDATA[<h2><span id="修改加载特效"><span id="inline-blue">修改加载特效</span></span></h2><p>搜索pace，找到如下代码：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 页面顶部加载条</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Progress bar <span class="keyword">in</span> the top during page loading.</span></span><br><span class="line">pace: true</span><br><span class="line"><span class="meta">#</span><span class="bash"> Themes list:</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-big-counter</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-bounce</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-barber-shop</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-atom</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-circle</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-radar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-center-simple</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-corner-indicator</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-fill-left</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-flash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-loading-bar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-mac-osx</span></span><br><span class="line"><span class="meta">#</span><span class="bash">pace-theme-minimal</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> For example</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pace_theme: pace-theme-center-simple</span></span><br><span class="line">pace_theme: pace-theme-minimal  #默认设置，可以修改为上述任何一个</span><br></pre></td></tr></table></figure>
 
 
 
@@ -6794,28 +7020,6 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
-    <title>Hexo新建404</title>
-    <url>/Hexo/blogs/Hexo%E6%96%B0%E5%BB%BA404/</url>
-    <content><![CDATA[<h2><span id="新建404"><span id="inline-blue">新建404</span></span></h2><p>在站点根目录下,输入 hexo new page 404,默认在Hexo 站点下/source/404/index.md<br>打开新建的404界面，在顶部插入一行，写上permalink: /404，这表示指定该页固定链接为 http://“主页”/404.html</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">permalink: /404</span><br><span class="line">---</span><br><span class="line">title: #404 Not Found：该页无法显示</span><br><span class="line">date: 2017-09-06 15:37:18</span><br><span class="line">comments: false</span><br><span class="line">permalink: /404</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo文章添加阴影效果</title>
     <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
     <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开themes/next/source/css/_custom/custom.styl文件添加:</p>
@@ -6823,28 +7027,6 @@ tmp – 临时文件</code></pre>
 
 
 
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo统计功能</title>
-    <url>/Hexo/blogs/Hexo%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">npm install hexo-wordcount --save</span><br></pre></td></tr></table></figure>
-
-<p>修改themes/next/_config.yml主题配置文件，搜索关键字post_wordcount,修改如下:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">post_wordcount:</span><br><span class="line">  item_text: true</span><br><span class="line">  wordcount: true #单篇文章字数</span><br><span class="line">  min2read: true #单篇阅读时长</span><br><span class="line">  totalcount: true #站点总字数</span><br><span class="line">  separated_meta: true</span><br></pre></td></tr></table></figure>
 
 
 
@@ -6877,6 +7059,50 @@ tmp – 临时文件</code></pre>
 
 <p>如下图所示位置：</p>
 <p><img src="/images/hexo/next/hexo_next_2021_01_10_002.png" alt="hexo文章置顶图标"></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo新建404</title>
+    <url>/Hexo/blogs/Hexo%E6%96%B0%E5%BB%BA404/</url>
+    <content><![CDATA[<h2><span id="新建404"><span id="inline-blue">新建404</span></span></h2><p>在站点根目录下,输入 hexo new page 404,默认在Hexo 站点下/source/404/index.md<br>打开新建的404界面，在顶部插入一行，写上permalink: /404，这表示指定该页固定链接为 http://“主页”/404.html</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">permalink: /404</span><br><span class="line">---</span><br><span class="line">title: #404 Not Found：该页无法显示</span><br><span class="line">date: 2017-09-06 15:37:18</span><br><span class="line">comments: false</span><br><span class="line">permalink: /404</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo统计功能</title>
+    <url>/Hexo/blogs/Hexo%E7%BB%9F%E8%AE%A1%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">npm install hexo-wordcount --save</span><br></pre></td></tr></table></figure>
+
+<p>修改themes/next/_config.yml主题配置文件，搜索关键字post_wordcount,修改如下:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">post_wordcount:</span><br><span class="line">  item_text: true</span><br><span class="line">  wordcount: true #单篇文章字数</span><br><span class="line">  min2read: true #单篇阅读时长</span><br><span class="line">  totalcount: true #站点总字数</span><br><span class="line">  separated_meta: true</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -7908,8 +8134,8 @@ tmp – 临时文件</code></pre>
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>Windows</tag>
         <tag>Redis</tag>
+        <tag>Windows</tag>
       </tags>
   </entry>
   <entry>
