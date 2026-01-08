@@ -98,5 +98,5 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 # <span id="inline-blue">解决办法</span>
 更改文件属性，设置为只读。
 
-![Docker mysql配置](/images/docker/docker_20251017_001.png)
+![Docker mysql配置](/images/docker/20251017/docker_20251017_001.png)
 
