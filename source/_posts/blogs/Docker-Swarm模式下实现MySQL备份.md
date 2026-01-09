@@ -12,13 +12,13 @@ updated: 2026-01-09 13:52:10
 ---
 <!-- toc -->
 
-# 基于 Docker Swarm 的 MySQL 自动备份服务部署指南
+# <span id="inline-blue">基于 Docker Swarm 的 MySQL 自动备份服务部署指南</span>
 
-## 概述
+## <span id="inline-blue">概述</span>
 
 在生产环境中，数据库备份是确保数据安全的关键环节。本文将介绍如何使用 Docker Swarm 编排部署一个自动化的 MySQL 数据库备份服务，该服务能够按照设定的时间表自动执行备份任务，并自动清理过期备份文件。
 
-## 技术架构
+## <span id="inline-blue">技术架构</span>
 
 本方案基于以下技术栈：
 
@@ -27,35 +27,35 @@ updated: 2026-01-09 13:52:10
 - **Docker Secrets**：用于安全存储 MySQL 密码
 - **Cron**：定时任务调度
 
-## 服务特性
+## <span id="inline-blue">服务特性</span>
 
-### 1. 自动化定时备份
+### <span id="inline-blue">1. 自动化定时备份</span>
 - 支持通过 Cron 表达式配置备份时间
 - 默认配置：每天凌晨 3 点执行备份
 
-### 2. 数据压缩存储
+### <span id="inline-blue">2. 数据压缩存储</span>
 - 使用 gzip 压缩备份文件
 - 支持配置压缩级别（1-9，9 为最高压缩率）
 - 默认使用最高压缩级别，节省存储空间
 
-### 3. 自动清理机制
+### <span id="inline-blue">3. 自动清理机制</span>
 - 自动保留指定天数的备份文件
 - 默认保留最近 7 天的备份
 - 自动删除过期备份，避免磁盘空间浪费
 
-### 4. 安全认证
+### <span id="inline-blue">4. 安全认证</span>
 - 使用 Docker Swarm Secrets 管理敏感信息
 - 通过 `MYSQL_PASS_FILE` 环境变量从 Secret 文件读取密码
 - 避免在配置文件中明文存储密码
 
-### 5. 高可用部署
+### <span id="inline-blue">5. 高可用部署</span>
 - 支持 Docker Swarm 集群部署
 - 配置自动重启策略
 - 支持节点约束，可指定部署节点
 
-## 配置文件详解
+## <span id="inline-blue">配置文件详解</span>
 
-### docker-swarm-mysql-backup.yml
+### <span id="inline-blue">docker-swarm-mysql-backup.yml</span>
 
 ```yaml
 services:
@@ -121,9 +121,9 @@ networks:
     external: true
 ```
 
-### 关键配置说明
+### <span id="inline-blue">关键配置说明</span>
 
-#### 环境变量
+#### <span id="inline-blue">环境变量</span>
 
 | 变量名 | 说明 | 示例值 |
 |--------|------|--------|
@@ -137,23 +137,23 @@ networks:
 | `CRON_TIME` | Cron 定时表达式 | "0 3 * * *" |
 | `GZIP_LEVEL` | Gzip 压缩级别（1-9） | 9 |
 
-#### 部署策略配置
+#### <span id="inline-blue">部署策略配置</span>
 
 - **mode**: `replicated` - 副本模式
 - **replicas**: `1` - 单副本运行（备份服务通常只需一个实例）
 - **restart_policy**: 故障时自动重启，最多尝试 3 次
 - **placement.constraints**: 约束部署到标签为 `role==base` 的节点
 
-#### 存储卷
+#### <span id="inline-blue">存储卷</span>
 
 - 将本地 `./mysql-backup/backup` 目录挂载到容器内的 `/backup` 目录
 - 备份文件将保存在宿主机本地，便于管理和备份
 
-## 部署步骤
+## <span id="inline-blue">部署步骤</span>
 
-### 前置准备
+### <span id="inline-blue">前置准备</span>
 
-#### 1. 创建 Docker Secret
+#### <span id="inline-blue">1. 创建 Docker Secret</span>
 
 确保 MySQL 密码 Secret 已创建：
 
@@ -161,7 +161,7 @@ networks:
 echo "your-mysql-password" | docker secret create mysql-password -
 ```
 
-#### 2. 创建 Docker Swarm 网络
+#### <span id="inline-blue">2. 创建 Docker Swarm 网络</span>
 
 确保应用网络已创建：
 
@@ -169,7 +169,7 @@ echo "your-mysql-password" | docker secret create mysql-password -
 docker network create app-net -d overlay
 ```
 
-#### 3. 准备备份目录
+#### <span id="inline-blue">3. 准备备份目录</span>
 
 创建备份文件存储目录：
 
@@ -177,9 +177,9 @@ docker network create app-net -d overlay
 mkdir -p ./mysql-backup/backup
 ```
 
-### 部署流程
+### <span id="inline-blue">部署流程</span>
 
-#### 步骤 1：构建镜像
+#### <span id="inline-blue">步骤 1：构建镜像</span>
 
 首先构建备份服务镜像：
 
@@ -189,7 +189,7 @@ docker compose -f docker-swarm-mysql-backup.yml build mysql-backup
 
 > **说明**：虽然使用 `docker compose` 命令构建，但这是为了在 Swarm 模式下构建镜像。注意文件名使用的是 `docker-swarm-mysql-backup.yml`，符合 Swarm 编排文件命名规范。
 
-#### 步骤 2：验证和预处理配置
+#### <span id="inline-blue">步骤 2：验证和预处理配置</span>
 
 使用 Docker Stack 配置验证命令，生成处理后的配置文件：
 
@@ -199,7 +199,7 @@ docker stack config -c docker-swarm-mysql-backup.yml > docker-swarm-mysql-backup
 
 > **说明**：此命令会验证配置文件的语法正确性，并展开所有变量和引用，生成一个可用于部署的配置文件。如果配置有误，会在这一步报错。
 
-#### 步骤 3：部署 Stack
+#### <span id="inline-blue">步骤 3：部署 Stack</span>
 
 使用处理后的配置文件部署服务栈：
 
@@ -212,9 +212,9 @@ docker stack deploy -c docker-swarm-mysql-backup-process.yml --resolve-image nev
 > - `--resolve-image never`：不自动解析镜像标签，使用配置文件中指定的镜像
 > - `docker-stack-mysql-backup`：Stack 名称
 
-### 验证部署
+### <span id="inline-blue">验证部署</span>
 
-#### 查看服务状态
+#### <span id="inline-blue">查看服务状态</span>
 
 ```bash
 # 查看 Stack 中的所有服务
@@ -224,7 +224,7 @@ docker stack services docker-stack-mysql-backup
 docker service ls | grep mysql-backup
 ```
 
-#### 查看服务日志
+#### <span id="inline-blue">查看服务日志</span>
 
 ```bash
 # 实时查看日志
@@ -234,7 +234,7 @@ docker service logs -f docker-stack-mysql-backup_mysql-backup
 docker service logs --tail 100 docker-stack-mysql-backup_mysql-backup
 ```
 
-#### 检查备份文件
+#### <span id="inline-blue">检查备份文件</span>
 
 ```bash
 # 查看备份目录
@@ -244,9 +244,9 @@ ls -lh ./mysql-backup/backup/
 du -sh ./mysql-backup/backup/
 ```
 
-## 备份文件说明
+## <span id="inline-blue">备份文件说明</span>
 
-### 文件命名格式
+### <span id="inline-blue">文件命名格式</span>
 
 备份文件采用以下命名格式：
 
@@ -256,20 +256,20 @@ du -sh ./mysql-backup/backup/
 
 示例：`app_cloud_20240115_030000.sql.gz`
 
-### 文件存储位置
+### <span id="inline-blue">文件存储位置</span>
 
 - **容器内路径**：`/backup`
 - **宿主机路径**：`./mysql-backup/backup`
 
-### 备份文件管理
+### <span id="inline-blue">备份文件管理</span>
 
 - 系统会自动根据 `MAX_BACKUPS` 配置保留指定数量的备份文件
 - 超出保留数量的旧备份会被自动删除
 - 建议定期将备份文件同步到远程存储（如云存储、NAS 等）
 
-## 运维管理
+## <span id="inline-blue">运维管理</span>
 
-### 手动触发备份
+### <span id="inline-blue">手动触发备份</span>
 
 如果需要立即执行一次备份（不等待定时任务），可以进入容器手动执行：
 
@@ -281,7 +281,7 @@ docker ps | grep mysql-backup
 docker exec <container_id> /backup.sh
 ```
 
-### 更新配置
+### <span id="inline-blue">更新配置</span>
 
 修改配置文件后，重新部署：
 
@@ -296,23 +296,23 @@ docker stack config -c docker-swarm-mysql-backup.yml > docker-swarm-mysql-backup
 docker stack deploy -c docker-swarm-mysql-backup-process.yml --resolve-image never docker-stack-mysql-backup
 ```
 
-### 停止服务
+### <span id="inline-blue">停止服务</span>
 
 ```bash
 docker stack rm docker-stack-mysql-backup
 ```
 
-### 扩缩容
+### <span id="inline-blue">扩缩容</span>
 
 备份服务通常只需 1 个副本，如需调整：
 
 修改配置文件中的 `replicas` 值，然后重新部署。
 
-## 故障排查
+## <span id="inline-blue">故障排查</span>
 
-### 常见问题
+### <span id="inline-blue">常见问题</span>
 
-#### 1. 备份失败：无法连接到 MySQL
+#### <span id="inline-blue">1. 备份失败：无法连接到 MySQL</span>
 
 **症状**：日志中显示连接错误
 
@@ -321,7 +321,7 @@ docker stack rm docker-stack-mysql-backup
 - 检查备份服务与 MySQL 服务是否在同一个 Swarm 网络中
 - 验证 MySQL 服务是否正常运行：`docker service ls | grep mysql`
 
-#### 2. 认证失败
+#### <span id="inline-blue">2. 认证失败</span>
 
 **症状**：日志中显示认证错误
 
@@ -330,21 +330,21 @@ docker stack rm docker-stack-mysql-backup
 - 验证 Secret 内容是否正确
 - 检查 `MYSQL_USER` 和 `MYSQL_PASS_FILE` 配置
 
-#### 3. 备份文件未生成
+#### <span id="inline-blue">3. 备份文件未生成</span>
 
 **排查步骤**：
 - 检查 Cron 任务是否正常：查看容器日志
 - 验证备份目录挂载是否正确：`docker service inspect docker-stack-mysql-backup_mysql-backup`
 - 检查磁盘空间是否充足：`df -h`
 
-#### 4. 备份文件未自动清理
+#### <span id="inline-blue">4. 备份文件未自动清理</span>
 
 **排查步骤**：
 - 检查 `MAX_BACKUPS` 配置是否正确
 - 查看日志确认清理任务是否执行
 - 手动验证备份文件数量是否超过配置值
 
-### 日志分析
+### <span id="inline-blue">日志分析</span>
 
 ```bash
 # 查看完整的服务日志
@@ -357,33 +357,33 @@ docker service logs docker-stack-mysql-backup_mysql-backup 2>&1 | grep -i error
 docker service logs docker-stack-mysql-backup_mysql-backup 2>&1 | grep -i "backup completed"
 ```
 
-## 最佳实践
+## <span id="inline-blue">最佳实践</span>
 
-### 1. 备份策略优化
+### <span id="inline-blue">1. 备份策略优化</span>
 
 - **备份频率**：根据业务需求调整 `CRON_TIME`，重要数据可增加备份频率
 - **保留期限**：根据数据重要性调整 `MAX_BACKUPS`，建议至少保留 7-30 天
 - **压缩级别**：如果磁盘空间充足，可降低压缩级别以加快备份速度
 
-### 2. 存储管理
+### <span id="inline-blue">2. 存储管理</span>
 
 - **本地存储**：备份文件存储在本地，定期同步到远程存储
 - **磁盘监控**：监控备份目录所在磁盘的使用情况
 - **备份验证**：定期测试备份文件的恢复功能，确保备份可用
 
-### 3. 安全加固
+### <span id="inline-blue">3. 安全加固</span>
 
 - **密码管理**：使用 Docker Secrets 管理密码，不要硬编码
 - **访问控制**：限制备份目录的访问权限
 - **传输加密**：如果备份需要传输到远程，使用加密传输
 
-### 4. 监控告警
+### <span id="inline-blue">4. 监控告警</span>
 
 - 监控备份任务执行状态
 - 设置磁盘空间告警
 - 监控备份文件生成时间，异常时及时告警
 
-## 总结
+## <span id="inline-blue">总结</span>
 
 通过 Docker Swarm 部署 MySQL 自动备份服务，我们可以实现：
 
