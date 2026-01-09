@@ -389,6 +389,318 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker-Swarm模式下实现MySQL备份</title>
+    <url>/Docker/blogs/Docker-Swarm%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%AE%9E%E7%8E%B0MySQL%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#%E5%9F%BA%E4%BA%8E-docker-swarm-%E7%9A%84-mysql-%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97">基于 Docker Swarm 的 MySQL 自动备份服务部署指南</a><ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84">技术架构</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E7%89%B9%E6%80%A7">服务特性</a><ul>
+<li><a href="#1-%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD">1. 自动化定时备份</a></li>
+<li><a href="#2-%E6%95%B0%E6%8D%AE%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8">2. 数据压缩存储</a></li>
+<li><a href="#3-%E8%87%AA%E5%8A%A8%E6%B8%85%E7%90%86%E6%9C%BA%E5%88%B6">3. 自动清理机制</a></li>
+<li><a href="#4-%E5%AE%89%E5%85%A8%E8%AE%A4%E8%AF%81">4. 安全认证</a></li>
+<li><a href="#5-%E9%AB%98%E5%8F%AF%E7%94%A8%E9%83%A8%E7%BD%B2">5. 高可用部署</a></li>
+</ul>
+</li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3">配置文件详解</a><ul>
+<li><a href="#docker-swarm-mysql-backupyml">docker-swarm-mysql-backup.yml</a></li>
+<li><a href="#%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E">关键配置说明</a><ul>
+<li><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a></li>
+<li><a href="#%E9%83%A8%E7%BD%B2%E7%AD%96%E7%95%A5%E9%85%8D%E7%BD%AE">部署策略配置</a></li>
+<li><a href="#%E5%AD%98%E5%82%A8%E5%8D%B7">存储卷</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%83%A8%E7%BD%B2%E6%AD%A5%E9%AA%A4">部署步骤</a><ul>
+<li><a href="#%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87">前置准备</a><ul>
+<li><a href="#1-%E5%88%9B%E5%BB%BA-docker-secret">1. 创建 Docker Secret</a></li>
+<li><a href="#2-%E5%88%9B%E5%BB%BA-docker-swarm-%E7%BD%91%E7%BB%9C">2. 创建 Docker Swarm 网络</a></li>
+<li><a href="#3-%E5%87%86%E5%A4%87%E5%A4%87%E4%BB%BD%E7%9B%AE%E5%BD%95">3. 准备备份目录</a></li>
+</ul>
+</li>
+<li><a href="#%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B">部署流程</a><ul>
+<li><a href="#%E6%AD%A5%E9%AA%A4-1%E6%9E%84%E5%BB%BA%E9%95%9C%E5%83%8F">步骤 1：构建镜像</a></li>
+<li><a href="#%E6%AD%A5%E9%AA%A4-2%E9%AA%8C%E8%AF%81%E5%92%8C%E9%A2%84%E5%A4%84%E7%90%86%E9%85%8D%E7%BD%AE">步骤 2：验证和预处理配置</a></li>
+<li><a href="#%E6%AD%A5%E9%AA%A4-3%E9%83%A8%E7%BD%B2-stack">步骤 3：部署 Stack</a></li>
+</ul>
+</li>
+<li><a href="#%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2">验证部署</a><ul>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81">查看服务状态</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97">查看服务日志</a></li>
+<li><a href="#%E6%A3%80%E6%9F%A5%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6">检查备份文件</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">备份文件说明</a><ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%91%BD%E5%90%8D%E6%A0%BC%E5%BC%8F">文件命名格式</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE">文件存储位置</a></li>
+<li><a href="#%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86">备份文件管理</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86">运维管理</a><ul>
+<li><a href="#%E6%89%8B%E5%8A%A8%E8%A7%A6%E5%8F%91%E5%A4%87%E4%BB%BD">手动触发备份</a></li>
+<li><a href="#%E6%9B%B4%E6%96%B0%E9%85%8D%E7%BD%AE">更新配置</a></li>
+<li><a href="#%E5%81%9C%E6%AD%A2%E6%9C%8D%E5%8A%A1">停止服务</a></li>
+<li><a href="#%E6%89%A9%E7%BC%A9%E5%AE%B9">扩缩容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5">故障排查</a><ul>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98">常见问题</a><ul>
+<li><a href="#1-%E5%A4%87%E4%BB%BD%E5%A4%B1%E8%B4%A5%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%88%B0-mysql">1. 备份失败：无法连接到 MySQL</a></li>
+<li><a href="#2-%E8%AE%A4%E8%AF%81%E5%A4%B1%E8%B4%A5">2. 认证失败</a></li>
+<li><a href="#3-%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E6%9C%AA%E7%94%9F%E6%88%90">3. 备份文件未生成</a></li>
+<li><a href="#4-%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E6%9C%AA%E8%87%AA%E5%8A%A8%E6%B8%85%E7%90%86">4. 备份文件未自动清理</a></li>
+</ul>
+</li>
+<li><a href="#%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90">日志分析</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">最佳实践</a><ul>
+<li><a href="#1-%E5%A4%87%E4%BB%BD%E7%AD%96%E7%95%A5%E4%BC%98%E5%8C%96">1. 备份策略优化</a></li>
+<li><a href="#2-%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86">2. 存储管理</a></li>
+<li><a href="#3-%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA">3. 安全加固</a></li>
+<li><a href="#4-%E7%9B%91%E6%8E%A7%E5%91%8A%E8%AD%A6">4. 监控告警</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="基于-docker-swarm-的-mysql-自动备份服务部署指南">基于 Docker Swarm 的 MySQL 自动备份服务部署指南</span></h1><h2><span id="概述">概述</span></h2><p>在生产环境中，数据库备份是确保数据安全的关键环节。本文将介绍如何使用 Docker Swarm 编排部署一个自动化的 MySQL 数据库备份服务，该服务能够按照设定的时间表自动执行备份任务，并自动清理过期备份文件。</p>
+<h2><span id="技术架构">技术架构</span></h2><p>本方案基于以下技术栈：</p>
+<ul>
+<li><strong>Docker Swarm</strong>：容器编排平台</li>
+<li><strong>fradelg/mysql-cron-backup</strong>：MySQL 定时备份镜像（v1.14.1）</li>
+<li><strong>Docker Secrets</strong>：用于安全存储 MySQL 密码</li>
+<li><strong>Cron</strong>：定时任务调度</li>
+</ul>
+<h2><span id="服务特性">服务特性</span></h2><h3><span id="1-自动化定时备份">1. 自动化定时备份</span></h3><ul>
+<li>支持通过 Cron 表达式配置备份时间</li>
+<li>默认配置：每天凌晨 3 点执行备份</li>
+</ul>
+<h3><span id="2-数据压缩存储">2. 数据压缩存储</span></h3><ul>
+<li>使用 gzip 压缩备份文件</li>
+<li>支持配置压缩级别（1-9，9 为最高压缩率）</li>
+<li>默认使用最高压缩级别，节省存储空间</li>
+</ul>
+<h3><span id="3-自动清理机制">3. 自动清理机制</span></h3><ul>
+<li>自动保留指定天数的备份文件</li>
+<li>默认保留最近 7 天的备份</li>
+<li>自动删除过期备份，避免磁盘空间浪费</li>
+</ul>
+<h3><span id="4-安全认证">4. 安全认证</span></h3><ul>
+<li>使用 Docker Swarm Secrets 管理敏感信息</li>
+<li>通过 <code>MYSQL_PASS_FILE</code> 环境变量从 Secret 文件读取密码</li>
+<li>避免在配置文件中明文存储密码</li>
+</ul>
+<h3><span id="5-高可用部署">5. 高可用部署</span></h3><ul>
+<li>支持 Docker Swarm 集群部署</li>
+<li>配置自动重启策略</li>
+<li>支持节点约束，可指定部署节点</li>
+</ul>
+<h2><span id="配置文件详解">配置文件详解</span></h2><h3><span id="docker-swarm-mysql-backupyml">docker-swarm-mysql-backup.yml</span></h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql-backup:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">dev.coframe.coship.com:8443/prod/mysql-backup:latest</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./mysql-backup</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">app-net</span></span><br><span class="line">    <span class="attr">secrets:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql-password</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">TZ:</span> <span class="string">Asia/Shanghai</span></span><br><span class="line">      <span class="comment"># MySQL连接配置</span></span><br><span class="line">      <span class="attr">MYSQL_HOST:</span> <span class="string">mysql-service</span></span><br><span class="line">      <span class="attr">MYSQL_PORT:</span> <span class="number">3306</span></span><br><span class="line">      <span class="attr">MYSQL_USER:</span> <span class="string">root</span></span><br><span class="line">      <span class="comment"># 使用MYSQL_PASS_FILE从secret文件读取密码</span></span><br><span class="line">      <span class="attr">MYSQL_PASS_FILE:</span> <span class="string">/run/secrets/mysql-password</span></span><br><span class="line">      <span class="comment"># 指定要备份的数据库</span></span><br><span class="line">      <span class="attr">MYSQL_DATABASE:</span> <span class="string">app_cloud</span></span><br><span class="line">      <span class="comment"># 备份保留天数（7天）</span></span><br><span class="line">      <span class="attr">MAX_BACKUPS:</span> <span class="number">7</span></span><br><span class="line">      <span class="comment"># 备份时间：每天凌晨3点</span></span><br><span class="line">      <span class="attr">CRON_TIME:</span> <span class="string">&quot;0 3 * * *&quot;</span></span><br><span class="line">      <span class="comment"># 压缩级别：9（最高压缩率）</span></span><br><span class="line">      <span class="attr">GZIP_LEVEL:</span> <span class="number">9</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./mysql-backup/backup:/backup</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">mode:</span> <span class="string">replicated</span></span><br><span class="line">      <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">endpoint_mode:</span> <span class="string">vip</span></span><br><span class="line">      <span class="attr">restart_policy:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">on-failure</span></span><br><span class="line">        <span class="attr">delay:</span> <span class="string">5s</span></span><br><span class="line">        <span class="attr">max_attempts:</span> <span class="number">3</span></span><br><span class="line">        <span class="attr">window:</span> <span class="string">30s</span></span><br><span class="line">      <span class="attr">rollback_config:</span></span><br><span class="line">        <span class="attr">parallelism:</span> <span class="number">1</span></span><br><span class="line">        <span class="attr">delay:</span> <span class="string">5s</span></span><br><span class="line">        <span class="attr">failure_action:</span> <span class="string">pause</span></span><br><span class="line">        <span class="attr">monitor:</span> <span class="string">15s</span></span><br><span class="line">        <span class="attr">max_failure_ratio:</span> <span class="number">0</span></span><br><span class="line">        <span class="attr">order:</span> <span class="string">stop-first</span></span><br><span class="line">      <span class="attr">update_config:</span></span><br><span class="line">        <span class="attr">parallelism:</span> <span class="number">1</span></span><br><span class="line">        <span class="attr">delay:</span> <span class="string">5s</span></span><br><span class="line">        <span class="attr">failure_action:</span> <span class="string">pause</span></span><br><span class="line">        <span class="attr">monitor:</span> <span class="string">10s</span></span><br><span class="line">        <span class="attr">max_failure_ratio:</span> <span class="number">0</span></span><br><span class="line">        <span class="attr">order:</span> <span class="string">stop-first</span></span><br><span class="line">      <span class="attr">placement:</span></span><br><span class="line">        <span class="attr">constraints:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">node.labels.role==base</span></span><br><span class="line"></span><br><span class="line"><span class="attr">secrets:</span></span><br><span class="line">  <span class="attr">mysql-password:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">app-net:</span></span><br><span class="line">    <span class="attr">external:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="关键配置说明">关键配置说明</span></h3><h4><span id="环境变量">环境变量</span></h4><table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>说明</th>
+<th>示例值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TZ</code></td>
+<td>时区设置</td>
+<td>Asia/Shanghai</td>
+</tr>
+<tr>
+<td><code>MYSQL_HOST</code></td>
+<td>MySQL 服务名称（Swarm 服务名）</td>
+<td>mysql-service</td>
+</tr>
+<tr>
+<td><code>MYSQL_PORT</code></td>
+<td>MySQL 端口</td>
+<td>3306</td>
+</tr>
+<tr>
+<td><code>MYSQL_USER</code></td>
+<td>MySQL 用户名</td>
+<td>root</td>
+</tr>
+<tr>
+<td><code>MYSQL_PASS_FILE</code></td>
+<td>MySQL 密码文件路径</td>
+<td>/run/secrets/mysql-password</td>
+</tr>
+<tr>
+<td><code>MYSQL_DATABASE</code></td>
+<td>要备份的数据库名</td>
+<td>app_cloud</td>
+</tr>
+<tr>
+<td><code>MAX_BACKUPS</code></td>
+<td>保留的备份文件数量</td>
+<td>7</td>
+</tr>
+<tr>
+<td><code>CRON_TIME</code></td>
+<td>Cron 定时表达式</td>
+<td>“0 3 * * *”</td>
+</tr>
+<tr>
+<td><code>GZIP_LEVEL</code></td>
+<td>Gzip 压缩级别（1-9）</td>
+<td>9</td>
+</tr>
+</tbody></table>
+<h4><span id="部署策略配置">部署策略配置</span></h4><ul>
+<li><strong>mode</strong>: <code>replicated</code> - 副本模式</li>
+<li><strong>replicas</strong>: <code>1</code> - 单副本运行（备份服务通常只需一个实例）</li>
+<li><strong>restart_policy</strong>: 故障时自动重启，最多尝试 3 次</li>
+<li><strong>placement.constraints</strong>: 约束部署到标签为 <code>role==base</code> 的节点</li>
+</ul>
+<h4><span id="存储卷">存储卷</span></h4><ul>
+<li>将本地 <code>./mysql-backup/backup</code> 目录挂载到容器内的 <code>/backup</code> 目录</li>
+<li>备份文件将保存在宿主机本地，便于管理和备份</li>
+</ul>
+<h2><span id="部署步骤">部署步骤</span></h2><h3><span id="前置准备">前置准备</span></h3><h4><span id="1-创建-docker-secret">1. 创建 Docker Secret</span></h4><p>确保 MySQL 密码 Secret 已创建：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;your-mysql-password&quot;</span> | docker secret create mysql-password -</span><br></pre></td></tr></table></figure>
+
+<h4><span id="2-创建-docker-swarm-网络">2. 创建 Docker Swarm 网络</span></h4><p>确保应用网络已创建：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker network create app-net -d overlay</span><br></pre></td></tr></table></figure>
+
+<h4><span id="3-准备备份目录">3. 准备备份目录</span></h4><p>创建备份文件存储目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir -p ./mysql-backup/backup</span><br></pre></td></tr></table></figure>
+
+<h3><span id="部署流程">部署流程</span></h3><h4><span id="步骤-1构建镜像">步骤 1：构建镜像</span></h4><p>首先构建备份服务镜像：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker compose -f docker-swarm-mysql-backup.yml build mysql-backup</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>说明</strong>：虽然使用 <code>docker compose</code> 命令构建，但这是为了在 Swarm 模式下构建镜像。注意文件名使用的是 <code>docker-swarm-mysql-backup.yml</code>，符合 Swarm 编排文件命名规范。</p>
+</blockquote>
+<h4><span id="步骤-2验证和预处理配置">步骤 2：验证和预处理配置</span></h4><p>使用 Docker Stack 配置验证命令，生成处理后的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker stack config -c docker-swarm-mysql-backup.yml &gt; docker-swarm-mysql-backup-process.yml</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>说明</strong>：此命令会验证配置文件的语法正确性，并展开所有变量和引用，生成一个可用于部署的配置文件。如果配置有误，会在这一步报错。</p>
+</blockquote>
+<h4><span id="步骤-3部署-stack">步骤 3：部署 Stack</span></h4><p>使用处理后的配置文件部署服务栈：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker stack deploy -c docker-swarm-mysql-backup-process.yml --resolve-image never docker-stack-mysql-backup</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>说明</strong>：</p>
+<ul>
+<li><code>-c</code>：指定配置文件路径</li>
+<li><code>--resolve-image never</code>：不自动解析镜像标签，使用配置文件中指定的镜像</li>
+<li><code>docker-stack-mysql-backup</code>：Stack 名称</li>
+</ul>
+</blockquote>
+<h3><span id="验证部署">验证部署</span></h3><h4><span id="查看服务状态">查看服务状态</span></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看 Stack 中的所有服务</span></span><br><span class="line">docker stack services docker-stack-mysql-backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看服务详情</span></span><br><span class="line">docker service ls | grep mysql-backup</span><br></pre></td></tr></table></figure>
+
+<h4><span id="查看服务日志">查看服务日志</span></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 实时查看日志</span></span><br><span class="line">docker service logs -f docker-stack-mysql-backup_mysql-backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最近 100 行日志</span></span><br><span class="line">docker service logs --tail 100 docker-stack-mysql-backup_mysql-backup</span><br></pre></td></tr></table></figure>
+
+<h4><span id="检查备份文件">检查备份文件</span></h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看备份目录</span></span><br><span class="line">ls -lh ./mysql-backup/backup/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看备份文件大小和数量</span></span><br><span class="line">du -sh ./mysql-backup/backup/</span><br></pre></td></tr></table></figure>
+
+<h2><span id="备份文件说明">备份文件说明</span></h2><h3><span id="文件命名格式">文件命名格式</span></h3><p>备份文件采用以下命名格式：</p>
+<figure class="highlight dust"><table><tr><td class="code"><pre><span class="line"><span class="template-variable">&#123;database_name&#125;</span><span class="xml">_</span><span class="template-variable">&#123;YYYYMMDD&#125;</span><span class="xml">_</span><span class="template-variable">&#123;HHMMSS&#125;</span><span class="xml">.sql.gz</span></span><br></pre></td></tr></table></figure>
+
+<p>示例：<code>app_cloud_20240115_030000.sql.gz</code></p>
+<h3><span id="文件存储位置">文件存储位置</span></h3><ul>
+<li><strong>容器内路径</strong>：<code>/backup</code></li>
+<li><strong>宿主机路径</strong>：<code>./mysql-backup/backup</code></li>
+</ul>
+<h3><span id="备份文件管理">备份文件管理</span></h3><ul>
+<li>系统会自动根据 <code>MAX_BACKUPS</code> 配置保留指定数量的备份文件</li>
+<li>超出保留数量的旧备份会被自动删除</li>
+<li>建议定期将备份文件同步到远程存储（如云存储、NAS 等）</li>
+</ul>
+<h2><span id="运维管理">运维管理</span></h2><h3><span id="手动触发备份">手动触发备份</span></h3><p>如果需要立即执行一次备份（不等待定时任务），可以进入容器手动执行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查找容器 ID</span></span><br><span class="line">docker ps | grep mysql-backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行备份脚本</span></span><br><span class="line">docker <span class="built_in">exec</span> &lt;container_id&gt; /backup.sh</span><br></pre></td></tr></table></figure>
+
+<h3><span id="更新配置">更新配置</span></h3><p>修改配置文件后，重新部署：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 重新构建镜像（如果需要）</span></span><br><span class="line">docker compose -f docker-swarm-mysql-backup.yml build mysql-backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 验证配置</span></span><br><span class="line">docker stack config -c docker-swarm-mysql-backup.yml &gt; docker-swarm-mysql-backup-process.yml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 重新部署</span></span><br><span class="line">docker stack deploy -c docker-swarm-mysql-backup-process.yml --resolve-image never docker-stack-mysql-backup</span><br></pre></td></tr></table></figure>
+
+<h3><span id="停止服务">停止服务</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker stack rm docker-stack-mysql-backup</span><br></pre></td></tr></table></figure>
+
+<h3><span id="扩缩容">扩缩容</span></h3><p>备份服务通常只需 1 个副本，如需调整：</p>
+<p>修改配置文件中的 <code>replicas</code> 值，然后重新部署。</p>
+<h2><span id="故障排查">故障排查</span></h2><h3><span id="常见问题">常见问题</span></h3><h4><span id="1-备份失败无法连接到-mysql">1. 备份失败：无法连接到 MySQL</span></h4><p><strong>症状</strong>：日志中显示连接错误</p>
+<p><strong>排查步骤</strong>：</p>
+<ul>
+<li>确认 MySQL 服务名称正确（<code>MYSQL_HOST</code>）</li>
+<li>检查备份服务与 MySQL 服务是否在同一个 Swarm 网络中</li>
+<li>验证 MySQL 服务是否正常运行：<code>docker service ls | grep mysql</code></li>
+</ul>
+<h4><span id="2-认证失败">2. 认证失败</span></h4><p><strong>症状</strong>：日志中显示认证错误</p>
+<p><strong>排查步骤</strong>：</p>
+<ul>
+<li>确认 Secret 已正确创建：<code>docker secret ls</code></li>
+<li>验证 Secret 内容是否正确</li>
+<li>检查 <code>MYSQL_USER</code> 和 <code>MYSQL_PASS_FILE</code> 配置</li>
+</ul>
+<h4><span id="3-备份文件未生成">3. 备份文件未生成</span></h4><p><strong>排查步骤</strong>：</p>
+<ul>
+<li>检查 Cron 任务是否正常：查看容器日志</li>
+<li>验证备份目录挂载是否正确：<code>docker service inspect docker-stack-mysql-backup_mysql-backup</code></li>
+<li>检查磁盘空间是否充足：<code>df -h</code></li>
+</ul>
+<h4><span id="4-备份文件未自动清理">4. 备份文件未自动清理</span></h4><p><strong>排查步骤</strong>：</p>
+<ul>
+<li>检查 <code>MAX_BACKUPS</code> 配置是否正确</li>
+<li>查看日志确认清理任务是否执行</li>
+<li>手动验证备份文件数量是否超过配置值</li>
+</ul>
+<h3><span id="日志分析">日志分析</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看完整的服务日志</span></span><br><span class="line">docker service logs docker-stack-mysql-backup_mysql-backup</span><br><span class="line"></span><br><span class="line"><span class="comment"># 过滤错误日志</span></span><br><span class="line">docker service logs docker-stack-mysql-backup_mysql-backup 2&gt;&amp;1 | grep -i error</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最近的成功备份记录</span></span><br><span class="line">docker service logs docker-stack-mysql-backup_mysql-backup 2&gt;&amp;1 | grep -i <span class="string">&quot;backup completed&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="最佳实践">最佳实践</span></h2><h3><span id="1-备份策略优化">1. 备份策略优化</span></h3><ul>
+<li><strong>备份频率</strong>：根据业务需求调整 <code>CRON_TIME</code>，重要数据可增加备份频率</li>
+<li><strong>保留期限</strong>：根据数据重要性调整 <code>MAX_BACKUPS</code>，建议至少保留 7-30 天</li>
+<li><strong>压缩级别</strong>：如果磁盘空间充足，可降低压缩级别以加快备份速度</li>
+</ul>
+<h3><span id="2-存储管理">2. 存储管理</span></h3><ul>
+<li><strong>本地存储</strong>：备份文件存储在本地，定期同步到远程存储</li>
+<li><strong>磁盘监控</strong>：监控备份目录所在磁盘的使用情况</li>
+<li><strong>备份验证</strong>：定期测试备份文件的恢复功能，确保备份可用</li>
+</ul>
+<h3><span id="3-安全加固">3. 安全加固</span></h3><ul>
+<li><strong>密码管理</strong>：使用 Docker Secrets 管理密码，不要硬编码</li>
+<li><strong>访问控制</strong>：限制备份目录的访问权限</li>
+<li><strong>传输加密</strong>：如果备份需要传输到远程，使用加密传输</li>
+</ul>
+<h3><span id="4-监控告警">4. 监控告警</span></h3><ul>
+<li>监控备份任务执行状态</li>
+<li>设置磁盘空间告警</li>
+<li>监控备份文件生成时间，异常时及时告警</li>
+</ul>
+<h2><span id="总结">总结</span></h2><p>通过 Docker Swarm 部署 MySQL 自动备份服务，我们可以实现：</p>
+<p> <strong>自动化</strong>：无需人工干预，定时自动备份<br> <strong>安全可靠</strong>：使用 Secrets 管理敏感信息，配置自动重启<br> <strong>资源高效</strong>：压缩存储，自动清理过期备份<br> <strong>易于管理</strong>：标准化部署流程，便于维护和扩展  </p>
+<p>该方案适用于生产环境，能够有效保障数据安全。根据实际业务需求，可以灵活调整备份策略和配置参数。</p>
+<hr>
+<p><strong>参考资源</strong>：</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/swarm/">Docker Swarm 官方文档</a></li>
+<li><a href="https://docs.docker.com/engine/swarm/secrets/">Docker Secrets 使用指南</a></li>
+<li><a href="https://hub.docker.com/r/fradelg/mysql-cron-backup">fradelg/mysql-cron-backup 镜像文档</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Docker swarm</tag>
+        <tag>mysql-cron-backup</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Portainer CE可视化Docker容器管理使用指南</title>
     <url>/Docker/blogs/Portainer%20CE%E5%8F%AF%E8%A7%86%E5%8C%96Docker%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<!-- toc -->
@@ -2699,7 +3011,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#101;&#109;&#113;&#120;&#x31;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#46;&#49;&#48;&#48;">&#101;&#109;&#113;&#120;&#x31;&#64;&#49;&#57;&#x32;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#46;&#49;&#48;&#48;</a><br><a href="mailto:&#x6e;&#111;&#100;&#101;&#50;&#64;&#98;&#114;&#x6f;&#107;&#x65;&#114;&#46;&#x65;&#x6d;&#113;&#120;&#46;&#105;&#x6f;">&#x6e;&#111;&#100;&#101;&#50;&#64;&#98;&#114;&#x6f;&#107;&#x65;&#114;&#46;&#x65;&#x6d;&#113;&#120;&#46;&#105;&#x6f;</a><br><a href="mailto:&#101;&#109;&#x71;&#120;&#64;&#x31;&#48;&#x2e;&#x30;&#46;&#48;&#46;&#x31;">&#101;&#109;&#x71;&#120;&#64;&#x31;&#48;&#x2e;&#x30;&#46;&#48;&#46;&#x31;</a></p>
+<p><a href="mailto:&#x65;&#109;&#x71;&#x78;&#x31;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#x38;&#46;&#49;&#46;&#x31;&#48;&#48;">&#x65;&#109;&#x71;&#x78;&#x31;&#64;&#x31;&#57;&#50;&#46;&#49;&#x36;&#x38;&#46;&#49;&#46;&#x31;&#48;&#48;</a><br><a href="mailto:&#110;&#x6f;&#100;&#x65;&#x32;&#64;&#98;&#114;&#x6f;&#x6b;&#101;&#x72;&#46;&#x65;&#109;&#x71;&#x78;&#46;&#105;&#x6f;">&#110;&#x6f;&#100;&#x65;&#x32;&#64;&#98;&#114;&#x6f;&#x6b;&#101;&#x72;&#46;&#x65;&#109;&#x71;&#x78;&#46;&#105;&#x6f;</a><br><a href="mailto:&#101;&#109;&#x71;&#120;&#64;&#x31;&#48;&#46;&#48;&#x2e;&#x30;&#46;&#x31;">&#101;&#109;&#x71;&#120;&#64;&#x31;&#48;&#46;&#48;&#x2e;&#x30;&#46;&#x31;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -5431,7 +5743,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#x6f;&#111;&#116;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#x30;&#48;&#46;&#x31;&#48;&#x31;">&#114;&#x6f;&#111;&#116;&#x40;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#x2e;&#x31;&#x30;&#48;&#46;&#x31;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#111;&#111;&#116;&#64;&#x31;&#57;&#50;&#46;&#x31;&#54;&#56;&#46;&#x31;&#48;&#48;&#x2e;&#49;&#x30;&#x31;">&#114;&#111;&#111;&#116;&#64;&#x31;&#57;&#50;&#46;&#x31;&#54;&#56;&#46;&#x31;&#48;&#48;&#x2e;&#49;&#x30;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -7825,6 +8137,28 @@ tmp – 临时文件</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Hexo新建404</title>
+    <url>/Hexo/blogs/Hexo%E6%96%B0%E5%BB%BA404/</url>
+    <content><![CDATA[<h2><span id="新建404"><span id="inline-blue">新建404</span></span></h2><p>在站点根目录下,输入 hexo new page 404,默认在Hexo 站点下/source/404/index.md<br>打开新建的404界面，在顶部插入一行，写上permalink: /404，这表示指定该页固定链接为 http://“主页”/404.html</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">permalink: /404</span><br><span class="line">---</span><br><span class="line">title: #404 Not Found：该页无法显示</span><br><span class="line">date: 2017-09-06 15:37:18</span><br><span class="line">comments: false</span><br><span class="line">permalink: /404</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo文章置顶功能</title>
     <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h2><span id="移除默认安装的插件"><span id="inline-blue">移除默认安装的插件</span></span></h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br></pre></td></tr></table></figure>
@@ -7841,28 +8175,6 @@ tmp – 临时文件</code></pre>
 
 <p>如下图所示位置：</p>
 <p><img src="/images/hexo/next/hexo_next_2021_01_10_002.png" alt="hexo文章置顶图标"></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo新建404</title>
-    <url>/Hexo/blogs/Hexo%E6%96%B0%E5%BB%BA404/</url>
-    <content><![CDATA[<h2><span id="新建404"><span id="inline-blue">新建404</span></span></h2><p>在站点根目录下,输入 hexo new page 404,默认在Hexo 站点下/source/404/index.md<br>打开新建的404界面，在顶部插入一行，写上permalink: /404，这表示指定该页固定链接为 http://“主页”/404.html</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">permalink: /404</span><br><span class="line">---</span><br><span class="line">title: #404 Not Found：该页无法显示</span><br><span class="line">date: 2017-09-06 15:37:18</span><br><span class="line">comments: false</span><br><span class="line">permalink: /404</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
 ]]></content>
       <categories>
         <category>Hexo</category>
