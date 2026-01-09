@@ -60,7 +60,7 @@ updated: 2026-01-09 13:52:10
 ```yaml
 services:
   mysql-backup:
-    image: dev.coframe.coship.com:8443/prod/mysql-backup:latest
+    image: mysql-backup:latest
     build:
       context: ./mysql-backup
     networks:
