@@ -87,7 +87,7 @@ Aborted (core dumped)
 这是一个**系统层面的兼容性问题**，与 Java 应用代码无关：
 
 1. **glibc 版本冲突**：
-   - `eclipse-temurin:8-jdk` 默认基于 **Ubuntu 24.04 (Noble)**，使用 **glibc 2.39**
+   - `eclipse-temurin:8-jdk` 默认基于 **Ubuntu 24.04**，使用 **glibc 2.39**
    - 宿主机是 **CentOS 7，内核 3.10.x**（较老的 Linux 内核）
 
 2. **系统调用不兼容**：
@@ -190,9 +190,9 @@ CMD /wait && java $JAVA_OPTS -jar app-service.jar
 
 使用上述 Dockerfile 构建镜像并部署后：
 
-1. ✅ 容器正常启动，不再出现 `arc4random` 错误
-2. ✅ 验证码接口正常响应，`SunFontManager` 初始化成功
-3. ✅ 验证码图片正常生成，包含中英文字符
+1. 容器正常启动，不再出现 `arc4random` 错误
+2. 验证码接口正常响应，`SunFontManager` 初始化成功
+3. 验证码图片正常生成，包含中英文字符
 
 ## <span id="inline-blue">经验总结</span>
 
