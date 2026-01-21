@@ -72,7 +72,7 @@ maven项目引入proguard混淆插件,实现针对com.test.common.service包目�
 						<!-- 4. 完整保留Spring注解 -->
 						<option><![CDATA[-keep @org.springframework.stereotype.Component class com.test.common.service.**]]></option>
 						<option><![CDATA[-keep @org.springframework.stereotype.Service class com.test.common.service.**]]></option>
-						<option><![CDATA[-keepclassmembers class com.coship.oms.service** {
+						<option><![CDATA[-keepclassmembers class com.example.oms.service** {
                             @org.springframework.beans.factory.annotation.Autowired *;
                             @org.springframework.beans.factory.annotation.Resource *;
                             @org.springframework.beans.factory.annotation.Value *;
@@ -80,21 +80,21 @@ maven项目引入proguard混淆插件,实现针对com.test.common.service包目�
                         }]]></option>
 
 						<!-- 5. 保留Spring生命周期接口 -->
-						<option><![CDATA[-keep class com.coship.oms.service.** implements org.springframework.context.ApplicationContextAware {
+						<option><![CDATA[-keep class com.example.oms.service.** implements org.springframework.context.ApplicationContextAware {
                             public <methods>;
                         }]]></option>
-						<option><![CDATA[-keep class com.coship.oms.service.** implements org.springframework.beans.factory.InitializingBean {
+						<option><![CDATA[-keep class com.example.oms.service.** implements org.springframework.beans.factory.InitializingBean {
                             public <methods>;
                         }]]></option>
 
 						<!-- 6. 保留内部类 -->
-						<option><![CDATA[-keep class com.coship.oms.service.**$* {
+						<option><![CDATA[-keep class com.example.oms.service.**$* {
                             @*.* *;
                             <fields>;
                             <methods>;
                             <init>(...);
                         }]]></option>
-						<option><![CDATA[-keep class com.coship.oms.service.**$*$* {
+						<option><![CDATA[-keep class com.example.oms.service.**$*$* {
                             @*.* *;
                             <fields>;
                             <methods>;

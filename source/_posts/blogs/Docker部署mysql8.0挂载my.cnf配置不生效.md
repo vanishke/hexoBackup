@@ -71,13 +71,13 @@ lower_case_table_names=1
 
 docker容器部署命令如下：
 ```shell
-docker run  -v D:/dockerVolume/mysql8/conf/:/etc/mysql/conf.d -v D:/dockerVolume/mysql8/data:/var/lib/mysql -v D:/dockerVolume/mysql8/log:/var/log/mysql  --name mysql8 -e MYSQL_ROOT_PASSWORD=coship -p 3307:3306  -d mysql:8.0
+docker run  -v D:/dockerVolume/mysql8/conf/:/etc/mysql/conf.d -v D:/dockerVolume/mysql8/data:/var/lib/mysql -v D:/dockerVolume/mysql8/log:/var/log/mysql  --name mysql8 -e MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD> -p 3307:3306  -d mysql:8.0
 ```
 
 # <span id="inline-blue">原因</span>
 进入mysql容器内部登录出现如下提示：
 ```shell
-bash-5.1# mysql -uroot -pcoship
+bash-5.1# mysql -uroot -p<MYSQL_ROOT_PASSWORD>
 mysql: [Warning] World-writable config file '/etc/mysql/conf.d/my.cnf' is ignored.
 mysql: [Warning] Using a password on the command line interface can be insecure.
 Welcome to the MySQL monitor.  Commands end with ; or \g.

@@ -32,7 +32,7 @@ updated: 2021-01-15 14:11:20
  ```
  3. 设置远程仓库地址，并更新。
  ```shell
-   git remote add origin git@github.com:XXX/hexoBackup.git //设置需要同步的远程仓库地址
+   git remote add origin git@github.com:<YOUR_ORG_OR_USER>/hexoBackup.git //设置需要同步的远程仓库地址
    git pull origin master //将本地代码上传到远程仓库
  ```
  4. 修改 .gitignore文档（如果没有请手动创建一个），在里面加入*.log(同步日志) 和 public/ (hexo生成的html文件)以及.deploy*/。因为每次执行hexo generate命令时，上述目录都会被重写更新。因此忽略这两个目录下的文档更新，加快 push速度。
@@ -110,21 +110,21 @@ INFO  Copying files from extend dirs...
 [master 383dcf1] Site updated: 2021-01-14 16:43:22
  110 files changed, 3704 insertions(+), 32 deletions(-)
 Fatal: HttpRequestException encountered.
-Username for 'https://github.com': vanishke
+Username for 'https://github.com': <YOUR_GITHUB_USERNAME>
 Counting objects: 253, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (137/137), done.
 Writing objects: 100% (253/253), 84.53 KiB | 0 bytes/s, done.
 Total 253 (delta 109), reused 0 (delta 0)
 remote: Resolving deltas: 100% (109/109), completed with 38 local objects.
-To https://github.com/vanishke/hexo.git
+To https://github.com/<YOUR_GITHUB_USERNAME>/hexo.git
    55364f0..383dcf1  HEAD -> master
 Branch master set up to track remote branch master from https://github.com/vanishke/hexo.git.
 INFO  Deploy done: git
 ======================Auto Backup Begin===========================
 [master 9f9c64d] blog auto backup script's commit
  36 files changed, 1133 insertions(+), 11 deletions(-)
-To git@github.com:vanishke/hexoBackup.git
+To git@github.com:<YOUR_GITHUB_USERNAME>/hexoBackup.git
    b6ccffd..9f9c64d  master -> master
 ==================Auto Backup Complete============================
 

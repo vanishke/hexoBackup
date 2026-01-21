@@ -25,8 +25,8 @@ updated: 2025-01-03 16:36:03
 # 配置部分
 DB_USER="root"
 DB_PASSWORD="coship"
-DB_NAME_LOVEHOME="lovehome_xw"
-DB_NAME_IHOME_ALBUM="ihome_album_xw"
+DB_NAME_APP_MAIN="app_main_demo"
+DB_NAME_APP_DB="app_db_demo"
 BACKUP_DIR="/home/mysqldump/backup/"
 DATE=$(date +%Y%m%d)
 BACKUP_SAVE_DAYS=7
@@ -34,22 +34,22 @@ BACKUP_SAVE_DAYS=7
 # 创建备份目录（如果不存在）
 mkdir -p ${BACKUP_DIR}/${DATE}
 
-# 执行备份lovehome_xw
-/home/mysql/bin/mysqldump -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME_LOVEHOME}  --ignore-table=${DB_NAME_LOVEHOME}.sys_log_api_his  --ignore-table=${DB_NAME_LOVEHOME}.read_msg_record_his  --ignore-table=${DB_NAME_LOVEHOME}.push_record_his > ${BACKUP_DIR}/${DATE}/${DB_NAME_LOVEHOME}_${DATE}.sql
+# 执行备份 app_main_demo
+/home/mysql/bin/mysqldump -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME_APP_MAIN}  --ignore-table=${DB_NAME_APP_MAIN}.sys_log_api_his  --ignore-table=${DB_NAME_APP_MAIN}.read_msg_record_his  --ignore-table=${DB_NAME_APP_MAIN}.push_record_his > ${BACKUP_DIR}/${DATE}/${DB_NAME_APP_MAIN}_${DATE}.sql
 
 
-# 检查lovehome_xw备份是否成功
+# 检查 app_main_demo 备份是否成功
 if [ $? -eq 0 ]; then
-  echo "Backup successful: ${BACKUP_DIR}/${DATE}/${DB_NAME_LOVEHOME}_${DATE}.sql" >> ${BACKUP_DIR}/${DATE}/backup.log
+  echo "Backup successful: ${BACKUP_DIR}/${DATE}/${DB_NAME_APP_MAIN}_${DATE}.sql" >> ${BACKUP_DIR}/${DATE}/backup.log
 else
-  echo "Backup failed for ${DB_NAME_LOVEHOME} at ${DATE}" >> ${BACKUP_DIR}/${DATE}/backup.log
+  echo "Backup failed for ${DB_NAME_APP_MAIN} at ${DATE}" >> ${BACKUP_DIR}/${DATE}/backup.log
 fi
 
-# 执行备份ihome_album_xw
+# 执行备份 app_db_demo
 /home/mysql/bin/mysqldump -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME_IHOME_ALBUM} > ${BACKUP_DIR}${DATE}/${DB_NAME_IHOME_ALBUM}_${DATE}.sql
 
 
-# 检查ihome_album_xw备份是否成功
+# 检查 app_db_demo 备份是否成功
 if [ $? -eq 0 ]; then
   echo "Backup successful: ${BACKUP_DIR}/${DATE}/${DB_NAME_IHOME_ALBUM}_${DATE}.sql" >> ${BACKUP_DIR}/${DATE}/backup.log
 else

@@ -50,7 +50,7 @@ harbor.yml
 
 # The IP address or hostname to access admin UI and registry service.
 # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-hostname: coship.harbor.com
+hostname: harbor.example.com
 
 # http related config
 http:
@@ -92,12 +92,12 @@ https:
 # The initial password of Harbor admin
 # It only works in first time to install harbor
 # Remember Change the admin password from UI after launching Harbor.
-harbor_admin_password: coshipOk698?
+harbor_admin_password: <HARBOR_ADMIN_PASSWORD>
 
 # Harbor DB configuration
 database:
   # The password for the user('postgres' by default) of Harbor DB. Change this before any production use.
-  password: root123
+  password: <HARBOR_DB_PASSWORD>
   # The maximum number of connections in the idle connection pool. If it <=0, no idle connections are retained.
   max_idle_conns: 100
   # The maximum number of open connections to the database. If it <= 0, then there is no limit on the number of open connections.
@@ -372,16 +372,16 @@ hostname: 设置harbor服务的域名或者主机IP
 https: 加密安全访问可以通过下面命令生成对应证书文件
 
 ```shell
-#coship.harbor.com/10.9.216.14
-#指定/home路径下生成certificate.jks证书，秘钥为coshipOk698
-keytool -genkey -alias photoframe  -keyalg RSA -keysize 2048 -validity 3650 -ext SAN=dns:coship.harbor.com,ip:10.9.216.14 -keystore /usr/local/harbor/https/certificate.jks -storepass coshipOk698 -dname "CN=coship.harbor.com, OU=coship.harbor.com, O=coship.harbor.com, L=wuhan, ST=wuhan, C=cn"
+#harbor.example.com/10.0.0.10
+#指定/home路径下生成certificate.jks证书（口令请自行替换为强口令）
+keytool -genkey -alias registry  -keyalg RSA -keysize 2048 -validity 3650 -ext SAN=dns:harbor.example.com,ip:10.0.0.10 -keystore /usr/local/harbor/https/certificate.jks -storepass <STOREPASS> -dname "CN=harbor.example.com, OU=harbor.example.com, O=example, L=your-city, ST=your-state, C=CN"
 
 
 #certificate.jks是键值对形式的证书，推荐转换为标准格式pkcs12
 keytool -importkeystore -srckeystore certificate.jks -destkeystore certificate.jks -deststoretype pkcs12
 
 #将certificate.jks证书导出，certificate.jks已经是pkcs12格式
-keytool -export -trustcacerts -alias photoframe -file /usr/local/harbor/https/cas.crt -keystore /usr/local/harbor/https/certificate.jks -storepass coshipOk698
+keytool -export -trustcacerts -alias registry -file /usr/local/harbor/https/cas.crt -keystore /usr/local/harbor/https/certificate.jks -storepass <STOREPASS>
 
 #将cas.crt格式转换为server.pem，方便nginx使用
 openssl x509 -inform der -in cas.crt -out server.pem
@@ -442,5 +442,5 @@ sudo systemctl start harbor.service
 ```
 
 # <span id="inline-blue">验证</span>
-访问后台管理：https://10.9.216.14/
+访问后台管理：https://10.0.0.10/
 ![Dockerfile harbor](/images/docker/20250110/docker_20250110_003.png)

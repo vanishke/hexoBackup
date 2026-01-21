@@ -25,7 +25,7 @@ docker-compose 编排容器部署后发现zipkin-dependencies模块启动之后�
 # 基础镜像
 FROM  exoplatform/ubuntu:20.04
 # author
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 #拷贝jdk离线文件
 ADD ./jdk/jdk-11.0.18_linux-x64_bin.tar.gz /usr/local/java
 #设置jdk环境变量

@@ -31,7 +31,7 @@ docker swarm init --advertise-addr=10.9.216.12
 上述命令初始化当前节点为管理节点，并生成worker节点加入swarm集群命令，类似如下(token以实际情况为准)：
 
 ```shell
-docker swarm join --token SWMTKN-1-40mxvjntj01uoyi0rr93ztouf2d3nfc9fg7c6546wjb45sj7r4-bsa9siqzzeibs1egwdxzfvql6 10.9.216.12:2377
+docker swarm join --token <SWARM_JOIN_TOKEN> 10.0.0.12:2377
 ```
 
 查看swarm集群割接点信息(manage节点执行):

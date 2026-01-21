@@ -37,10 +37,10 @@ Caused by: java.net.SocketTimeoutException: null
 
 ```
 2026/01/16 16:39:11 [error] 8#8: *81 recv() failed (104: Connection reset by peer) 
-while reading upstream, client: 116.211.86.197, server: coframe.coship.com, 
+while reading upstream, client: 203.0.113.10, server: api.example.com, 
 request: "POST /prod-api/admin/appVersion/upload/74 HTTP/1.1", 
-upstream: "http://10.0.2.83:9001/prod/admin/appVersion/upload/74", 
-host: "coframe.coship.com:8080"
+upstream: "http://10.0.0.83:9001/prod/admin/appVersion/upload/74", 
+host: "api.example.com:8080"
 ```
 
 ## <span id="inline-blue">问题分析</span>
@@ -102,7 +102,7 @@ location /prod {
     proxy_set_header   X-Real-IP        $remote_addr;
     proxy_set_header   X-host           $host;
     proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
-    proxy_pass http://192.168.70.152:9001/test;
+    proxy_pass http://10.0.0.152:9001/test;
 }
 
 location / {
@@ -116,7 +116,7 @@ location / {
     proxy_set_header   X-Real-IP        $remote_addr;
     proxy_set_header   X-host           $host;
     proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
-    proxy_pass http://192.168.70.150:9000;
+    proxy_pass http://10.0.0.150:9000;
 }
 ```
 

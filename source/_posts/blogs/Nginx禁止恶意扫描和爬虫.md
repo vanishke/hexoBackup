@@ -60,7 +60,7 @@ server{
 	......
 	client_max_body_size 1024m;  
         listen       80;
-        server_name  dev-api.coframe.coship.com;
+        server_name  api.example.com;
 	### 引入屏蔽规则ip
     include /usr/local/nginx/conf/block_spiders.conf;
 	
@@ -99,10 +99,10 @@ nginx配置目录下增加配置文件block_ips.conf，路径: /usr/local/nginx/
 block_ips.conf文件内容如下：
 
 ```shell
-deny 223.70.213.73;
-deny 45.148.10.4;
-deny 78.153.140.151;
-deny 45.148.10.97;
+deny 203.0.113.10;
+deny 203.0.113.11;
+deny 203.0.113.12;
+deny 203.0.113.13;
 ```
 
 # <span id="inline-blue">过滤爬虫请求</span>
@@ -115,7 +115,7 @@ server{
 	......
 	client_max_body_size 1024m;  
         listen       80;
-        server_name  dev-api.coframe.coship.com;
+        server_name  api.example.com;
 	### 引入屏蔽规则ip
     include /usr/local/nginx/conf/block_spiders.conf;
 	.......

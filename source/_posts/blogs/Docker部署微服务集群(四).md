@@ -329,7 +329,7 @@ Dockerfile
 #基础镜像
 FROM centos:7
 #维护者
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 #拷贝安装包、创建elasticsearch用户elasticsearch、elasticsearch用户权限设置
 COPY ./tar/elasticsearch-8.8.0-linux-x86_64.tar.gz /usr/local
 RUN cd /usr/local && tar -zxvf elasticsearch-8.8.0-linux-x86_64.tar.gz &&  \
@@ -442,7 +442,7 @@ Dockerfile文件加入docker-compose-wait支持：
 # 基础镜像
 FROM nacos/nacos-server:v2.1.1
 # author
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 # 挂载目录
 VOLUME /home/nacos
 # 创建目录

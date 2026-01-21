@@ -24,7 +24,7 @@ Elasticsearch: 8.8.0
 ## <span id="inline-blue">创建生命周期</span>
 
 ```shell
-PUT http://120.76.251.149:9200/_ilm/policy/zipkin_delete_policy
+PUT http://10.0.0.14:9200/_ilm/policy/zipkin_delete_policy
 
 {
   "policy": {
@@ -51,7 +51,7 @@ Elasticsearch索引模板关联删除策略一定是在模板完整配置内容�
 错误的方式:
 
 ```shell
-PUT http://120.76.251.149:9200/_template/zipkin-dependency_template
+PUT http://10.0.0.14:9200/_template/zipkin-dependency_template
 {
   "index_patterns": ["zipkin-dependency-*"],
   "settings": {
@@ -72,7 +72,7 @@ PUT http://120.76.251.149:9200/_template/zipkin-dependency_template
 先查询出对应模板的映射设置
 
 ```shell
-GET http://120.76.251.149:9200/_template/zipkin-dependency_template
+GET http://10.0.0.14:9200/_template/zipkin-dependency_template
 {
   "zipkin-dependency_template": {
     "order": 0,
@@ -103,7 +103,7 @@ GET http://120.76.251.149:9200/_template/zipkin-dependency_template
 在上述查询获取到的索引模板内容添加索引删除策略，并将最外层的zipkin-dependency_template节点信息去除，然后执行以下命令
 
 ```shell
-PUT http://120.76.251.149:9200/_template/zipkin-dependency_template
+PUT http://10.0.0.14:9200/_template/zipkin-dependency_template
 {
     "order": 0,
     "index_patterns": [
@@ -137,7 +137,7 @@ PUT http://120.76.251.149:9200/_template/zipkin-dependency_template
 错误的方式:
 
 ```shell
-PUT http://120.76.251.149:9200/_template/zipkin-span_template
+PUT http://10.0.0.14:9200/_template/zipkin-span_template
 {
   "index_patterns": ["zipkin-span-*"],
   "settings": {
@@ -158,7 +158,7 @@ PUT http://120.76.251.149:9200/_template/zipkin-span_template
 先查询出对应模板的映射设置
 
 ```shell
-GET http://120.76.251.149:9200/_template/zipkin-span_template
+GET http://10.0.0.14:9200/_template/zipkin-span_template
 {
   "zipkin-span_template": {
     "order": 0,
@@ -253,7 +253,7 @@ GET http://120.76.251.149:9200/_template/zipkin-span_template
 在上述查询获取到的索引模板内容添加索引删除策略，并将最外层的zipkin-span_template节点信息去除，然后执行以下命令
 
 ```shell
-PUT http://120.76.251.149:9200/_template/zipkin-span_template
+PUT http://10.0.0.14:9200/_template/zipkin-span_template
  {
     "order": 0,
     "index_patterns": [
@@ -356,7 +356,7 @@ PUT http://120.76.251.149:9200/_template/zipkin-span_template
 zipkin-span相关索引：
 
 ```shell
-PUT  http://47.89.174.246:9200/zipkin-span-*/_settings
+PUT  http://10.0.0.14:9200/zipkin-span-*/_settings
 {
   "index": {
     "lifecycle": {
@@ -369,7 +369,7 @@ PUT  http://47.89.174.246:9200/zipkin-span-*/_settings
 zipkin-dependency相关索引：
 
 ```shell
-PUT http://47.89.174.246:9200/zipkin-dependency-*/_settings
+PUT http://10.0.0.14:9200/zipkin-dependency-*/_settings
 {
   "index": {
     "lifecycle": {

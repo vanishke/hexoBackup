@@ -16,7 +16,7 @@ maven项目打包只保存项目的classpath信息，jar包内部MANNIFEST.MF文
 ```shell
 Manifest-Version: 1.0
 Archiver-Version: Plexus Archiver
-Built-By: 909754
+Built-By: <USER_ID>
 Class-Path: lib/aopalliance-1.0.jar lib/asm-5.2.jar lib/asm-tree-5.2.j
  ar lib/aspectjrt-1.6.9.jar lib/aspectjweaver-1.6.9.jar lib/c3p0-0.9.1
  .2.jar lib/cas-client-core-3.5.0.jar lib/slf4j-api-1.7.1.jar lib/cgli

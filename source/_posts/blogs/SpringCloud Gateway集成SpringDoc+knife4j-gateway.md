@@ -49,8 +49,8 @@ springdoc.version=V1.0
 springdoc.license.name=Apache License, Version 2.0
 springdoc.license.license-url=https://www.apache.org/licenses/LICENSE-2.0.html
 springdoc.contact.name=xxxx
-springdoc.contact.email=xxxx@coship.com
-springdoc.contact.url=xxxx@coship.com
+springdoc.contact.email=contact@example.com
+springdoc.contact.url=https://example.com
 
 # SpringSecurity直接放行URL
 ignore.urls[0]=/oauth/**
@@ -86,9 +86,9 @@ public class ApiDocProperties {
     private String termsOfService;
     @Value("${contact.name:xxxx}")
     private String contactName;
-    @Value("${contact.url:xxxx@coship.com}")
+    @Value("${contact.url:https://example.com}")
     private String contactUrl;
-    @Value("${contact.email:xxxx@coship.com}")
+    @Value("${contact.email:contact@example.com}")
     private String contactEmail;
     @Value("${license.name:Apache License, Version 2.0}")
     private String licenseName;

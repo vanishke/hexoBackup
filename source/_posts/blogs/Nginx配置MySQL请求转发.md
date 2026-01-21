@@ -77,10 +77,10 @@ strean节点的内容是对应转发的关键配置，其他的信息主要是�
 # <span id="inline-blue">数据库连接配置</span>
 ```properties
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.url=jdbc:mysql://10.9.216.12:3308/lovehome_xw?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+spring.datasource.url=jdbc:mysql://10.0.0.12:3308/app_main_demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
 spring.datasource.username=root
 spring.datasource.password=coship
-spring.datasource.name=lovehome_xw
+spring.datasource.name=app_main_demo
 spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
 spring.datasource.initial-size=5
 spring.datasource.min-idle=5

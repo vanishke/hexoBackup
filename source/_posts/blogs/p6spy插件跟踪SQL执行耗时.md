@@ -33,9 +33,9 @@ SpringCloud: 2021.0.5
 ## <span id="inline-blue">修改数据库连接</span>
 ```properties
 #spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-#spring.datasource.url=jdbc:mysql://10.9.216.14:3306/ihome_album?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+#spring.datasource.url=jdbc:mysql://10.0.0.14:3306/app_db_demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
 spring.datasource.driver-class-name=com.p6spy.engine.spy.P6SpyDriver
-spring.datasource.url=jdbc:p6spy:mysql://10.9.216.14:3306/ihome_album?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+spring.datasource.url=jdbc:p6spy:mysql://10.0.0.14:3306/app_db_demo?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
 #适配p6spy更改数据库连接导致启动报错，添加数据库配置项，指定数据库连接类型
 spring.datasource.db-type=mysql
 ```

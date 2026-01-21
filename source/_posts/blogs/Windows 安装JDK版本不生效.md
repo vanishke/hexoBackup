@@ -27,7 +27,7 @@ D:\Python\Scripts\;D:\Python\;C:\Program Files (x86)\Common Files\NetSarang;
 D:\redis_3.2.100\Redis-x64-3.2.100;D:\ffmpeg\bin;D:\nodeJs\;
 H:\Git\bin;%MONGODB_HOME%\bin;%PYTHON_HOME%;%PYTHON_HOME%\Scripts;
 D:\Python\Scripts\;C:\msys64\mingw64\bin;C:\msys64\mingw64\x86_64-w64-mingw32\bin;%NEXUS_HOME%\bin;
-C:\Program Files\TortoiseSVN\bin;C:\Users\909754\AppData\Roaming\npm;%MVND_HOME%\bin
+C:\Program Files\TortoiseSVN\bin;C:\Users\<USER_ID>\AppData\Roaming\npm;%MVND_HOME%\bin
 ```
 %JAVA_HOME%\bin;%JRE_HOME%\bin; 路径引用在C:\Program Files (x86)\Common Files\Oracle\Java\javapath后面，发现在对应路径下面存在java.exe执行文件，Path路径命令查找逻辑是只要找到对应的命令就成功返回，不会全部扫描。
 将%JAVA_HOME%\bin;%JRE_HOME%\bin;移动到命令扫描的第一行即可。

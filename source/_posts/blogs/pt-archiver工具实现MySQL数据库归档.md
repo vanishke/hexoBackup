@@ -257,18 +257,18 @@ other              0     0.0040       3.29
 ```
 
 archive.sh调用示例：
-将主机10.9.216.14上数据库lovehome_20240223表sys_log_api记录一个月之前的表记录归档到sys_log_api_his。
+将主机10.0.0.14上数据库app_main_20240223表sys_log_api记录一个月之前的表记录归档到sys_log_api_his。
 ```shell
 #!/bin/bash
 source /etc/profile
 logDir=/home/mysql/log
 DATE=`date +%Y%m%d`
 # Get the max id from the table
-max_id1=$(mysql -u root -p'coship' -h'10.9.216.14' -N -e "SELECT MAX(id) FROM lovehome_20240223.sys_log_api WHERE create_time < NOW() - INTERVAL 30 DAY")
+max_id1=$(mysql -u root -p'<DB_PASSWORD>' -h'10.0.0.14' -N -e "SELECT MAX(id) FROM app_main_20240223.sys_log_api WHERE create_time < NOW() - INTERVAL 30 DAY")
 echo 'sys_log_api'_$max_id1 >> $logDir/archivelog_${DATE}.log
 
 # Use pt-archiver to move the data
-pt-archiver --source u=root,p='coship',h=10.9.216.14,S=/tmp/mysql.sock,D=lovehome_20240223,t=sys_log_api,b=true --dest u=root,p='coship',h=10.9.216.14,S=/tmp/mysql.sock,D=lovehome_20240223,t=sys_log_api_his,b=true  --where "id < $max_id1" --progress 10000 --no-check-charset --statistics --buffer --limit=10000 --commit-each --no-check-charset --share-lock 
+pt-archiver --source u=root,p='<DB_PASSWORD>',h=10.0.0.14,S=/tmp/mysql.sock,D=app_main_20240223,t=sys_log_api,b=true --dest u=root,p='<DB_PASSWORD>',h=10.0.0.14,S=/tmp/mysql.sock,D=app_main_20240223,t=sys_log_api_his,b=true  --where "id < $max_id1" --progress 10000 --no-check-charset --statistics --buffer --limit=10000 --commit-each --no-check-charset --share-lock
 
 ```
 

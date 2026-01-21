@@ -49,8 +49,8 @@ pull.rebase=false
 credential.helper=manager-core
 credential.https://dev.azure.com.usehttppath=true
 init.defaultbranch=master
-user.name=vanishke
-user.email=18685129726@163.com
+user.name=<your-username>
+user.email=<your-email@example.com>
 http.postbuffer=524288000
 
 ```

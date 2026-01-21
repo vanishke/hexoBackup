@@ -107,7 +107,7 @@ Elasticsearch： 8.8.0
    -v D:/dockerVolume/mysql7/data:/var/lib/mysql \
    -v D:/dockerVolume/mysql7/log:/var/log/mysql \
    --name mysql5.7 \
-   -e MYSQL_ROOT_PASSWORD=coship \
+   -e MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD> \
    -p 3307:3306 \
    -d mysql:5.7.41
  ```
@@ -117,7 +117,7 @@ Elasticsearch： 8.8.0
  - `-v D:/dockerVolume/mysql7/data:/var/lib/mysql` - 挂载数据目录，实现数据持久化
  - `-v D:/dockerVolume/mysql7/log:/var/log/mysql` - 挂载日志目录
  - `--name mysql5.7` - 容器名称
- - `-e MYSQL_ROOT_PASSWORD=coship` - 设置root用户密码
+ - `-e MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>` - 设置root用户密码
  - `-p 3307:3306` - 端口映射，将容器3306端口映射到主机3307端口
  - `-d` - 后台运行
  
@@ -202,7 +202,7 @@ binlog_format = ROW
    -v D:/dockerVolume/mysql8/data:/var/lib/mysql \
    -v D:/dockerVolume/mysql8/log:/var/log/mysql \
    --name mysql8 \
-   -e MYSQL_ROOT_PASSWORD=coship \
+   -e MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD> \
    -p 3308:3306 \
    -d mysql:8.0
  ```
@@ -212,7 +212,7 @@ binlog_format = ROW
  - `-v D:/dockerVolume/mysql8/data:/var/lib/mysql` - 挂载数据目录
  - `-v D:/dockerVolume/mysql8/log:/var/log/mysql` - 挂载日志目录
  - `--name mysql8` - 容器名称
- - `-e MYSQL_ROOT_PASSWORD=coship` - 设置root用户密码
+ - `-e MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>` - 设置root用户密码
  - `-p 3308:3306` - 端口映射，将容器3306端口映射到主机3308端口（避免与5.7版本冲突）
  - `-d` - 后台运行
  
@@ -532,7 +532,7 @@ syslog-enabled no
 # 警告：因为Redis太快了，所以居心不良的人可以每秒尝试150k的密码来试图破解密码。
 # 这意味着你需要一个高强度的密码，否则破解太容易了。
 #
-requirepass coshipOk698?
+requirepass <REDIS_PASSWORD>
 
 # 命令重命名
 # 当redis至于外网环境的时候需要重命名一些危险的命令如CONFIG:

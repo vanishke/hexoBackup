@@ -41,10 +41,10 @@ mysql连接url参数添加allowMultiQueries=true
 	
 ```shell
 	#mysql
-	spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver	spring.datasource.url=jdbc:mysql://10.9.216.14:3306/ihome_album?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+	spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver	spring.datasource.url=jdbc:mysql://10.0.0.14:3306/app_db_demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
 	spring.datasource.username=root
 	spring.datasource.password=coship
-	spring.datasource.name=ihome_album
+	spring.datasource.name=app_db_demo
 	spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
 	spring.datasource.initial-size=5
 	spring.datasource.min-idle=5

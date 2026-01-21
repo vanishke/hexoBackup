@@ -26,7 +26,7 @@ updated: 2024-11-24 16:12:49
 # 基础镜像
 FROM mysql:5.7
 # author
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 #工作目录
 WORKDIR /docker-entrypoint-initdb.d
 #编码
@@ -221,7 +221,7 @@ interactive-timeout
 #基础镜像
 FROM redis:5.0.14
 #author
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 #拷贝配置文件
 COPY ./conf/redis.conf /etc/redis/redis.conf
 #暴露服务端口
@@ -1642,7 +1642,7 @@ rdb-save-incremental-fsync yes
 # 基础镜像
 FROM nacos/nacos-server:v2.1.1
 # author
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 # 挂载目录
 VOLUME /home/nacos
 # 创建目录
@@ -1670,7 +1670,7 @@ spring.datasource.platform=mysql
 db.num=1
 db.url.0=jdbc:mysql://photoframe-mysql:3306/nacos_config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
 db.user=root
-db.password=coship
+db.password=<DB_PASSWORD>
 nacos.naming.empty-service.auto-clean=true
 nacos.naming.empty-service.clean.initial-delay-ms=50000
 nacos.naming.empty-service.clean.period-time-ms=30000
@@ -1684,7 +1684,7 @@ nacos.security.ignore.urls=/,/error,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/
 nacos.core.auth.system.type=nacos
 nacos.core.auth.enabled=false
 nacos.core.auth.default.token.expire.seconds=18000
-nacos.core.auth.default.token.secret.key=SecretKey012345678901234567890123456789012345678901234567890123456789
+nacos.core.auth.default.token.secret.key=<NACOS_TOKEN_SECRET_KEY>
 nacos.core.auth.caching.enabled=true
 nacos.core.auth.enable.userAgentAuthWhite=false
 nacos.core.auth.server.identity.key=serverIdentity
@@ -1699,7 +1699,7 @@ nacos.istio.mcp.server.enabled=false
 #基础镜像
 FROM centos:7
 #维护者
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 #拷贝安装包、创建elasticsearch用户elasticsearch、elasticsearch用户权限设置
 COPY ./tar/elasticsearch-8.8.0-linux-x86_64.tar.gz /usr/local
 RUN cd /usr/local && tar -zxvf elasticsearch-8.8.0-linux-x86_64.tar.gz &&  \
@@ -1848,7 +1848,7 @@ config目录下的文件百度网盘分享链接：
 # 基础镜像
 FROM nginx:1.16.1
 # author
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 # 挂载目录
 VOLUME /home/nginx
 # 创建目录
@@ -1965,7 +1965,7 @@ http {
 #基础镜像
 FROM rabbitmq:3.8.8-management
 #维护者
-MAINTAINER 909754 <18685129726@163.com>
+MAINTAINER <your-name> <your-email@example.com>
 #拷贝插件
 COPY ./plugins/rabbitmq_delayed_message_exchange-3.8.0.ez /plugins
 #启用插件命令
