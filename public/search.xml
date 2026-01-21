@@ -389,6 +389,269 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker部署SpringCloud微服务文件上传超时问题排查</title>
+    <url>/Docker/blogs/Docker%E9%83%A8%E7%BD%B2SpringCloud%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E8%B6%85%E6%97%B6%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-bluedocker%E9%83%A8%E7%BD%B2springcloud%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E8%B6%85%E6%97%B6%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5span"><span id="inline-blue">Docker部署SpringCloud微服务文件上传超时问题排查</span></a><ul>
+<li><a href="#span-idinline-blue%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AFspan"><span id="inline-blue">问题背景</span></a></li>
+<li><a href="#span-idinline-blue%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1span"><span id="inline-blue">问题现象</span></a><ul>
+<li><a href="#span-idinline-blue%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97-1tomcat-%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6span"><span id="inline-blue">错误日志 1：Tomcat 连接超时</span></a></li>
+<li><a href="#span-idinline-blue%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97-2nginx-%E4%B8%8A%E6%B8%B8%E8%BF%9E%E6%8E%A5%E9%87%8D%E7%BD%AEspan"><span id="inline-blue">错误日志 2：Nginx 上游连接重置</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90span"><span id="inline-blue">问题分析</span></a><ul>
+<li><a href="#span-idinline-blue1-%E9%94%99%E8%AF%AF%E7%B1%BB%E5%9E%8B%E5%88%86%E6%9E%90span"><span id="inline-blue">1. 错误类型分析</span></a></li>
+<li><a href="#span-idinline-blue2-%E8%AF%B7%E6%B1%82%E9%93%BE%E8%B7%AF%E5%88%86%E6%9E%90span"><span id="inline-blue">2. 请求链路分析</span></a></li>
+<li><a href="#span-idinline-blue3-%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0span"><span id="inline-blue">3. 根本原因</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88span"><span id="inline-blue">解决方案</span></a><ul>
+<li><a href="#span-idinline-blue1-nginx-%E8%B6%85%E6%97%B6%E9%85%8D%E7%BD%AE%E8%B0%83%E6%95%B4span"><span id="inline-blue">1. Nginx 超时配置调整</span></a></li>
+<li><a href="#span-idinline-blue2-spring-boot-%E6%9C%8D%E5%8A%A1%E8%B6%85%E6%97%B6%E9%85%8D%E7%BD%AEspan"><span id="inline-blue">2. Spring Boot 服务超时配置</span></a><ul>
+<li><a href="#span-idinline-blue21-gateway-%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AEspan"><span id="inline-blue">2.1 Gateway 服务配置</span></a></li>
+<li><a href="#span-idinline-blue22-%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AEspan"><span id="inline-blue">2.2 业务服务配置</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue3-multipart-%E9%85%8D%E7%BD%AE%E5%B7%B2%E6%9C%89%E7%A1%AE%E4%BF%9D%E6%AD%A3%E7%A1%AEspan"><span id="inline-blue">3. Multipart 配置（已有，确保正确）</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E9%85%8D%E7%BD%AE%E5%AF%B9%E6%AF%94%E8%A1%A8span"><span id="inline-blue">配置对比表</span></a></li>
+<li><a href="#span-idinline-blue%E9%AA%8C%E8%AF%81%E6%AD%A5%E9%AA%A4span"><span id="inline-blue">验证步骤</span></a></li>
+<li><a href="#span-idinline-blue%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9span"><span id="inline-blue">注意事项</span></a><ul>
+<li><a href="#span-idinline-blue1-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E9%80%89%E6%8B%A9span"><span id="inline-blue">1. 超时时间选择</span></a></li>
+<li><a href="#span-idinline-blue2-%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4%E4%B8%80%E8%87%B4%E6%80%A7span"><span id="inline-blue">2. 超时时间一致性</span></a></li>
+<li><a href="#span-idinline-blue3-%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86span"><span id="inline-blue">3. 临时文件管理</span></a></li>
+<li><a href="#span-idinline-blue4-%E6%80%A7%E8%83%BD%E8%80%83%E8%99%91span"><span id="inline-blue">4. 性能考虑</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AEspan"><span id="inline-blue">最佳实践建议</span></a><ul>
+<li><a href="#span-idinline-blue1-%E5%88%86%E7%89%87%E4%B8%8A%E4%BC%A0span"><span id="inline-blue">1. 分片上传</span></a></li>
+<li><a href="#span-idinline-blue2-%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86span"><span id="inline-blue">2. 异步处理</span></a></li>
+<li><a href="#span-idinline-blue3-%E7%9B%91%E6%8E%A7%E5%91%8A%E8%AD%A6span"><span id="inline-blue">3. 监控告警</span></a></li>
+<li><a href="#span-idinline-blue4-%E9%85%8D%E7%BD%AE%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86span"><span id="inline-blue">4. 配置统一管理</span></a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E6%B8%85%E5%8D%95span"><span id="inline-blue">问题排查清单</span></a></li>
+<li><a href="#span-idinline-blue%E6%80%BB%E7%BB%93span"><span id="inline-blue">总结</span></a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="docker部署springcloud微服务文件上传超时问题排查"><span id="inline-blue">Docker部署SpringCloud微服务文件上传超时问题排查</span></span></h1><h2><span id="问题背景"><span id="inline-blue">问题背景</span></span></h2><p>在生产环境中，系统处理大文件上传时频繁出现超时错误，导致文件上传失败。本文记录了完整的问题排查过程和解决方案。</p>
+<h2><span id="问题现象"><span id="inline-blue">问题现象</span></span></h2><h3><span id="错误日志-1tomcat-连接超时"><span id="inline-blue">错误日志 1：Tomcat 连接超时</span></span></h3><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">Caused by: org<span class="selector-class">.apache</span><span class="selector-class">.tomcat</span><span class="selector-class">.util</span><span class="selector-class">.http</span><span class="selector-class">.fileupload</span><span class="selector-class">.impl</span><span class="selector-class">.IOFileUploadException</span>: </span><br><span class="line">Processing of multipart/form-data request failed. java<span class="selector-class">.net</span>.SocketTimeoutException</span><br><span class="line">    at org<span class="selector-class">.apache</span><span class="selector-class">.tomcat</span><span class="selector-class">.util</span><span class="selector-class">.http</span><span class="selector-class">.fileupload</span><span class="selector-class">.FileUploadBase</span><span class="selector-class">.parseRequest</span>(FileUploadBase<span class="selector-class">.java</span>:<span class="number">292</span>)</span><br><span class="line">    at org<span class="selector-class">.apache</span><span class="selector-class">.catalina</span><span class="selector-class">.connector</span><span class="selector-class">.Request</span><span class="selector-class">.parseParts</span>(Request<span class="selector-class">.java</span>:<span class="number">2932</span>)</span><br><span class="line">Caused by: org<span class="selector-class">.apache</span><span class="selector-class">.catalina</span><span class="selector-class">.connector</span><span class="selector-class">.ClientAbortException</span>: java<span class="selector-class">.net</span>.SocketTimeoutException</span><br><span class="line">    at org<span class="selector-class">.apache</span><span class="selector-class">.catalina</span><span class="selector-class">.connector</span><span class="selector-class">.InputBuffer</span><span class="selector-class">.realReadBytes</span>(InputBuffer<span class="selector-class">.java</span>:<span class="number">321</span>)</span><br><span class="line">Caused by: java<span class="selector-class">.net</span><span class="selector-class">.SocketTimeoutException</span>: null</span><br><span class="line">    at org<span class="selector-class">.apache</span><span class="selector-class">.tomcat</span><span class="selector-class">.util</span><span class="selector-class">.net</span>.NioEndpoint<span class="variable">$NioSocketWrapper</span><span class="selector-class">.fillReadBuffer</span>(NioEndpoint<span class="selector-class">.java</span>:<span class="number">1309</span>)</span><br></pre></td></tr></table></figure>
+
+<h3><span id="错误日志-2nginx-上游连接重置"><span id="inline-blue">错误日志 2：Nginx 上游连接重置</span></span></h3><figure class="highlight vbnet"><table><tr><td class="code"><pre><span class="line"><span class="number">2026</span>/<span class="number">01</span>/<span class="number">16</span> <span class="number">16</span>:<span class="number">39</span>:<span class="number">11</span> [<span class="keyword">error</span>] <span class="number">8</span>#<span class="number">8</span>: *<span class="number">81</span> recv() failed (<span class="number">104</span>: Connection reset <span class="keyword">by</span> peer) </span><br><span class="line"><span class="keyword">while</span> reading upstream, client: <span class="number">116.211</span>.<span class="number">86.197</span>, server: coframe.coship.com, </span><br><span class="line"><span class="symbol">request:</span> <span class="string">&quot;POST /prod-api/admin/appVersion/upload/74 HTTP/1.1&quot;</span>, </span><br><span class="line"><span class="symbol">upstream:</span> <span class="string">&quot;http://10.0.2.83:9001/prod/admin/appVersion/upload/74&quot;</span>, </span><br><span class="line"><span class="symbol">host:</span> <span class="string">&quot;coframe.coship.com:8080&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="问题分析"><span id="inline-blue">问题分析</span></span></h2><h3><span id="1-错误类型分析"><span id="inline-blue">1. 错误类型分析</span></span></h3><p>从错误日志可以看出两个关键问题：</p>
+<ul>
+<li><strong>Tomcat SocketTimeoutException</strong>：Spring Boot 应用在处理 multipart/form-data 请求时，读取客户端数据超时</li>
+<li><strong>Nginx Connection reset by peer</strong>：Nginx 在读取上游服务响应时，连接被上游服务器关闭</li>
+</ul>
+<h3><span id="2-请求链路分析"><span id="inline-blue">2. 请求链路分析</span></span></h3><p>文件上传的完整请求链路：</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line">客户端 → <span class="selector-tag">Nginx</span> (<span class="number">8080</span>) → <span class="selector-tag">Gateway</span> (<span class="number">9001</span>) → 业务服务 (<span class="number">9020</span>/<span class="number">9004</span>)</span><br></pre></td></tr></table></figure>
+
+<p>每个环节都可能存在超时限制：</p>
+<ul>
+<li>Nginx 代理超时配置</li>
+<li>Gateway 服务超时配置</li>
+<li>业务服务（Tomcat）超时配置</li>
+</ul>
+<h3><span id="3-根本原因"><span id="inline-blue">3. 根本原因</span></span></h3><p>通过排查发现，主要问题在于：</p>
+<ol>
+<li><p><strong>Nginx 超时配置过短</strong></p>
+<ul>
+<li><code>proxy_read_timeout: 10s</code> - 只有 10 秒，无法处理大文件上传</li>
+<li><code>proxy_send_timeout: 10s</code> - 发送请求超时时间过短</li>
+</ul>
+</li>
+<li><p><strong>Spring Boot 服务超时配置缺失</strong></p>
+<ul>
+<li>Tomcat 默认连接超时时间过短</li>
+<li>没有针对文件上传场景的特殊配置</li>
+</ul>
+</li>
+<li><p><strong>前端超时配置</strong></p>
+<ul>
+<li>前端已配置 <code>timeout: 600000</code>（10 分钟）</li>
+<li>但后端和中间件超时时间不匹配</li>
+</ul>
+</li>
+</ol>
+<h2><span id="解决方案"><span id="inline-blue">解决方案</span></span></h2><h3><span id="1-nginx-超时配置调整"><span id="inline-blue">1. Nginx 超时配置调整</span></span></h3><p>修改 <code>docker/nginx/conf/nginx.conf</code>：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">location</span> /prod &#123;</span><br><span class="line">    <span class="attribute">if</span> ($request_uri  <span class="regexp">~* &quot;/actuator&quot;)</span>&#123;</span><br><span class="line">        <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># 增加代理超时时间到 10 分钟</span></span><br><span class="line">    <span class="attribute">proxy_connect_timeout</span> <span class="number">60s</span>;</span><br><span class="line">    <span class="attribute">proxy_send_timeout</span> <span class="number">600s</span>;      <span class="comment"># 发送到上游的超时时间</span></span><br><span class="line">    <span class="attribute">proxy_read_timeout</span> <span class="number">600s</span>;      <span class="comment"># 从上游读取响应的超时时间</span></span><br><span class="line">    <span class="attribute">send_timeout</span> <span class="number">600s</span>;            <span class="comment"># 发送响应到客户端的超时时间</span></span><br><span class="line">    </span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span> <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Credentials&#x27;</span> <span class="string">&#x27;true&#x27;</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>   X-Real-IP        $remote_addr;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>   X-host           $host;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://192.168.70.152:9001/test;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_connect_timeout</span> <span class="number">60s</span>;</span><br><span class="line">    <span class="attribute">proxy_send_timeout</span> <span class="number">600s</span>;</span><br><span class="line">    <span class="attribute">proxy_read_timeout</span> <span class="number">600s</span>;</span><br><span class="line">    <span class="attribute">send_timeout</span> <span class="number">600s</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span> <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">    <span class="attribute">add_header</span> <span class="string">&#x27;Access-Control-Allow-Credentials&#x27;</span> <span class="string">&#x27;true&#x27;</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>   X-Real-IP        $remote_addr;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>   X-host           $host;</span><br><span class="line">    <span class="attribute">proxy_set_header</span>   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://192.168.70.150:9000;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键配置说明</strong>：</p>
+<ul>
+<li><code>proxy_read_timeout 600s</code>：允许等待上游服务器响应 10 分钟，适用于大文件上传</li>
+<li><code>proxy_send_timeout 600s</code>：允许向上游服务器发送请求 10 分钟</li>
+<li><code>send_timeout 600s</code>：允许向客户端发送响应 10 分钟</li>
+</ul>
+<h3><span id="2-spring-boot-服务超时配置"><span id="inline-blue">2. Spring Boot 服务超时配置</span></span></h3><h4><span id="21-gateway-服务配置"><span id="inline-blue">2.1 Gateway 服务配置</span></span></h4><p>修改 <code>ffcs-gateway/src/main/resources/application-prod.yml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">9001</span></span><br><span class="line">    <span class="attr">connection-timeout:</span> <span class="number">600000</span>  <span class="comment"># 连接超时：10 分钟（毫秒）</span></span><br><span class="line">    <span class="attr">tomcat:</span></span><br><span class="line">        <span class="attr">connection-timeout:</span> <span class="number">600000</span>  <span class="comment"># Tomcat 连接超时</span></span><br><span class="line">        <span class="attr">keep-alive-timeout:</span> <span class="number">600000</span> <span class="comment"># Keep-Alive 超时</span></span><br></pre></td></tr></table></figure>
+
+<h4><span id="22-业务服务配置"><span id="inline-blue">2.2 业务服务配置</span></span></h4><p><strong>ffcs-admin-biz 服务</strong>（<code>ffcs-admin/ffcs-admin-biz/src/main/resources/application-prod.yml</code>）：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">9020</span></span><br><span class="line">    <span class="attr">connection-timeout:</span> <span class="number">600000</span></span><br><span class="line">    <span class="attr">tomcat:</span></span><br><span class="line">        <span class="attr">connection-timeout:</span> <span class="number">600000</span></span><br><span class="line">        <span class="attr">keep-alive-timeout:</span> <span class="number">600000</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>ffcs-app 服务</strong>（<code>ffcs-app/src/main/resources/application-prod.yml</code>）：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">9004</span></span><br><span class="line">    <span class="attr">connection-timeout:</span> <span class="number">600000</span></span><br><span class="line">    <span class="attr">tomcat:</span></span><br><span class="line">        <span class="attr">connection-timeout:</span> <span class="number">600000</span></span><br><span class="line">        <span class="attr">keep-alive-timeout:</span> <span class="number">600000</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>ffcs-album-api 服务</strong>（<code>ffcs-album/ffcs-album-api/src/main/resources/application-prod.yml</code>）：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">10050</span></span><br><span class="line">    <span class="attr">connection-timeout:</span> <span class="number">600000</span></span><br><span class="line">    <span class="attr">tomcat:</span></span><br><span class="line">        <span class="attr">connection-timeout:</span> <span class="number">600000</span></span><br><span class="line">        <span class="attr">keep-alive-timeout:</span> <span class="number">600000</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="3-multipart-配置已有确保正确"><span id="inline-blue">3. Multipart 配置（已有，确保正确）</span></span></h3><p>确保 Spring Boot 的 multipart 配置合理：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">    <span class="attr">servlet:</span></span><br><span class="line">        <span class="attr">multipart:</span></span><br><span class="line">            <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">            <span class="attr">max-file-size:</span> <span class="string">200MB</span>      <span class="comment"># 单个文件最大大小</span></span><br><span class="line">            <span class="attr">max-request-size:</span> <span class="string">200MB</span>   <span class="comment"># 请求最大大小</span></span><br><span class="line">            <span class="attr">file-size-threshold:</span> <span class="number">0</span>    <span class="comment"># 文件大小阈值，超过后写入磁盘</span></span><br><span class="line">            <span class="attr">location:</span> <span class="string">/home/lmode/temp</span> <span class="comment"># 临时文件目录</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="配置对比表"><span id="inline-blue">配置对比表</span></span></h2><table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>修改前</th>
+<th>修改后</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nginx proxy_read_timeout</td>
+<td>10s</td>
+<td>600s</td>
+<td>读取上游响应超时</td>
+</tr>
+<tr>
+<td>Nginx proxy_send_timeout</td>
+<td>10s</td>
+<td>600s</td>
+<td>发送到上游超时</td>
+</tr>
+<tr>
+<td>Nginx send_timeout</td>
+<td>60s</td>
+<td>600s</td>
+<td>发送到客户端超时</td>
+</tr>
+<tr>
+<td>Spring Boot connection-timeout</td>
+<td>默认（20s）</td>
+<td>600000ms</td>
+<td>Tomcat 连接超时</td>
+</tr>
+<tr>
+<td>Tomcat connection-timeout</td>
+<td>默认</td>
+<td>600000ms</td>
+<td>Tomcat 连接超时</td>
+</tr>
+<tr>
+<td>Tomcat keep-alive-timeout</td>
+<td>默认</td>
+<td>600000ms</td>
+<td>Keep-Alive 超时</td>
+</tr>
+</tbody></table>
+<h2><span id="验证步骤"><span id="inline-blue">验证步骤</span></span></h2><ol>
+<li><p><strong>重启 Nginx</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重新加载配置（推荐）</span></span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或重启容器</span></span><br><span class="line">docker restart nginx-container</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>重启 Spring Boot 服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Gateway 服务</span></span><br><span class="line"><span class="comment"># 业务服务（ffcs-admin-biz、ffcs-app 等）</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>测试文件上传</strong></p>
+<ul>
+<li>上传小文件（&lt; 10MB）：验证基本功能正常</li>
+<li>上传大文件（&gt; 50MB）：验证超时问题已解决</li>
+<li>监控日志：确认无超时错误</li>
+</ul>
+</li>
+</ol>
+<h2><span id="注意事项"><span id="inline-blue">注意事项</span></span></h2><h3><span id="1-超时时间选择"><span id="inline-blue">1. 超时时间选择</span></span></h3><ul>
+<li><strong>建议值</strong>：600 秒（10 分钟）</li>
+<li><strong>考虑因素</strong>：<ul>
+<li>网络带宽</li>
+<li>文件大小限制（如 200MB）</li>
+<li>用户体验</li>
+<li>服务器资源</li>
+</ul>
+</li>
+</ul>
+<h3><span id="2-超时时间一致性"><span id="inline-blue">2. 超时时间一致性</span></span></h3><p>确保整个请求链路中的超时时间保持一致或递增：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">客户端超时 ≥ Nginx 超时 ≥ Gateway 超时 ≥ 业务服务超时</span><br></pre></td></tr></table></figure>
+
+<h3><span id="3-临时文件管理"><span id="inline-blue">3. 临时文件管理</span></span></h3><p>大文件上传时，确保：</p>
+<ul>
+<li>临时文件目录有足够空间</li>
+<li>定期清理临时文件</li>
+<li>监控磁盘使用情况</li>
+</ul>
+<h3><span id="4-性能考虑"><span id="inline-blue">4. 性能考虑</span></span></h3><p>增加超时时间虽然解决了问题，但要注意：</p>
+<ul>
+<li>长时间连接占用服务器资源</li>
+<li>考虑实现分片上传机制</li>
+<li>监控连接数和资源使用</li>
+</ul>
+<h2><span id="最佳实践建议"><span id="inline-blue">最佳实践建议</span></span></h2><h3><span id="1-分片上传"><span id="inline-blue">1. 分片上传</span></span></h3><p>对于大文件（&gt; 100MB），建议实现分片上传：</p>
+<ul>
+<li>减少单次请求超时风险</li>
+<li>支持断点续传</li>
+<li>提升上传成功率</li>
+</ul>
+<h3><span id="2-异步处理"><span id="inline-blue">2. 异步处理</span></span></h3><p>对于文件处理任务：</p>
+<ul>
+<li>上传后立即返回</li>
+<li>后台异步处理文件</li>
+<li>通过消息队列通知处理结果</li>
+</ul>
+<h3><span id="3-监控告警"><span id="inline-blue">3. 监控告警</span></span></h3><p>配置监控指标：</p>
+<ul>
+<li>上传请求超时率</li>
+<li>上传成功率</li>
+<li>平均上传时长</li>
+<li>服务器连接数</li>
+</ul>
+<h3><span id="4-配置统一管理"><span id="inline-blue">4. 配置统一管理</span></span></h3><ul>
+<li>将超时配置纳入配置中心管理</li>
+<li>支持动态调整</li>
+<li>记录配置变更历史</li>
+</ul>
+<h2><span id="问题排查清单"><span id="inline-blue">问题排查清单</span></span></h2><p>当遇到文件上传超时问题时，按以下清单排查：</p>
+<ul>
+<li><input disabled type="checkbox"> 检查 Nginx 代理超时配置</li>
+<li><input disabled type="checkbox"> 检查 Gateway 服务超时配置</li>
+<li><input disabled type="checkbox"> 检查业务服务 Tomcat 超时配置</li>
+<li><input disabled type="checkbox"> 检查 Spring Multipart 配置</li>
+<li><input disabled type="checkbox"> 检查网络带宽和延迟</li>
+<li><input disabled type="checkbox"> 检查服务器资源（CPU、内存、磁盘）</li>
+<li><input disabled type="checkbox"> 检查临时文件目录权限和空间</li>
+<li><input disabled type="checkbox"> 查看完整错误日志（客户端 → Nginx → Gateway → 业务服务）</li>
+<li><input disabled type="checkbox"> 检查防火墙和安全组配置</li>
+<li><input disabled type="checkbox"> 验证超时时间在整条链路中的一致性</li>
+</ul>
+<h2><span id="总结"><span id="inline-blue">总结</span></span></h2><p>通过以上配置调整，我们成功解决了文件上传超时问题。关键点：</p>
+<ol>
+<li><strong>问题定位</strong>：通过错误日志准确定位到 Nginx 和 Spring Boot 服务的超时配置问题</li>
+<li><strong>全面排查</strong>：检查了整个请求链路中的所有环节</li>
+<li><strong>统一配置</strong>：确保超时时间在整个链路中保持一致</li>
+<li><strong>验证测试</strong>：上传功能恢复正常</li>
+</ol>
+<p><strong>经验教训</strong>：</p>
+<ul>
+<li>大文件上传场景需要特殊考虑超时配置</li>
+<li>微服务架构中，每个环节的超时配置都很重要</li>
+<li>错误日志是问题排查的关键依据</li>
+<li>配置变更后要进行充分测试</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>SpringCloud</tag>
+        <tag>Tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker部署Redis超时问题排查与解决方案</title>
     <url>/Docker/blogs/Docker%E9%83%A8%E7%BD%B2Redis%E8%B6%85%E6%97%B6%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
     <content><![CDATA[<!-- toc -->
@@ -2179,8 +2442,8 @@
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>JDK</tag>
       </tags>
   </entry>
@@ -2261,8 +2524,8 @@
       </categories>
       <tags>
         <tag>Docker</tag>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>JDK</tag>
         <tag>epoll</tag>
       </tags>
@@ -3419,7 +3682,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#101;&#109;&#x71;&#x78;&#x31;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x2e;&#x31;&#48;&#x30;">&#101;&#109;&#x71;&#x78;&#x31;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#x2e;&#x31;&#48;&#x30;</a><br><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#x32;&#x40;&#98;&#x72;&#x6f;&#x6b;&#x65;&#x72;&#46;&#101;&#x6d;&#x71;&#x78;&#x2e;&#x69;&#x6f;">&#110;&#x6f;&#x64;&#x65;&#x32;&#x40;&#98;&#x72;&#x6f;&#x6b;&#x65;&#x72;&#46;&#101;&#x6d;&#x71;&#x78;&#x2e;&#x69;&#x6f;</a><br><a href="mailto:&#x65;&#x6d;&#113;&#120;&#64;&#49;&#48;&#x2e;&#48;&#x2e;&#x30;&#46;&#x31;">&#x65;&#x6d;&#113;&#120;&#64;&#49;&#48;&#x2e;&#48;&#x2e;&#x30;&#46;&#x31;</a></p>
+<p><a href="mailto:&#101;&#x6d;&#x71;&#x78;&#x31;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#46;&#x31;&#48;&#48;">&#101;&#x6d;&#x71;&#x78;&#x31;&#64;&#49;&#x39;&#50;&#x2e;&#49;&#x36;&#56;&#x2e;&#x31;&#46;&#x31;&#48;&#48;</a><br><a href="mailto:&#x6e;&#111;&#100;&#x65;&#50;&#64;&#98;&#x72;&#x6f;&#x6b;&#101;&#x72;&#46;&#x65;&#x6d;&#113;&#120;&#x2e;&#x69;&#111;">&#x6e;&#111;&#100;&#x65;&#50;&#64;&#98;&#x72;&#x6f;&#x6b;&#101;&#x72;&#46;&#x65;&#x6d;&#113;&#120;&#x2e;&#x69;&#111;</a><br><a href="mailto:&#101;&#109;&#113;&#120;&#64;&#x31;&#48;&#46;&#48;&#x2e;&#48;&#46;&#49;">&#101;&#109;&#113;&#120;&#64;&#x31;&#48;&#46;&#48;&#x2e;&#48;&#46;&#49;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -5268,8 +5531,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>knife4j-gateway</tag>
       </tags>
   </entry>
@@ -5294,8 +5557,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Nacos</tag>
       </tags>
   </entry>
@@ -5337,8 +5600,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
       </categories>
       <tags>
         <tag>Zipkin</tag>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Sleuth</tag>
         <tag>Zipkin-dependencies</tag>
       </tags>
@@ -5373,8 +5636,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
       </categories>
       <tags>
         <tag>Zipkin</tag>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Sleuth</tag>
       </tags>
   </entry>
@@ -5481,8 +5744,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>SpringDoc</tag>
         <tag>Knife4j-gateway</tag>
       </tags>
@@ -5647,8 +5910,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Nacos</tag>
         <tag>Sentinel</tag>
       </tags>
@@ -5786,8 +6049,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringBoot</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>RabbitMQ</tag>
         <tag>SpringBoot</tag>
       </tags>
@@ -5821,8 +6084,8 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
         <category>SpringCloud</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>SpringCloud</tag>
+        <tag>Java</tag>
         <tag>Redisson</tag>
       </tags>
   </entry>
@@ -6151,7 +6414,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#x31;&#x30;&#48;&#x2e;&#x31;&#48;&#x31;">&#114;&#111;&#111;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#x31;&#x36;&#x38;&#x2e;&#x31;&#x30;&#48;&#x2e;&#x31;&#48;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#x6f;&#x6f;&#116;&#64;&#49;&#57;&#50;&#46;&#x31;&#x36;&#56;&#x2e;&#x31;&#x30;&#48;&#46;&#x31;&#x30;&#x31;">&#114;&#x6f;&#x6f;&#116;&#64;&#49;&#57;&#50;&#46;&#x31;&#x36;&#56;&#x2e;&#x31;&#x30;&#48;&#46;&#x31;&#x30;&#x31;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
@@ -9950,8 +10213,8 @@ tmp – 临时文件</code></pre>
         <category>Tomcat</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>Tomcat</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
