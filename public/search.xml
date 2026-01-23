@@ -389,6 +389,201 @@
       </tags>
   </entry>
   <entry>
+    <title>MySQL 容器初始化数据覆盖问题排查与解决</title>
+    <url>/Docker/MySQL/blogs/MySQL%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E8%A6%86%E7%9B%96%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-bluemysql-%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E8%A6%86%E7%9B%96%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5%E4%B8%8E%E8%A7%A3%E5%86%B3span"><span id="inline-blue">MySQL 容器初始化数据覆盖问题排查与解决</span></a><ul>
+<li><a href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF">问题背景</a><ul>
+<li><a href="#%E9%97%AE%E9%A2%98%E5%9C%BA%E6%99%AF">问题场景</a></li>
+</ul>
+</li>
+<li><a href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B">问题分析过程</a><ul>
+<li><a href="#%E5%88%9D%E5%A7%8B%E9%85%8D%E7%BD%AE">初始配置</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%80%E7%9B%B4%E8%A7%89%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95%E6%A3%80%E6%9F%A5%E6%9C%BA%E5%88%B6">第一直觉：数据目录检查机制</a></li>
+<li><a href="#%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90mysql-entrypoint-%E6%9C%BA%E5%88%B6">深入分析：MySQL Entrypoint 机制</a></li>
+</ul>
+</li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案</a><ul>
+<li><a href="#%E6%96%B9%E6%A1%88%E9%80%89%E6%8B%A9">方案选择</a></li>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B8%AA%E6%96%B9%E6%A1%88%E6%9C%89%E6%95%88">为什么这个方案有效？</a></li>
+<li><a href="#%E5%AE%9E%E6%96%BD%E6%AD%A5%E9%AA%A4">实施步骤</a><ul>
+<li><a href="#1-%E4%BF%AE%E6%94%B9-mysql-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">1. 修改 MySQL 配置文件</a></li>
+<li><a href="#2-%E4%BF%AE%E6%94%B9-docker-compose-%E9%85%8D%E7%BD%AE">2. 修改 Docker Compose 配置</a></li>
+<li><a href="#3-%E4%BF%9D%E6%8C%81%E5%88%9D%E5%A7%8B%E5%8C%96%E8%84%9A%E6%9C%AC%E4%B8%8D%E5%8F%98">3. 保持初始化脚本不变</a></li>
+<li><a href="#4-dockerfile-%E9%85%8D%E7%BD%AE">4. Dockerfile 配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86">工作原理</a><ul>
+<li><a href="#mysql-entrypoint-%E8%87%AA%E5%8A%A8%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%88%B6">MySQL Entrypoint 自动检测机制</a></li>
+<li><a href="#%E5%85%B3%E9%94%AE%E7%82%B9">关键点</a></li>
+</ul>
+</li>
+<li><a href="#%E9%AA%8C%E8%AF%81%E6%96%B9%E6%B3%95">验证方法</a><ul>
+<li><a href="#1-%E6%A3%80%E6%9F%A5%E9%85%8D%E7%BD%AE">1. 检查配置</a></li>
+<li><a href="#2-%E6%A3%80%E6%9F%A5%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95">2. 检查数据目录</a></li>
+<li><a href="#3-%E6%B5%8B%E8%AF%95%E9%87%8D%E6%96%B0%E9%83%A8%E7%BD%B2">3. 测试重新部署</a></li>
+<li><a href="#4-%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97%E9%AA%8C%E8%AF%81">4. 查看日志验证</a></li>
+</ul>
+</li>
+<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a><ul>
+<li><a href="#1-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD">1. 数据备份</a></li>
+<li><a href="#2-%E7%9B%AE%E5%BD%95%E6%9D%83%E9%99%90">2. 目录权限</a></li>
+<li><a href="#3-%E6%95%B0%E6%8D%AE%E8%BF%81%E7%A7%BB">3. 数据迁移</a></li>
+<li><a href="#4-%E9%95%9C%E5%83%8F%E9%87%8D%E5%BB%BA">4. 镜像重建</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a><ul>
+<li><a href="#%E9%97%AE%E9%A2%98%E6%A0%B9%E6%BA%90">问题根源</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1">解决方案</a></li>
+<li><a href="#%E4%BC%98%E5%8A%BF">优势</a></li>
+<li><a href="#%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD">经验教训</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="mysql-容器初始化数据覆盖问题排查与解决"><span id="inline-blue">MySQL 容器初始化数据覆盖问题排查与解决</span></span></h1><h2><span id="问题背景">问题背景</span></h2><p>在使用 Docker Swarm 模式部署 MySQL 容器时，遇到了一个严重的问题：每次执行 <code>docker stack deploy</code> 重新部署堆栈时，MySQL 的初始化脚本会重复执行，导致现有数据被覆盖。</p>
+<h3><span id="问题场景">问题场景</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首次部署</span></span><br><span class="line">docker stack deploy -c docker-swarm-base-process.yml --resolve-image never your-stack-name</span><br><span class="line"><span class="comment"># ✅ 正常执行初始化，创建数据库和表</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新部署（数据已存在）</span></span><br><span class="line">docker stack deploy -c docker-swarm-base-process.yml --resolve-image never your-stack-name</span><br><span class="line"><span class="comment"># ❌ 初始化脚本再次执行，数据被覆盖！</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="问题分析过程">问题分析过程</span></h2><h3><span id="初始配置">初始配置</span></h3><p>在排查问题之前，我们的配置如下：</p>
+<p><strong>MySQL 配置文件 (my.cnf)</strong></p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">datadir</span>=/var/mysql/data</span><br></pre></td></tr></table></figure>
+
+<p><strong>Docker Compose 配置</strong></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./mysql/data:/var/mysql/data</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./mysql/db/init:/docker-entrypoint-initdb.d/:ro</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>初始化脚本 (start.sql)</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">source <span class="operator">/</span>opt<span class="operator">/</span><span class="keyword">sql</span><span class="operator">/</span>config.sql;</span><br><span class="line">source <span class="operator">/</span>opt<span class="operator">/</span><span class="keyword">sql</span><span class="operator">/</span>init_table.sql;</span><br><span class="line">source <span class="operator">/</span>opt<span class="operator">/</span><span class="keyword">sql</span><span class="operator">/</span>init_data.sql;</span><br></pre></td></tr></table></figure>
+
+<h3><span id="第一直觉数据目录检查机制">第一直觉：数据目录检查机制</span></h3><p>最初，我们认为问题可能是：</p>
+<ul>
+<li>初始化脚本没有检查数据是否已存在</li>
+<li>需要在脚本中添加存在性检查逻辑</li>
+</ul>
+<p><strong>尝试方案</strong>：创建 <code>start.sh</code> 脚本，添加数据目录检查：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># 检查数据目录是否已有数据</span></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">&quot;/var/mysql/data&quot;</span> ] &amp;&amp; [ <span class="string">&quot;<span class="subst">$(ls -A /var/mysql/data)</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Data already exists, skipping initialization...&quot;</span></span><br><span class="line">  <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment"># 执行初始化...</span></span><br></pre></td></tr></table></figure>
+
+<p>但这个方案并没有完全解决问题。</p>
+<h3><span id="深入分析mysql-entrypoint-机制">深入分析：MySQL Entrypoint 机制</span></h3><p>通过深入研究 MySQL 官方镜像的 entrypoint 脚本，我们发现了问题的根源：</p>
+<p><strong>MySQL 官方镜像的 entrypoint 行为</strong>：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">容器启动</span><br><span class="line">  ↓</span><br><span class="line">entrypoint 脚本执行</span><br><span class="line">  ↓</span><br><span class="line">检查 <span class="regexp">/var/</span>lib/mysql 是否为空  ← 关键问题！</span><br><span class="line">  ↓</span><br><span class="line">如果为空 → 执行 <span class="regexp">/docker-entrypoint-initdb.d/</span> 中的脚本</span><br><span class="line">  ↓</span><br><span class="line">读取 my.cnf 配置文件</span><br><span class="line">  ↓</span><br><span class="line">使用 datadir=<span class="regexp">/var/my</span>sql/data 启动 MySQL</span><br></pre></td></tr></table></figure>
+
+<p><strong>问题根源</strong>：</p>
+<ol>
+<li><strong>检查时机问题</strong>：entrypoint 脚本在读取 <code>my.cnf</code> 配置文件<strong>之前</strong>就检查数据目录</li>
+<li><strong>检查目录不匹配</strong>：entrypoint 检查的是默认目录 <code>/var/lib/mysql</code>，而不是配置文件中指定的 <code>/var/mysql/data</code></li>
+<li><strong>误判导致重复初始化</strong>：<ul>
+<li>实际数据存储在：<code>/var/mysql/data</code>（通过 my.cnf 配置）</li>
+<li>entrypoint 检查的是：<code>/var/lib/mysql</code>（默认目录，可能为空）</li>
+<li>即使 <code>/var/mysql/data</code> 有数据，entrypoint 发现 <code>/var/lib/mysql</code> 为空，仍会执行初始化脚本</li>
+</ul>
+</li>
+</ol>
+<h2><span id="解决方案">解决方案</span></h2><h3><span id="方案选择">方案选择</span></h3><p>经过分析，我们确定了最佳解决方案：**将数据目录改为 MySQL 默认路径 <code>/var/lib/mysql</code>**。</p>
+<h3><span id="为什么这个方案有效">为什么这个方案有效？</span></h3><ol>
+<li><strong>目录一致性</strong>：entrypoint 检查的目录和实际数据目录一致</li>
+<li><strong>自动保护机制</strong>：MySQL 官方镜像的 entrypoint 会自动检测并保护数据</li>
+<li><strong>符合标准实践</strong>：使用 MySQL 默认数据目录，符合最佳实践</li>
+<li><strong>简单可靠</strong>：无需额外的检查脚本，利用官方机制</li>
+</ol>
+<h3><span id="实施步骤">实施步骤</span></h3><h4><span id="1-修改-mysql-配置文件">1. 修改 MySQL 配置文件</span></h4><p><strong>文件</strong>：<code>mysql/conf/my.cnf</code></p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改前</span></span><br><span class="line"><span class="attr">datadir</span>=/var/mysql/data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改后</span></span><br><span class="line"><span class="attr">datadir</span>=/var/lib/mysql</span><br></pre></td></tr></table></figure>
+
+<h4><span id="2-修改-docker-compose-配置">2. 修改 Docker Compose 配置</span></h4><p><strong>文件</strong>：<code>docker-swarm-base.yml</code>、<code>docker-swarm.yml</code>、<code>docker-compose.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改前</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./mysql/data:/var/mysql/data</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改后</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./mysql/data:/var/lib/mysql</span></span><br></pre></td></tr></table></figure>
+
+<h4><span id="3-保持初始化脚本不变">3. 保持初始化脚本不变</span></h4><p><strong>文件</strong>：<code>mysql/db/init/start.sql</code></p>
+<p>保持原始的 SQL 脚本，无需修改：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">source <span class="operator">/</span>opt<span class="operator">/</span><span class="keyword">sql</span><span class="operator">/</span>config.sql;</span><br><span class="line">source <span class="operator">/</span>opt<span class="operator">/</span><span class="keyword">sql</span><span class="operator">/</span>init_table.sql;</span><br><span class="line">source <span class="operator">/</span>opt<span class="operator">/</span><span class="keyword">sql</span><span class="operator">/</span>init_data.sql;</span><br></pre></td></tr></table></figure>
+
+<h4><span id="4-dockerfile-配置">4. Dockerfile 配置</span></h4><p><strong>文件</strong>：<code>mysql/Dockerfile</code></p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> mysql:<span class="number">5.7</span></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer=<span class="string">&quot;your-email@example.com&quot;</span></span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /docker-entrypoint-initdb.d</span></span><br><span class="line"><span class="keyword">ENV</span> LANG=C.UTF-<span class="number">8</span></span><br><span class="line"><span class="comment"># 拷贝初始化脚本</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> db/init/start.sql /docker-entrypoint-initdb.d/</span></span><br><span class="line"><span class="comment"># 拷贝SQL脚本</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> db/sql/*.sql /opt/sql/</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="工作原理">工作原理</span></h2><h3><span id="mysql-entrypoint-自动检测机制">MySQL Entrypoint 自动检测机制</span></h3><p>修改后的工作流程：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">容器启动</span><br><span class="line">  ↓</span><br><span class="line">entrypoint 检查 <span class="regexp">/var/</span>lib/mysql 目录</span><br><span class="line">  ↓</span><br><span class="line">如果目录为空</span><br><span class="line">  → 执行 <span class="regexp">/docker-entrypoint-initdb.d/</span>start.sql</span><br><span class="line">  → 初始化数据库和表结构</span><br><span class="line">  ↓</span><br><span class="line">如果目录已有数据文件（如 ibdata1、mysql/ 目录等）</span><br><span class="line">  → 自动跳过初始化脚本</span><br><span class="line">  → 直接启动 MySQL 服务</span><br><span class="line">  → 使用现有数据 ✓</span><br></pre></td></tr></table></figure>
+
+<h3><span id="关键点">关键点</span></h3><ol>
+<li><p><strong>数据目录与检测目录一致</strong>：</p>
+<ul>
+<li>entrypoint 检查：<code>/var/lib/mysql</code></li>
+<li>实际数据目录：<code>/var/lib/mysql</code>（通过 my.cnf 配置）</li>
+<li>两者一致，entrypoint 能正确检测到数据</li>
+</ul>
+</li>
+<li><p><strong>自动保护机制</strong>：</p>
+<ul>
+<li>当 <code>/var/lib/mysql</code> 目录中有数据文件时</li>
+<li>entrypoint 会自动识别并跳过初始化</li>
+<li>无需额外的检查脚本</li>
+</ul>
+</li>
+<li><p><strong>符合 MySQL 标准</strong>：</p>
+<ul>
+<li>使用 MySQL 默认数据目录</li>
+<li>遵循官方镜像的设计理念</li>
+</ul>
+</li>
+</ol>
+<h2><span id="验证方法">验证方法</span></h2><h3><span id="1-检查配置">1. 检查配置</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检查 my.cnf 配置</span></span><br><span class="line">grep datadir mysql/conf/my.cnf</span><br><span class="line"><span class="comment"># 应该显示：datadir=/var/lib/mysql</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查挂载配置</span></span><br><span class="line">grep <span class="string">&quot;/var/lib/mysql&quot;</span> docker-swarm-base.yml</span><br><span class="line"><span class="comment"># 应该显示：- ./mysql/data:/var/lib/mysql</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="2-检查数据目录">2. 检查数据目录</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看宿主机数据目录</span></span><br><span class="line">ls -la mysql/data/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果已有数据，应该能看到：</span></span><br><span class="line"><span class="comment"># - ibdata1</span></span><br><span class="line"><span class="comment"># - ib_logfile0</span></span><br><span class="line"><span class="comment"># - mysql/ 目录</span></span><br><span class="line"><span class="comment"># - performance_schema/ 目录</span></span><br><span class="line"><span class="comment"># - 您的数据库目录</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="3-测试重新部署">3. 测试重新部署</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 首次部署（数据目录为空）</span></span><br><span class="line">docker stack deploy -c docker-swarm-base-process.yml --resolve-image never your-stack-name</span><br><span class="line"><span class="comment">#  应该执行初始化脚本</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新部署（数据目录有数据）</span></span><br><span class="line">docker stack deploy -c docker-swarm-base-process.yml --resolve-image never your-stack-name</span><br><span class="line"><span class="comment">#  应该跳过初始化，直接使用现有数据</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="4-查看日志验证">4. 查看日志验证</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看 MySQL 服务日志</span></span><br><span class="line">docker service logs your-stack-name_mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果数据目录有数据，日志中应该：</span></span><br><span class="line"><span class="comment"># - 不会看到初始化 SQL 执行的信息</span></span><br><span class="line"><span class="comment"># - 直接显示 MySQL 启动信息</span></span><br></pre></td></tr></table></figure>
+
+<h2><span id="注意事项">注意事项</span></h2><h3><span id="1-数据备份">1. 数据备份</span></h3><p>在首次使用新配置部署前，<strong>强烈建议备份现有数据</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 备份数据目录</span></span><br><span class="line">tar -czf mysql-data-backup-$(date +%Y%m%d).tar.gz mysql/data/</span><br></pre></td></tr></table></figure>
+
+<h3><span id="2-目录权限">2. 目录权限</span></h3><p>确保 MySQL 容器有权限访问 <code>/var/lib/mysql</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 检查目录权限</span></span><br><span class="line">ls -ld mysql/data/</span><br><span class="line"><span class="comment"># 确保 MySQL 用户（通常是 999:999）有读写权限</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="3-数据迁移">3. 数据迁移</span></h3><p>如果之前使用的是 <code>/var/mysql/data</code>，现在改为 <code>/var/lib/mysql</code>：</p>
+<ul>
+<li><strong>宿主机路径不变</strong>：仍然是 <code>./mysql/data</code></li>
+<li><strong>只是容器内挂载路径改变</strong>：从 <code>/var/mysql/data</code> 改为 <code>/var/lib/mysql</code></li>
+<li><strong>现有数据自动识别</strong>：MySQL 启动时会自动识别现有数据</li>
+<li><strong>无需手动迁移</strong>：数据文件位置不变，只是挂载路径改变</li>
+</ul>
+<h3><span id="4-镜像重建">4. 镜像重建</span></h3><p>修改配置后，需要重新构建 MySQL 镜像：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在相应的节点上执行</span></span><br><span class="line">docker-compose -f docker-swarm-base.yml build mysql</span><br></pre></td></tr></table></figure>
+
+<h2><span id="总结">总结</span></h2><h3><span id="问题根源">问题根源</span></h3><p>MySQL 官方镜像的 entrypoint 脚本在读取配置文件之前检查默认数据目录 <code>/var/lib/mysql</code>，如果使用自定义数据目录（如 <code>/var/mysql/data</code>），会导致检查目录与实际数据目录不一致，从而误判需要初始化。</p>
+<h3><span id="解决方案">解决方案</span></h3><p>将数据目录改为 MySQL 默认路径 <code>/var/lib/mysql</code>，使 entrypoint 检查的目录与实际数据目录一致，利用官方镜像的自动检测机制来保护数据。</p>
+<h3><span id="优势">优势</span></h3><ol>
+<li> <strong>简单可靠</strong>：利用 MySQL 官方机制，无需额外脚本</li>
+<li> <strong>自动保护</strong>：entrypoint 自动检测并保护数据</li>
+<li> <strong>标准实践</strong>：符合 MySQL 和 Docker 的最佳实践</li>
+<li> <strong>易于维护</strong>：配置简单，逻辑清晰</li>
+</ol>
+<h3><span id="经验教训">经验教训</span></h3><ol>
+<li><strong>理解底层机制很重要</strong>：深入了解 Docker 镜像的 entrypoint 行为，有助于快速定位问题</li>
+<li><strong>遵循标准实践</strong>：使用默认配置往往能避免很多问题</li>
+<li><strong>充分利用官方机制</strong>：官方镜像通常已经考虑了常见场景，应该优先使用官方提供的机制</li>
+</ol>
+<h2><span id="参考资料">参考资料</span></h2><ul>
+<li><a href="https://hub.docker.com/_/mysql">MySQL Docker Official Image</a></li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#entrypoint">Docker Entrypoint Scripts</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html">MySQL Data Directory</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Docker</category>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker日志管理最佳实践</title>
     <url>/Docker/blogs/Docker%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
     <content><![CDATA[<!-- toc -->
@@ -3946,7 +4141,7 @@
 <p>注意点：</p>
 <p>1、emqx节点命名格式</p>
 <p>​基本格式<br>节点名称必须为 ​<strong>Name@Host</strong>，例如：</p>
-<p><a href="mailto:&#101;&#109;&#x71;&#120;&#x31;&#64;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#46;&#49;&#x2e;&#49;&#48;&#x30;">&#101;&#109;&#x71;&#120;&#x31;&#64;&#49;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#46;&#49;&#x2e;&#49;&#48;&#x30;</a><br><a href="mailto:&#110;&#x6f;&#x64;&#x65;&#x32;&#x40;&#98;&#x72;&#111;&#107;&#101;&#x72;&#46;&#101;&#x6d;&#113;&#120;&#46;&#x69;&#111;">&#110;&#x6f;&#x64;&#x65;&#x32;&#x40;&#98;&#x72;&#111;&#107;&#101;&#x72;&#46;&#101;&#x6d;&#113;&#120;&#46;&#x69;&#111;</a><br><a href="mailto:&#101;&#109;&#x71;&#x78;&#x40;&#49;&#x30;&#46;&#x30;&#46;&#48;&#46;&#x31;">&#101;&#109;&#x71;&#x78;&#x40;&#49;&#x30;&#46;&#x30;&#46;&#48;&#46;&#x31;</a></p>
+<p><a href="mailto:&#x65;&#109;&#x71;&#x78;&#49;&#64;&#49;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#49;&#x2e;&#49;&#48;&#48;">&#x65;&#109;&#x71;&#x78;&#49;&#64;&#49;&#57;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#49;&#x2e;&#49;&#48;&#48;</a><br><a href="mailto:&#110;&#111;&#x64;&#x65;&#50;&#x40;&#x62;&#x72;&#x6f;&#x6b;&#x65;&#114;&#x2e;&#x65;&#x6d;&#113;&#120;&#46;&#105;&#111;">&#110;&#111;&#x64;&#x65;&#50;&#x40;&#x62;&#x72;&#x6f;&#x6b;&#x65;&#114;&#x2e;&#x65;&#x6d;&#113;&#120;&#46;&#105;&#111;</a><br><a href="mailto:&#x65;&#x6d;&#113;&#120;&#x40;&#x31;&#48;&#x2e;&#48;&#x2e;&#x30;&#x2e;&#49;">&#x65;&#x6d;&#113;&#120;&#x40;&#x31;&#48;&#x2e;&#48;&#x2e;&#x30;&#x2e;&#49;</a></p>
 <p>​字段说明</p>
 <p>​<strong>Name</strong>：用户自定义的节点标识符，需保证集群内唯一。<br>​<strong>Host</strong>：节点的 IP 地址或完全限定域名（FQDN），需满足以下条件：<br>必须为 ​IP 地址​（如 192.168.1.100）或 ​FQDN​（如 emqx.example.com）。<br>不可包含端口号或特殊字符（如 - 需谨慎使用，建议用 _ 替代）。</p>
 <p>2、docker swarm模式下如果采用服务名进行通信，节点名称host部分使用服务名会导致集群节点通信失败，并且启动后报错，提示节点名称非法。解决办法是通过aliases参数给服务指定别名。</p>
@@ -6678,7 +6873,7 @@ dockerfile-maven-plugin: 1.4.9</code></pre>
 <h1><span id="目的"><span id="inline-blue">目的</span></span></h1><p>管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。</p>
 <h1><span id="实现"><span id="inline-blue">实现</span></span></h1><p>1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#x72;&#x6f;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#48;&#48;&#46;&#49;&#48;&#49;">&#x72;&#x6f;&#x6f;&#x74;&#64;&#x31;&#57;&#50;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#48;&#48;&#46;&#49;&#48;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
+<p>2、建立同步ssh信任关系，输入命令：cd  $HOME，进入用户根目录。<br>输入命令：ssh-keygen -t rsa (会出现几个提示信息，一直按回车即可)。<br>会在$HOME/.ssh/目录下生成2个文件id_rsa、id_rsa.pub。<br>输入命令：cp  id_rsa.pub  authorized_keys，将id_rsa.pub拷贝成authorized_keys。<br>将授权密钥分发到nginx服务器(192.168.100.101)上，输入命令：<br>scp  ~/.ssh/authorized_keys <a href="mailto:&#114;&#111;&#111;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#49;&#x30;&#48;&#46;&#x31;&#x30;&#49;">&#114;&#111;&#111;&#116;&#x40;&#x31;&#57;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#49;&#x30;&#48;&#46;&#x31;&#x30;&#49;</a>:/root/.ssh/<br>如果有多台下载服务器，每台都须运行一次上面的密钥下发命令。<br>3、通过如下命令查看系统是否支持inotify：ll /proc/sys/fs/inotify<br>如果有如下输出，表示系统内核已经支持inotify：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_queued_events</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_instances</span><br><span class="line">-rw-r--r-- 1 root root 0 Jan  2 14:59 max_user_watches</span><br></pre></td></tr></table></figure>
 <p>5、取得软件包inotify-tools-3.13.tar.gz，放在/tmp下。<br>6、输入命令：tar zvxf inotify-tools-3.13.tar.gz，解压软件包。<br>7、输入命令：cd inotify-tools-3.13，进入解压后的目录。<br>8、输入命令：./configure<br>9、输入命令：make<br>10、输入命令：make install<br>11、在系统下执行命令：man inotify、 man inotifywait、 man inotifywatch即可得到相应的帮助信息，表示inotify安装成功。<br>12、输入命令：rsync，查看rsync是否安装。<br>rsync一般是系统默认安装，如果没有安装就取得软件包，安装方法同inotify。</p>
 <p>1、取得syncapps.sh、versService.dat脚本。<br>syncapps.sh脚本内容如下：</p>
