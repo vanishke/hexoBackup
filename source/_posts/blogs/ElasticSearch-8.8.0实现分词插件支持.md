@@ -1,9 +1,9 @@
 ---
 title: ElasticSearch-8.8.0实现分词插件支持
 categories:
-	- ElasticSearch
+	- Elasticsearch
 tags: 
-	- ElasticSearch
+	- Elasticsearch
 	
 date: 2025-05-23 15:24:54
 updated: 2025-05-23 15:24:54

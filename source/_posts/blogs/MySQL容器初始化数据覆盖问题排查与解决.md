@@ -2,7 +2,6 @@
 title: MySQL 容器初始化数据覆盖问题排查与解决
 categories: 
 	- Docker
-	- MySQL
 tags: 
 	- Docker
 	- MySQL

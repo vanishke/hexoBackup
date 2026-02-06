@@ -1,9 +1,9 @@
 ---
-title: Wildfly自定义导航应用程序文件上传目录
+title: WildFly自定义导航应用程序文件上传目录
 categories: 
-	- Wildfly
+	- WildFly
 tags: 
-	- Wildfly
+	- WildFly
 	- Java
 	
 date: 2025-12-05 16:47:40
@@ -19,7 +19,7 @@ updated: 2025-12-05 16:47:40
 
 JDK： 1.8
 Spring: 4.3.20.RELEASE
-Wildfly: 26.1.0-Final
+WildFly: 26.1.0-Final
 
 # <span id="inline-blue">实现</span>
 修改Wildfly配置文件standalone.xml,文件所在位置：/home/tianjin_istore/wildfly26-istore/standalone/configuration undertow子系统配置节点修改如下：

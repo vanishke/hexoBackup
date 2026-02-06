@@ -9,7 +9,7 @@ date: 2020-11-16 13:44:25
 ***
 
 # 技术博客
-https://hexo-sigma-eight.vercel.app/
+https://vanishke.github.io/hexo/
 
 ***
 #联系方式

@@ -1,9 +1,9 @@
 ---
 title: Java api client实现Elasticsearch泛型接口
 categories:
-	- ElasticSearch
+	- Elasticsearch
 tags: 
-	- ElasticSearch
+	- Elasticsearch
 	
 date: 2025-05-30 17:05:12
 updated: 2025-05-30 17:05:12

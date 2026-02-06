@@ -1,9 +1,9 @@
 ---
-title: Wildfly部署应用程序加载配置文件异常解决办法
+title: WildFly部署应用程序加载配置文件异常解决办法
 categories: 
-	- Wildfly
+	- WildFly
 tags: 
-	- Wildfly
+	- WildFly
 	- Java
 	
 date: 2025-12-05 16:12:27
@@ -19,11 +19,11 @@ updated: 2025-12-05 16:12:27
 
 JDK： 1.8
 Spring: 4.3.20.RELEASE
-Wildfly: 26.1.0-Final
+WildFly: 26.1.0-Final
 
 # <span id="inline-blue">现象</span>
 
-Wildfly部署应用程序启动加载出现如下报错信息：
+WildFly部署应用程序启动加载出现如下报错信息：
 
 ```shell
 2025-12-04 14:05:11,021 INFO  [com.xxx.istore.shelfmanager.task.ThridSignStatusCheckTask] (org.springframework.scheduling.quartz.SchedulerFactoryBean#0_Worker-1) signStatusCheck start###
