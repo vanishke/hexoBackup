@@ -142,7 +142,7 @@ mvn jasypt:decrypt \
 - 必须在 **对应微服务模块的根目录** 执行（有自己 `pom.xml` 的那个目录）。
 - 插件默认会在该模块下的 `src/main/resources` 查找配置文件。
 
-# <span id="inline-blue">`@activatedProperties@` 占位符踩坑：必须加双引号</span>
+# <span id="inline-blue">占位符踩坑</span>
 
 项目中许多模块用到了 Maven 占位符：
 
