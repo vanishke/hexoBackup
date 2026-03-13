@@ -87,8 +87,8 @@ Error: Package: docker-ce-rootless-extras-26.1.4-1.el7.x86_64 (docker-ce-stable)
 
 ```text
 conntrack-tools-1.4.4-11.el8.x86_64.rpm
-conntrack-tools-1.4.8-1-omv2490.x86_64.rpm
 container-selinux-2.107-3.el7.noarch.rpm
+libmnl-devel-1.0.3-7.el7.x86_64.rpm
 fuse3-3.6.1-4.el7.x86_64.rpm
 fuse3-devel-3.6.1-4.el7.x86_64.rpm
 fuse3-libs-3.6.1-4.el7.x86_64.rpm
@@ -112,13 +112,13 @@ slirp4netns-0.4.2-3.git21fdece.module+el8.5.0+770+e2f49861.x86_64.rpm
 rpm -ivh libnetfilter_queue-1.0.2-2.el7_2.x86_64.rpm
 rpm -ivh libnetfilter_cthelper-1.0.0-11.el7.x86_64.rpm
 rpm -ivh libnetfilter_cttimeout-1.0.0-7.el7.x86_64.rpm
+rpm -ivh libmnl-devel-1.0.3-7.el7.x86_64.rpm
 rpm -ivh libnetfilter_cttimeout-devel-1.0.0-7.el7.x86_64.rpm
 rpm -ivh libnetfilter_conntrack-1.0.6-1.el7_3.x86_64.rpm
 
-# 2) conntrack-tools（根据实际包选择其一版本安装）
+# 2) conntrack-tools
 rpm -ivh conntrack-tools-1.4.4-11.el8.x86_64.rpm
-# 或
-# rpm -ivh conntrack-tools-1.4.8-1-omv2490.x86_64.rpm
+
 
 # 3) container-selinux
 rpm -ivh container-selinux-2.107-3.el7.noarch.rpm
