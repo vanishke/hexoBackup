@@ -24,7 +24,7 @@ updated: 2026-04-16 11:43:13
 宿主机系统版本：
 
 ```bash
-[root@iZ0xiitmphpxjiek7z1aybZ logs]# cat /etc/redhat-release
+[root@<HOSTNAME> logs]# cat /etc/redhat-release
 AlmaLinux release 9.5 (Teal Serval)
 ```
 
@@ -74,29 +74,38 @@ error_log  /var/log/nginx/error.log;
 
 ```conf
 /usr/local/docker/nginx/logs/*.log {
+    create 0644 root root
     daily
-    rotate 7
     missingok
-    notifempty
-    compress
-    delaycompress
     dateext
-    dateformat -%Y%m%d
+    rotate 7
+    nocompress
+    notifempty
     sharedscripts
-    copytruncate
-    su root root
+    postrotate
+        SERVICE_NAME='<YOUR_STACK>_nginx'
+        CID="$(/usr/bin/docker ps -q \
+          --filter "label=com.docker.swarm.service.name=${SERVICE_NAME}" \
+          --filter status=running | /usr/bin/head -n 1)"
+        if /usr/bin/test -n "$CID"; then
+          /usr/bin/docker exec "$CID" nginx -s reopen >/dev/null 2>&1 || true
+        fi
+    endscript
 }
 ```
 
-参数解释（只列关键项）：
+参数解释（逐项说明常用项的作用）：
 
-- **daily**：按天轮转。
-- **rotate 7**：保留 7 份历史文件（超出自动删除最旧的）。
-- **compress / delaycompress**：历史日志压缩；`delaycompress` 表示延迟一轮再压缩，避免与写入窗口冲突。
-- **dateext / dateformat -%Y%m%d**：归档文件名追加日期后缀，例如 `access.log-20260416.gz`（具体格式依发行版实现略有差异）。
-- **copytruncate**：拷贝原文件并截断原文件，避免必须通知 Nginx reopen 日志文件（实现简单、兼容性高）。
-- **missingok / notifempty**：文件不存在或为空时不报错、不轮转。
-- **su root root**：以指定用户/组执行轮转动作，避免权限问题（RHEL/AlmaLinux 系常见需要显式指定）。
+- **`/usr/local/docker/nginx/logs/*.log`**：匹配需要轮转的目标日志文件（宿主机挂载目录里的 `*.log`）。
+- **`create 0644 root root`**：轮转后创建新的空日志文件，并设置权限/属主/属组（避免轮转后 nginx 因权限写不进去）。
+- **`daily`**：按天轮转（每天触发一次轮转逻辑）。
+- **`rotate 7`**：保留 7 份历史归档（超过数量会删除最旧的）。
+- **`missingok`**：目标文件不存在时不报错（例如某些日志暂时没生成）。
+- **`notifempty`**：目标文件为空则不轮转（避免产生大量空归档）。
+- **`dateext`**：归档文件名追加日期后缀（例如 `access.log-20260416`）；如需自定义格式可配 `dateformat -%Y%m%d`。
+- **`nocompress`**：不压缩历史归档；如果想节省空间，改用 `compress`（通常配合 `delaycompress`，避免刚轮转的文件仍被进程短暂占用导致问题）。
+- **`sharedscripts`**：多个日志匹配到同一段配置时，`postrotate/ prerotate` 脚本只执行一次（避免对同一服务重复 `reopen`）。
+- **`postrotate ... endscript`**：轮转完成后执行脚本。本例通过 `docker exec ... nginx -s reopen` 让 nginx 重新打开日志文件句柄，确保轮转后继续写入新文件而不是写到旧文件上。
 
 # <span id="inline-blue">验证 logrotate 是否生效</span>
 
@@ -164,12 +173,6 @@ ls -l /var/lib/logrotate/status /var/lib/logrotate.status 2>/dev/null
 
 # <span id="inline-blue">常见问题与注意事项</span>
 
-## <span id="inline-blue">copytruncate 的取舍</span>
-
-`copytruncate` 的好处是无需通知 Nginx reopen 日志文件，适合容器化场景快速落地；但它不是严格意义上的“零丢失轮转”，在极端高并发写入窗口可能出现少量丢行或重复。
-
-如果你的场景对“绝对无损”极度敏感，建议改为通过信号让 Nginx reopen 日志文件（复杂度更高，Swarm 下要解决“如何对正确的容器进程发信号”的问题），本篇不展开。
-
 ## <span id="inline-blue">同节点多副本写同一目录</span>
 
 如果某节点同时运行多个 Nginx task，并且都挂载到同一个宿主机日志目录且写同名文件，会导致：
@@ -181,7 +184,7 @@ ls -l /var/lib/logrotate/status /var/lib/logrotate.status 2>/dev/null
 
 ## <span id="inline-blue">权限问题</span>
 
-确保容器内 Nginx 写日志用户对挂载目录有写权限；同时宿主机执行轮转的用户（本例为 root）对目录有读写权限。配置中显式 `su root root` 能规避部分 AlmaLinux/RHEL 系的默认权限限制。
+确保容器内 Nginx 写日志用户对挂载目录有写权限；同时宿主机执行轮转的用户（本例为 root）对目录有读写权限。若系统启用了更严格的权限策略（某些 RHEL 系发行版），可在配置段内增加 `su root root` 来明确以 root 身份轮转（否则可能出现 “permission denied” 或轮转脚本不执行）。
 
 # <span id="inline-blue">总结</span>
 
