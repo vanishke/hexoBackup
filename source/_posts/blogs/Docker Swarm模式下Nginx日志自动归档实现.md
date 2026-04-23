@@ -74,23 +74,23 @@ error_log  /var/log/nginx/error.log;
 
 ```conf
 /usr/local/docker/nginx/logs/*.log {
-    create 0644 root root
     daily
-    missingok
-    dateext
     rotate 7
-    nocompress
+    copytruncate      
+    missingok
     notifempty
+    dateext
+    create 0644 root root
     sharedscripts
-    postrotate
-        SERVICE_NAME='<YOUR_STACK>_nginx'
-        CID="$(/usr/bin/docker ps -q \
-          --filter "label=com.docker.swarm.service.name=${SERVICE_NAME}" \
-          --filter status=running | /usr/bin/head -n 1)"
-        if /usr/bin/test -n "$CID"; then
-          /usr/bin/docker exec "$CID" nginx -s reopen >/dev/null 2>&1 || true
-        fi
-    endscript
+	postrotate
+		SERVICE_NAME='photoframe-nginx_photoframe-nginx'
+		CID="$(/usr/bin/docker ps -q \
+		  --filter "label=com.docker.swarm.service.name=${SERVICE_NAME}" \
+		  --filter status=running | /usr/bin/head -n 1)"
+		if /usr/bin/test -n "$CID"; then
+		  /usr/bin/docker exec "$CID" nginx -s reopen >/dev/null 2>&1 || true
+		fi
+	endscript	
 }
 ```
 
@@ -100,10 +100,11 @@ error_log  /var/log/nginx/error.log;
 - **`create 0644 root root`**：轮转后创建新的空日志文件，并设置权限/属主/属组（避免轮转后 nginx 因权限写不进去）。
 - **`daily`**：按天轮转（每天触发一次轮转逻辑）。
 - **`rotate 7`**：保留 7 份历史归档（超过数量会删除最旧的）。
+- **`copytruncate`**：先把当前日志复制为归档文件，再把原文件截断为 0，进程仍继续写同一个文件名；优点是无需切换文件句柄也能完成轮转，缺点是在极端高并发写入窗口可能出现少量丢行或重复。
 - **`missingok`**：目标文件不存在时不报错（例如某些日志暂时没生成）。
 - **`notifempty`**：目标文件为空则不轮转（避免产生大量空归档）。
 - **`dateext`**：归档文件名追加日期后缀（例如 `access.log-20260416`）；如需自定义格式可配 `dateformat -%Y%m%d`。
-- **`nocompress`**：不压缩历史归档；如果想节省空间，改用 `compress`（通常配合 `delaycompress`，避免刚轮转的文件仍被进程短暂占用导致问题）。
+- **`compress / delaycompress`**：历史日志压缩；`delaycompress` 表示延迟一轮再压缩，避免刚轮转的文件仍被短暂占用导致问题（你当前配置是 `copytruncate`，且未启用压缩，需要压缩时再改）。
 - **`sharedscripts`**：多个日志匹配到同一段配置时，`postrotate/ prerotate` 脚本只执行一次（避免对同一服务重复 `reopen`）。
 - **`postrotate ... endscript`**：轮转完成后执行脚本。本例通过 `docker exec ... nginx -s reopen` 让 nginx 重新打开日志文件句柄，确保轮转后继续写入新文件而不是写到旧文件上。
 
@@ -169,6 +170,58 @@ journalctl -u logrotate.service --since "7 days ago"
 
 ```bash
 ls -l /var/lib/logrotate/status /var/lib/logrotate.status 2>/dev/null
+```
+
+## <span id="inline-blue">systemd 定时执行失败但手动执行正常（ProtectSystem 权限限制）</span>
+
+现象是：手动执行 `logrotate -vf /etc/logrotate.d/photoframe-nginx` 正常，但通过 **systemd timer** 触发的 `logrotate.service` 失败。
+
+查看日志：
+
+```text
+Apr 23 00:00:00 <HOSTNAME> systemd[1]: Starting Rotate log files...
+Apr 23 00:00:00 <HOSTNAME> logrotate[1205370]: error: error opening /usr/local/docker/nginx/logs/access.log
+Apr 23 00:00:00 <HOSTNAME> systemd[1]: logrotate.service: Main process exited, code=exited, status=1/...
+Apr 23 00:00:00 <HOSTNAME> systemd[1]: logrotate.service: Failed with result 'exit-code'.
+Apr 23 00:00:00 <HOSTNAME> systemd[1]: Failed to start Rotate log files.
+```
+
+原因是：部分发行版的 `logrotate.service` 默认启用了 `ProtectSystem=full` 等加固策略，导致 service 进程对 **未显式放行的路径** 只有只读权限（即使实际运行用户是 root），从而在 `/usr/local/docker/nginx/logs` 下执行轮转时出现“创建/写入失败”。
+
+解决方式是给 `logrotate.service` 增加 `ReadWritePaths` 放行 Nginx 日志目录（建议用 systemd drop-in 覆盖，而不是直接改原 unit 文件）。
+
+示例（逻辑等价于你直接在 unit 里加的配置）：
+
+```ini
+[Unit]
+Description=Rotate log files
+Documentation=man:logrotate(8) man:logrotate.conf(5)
+RequiresMountsFor=/var/log
+ConditionACPower=true
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/logrotate /etc/logrotate.conf
+
+ReadWritePaths=/var/log
+ReadWritePaths=/var/lib/logrotate
+ReadWritePaths=/usr/local/docker/nginx/logs
+
+# hardening options
+ProtectSystem=full
+```
+
+修改后重载并重启：
+
+```shell
+systemctl daemon-reload
+systemctl restart logrotate.service
+```
+
+验证放行目录是否生效：
+
+```shell
+systemctl show logrotate.service -p ReadWritePaths
 ```
 
 # <span id="inline-blue">常见问题与注意事项</span>
