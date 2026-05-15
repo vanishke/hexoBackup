@@ -15,9 +15,9 @@ updated: 2026-04-16 11:43:13
 
 # <span id="inline-blue">背景</span>
 
-在 **Docker Swarm** 模式下运行 Nginx 时，如果 Nginx 将请求日志写入容器内文件（例如 `/var/log/nginx/access.log` / `error.log`），通常会将该目录 **bind mount** 到宿主机目录，方便集中查看与持久化。
+在 Docker Swarm 模式下运行 Nginx 时，如果 Nginx 将请求日志写入容器内文件（例如 `/var/log/nginx/access.log` / `error.log`），通常会将该目录 bind mount 到宿主机目录，方便集中查看与持久化。
 
-本篇目标是实现：**仅在本机进行日志轮转保留（自动归档）**，不引入 ELK/Loki/S3 等集中式日志系统。核心方案是：**宿主机使用 `logrotate` 对挂载目录中的 Nginx 日志进行轮转/压缩/保留**。
+本篇目标是实现：仅在本机进行日志轮转保留（自动归档），不引入 ELK/Loki/S3 等集中式日志系统。核心方案是：宿主机使用 `logrotate` 对挂载目录中的 Nginx 日志进行轮转/压缩/保留。
 
 # <span id="inline-blue">环境信息</span>
 
@@ -59,7 +59,7 @@ error_log  /var/log/nginx/error.log;
 
 注意：
 
-- 在 Swarm 场景中，**服务任务可能重建**，但只要日志目录是宿主机挂载目录，日志文件就不会随容器删除而丢失。
+- 在 Swarm 场景中，服务任务可能重建，但只要日志目录是宿主机挂载目录，日志文件就不会随容器删除而丢失。
 - 如果同一节点可能同时跑多个副本（`replicas > 1` 且调度到同一节点），要避免多个 task 写同一份日志文件（否则轮转会“打架”）。本篇前提是：同一节点对应该日志目录只有一个 Nginx 写入者（常见是 `global` 模式每节点一份，或 `replicas=1`）。
 
 # <span id="inline-blue">logrotate 配置（自动轮转归档）</span>
@@ -138,7 +138,7 @@ ls -lh /usr/local/docker/nginx/logs/
 
 ## <span id="inline-blue">查看是否由 systemd timer / cron 自动触发</span>
 
-AlmaLinux 9 通常是 **systemd timer** 驱动 `logrotate`（也可能存在 cron 兜底，取决于安装与配置）。
+AlmaLinux 9 通常是 systemd timer 驱动 `logrotate`（也可能存在 cron 兜底，取决于安装与配置）。
 
 1）查看是否存在 `logrotate.timer`：
 
@@ -174,7 +174,7 @@ ls -l /var/lib/logrotate/status /var/lib/logrotate.status 2>/dev/null
 
 ## <span id="inline-blue">systemd 定时执行失败但手动执行正常（ProtectSystem 权限限制）</span>
 
-现象是：手动执行 `logrotate -vf /etc/logrotate.d/photoframe-nginx` 正常，但通过 **systemd timer** 触发的 `logrotate.service` 失败。
+现象是：手动执行 `logrotate -vf /etc/logrotate.d/photoframe-nginx` 正常，但通过 systemd timer 触发的 `logrotate.service` 失败。
 
 查看日志：
 
@@ -188,10 +188,10 @@ Apr 23 00:00:00 <HOSTNAME> systemd[1]: Failed to start Rotate log files.
 
 原因是：部分发行版的 `logrotate.service` 默认启用了 `ProtectSystem=full` 等加固策略，导致 service 进程对 **未显式放行的路径** 只有只读权限（即使实际运行用户是 root），从而在 `/usr/local/docker/nginx/logs` 下执行轮转时出现“创建/写入失败”。
 
-解决方式是给 `logrotate.service` 增加 `ReadWritePaths` 放行 Nginx 日志目录（建议用 systemd drop-in 覆盖，而不是直接改原 unit 文件）。
+解决方式是给 `logrotate.service` 增加 `ReadWritePaths` 放行 Nginx 日志目录。
 
 示例（逻辑等价于你直接在 unit 里加的配置）：
-
+vim /usr/lib/systemd/system/logrotate.service
 ```ini
 [Unit]
 Description=Rotate log files
@@ -233,7 +233,7 @@ systemctl show logrotate.service -p ReadWritePaths
 - 日志混写；
 - `logrotate` 轮转时互相影响，甚至产生异常轮转结果。
 
-建议保证 **同节点同一路径只有一个写入者**（例如使用 `global` 或确保 `replicas=1`），或者按 task/节点拆分日志目录与文件名。
+建议保证 同节点同一路径只有一个写入者（例如使用 `global` 或确保 `replicas=1`），或者按 task/节点拆分日志目录与文件名。
 
 ## <span id="inline-blue">权限问题</span>
 
@@ -241,5 +241,5 @@ systemctl show logrotate.service -p ReadWritePaths
 
 # <span id="inline-blue">总结</span>
 
-在 Docker Swarm 下，如果 Nginx 以“写文件日志 + 挂载宿主机目录”的方式落盘，并且只需要本机轮转保留（归档），最稳妥的方式是：**在每个节点上使用 `logrotate` 对挂载目录的 `*.log` 进行 `daily + rotate + compress` 轮转**。该方式与容器生命周期解耦，容器重建不影响历史归档文件。
+在 Docker Swarm 下，如果 Nginx 以“写文件日志 + 挂载宿主机目录”的方式落盘，并且只需要本机轮转保留（归档），最稳妥的方式是：在每个节点上使用 `logrotate` 对挂载目录的 `*.log` 进行 `daily + rotate + compress` 轮转。该方式与容器生命周期解耦，容器重建不影响历史归档文件。
 
