@@ -14,11 +14,11 @@ updated: 2026-05-15 17:39:10
 
 # <span id="inline-blue">背景</span>
 
-在 Docker Swarm 模式下，通过 **Stack** 部署多副本 Nginx 服务，结合 **`deploy.update_config`**（`start-first`、分批 `parallelism`、健康检查等），可在滚动更新时尽量保持入口可用，实现 **平滑升级**。
+在 Docker Swarm 模式下，通过 **Stack** 部署多副本 Nginx 服务，结合 **deploy.update_config**（`start-first`、分批 `parallelism`、健康检查等），可在滚动更新时尽量保持入口可用，实现 **平滑升级**。
 
 本文以测试堆栈为例：使用 **手动构建的自定义镜像**（构建时将 `PAGE_VERSION` 写入默认首页），通过循环 `curl` 观察升级过程中首页版本与 HTTP 状态码变化，验证 Swarm 滚动更新行为。
 
-**相关文件（`docker` 目录下）：**
+**相关文件（docker目录下）：**
 
 | 文件 | 说明 |
 |------|------|
@@ -28,14 +28,16 @@ updated: 2026-05-15 17:39:10
 # <span id="inline-blue">环境与前置条件</span>
 
 - 已初始化 **Docker Swarm** 集群（至少 1 个 Manager 节点）。
-- 在 **Manager 节点** 执行 `docker stack deploy` 及 `docker service update`。
-- 所有命令均在 **`docker` 目录** 下执行（与 `nginx-upgrade-test`、`docker-swarm-nginx-test.yml` 同级）。
-- 测试访问地址示例：`http://10.9.216.12:18080/`（`10.9.216.12` 换为任一 Swarm 节点 IP，端口与编排中 `published: 18080` 一致）。
-- **多节点集群**：需在私有仓库构建并 `push` 镜像 `nginx-upg-test:v1` / `v2`，各节点能拉取；编排中 `image` 建议写仓库完整地址。
+- 在 **Manager 节点** 执行 docker stack deploy 及 docker service update。
+- 所有命令均在 **docker目录** 下执行（与 nginx-upgrade-test、docker-swarm-nginx-test.yml 同级）。
+- 测试访问地址示例：http://10.9.216.12:18080/（10.9.216.12 换为任一 Swarm 节点 IP，端口与编排中 published: 18080 一致）。
+- **多节点集群**：需在私有仓库构建并 push 镜像 nginx-upg-test:v1/v2，各节点能拉取；编排中 image 建议写仓库完整地址。
 
 # <span id="inline-blue">自定义镜像说明</span>
 
-`nginx-upgrade-test/Dockerfile` 在 **构建阶段** 将 `PAGE_VERSION` 与 `nginx -v` 输出写入 `/usr/share/nginx/html/index.html`：
+`nginx-upgrade-test/Dockerfile` 在 **构建阶段** 将 `PAGE_VERSION` 与 `nginx -v` 输出写入 `/usr/share/nginx/html/index.html`（简易 HTML 页面，用于升级观测）。
+
+**结构示意（完整文件见仓库 `docker/nginx-upgrade-test/Dockerfile`）：**
 
 ```dockerfile
 FROM nginx:1.25-alpine
@@ -44,18 +46,19 @@ ARG PAGE_VERSION=v1
 
 RUN set -e; \
     NGINX_VER="$(nginx -v 2>&1)"; \
-    printf '%s\n' \
-      '<!DOCTYPE html><html lang="zh-CN">...' \
-      "<p><strong>构建版本 PAGE_VERSION</strong></p><pre>${PAGE_VERSION}</pre>" \
-      ... > /usr/share/nginx/html/index.html; \
+    # 使用 printf 拼接 HTML 片段并写入 index.html（含 PAGE_VERSION 与 nginx 版本行） \
+    # 此处省略具体 HTML 字符串，避免博客引擎误解析标签 \
+    ... > /usr/share/nginx/html/index.html; \
     printf '<pre>%s</pre>\n' "$NGINX_VER" >> /usr/share/nginx/html/index.html; \
     echo '</body></html>' >> /usr/share/nginx/html/index.html
 ```
 
+> **Hexo 说明：** 请勿在博客正文的代码块中直接粘贴含 DOCTYPE、p 标签等完整 HTML 字符串；发布时使用上文示意或链到仓库 Dockerfile。
+
 **说明：**
 
-- 首页显示的 **v1 / v2** 由 **`docker build --build-arg PAGE_VERSION=...`** 决定，与 Stack 里 `image:` 标签名无自动绑定。
-- 部署前可用 `docker run --rm nginx-upg-test:v1 cat /usr/share/nginx/html/index.html` 自检镜像内容。
+- 首页显示的 **v1 / v2** 由 **docker build --build-arg PAGE_VERSION=...** 决定，与 Stack 里 image: 标签名无自动绑定。
+- 部署前可用 docker run --rm nginx-upg-test:v1 cat /usr/share/nginx/html/index.html 自检镜像内容。
 
 # <span id="inline-blue">Stack 编排要点</span>
 
@@ -121,7 +124,7 @@ networks:
 | `order: start-first` | 有利于减少升级空窗 |
 | `healthcheck` | Swarm 判断任务是否就绪 |
 
-Stack 名称：`stack-nginx-test` → 服务全名为 **`stack-nginx-test_nginx-upgrade-test`**。
+Stack 名称：`stack-nginx-test` → 服务全名为 **stack-nginx-test_nginx-upgrade-test**。
 
 # <span id="inline-blue">构建镜像</span>
 
@@ -158,7 +161,7 @@ docker stack services stack-nginx-test
 docker service ps stack-nginx-test_nginx-upgrade-test --no-trunc
 ```
 
-首次部署成功后，访问首页应稳定显示 **`PAGE_VERSION` 为 v1**（若一直是 v2，参见文末「常见问题」）。
+首次部署成功后，访问首页应稳定显示 **PAGE_VERSION为 v1**（若一直是 v2，参见文末「常见问题」）。
 
 # <span id="inline-blue">循环检测服务</span>
 
@@ -234,10 +237,10 @@ docker service inspect stack-nginx-test_nginx-upgrade-test --pretty
 
 # <span id="inline-blue">使用 Portainer 执行同等升级（可选）</span>
 
-1. 进入 Swarm 环境 → **Services** → 选择 `stack-nginx-test_nginx-upgrade-test` → **Update**。
-2. **Image** 填写 `nginx-upg-test:v2`（或目标 tag）。
-3. **Rolling update**：Parallelism `3`，Delay `0`，Monitor `0`；勾选 **Force update**。
-4. 若界面无 `--no-resolve-image` 对应项，可在 Portainer **Console** 中执行上文 `docker service update` 完整命令。
+1. 进入 Swarm 环境 → **Services** → 选择stack-nginx-test_nginx-upgrade-test → **Update**。
+2. **Image** 填写 nginx-upg-test:v2（或目标 tag）。
+3. **Rolling update**：Parallelism 3，Delay 0，Monitor 0；勾选 **Force update**。
+4. 若界面无 --no-resolve-image 对应项，可在 Portainer **Console** 中执行上文 docker service update 完整命令。
 
 # <span id="inline-blue">卸载 Stack</span>
 
@@ -249,17 +252,17 @@ docker stack rm stack-nginx-test
 
 ### <span id="inline-blue">部署后一直是 v2，看不到 v1</span>
 
-- **原因**：构建时把 `PAGE_VERSION=v2` 打到了 `nginx-upg-test:v1` 标签，或只构建了 v2、编排/更新却指向 v2 镜像。
-- **处理**：`--no-cache` 分别构建 v1/v2，部署前用 `docker run --rm nginx-upg-test:v1 cat ...` 确认首页为 v1；再 `stack deploy`。
+- **原因**：构建时把 PAGE_VERSION=v2 打到了 nginx-upg-test:v1 标签，或只构建了 v2、编排/更新却指向 v2 镜像。
+- **处理**：--no-cache 分别构建 v1/v2，部署前用 docker run --rm nginx-upg-test:v1 cat ... 确认首页为 v1；再 stack deploy。
 
 ### <span id="inline-blue">执行 service update 后“没有升级”</span>
 
 - **原因**：当前任务已是目标镜像（如已是 v2 再 update 到 v2），Swarm 不会滚动。
-- **处理**：确认 `docker service inspect ... --format '{{.Spec.TaskTemplate.ContainerSpec.Image}}'`，目标 tag 与当前不同，并加 `--force`。
+- **处理**：用 `docker service inspect <服务名> --pretty` 查看 **Image** 是否与目标 tag 一致；不一致时再执行 `service update` 并加 `--force`。（Hexo 文章中勿写 `docker service inspect --format` 的 Go 模板双花括号参数，会被 Nunjucks 当成模板语法。）
 
 ### <span id="inline-blue">多节点镜像不一致</span>
 
 - **原因**：镜像仅在 Manager 本地 build，Worker 拉到旧层或拉取失败。
-- **处理**：push 到统一仓库，编排使用仓库地址，各节点 `docker pull` 后再部署/更新。
+- **处理**：push 到统一仓库，编排使用仓库地址，各节点 docker pull 后再部署/更新。
 
 
