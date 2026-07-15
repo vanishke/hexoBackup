@@ -1,5 +1,5 @@
 ---
-title: SVN迁移到Gitea
+title: SVN迁移到Gitea：保留完整提交历史的实践指南
 categories:
 	- Git
 tags:
@@ -7,389 +7,217 @@ tags:
 	- Gitea
 	- git-svn
 
-date: 2026-07-06 16:39:27
-updated: 2026-07-06 16:39:27
+date: 2026-07-14 16:06:17
+updated: 2026-07-14 16:06:17
 ---
 <!-- toc -->
 
 # <span id="inline-blue">概述</span>
 
-本文记录将公司 SVN 项目（标准「序号 + 项目名」结构）迁移为 Git 仓库并推送到 Gitea 的完整流程，以某 Java 微服务项目为例。迁移工具采用 **Git 自带的 `git svn`**（Git Bash 环境下已验证可用）。
-
-文中涉及的服务器地址、仓库名、人员信息均已脱敏，实际迁移时请替换为真实值。。
+用 `git svn` 将标准「序号 + 项目名」SVN 源码仓（含 trunk / branches / tags）迁到 Gitea，并保留完整提交历史。已在 Git Bash 下验证。文中项目名、主机、账号、邮箱等敏感信息已用随机数据脱敏，请按实际环境替换。
 
 | 项 | 说明 |
 |----|------|
-| 迁移工具 | `git svn`（Git for Windows 内置） |
-| 目标平台 | Gitea |
-| 迁移范围 | `02.src/trunk` 源码主干及提交历史 |
-| 默认分支 | `main`（与 Gitea 默认分支一致） |
+| 工具 | `git svn` |
+| 目标 | Gitea，默认分支 `main` |
+| 范围 | `02.src` 的 trunk、branches、tags |
+| 作者映射 | 仓库外 `authors.txt`，勿提交 |
 
 **环境示例：**
 
 | 角色 | 示例地址 |
 |------|----------|
-| SVN 大仓库根 | `http://<svn-host>/<repo-root>` |
-| SVN 项目目录 | `XX.ProjectName` |
-| SVN 源码 trunk | `http://<svn-host>/<repo-root>/XX.ProjectName/02.src/trunk` |
-| Gitea 仓库 | `http://<gitea-host>:<port>/<org>/ProjectName.git` |
+| SVN 根 | `http://svn.corp-demo.local/REPO` |
+| 项目 | `42.ClearStream` |
+| 本地目录 | `/data/migrate/ClearStream` |
+| 作者文件 | `/data/migrate/clearstream-authors.txt` |
+| Gitea | `http://git.demo-lab.net:3000/ACME/ClearStream.git` |
+| 提交人 | `陈思远` / `chen.siyuan@demo-mail.com` |
 
-# <span id="inline-blue">迁移目标</span>
+```mermaid
+flowchart TB
+  A[SVN 02.src] --> B[git svn fetch]
+  B --> C[本地引用转换]
+  C --> D[push Gitea]
+```
 
-| 目标 | 说明 |
-|------|------|
-| 保留提交历史 | 作者、时间、提交说明完整保留 |
-| 正确识别分支与标签 | `branches`、`tags` 作为 Git ref，不作为普通目录带入主分支 |
-| 源码与文档分离 | `01.doc`（转测资料归档）不进入日常开发仓库 |
-| 规范默认分支 | 本地 `master` 重命名为 `main` 后推送 Gitea |
-
-# <span id="inline-blue">迁移范围说明</span>
-
-## SVN 项目目录结构
+# <span id="inline-blue">迁移范围</span>
 
 ```
-XX.ProjectName/
-├── 01.doc/              # 版本转测资料归档（不迁移到源码 Git 仓库）
+42.ClearStream/
+├── 01.doc/          # 不迁入源码仓
 └── 02.src/
-    ├── trunk/           # 日常开发源码（迁移目标）
-    ├── branches/        # SVN 分支
-    └── tags/            # SVN 标签
+    ├── trunk/       # → main
+    ├── branches/    # → Git 分支
+    └── tags/        # → Git 标签
 ```
 
-## 只迁移 trunk 会包含什么、不包含什么
-
-| 范围 | 是否进入 Git 源码仓库 |
-|------|----------------------|
-| `02.src/trunk` 下全部源码及提交历史 | 是 |
-| `02.src/branches`、`02.src/tags` | 作为 Git ref 迁移，不作为目录出现在主分支 |
+| 范围 | 是否迁入 |
+|------|----------|
+| `trunk` / `branches` / `tags` | 是（作 refs，不是目录进 main） |
 | `01.doc` | 否 |
 
-若业务上也需要保留 `01.doc` 的历史，建议单独建归档 Git 仓库，或保留 SVN 只读访问。
-
-## 关键认知：init 阶段必须指定布局
-
-迁移时**不能**使用下面这种配置方式：
-
-```bash
-git svn init http://<svn-host>/<repo-root>
-git config svn.trunk "XX.ProjectName/02.src/trunk"
-git config svn.branches "XX.ProjectName/02.src/branches"
-git config svn.tags "XX.ProjectName/02.src/tags"
-```
-
-`git svn` **不识别** `svn.trunk`、`svn.branches`、`svn.tags` 这类配置项。错误配置会导致 `git svn fetch` 把项目根目录整体当成一个普通分支迁移，最终 `main` 分支里会出现：
-
-```
-01.doc/
-02.src/trunk/
-02.src/branches/
-02.src/tags/
-```
-
-正确做法是在 `git svn init` 时通过 `-T`、`-b`、`-t` 明确指定 SVN 布局。
+`git svn init` 必须用 `-T/-b/-t` 指定布局；`git config svn.trunk` 无效，会导致 `main` 出现 `01.doc`、`02.src/...` 整棵目录。
 
 # <span id="inline-blue">环境要求</span>
 
 | 项 | 建议 |
 |----|------|
-| 操作系统 | Windows（Git Bash / MINGW64）或 Linux |
-| 磁盘 | 预留足够空间（大仓库 `.git` 可达数 GB） |
-| 网络 | 可稳定访问 SVN 服务器与 Gitea |
-
-```bash
-git --version
-git svn --version
-svn --version
-```
-
-建议在 **Git Bash** 中执行，路径统一使用 Unix 风格（如 `/path/to/migrate`）。
+| 环境 | Git Bash / Linux，磁盘预留数 GB |
+| 校验 | `git svn --version`、`svn --version` |
 
 # <span id="inline-blue">生成 authors.txt</span>
 
-`authors.txt` 用于将 SVN 提交人（域账号、工号等）映射为 Git 要求的 `姓名 <邮箱>` 格式。迁移前必须先生成此文件。
-
-## 步骤 1：导出 SVN 提交日志
-
-以项目根目录为范围导出，可覆盖 trunk、branches、tags 的全部提交人：
-
 ```bash
-svn log "http://<svn-host>/<repo-root>/XX.ProjectName" --xml > /path/to/migrate/svn-log.xml
-```
+svn log "http://svn.corp-demo.local/REPO/42.ClearStream" --xml > /data/migrate/svn-log.xml
 
-若只需 trunk 范围的提交人，可缩小路径：
-
-```bash
-svn log "http://<svn-host>/<repo-root>/XX.ProjectName/02.src/trunk" --xml > /path/to/migrate/svn-log.xml
-```
-
-## 步骤 2：提取去重后的作者列表
-
-```bash
-grep '<author>' /path/to/migrate/svn-log.xml \
+grep '<author>' /data/migrate/svn-log.xml \
   | sed 's/.*<author>\(.*\)<\/author>.*/\1/' \
-  | sort -u > /path/to/migrate/svn-authors-raw.txt
+  | sort -u > /data/migrate/svn-authors-raw.txt
 
-cat /path/to/migrate/svn-authors-raw.txt
-```
-
-典型输出示例（已脱敏）：
-
-```
-DOMAIN\user001
-DOMAIN\user002
-user003
-```
-
-## 步骤 3：生成 authors.txt 初稿
-
-```bash
 while read author; do
   name=$(echo "$author" | sed 's/.*\\//')
-  echo "$author = $name <${name}@example.com>"
-done < /path/to/migrate/svn-authors-raw.txt > /path/to/migrate/authors.txt
+  echo "$author = $name <${name}@demo-mail.com>"
+done < /data/migrate/svn-authors-raw.txt > /data/migrate/clearstream-authors.txt
 ```
 
-## 步骤 4：手工校对
+手工校对右侧为真实姓名与邮箱。等号左边须与 SVN 作者完全一致。
 
-将右侧邮箱替换为真实姓名和公司邮箱：
+**安全要求：** `authors.txt` 不进 Git；勿写入真实密码。
 
-```
-DOMAIN\user001 = 张三 <zhangsan@example.com>
-DOMAIN\user002 = 李四 <lisi@example.com>
-user003 = 王五 <wangwu@example.com>
-```
+# <span id="inline-blue">核心步骤</span>
 
-| 规则 | 说明 |
-|------|------|
-| 等号左边 | 必须与 SVN `<author>` **完全一致**（含域前缀、大小写） |
-| 等号右边 | Git 提交人格式：`显示名 <邮箱>` |
-| 未映射后果 | 迁移后显示为 `(no author)` 或原始 SVN 账号 |
-
-**安全要求：**
-
-- `authors.txt` 含真实姓名与邮箱，**不得**提交到公开仓库。
-- 建议放在迁移工作目录外，通过 `git config svn.authorsfile` 引用绝对路径。
-
-> **备选方式（无需 XML）**：
->
-> ```bash
-> svn log "http://<svn-host>/<repo-root>/XX.ProjectName" -q \
->   | grep '^r' | awk -F'|' '{print $2}' | sed 's/^ //;s/ $//' | sort -u
-> ```
-
-# <span id="inline-blue">核心迁移步骤</span>
-
-## 创建本地工作目录
+## 初始化并拉取
 
 ```bash
-mkdir -p /path/to/migrate/ProjectName
-cd /path/to/migrate/ProjectName
-```
+mkdir -p /data/migrate/ClearStream && cd /data/migrate/ClearStream
 
-## 初始化 git-svn
-
-```bash
-git svn init http://<svn-host>/<repo-root>/XX.ProjectName \
-  -T 02.src/trunk \
-  -b 02.src/branches \
-  -t 02.src/tags \
+git svn init http://svn.corp-demo.local/REPO \
+  -T 42.ClearStream/02.src/trunk \
+  -b 42.ClearStream/02.src/branches \
+  -t 42.ClearStream/02.src/tags \
   --no-metadata
+
+git config svn.authorsfile /data/migrate/clearstream-authors.txt
+git svn fetch --log-window-size 1000
 ```
 
 | 参数 | 含义 |
 |------|------|
-| `-T 02.src/trunk` | SVN 主干源码目录 |
-| `-b 02.src/branches` | SVN 分支目录 |
-| `-t 02.src/tags` | SVN 标签目录 |
-| `--no-metadata` | 不在提交说明中追加 `git-svn-id` |
+| `-T/-b/-t` | trunk / branches / tags 布局 |
+| `--no-metadata` | 不追加 `git-svn-id` |
+| `--log-window-size` | 大仓库加速 log 查询 |
 
-## 配置作者映射
+fetch 后分支在 `refs/remotes/origin/*`，标签在 `refs/remotes/origin/tags/*`，**尚未**变成可 push 的本地 branch/tag。`git branch -r` 里的 `origin/*` 不会自动进 Gitea。
 
-```bash
-git config svn.authorsfile /path/to/migrate/authors.txt
-```
-
-## 拉取 SVN 历史
-
-```bash
-git svn fetch --log-window-size 1000
-```
-
-`--log-window-size 1000` 控制 git-svn 查询 SVN log 的窗口大小，适合大仓库迁移。
-
-若出现如下警告，通常可忽略：
-
-```
-W: Ignoring error from SVN, path probably does not exist
-W: Do not be alarmed at the above message git-svn is just searching aggressively for old history.
-```
-
-这是早期 revision 中路径尚不存在，git-svn 正在向前扫描历史。只要仍在推进（如 `Checked through r20000`），继续等待即可。
-
-按 revision 分段拉取（可选）：
-
-```bash
-git svn fetch -r 1:1000
-git svn fetch -r 1001:2000
-git svn fetch   # 补齐到最新
-```
-
-# <span id="inline-blue">检出分支与空目录处理</span>
-
-## 检出主分支并规范分支名
+## 检出 main 与本地整理
 
 ```bash
 git checkout -b master refs/remotes/origin/trunk
 git branch -M main
-git branch -v
+
+git config --local user.name "陈思远"
+git config --local user.email "chen.siyuan@demo-mail.com"
+
+git add .gitignore
+git commit -m "chore: 添加忽略规则"
 ```
 
-## 保留空目录结构
-
-Git 不跟踪空目录。SVN 迁移后如需保留空目录结构，添加 `.gitkeep` 占位文件。
-
-列出所有空目录：
+## 转换 branches / tags
 
 ```bash
-find . -type d -not -path './.git/*' -not -path './.git' -empty | sort
+# 分支：跳过 trunk（已是 main）
+git for-each-ref --format='%(refname:short)' refs/remotes/origin \
+  | grep -vE '^origin/(tags/|trunk$)' \
+  | while read ref; do git branch "${ref#origin/}" "$ref"; done
+
+# 标签
+git for-each-ref --format='%(refname:short)' refs/remotes/origin/tags | while read ref; do
+  t=${ref#origin/tags/}
+  git tag "$t" "refs/remotes/origin/tags/$t"
+done
 ```
 
-批量生成 `.gitkeep`：
+名称含 `@rev` 的是 git-svn peg 历史快照（如 `feature_x@85944`），完整迁移应保留并推送。
+
+## 推送 Gitea
+
+Gitea 建**空仓库**（勿初始化 README）：
 
 ```bash
-find . -type d -not -path './.git/*' -not -path './.git' -empty \
-  ! -exec test -f '{}/.gitkeep' \; \
-  -exec touch '{}/.gitkeep' \;
-```
-
-提交：
-
-```bash
-git add -A
-git status
-git commit -m "为空目录添加 .gitkeep 占位文件，保留目录结构"
-```
-
-# <span id="inline-blue">Git 仓库配置</span>
-
-## 提交人信息
-
-```bash
-git config --local user.name "<你的姓名>"
-git config --local user.email "<your.email@example.com>"
-```
-
-## 大小写策略
-
-```bash
-git config core.ignorecase          # 查看当前值
-git config core.ignorecase false    # 仓库级：严格区分大小写
-```
-
-> Windows 文件系统默认不区分大小写。若项目中存在仅大小写不同的文件名，建议先统一命名规范，再调整该配置。
-
-# <span id="inline-blue">推送到 Gitea</span>
-
-在 Gitea 创建**空仓库**（**不要**勾选 README 初始化），然后执行：
-
-```bash
-git remote -v
-git remote remove origin   # 若已有错误远程
-
-git remote add origin http://<gitea-host>:<port>/<org>/ProjectName.git
+git remote add origin http://git.demo-lab.net:3000/ACME/ClearStream.git
 git push -u origin main
-git push origin --tags     # 可选：推送标签
+git push origin --all
+git push origin --tags
 ```
 
-若本地分支仍为 `master` 而远程默认 `main`：
+带 `@` 的 ref 必要时加引号：`git push origin "feature_x@85944"`。
+
+# <span id="inline-blue">验证</span>
 
 ```bash
-git branch -M main
-git push -u origin main
+git ls-remote --heads origin    # 含 main 与全部业务分支
+git ls-remote --tags origin     # 数量与本地 git tag -l 一致
+git log --format="%an <%ae>" | sort -u   # 无 (no author)
 ```
 
-# <span id="inline-blue">迁移结果验证</span>
+工作区根目录应为源码顶层，不应再出现 `02.src/trunk`。
 
-```bash
-# 1. 确认 git-svn 布局配置
-git config --get-regexp "svn-remote"
-
-# 期望输出示例：
-# svn-remote.svn.url http://<svn-host>/<repo-root>/XX.ProjectName
-# svn-remote.svn.fetch 02.src/trunk:refs/remotes/origin/trunk
-# svn-remote.svn.branches 02.src/branches/*:refs/remotes/origin/*
-# svn-remote.svn.tags 02.src/tags/*:refs/remotes/origin/tags/*
-
-# 2. 确认远程 refs
-git for-each-ref refs/remotes
-
-# 3. 确认工作区根目录为源码内容（而非 02.src/trunk 子目录）
-ls
-
-# 4. 确认提交历史和作者映射
-git log --oneline -20
-git log --format="%an <%ae>" | sort -u
-```
-
-迁移正确时，仓库根目录应直接是源码内容（如 `pom.xml`、各服务模块、`docker`、`conf` 等），不应再包含 `02.src/trunk` 前缀。作者列表中不应出现 `(no author)`。
+![Gitea分支与标签](/images/Gitea/Gitea_20260714_001.png)
 
 # <span id="inline-blue">常见问题</span>
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
-| main 含 `01.doc`、`02.src/trunk` 等 | init 未用 `-T/-b/-t`，`git config svn.trunk` 无效 | 重新迁移，init 时指定布局 |
-| `--fetch-size` 报错 | `git svn fetch` 不支持该参数 | 使用 `--log-window-size` 或 `-r` 分段 |
-| 提交人显示 `(no author)` | `authors.txt` 映射不完整 | 用 SVN log 补全作者后重新 fetch |
-| `01.doc` 是否进源码仓库 | 不在 trunk 范围内 | 单独建归档仓库或保留 SVN 只读 |
-| 本地 `master`、远程 `main` | 分支命名不一致 | `git branch -M main` 后推送 |
-| `git svn fetch` 很慢 | 大仓库 revision 多 | 使用 `-r` 分段拉取，避免中断 |
+| main 含 `01.doc` / `02.src` | init 未用 `-T/-b/-t` | 按布局重迁 |
+| 远程只有 main | 未转本地 branch/tag | 执行转换后再 push |
+| `branch -r` 仍有 `origin/tags` | git-svn 缓存 | 不影响 push；可 `fetch --prune` 清理 |
+| `(no author)` | authors 不全 | 补全后重新 fetch |
+| `@` ref 推送失败 | shell 未引号 | `git push origin "name@rev"` |
+| Gitea 非空冲突 | 勾了 README | 清空远程或处理无关历史后重推 |
 
 # <span id="inline-blue">完整命令清单</span>
 
 ```bash
-# ── 1. 提取 SVN 作者并生成 authors.txt ──
-svn log "http://<svn-host>/<repo-root>/XX.ProjectName" --xml > /path/to/migrate/svn-log.xml
-
-grep '<author>' /path/to/migrate/svn-log.xml \
+# ── 1. authors.txt ──
+svn log "http://svn.corp-demo.local/REPO/42.ClearStream" --xml > /data/migrate/svn-log.xml
+grep '<author>' /data/migrate/svn-log.xml \
   | sed 's/.*<author>\(.*\)<\/author>.*/\1/' \
-  | sort -u > /path/to/migrate/svn-authors-raw.txt
-
+  | sort -u > /data/migrate/svn-authors-raw.txt
 while read author; do
   name=$(echo "$author" | sed 's/.*\\//')
-  echo "$author = $name <${name}@example.com>"
-done < /path/to/migrate/svn-authors-raw.txt > /path/to/migrate/authors.txt
+  echo "$author = $name <${name}@demo-mail.com>"
+done < /data/migrate/svn-authors-raw.txt > /data/migrate/clearstream-authors.txt
 
-# 手工编辑 authors.txt，将邮箱替换为真实信息
-
-# ── 2. 初始化并拉取 ──
-mkdir -p /path/to/migrate/ProjectName
-cd /path/to/migrate/ProjectName
-
-git svn init http://<svn-host>/<repo-root>/XX.ProjectName \
-  -T 02.src/trunk \
-  -b 02.src/branches \
-  -t 02.src/tags \
+# ── 2. fetch ──
+mkdir -p /data/migrate/ClearStream && cd /data/migrate/ClearStream
+git svn init http://svn.corp-demo.local/REPO \
+  -T 42.ClearStream/02.src/trunk \
+  -b 42.ClearStream/02.src/branches \
+  -t 42.ClearStream/02.src/tags \
   --no-metadata
-
-git config svn.authorsfile /path/to/migrate/authors.txt
+git config svn.authorsfile /data/migrate/clearstream-authors.txt
 git svn fetch --log-window-size 1000
 
-# ── 3. 检出、补全空目录、规范分支 ──
+# ── 3. main + 提交人 ──
 git checkout -b master refs/remotes/origin/trunk
-
-find . -type d -not -path './.git/*' -not -path './.git' -empty \
-  ! -exec test -f '{}/.gitkeep' \; \
-  -exec touch '{}/.gitkeep' \;
-
-git add -A && git commit -m "为空目录添加 .gitkeep 占位文件，保留目录结构"
 git branch -M main
+git config --local user.name "陈思远"
+git config --local user.email "chen.siyuan@demo-mail.com"
 
-# ── 4. 配置提交人并推送 ──
-git config --local user.name "<你的姓名>"
-git config --local user.email "<your.email@example.com>"
+# ── 4. 本地分支 / 标签 ──
+git for-each-ref --format='%(refname:short)' refs/remotes/origin \
+  | grep -vE '^origin/(tags/|trunk$)' \
+  | while read ref; do git branch "${ref#origin/}" "$ref"; done
+git for-each-ref --format='%(refname:short)' refs/remotes/origin/tags | while read ref; do
+  t=${ref#origin/tags/}; git tag "$t" "refs/remotes/origin/tags/$t"
+done
 
-git remote add origin http://<gitea-host>:<port>/<org>/ProjectName.git
-git push -u origin main
+# ── 5. 推送并校验 ──
+git remote add origin http://git.demo-lab.net:3000/ACME/ClearStream.git
+git push -u origin main && git push origin --all && git push origin --tags
+git ls-remote --heads origin
+git ls-remote --tags origin | wc -l
 ```
 
-完成以上迁移后，团队成员可通过 `git clone` 获取新仓库。
+完成后执行：`git clone http://git.demo-lab.net:3000/ACME/ClearStream.git`。
