@@ -1,5 +1,4 @@
 ---
-
 title: Git项目源代码提交规范  
 categories:  
 	- Git  
@@ -8,10 +7,11 @@ tags:
 	- Conventional Commits  
 	- Git Hooks
 
-## date: 2026-07-13 18:09:08
-
+date: 2026-07-13 18:09:08
 updated: 2026-07-13 18:09:08
+---
 
+# Git项目源代码提交规范
 # 概述
 
 本文介绍如何为一个 Java / Maven 多模块项目落地统一的 Git 源代码提交规范，使所有协作者的提交信息保持一致、可读、可追溯。方案基于 [Conventional Commits](https://www.conventionalcommits.org/)，采用**纯 Git、零第三方依赖**的实现：仅用 Git 原生的提交模板（`commit.template`）与仓库内钩子（`core.hooksPath`），不依赖 Node.js、husky、commitlint，也不依赖 CI，适合后端团队直接移植。

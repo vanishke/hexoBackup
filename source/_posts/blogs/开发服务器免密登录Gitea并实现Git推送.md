@@ -1,12 +1,11 @@
 ---
-title: 开发服务器免密登录 Gitea 并实现 Git 推送
+title: 开发服务器免密登录Gitea并实现Git推送
 categories:
-	- 开发环境
+	- Git
 tags:
 	- Git
 	- Gitea
 	- SSH
-	- 免密推送
 
 date: 2026-07-01 17:39:33
 updated: 2026-07-01 17:39:33

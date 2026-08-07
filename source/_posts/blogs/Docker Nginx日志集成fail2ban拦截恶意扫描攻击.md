@@ -6,7 +6,6 @@ tags:
 	- Fail2ban
 	- Nginx
 	- Docker
-	- nftables
 
 date: 2026-07-24 15:08:20
 updated: 2026-07-24 15:08:20

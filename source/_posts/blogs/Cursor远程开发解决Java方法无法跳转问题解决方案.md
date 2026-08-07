@@ -6,8 +6,6 @@ tags:
 	- Cursor
 	- Remote-SSH
 	- Java
-	- 语言服务
-	- 远程开发
 
 date: 2026-07-21 09:20:50
 updated: 2026-07-21 09:20:50

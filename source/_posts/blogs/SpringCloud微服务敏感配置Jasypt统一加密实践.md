@@ -1,13 +1,11 @@
 ---
-title: Spring Cloud 微服务敏感配置统一加密实践（Nacos + Jasypt）
+title: Spring Cloud微服务敏感配置统一加密实践
 categories:
-	- 微服务
+	- Jasypt
 tags:
 	- SpringCloud
 	- Nacos
 	- Jasypt
-	- 配置安全
-	- DockerSwarm
 
 date: 2026-07-20 14:39:20
 updated: 2026-07-20 14:45:00

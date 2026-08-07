@@ -1,11 +1,10 @@
 ---
-title: Cursor Remote-SSH 免密登录远程开发服务器
+title: Cursor-Remote-SSH免密登录远程开发服务器
 categories:
 	- Cursor
 tags:
 	- Cursor
 	- Remote-SSH
-	- SSH
 
 date: 2026-07-08 17:39:45
 updated: 2026-07-08 17:39:45
