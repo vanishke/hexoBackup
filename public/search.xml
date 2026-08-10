@@ -15393,8 +15393,8 @@ DockerToolbox-18.03.0-ce.exe
         <category>Jsp</category>
       </categories>
       <tags>
-        <tag>Jsp</tag>
         <tag>Js</tag>
+        <tag>Jsp</tag>
       </tags>
   </entry>
   <entry>
@@ -16148,10 +16148,12 @@ tmp – 临时文件
       </tags>
   </entry>
   <entry>
-    <title>Hexo 修改加载特效</title>
-    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/</url>
-    <content><![CDATA[<h2><span id="修改加载特效"><span id="inline-blue">修改加载特效</span></span></h2><p>搜索 pace，找到如下代码：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">页面顶部加载条</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Progress bar <span class="keyword">in</span> the top during page loading.</span></span><br><span class="line">pace: true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Themes list:</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-big-counter</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-bounce</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-barber-shop</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-atom</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-circle</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-radar</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-simple</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-corner-indicator</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-fill-left</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-flash</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-loading-bar</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-mac-osx</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-minimal</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">For example</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">pace_theme: pace-theme-center-simple</span></span><br><span class="line">pace_theme: pace-theme-minimal  #默认设置，可以修改为上述任何一个</span><br></pre></td></tr></tbody></table></figure>
+    <title>Hexo 修改 [read more] 按钮样式</title>
+    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%5Bread%20more%5D%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><p>修改 themes\next\source\css_custom\custom.styl 文件，加入自定义样式</p>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"></span><br><span class="line">// <span class="selector-attr">[Read More]</span>按钮样式</span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span> {</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#555</span> <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">border</span>: none <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">transition-property</span>: unset;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0px</span> <span class="number">15px</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span><span class="selector-pseudo">:hover</span> {</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">90deg</span>, <span class="number">#a166ab</span> <span class="number">0%</span>, <span class="number">#ef4e7b</span> <span class="number">25%</span>, <span class="number">#f37055</span> <span class="number">50%</span>, <span class="number">#ef4e7b</span> <span class="number">75%</span>, <span class="number">#a166ab</span> <span class="number">100%</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
 
 
 
@@ -16169,12 +16171,10 @@ tmp – 临时文件
       </tags>
   </entry>
   <entry>
-    <title>Hexo 修改 [read more] 按钮样式</title>
-    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%5Bread%20more%5D%E6%A0%B7%E5%BC%8F/</url>
-    <content><![CDATA[<h2><span id="安装插件"><span id="inline-blue">安装插件</span></span></h2><p>修改 themes\next\source\css_custom\custom.styl 文件，加入自定义样式</p>
-<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"></span><br><span class="line">// <span class="selector-attr">[Read More]</span>按钮样式</span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span> {</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#555</span> <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">border</span>: none <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">transition-property</span>: unset;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0px</span> <span class="number">15px</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.post-button</span> <span class="selector-class">.btn</span><span class="selector-pseudo">:hover</span> {</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>) <span class="meta">!important</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>: inset <span class="number">0px</span> <span class="number">0px</span> <span class="number">10px</span> <span class="number">0px</span> <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.35</span>);</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(<span class="number">90deg</span>, <span class="number">#a166ab</span> <span class="number">0%</span>, <span class="number">#ef4e7b</span> <span class="number">25%</span>, <span class="number">#f37055</span> <span class="number">50%</span>, <span class="number">#ef4e7b</span> <span class="number">75%</span>, <span class="number">#a166ab</span> <span class="number">100%</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-
+    <title>Hexo 修改加载特效</title>
+    <url>/Hexo/blogs/Hexo%E4%BF%AE%E6%94%B9%E5%8A%A0%E8%BD%BD%E7%89%B9%E6%95%88/</url>
+    <content><![CDATA[<h2><span id="修改加载特效"><span id="inline-blue">修改加载特效</span></span></h2><p>搜索 pace，找到如下代码：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">页面顶部加载条</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Progress bar <span class="keyword">in</span> the top during page loading.</span></span><br><span class="line">pace: true</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Themes list:</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-big-counter</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-bounce</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-barber-shop</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-atom</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-circle</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-radar</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-center-simple</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-corner-indicator</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-fill-left</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-flash</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-loading-bar</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-mac-osx</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pace-theme-minimal</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">For example</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">pace_theme: pace-theme-center-simple</span></span><br><span class="line">pace_theme: pace-theme-minimal  #默认设置，可以修改为上述任何一个</span><br></pre></td></tr></tbody></table></figure>
 
 
 
@@ -16337,29 +16337,6 @@ tmp – 临时文件
       </tags>
   </entry>
   <entry>
-    <title>Hexo 文章添加阴影效果</title>
-    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
-    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开 themes/next/source/css/_custom/custom.styl 文件添加:</p>
-<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> {</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> }</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo 文章置顶功能</title>
     <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h2><span id="移除默认安装的插件"><span id="inline-blue">移除默认安装的插件</span></span></h2><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br></pre></td></tr></tbody></table></figure>
@@ -16376,6 +16353,29 @@ tmp – 临时文件
 
 <p>如下图所示位置：</p>
 <p><img src="/images/hexo/next/hexo_next_2021_01_10_002.png" alt="hexo文章置顶图标"></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo 文章添加阴影效果</title>
+    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
+    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开 themes/next/source/css/_custom/custom.styl 文件添加:</p>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> {</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> }</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+
+
+
+
 ]]></content>
       <categories>
         <category>Hexo</category>
