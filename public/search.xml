@@ -386,6 +386,436 @@
       </tags>
   </entry>
   <entry>
+    <title>Docker Nginx 容器配置统一挂载实践</title>
+    <url>/%E5%AE%B9%E5%99%A8%E4%B8%8E%E8%BF%90%E7%BB%B4/blogs/Docker%20Nginx%20%E5%AE%B9%E5%99%A8%E9%85%8D%E7%BD%AE%E7%BB%9F%E4%B8%80%E6%8C%82%E8%BD%BD%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E6%A6%82%E8%BF%B0span"><span id="inline-blue">概述</span></a></li>
+<li><a href="#span-idinline-blue%E6%94%B9%E9%80%A0%E5%89%8D%E7%9A%84%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98span"><span id="inline-blue">改造前的典型问题</span></a></li>
+<li><a href="#span-idinline-blue%E6%9C%80%E7%BB%88%E6%8C%82%E8%BD%BD%E6%96%B9%E6%A1%88span"><span id="inline-blue">最终挂载方案</span></a><ul>
+<li><a href="#%E8%AE%BE%E8%AE%A1%E8%A6%81%E7%82%B9">设计要点</a></li>
+<li><a href="#%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95%E6%A0%91">宿主机目录树</a></li>
+<li><a href="#compose-swarm-volumes-%E7%A4%BA%E4%BE%8B">Compose / Swarm volumes 示例</a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E4%B8%BB%E9%85%8D%E7%BD%AE%E5%A6%82%E4%BD%95%E5%BC%95%E5%85%A5%E6%89%A9%E5%B1%95%E7%9B%AE%E5%BD%95span"><span id="inline-blue">主配置如何引入扩展目录</span></a><ul>
+<li><a href="#http-%E7%BA%A7%E8%87%AA%E5%8A%A8%E5%BC%95%E5%85%A5">http 级自动引入</a></li>
+<li><a href="#server-%E7%BA%A7%E7%89%87%E6%AE%B5%E4%BD%BF%E7%94%A8-inc">server 级片段：使用 .inc</a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-bluedockerfile-%E4%B8%8E%E6%8C%82%E8%BD%BD%E7%9A%84%E5%85%B3%E7%B3%BBspan"><span id="inline-blue">Dockerfile 与挂载的关系</span></a></li>
+<li><a href="#span-idinline-blue%E8%90%BD%E5%9C%B0%E6%AD%A5%E9%AA%A4span"><span id="inline-blue">落地步骤</span></a><ul>
+<li><a href="#%E8%B0%83%E6%95%B4%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95">调整宿主机目录</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%85%8D%E7%BD%AE-include">修改主配置 include</a></li>
+<li><a href="#%E6%9B%B4%E6%96%B0%E7%BC%96%E6%8E%92-volumes">更新编排 volumes</a></li>
+<li><a href="#%E6%A0%A1%E9%AA%8C%E5%B9%B6%E7%83%AD%E5%8A%A0%E8%BD%BD">校验并热加载</a></li>
+</ul>
+</li>
+<li><a href="#span-idinline-blue%E9%85%8D%E7%BD%AE%E4%B8%8E%E9%AA%8C%E8%AF%81span"><span id="inline-blue">配置与验证</span></a></li>
+<li><a href="#span-idinline-blue%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98span"><span id="inline-blue">常见问题</span></a></li>
+<li><a href="#span-idinline-blue%E5%AE%8C%E6%95%B4%E5%91%BD%E4%BB%A4%E6%B8%85%E5%8D%95span"><span id="inline-blue">完整命令清单</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="概述"><span id="inline-blue">概述</span></span></h1><p>在 Docker / Swarm 中部署 Nginx 时，配置往往散落在镜像 COPY、逐文件挂载、错误目标路径等多种方式里，改一条规则就要改编排文件或重建镜像。本文给出一套可落地的「主配置单文件 + 扩展目录挂 conf.d」统一挂载方案，适用于业务网关 Nginx 与同类旁路 Nginx（如 MQTT 入口反代），已在 Compose 与 Swarm 场景验证。</p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目标</td>
+<td>主配置与扩展配置分离挂载，增删规则不改编排、不覆盖镜像默认文件</td>
+</tr>
+<tr>
+<td>编排</td>
+<td>Docker Compose、Docker Swarm stack</td>
+</tr>
+<tr>
+<td>镜像示例</td>
+<td>带 Lua 的 Alpine Nginx 镜像（如 <code>nginx-lua:alpine</code> 系列）</td>
+</tr>
+<tr>
+<td>挂载方式</td>
+<td>相对路径 bind mount</td>
+</tr>
+<tr>
+<td>生效方式</td>
+<td><code>nginx -t</code> 通过后 <code>nginx -s reload</code></td>
+</tr>
+</tbody></table>
+<p><strong>环境示例：</strong></p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>示例地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>编排目录</td>
+<td><code>/path/to/docker</code>（下文相对路径均相对此目录）</td>
+</tr>
+<tr>
+<td>业务 Nginx 服务名</td>
+<td><code>photoframe-nginx</code></td>
+</tr>
+<tr>
+<td>旁路 Nginx 服务名</td>
+<td><code>photoframe-emqx-nginx</code></td>
+</tr>
+<tr>
+<td>容器内主配置</td>
+<td><code>/etc/nginx/nginx.conf</code></td>
+</tr>
+<tr>
+<td>容器内扩展目录</td>
+<td><code>/etc/nginx/conf.d</code></td>
+</tr>
+</tbody></table>
+<h1><span id="改造前的典型问题"><span id="inline-blue">改造前的典型问题</span></span></h1><table>
+<thead>
+<tr>
+<th>写法</th>
+<th>现象</th>
+<th>后果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>./nginx/conf:/etc/nginx/conf</code></td>
+<td>目录挂到错误路径</td>
+<td>进程仍读 <code>/etc/nginx/nginx.conf</code>，宿主机改配置不生效</td>
+</tr>
+<tr>
+<td>逐文件挂载 <code>nginx.conf</code>、<code>block_ips.conf</code>、<code>block_spiders.conf</code></td>
+<td>每增一个文件都要改 yml</td>
+<td>编排膨胀，无法「统一」扩展</td>
+</tr>
+<tr>
+<td><code>./nginx/conf:/etc/nginx</code> 整目录覆盖</td>
+<td>宿主机只有少量自定义文件</td>
+<td>镜像自带的 <code>mime.types</code>、<code>*_params</code>、<code>modules</code> 被盖掉，<code>nginx -t</code> 失败</td>
+</tr>
+<tr>
+<td>仅依赖 Dockerfile <code>COPY</code></td>
+<td>改配置必须 rebuild / 重新推镜像</td>
+<td>运维成本高，热更新困难</td>
+</tr>
+</tbody></table>
+<p>目标形态应同时满足：</p>
+<ol>
+<li>不破坏容器内 <code>/etc/nginx</code> 默认文件</li>
+<li>主配置、扩展规则都能从宿主机统一管理</li>
+<li>新增扩展文件时尽量只改宿主机目录，不改编排</li>
+</ol>
+<h1><span id="最终挂载方案"><span id="inline-blue">最终挂载方案</span></span></h1><h2><span id="设计要点">设计要点</span></h2><pre class="mermaid">flowchart TB
+  subgraph host [宿主机编排目录]
+    main["nginx/nginx.conf"]
+    conf["nginx/conf/*"]
+    logs["nginx/logs"]
+    https["nginx/https"]
+    html["nginx/html"]
+  end
+  subgraph container [Nginx 容器]
+    cmain["/etc/nginx/nginx.conf"]
+    cconf["/etc/nginx/conf.d"]
+    cdefault["mime.types / *_params / modules"]
+    clogs["/var/log/nginx"]
+    chttps["/home/nginx/https"]
+    chtml["/home/nginx/html"]
+  end
+  main flowchart TB
+  subgraph host [宿主机编排目录]
+    main["nginx/nginx.conf"]
+    conf["nginx/conf/*"]
+    logs["nginx/logs"]
+    https["nginx/https"]
+    html["nginx/html"]
+  end
+  subgraph container [Nginx 容器]
+    cmain["/etc/nginx/nginx.conf"]
+    cconf["/etc/nginx/conf.d"]
+    cdefault["mime.types / *_params / modules"]
+    clogs["/var/log/nginx"]
+    chttps["/home/nginx/https"]
+    chtml["/home/nginx/html"]
+  end
+  main --&gt; cmain
+  conf  cmain
+  conf --&gt; cconf
+  logs  cconf
+  logs --&gt; clogs
+  https  clogs
+  https --&gt; chttps
+  html  chttps
+  html --&gt; chtml
+  cmain  chtml
+  cmain --&gt;|"include conf.d/*.conf"| cconf
+  cdefault -.-&gt;|"不被覆盖"| cdefault</pre>
+
+<table>
+<thead>
+<tr>
+<th>决策点</th>
+<th>选择</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主配置</td>
+<td>单独挂到 <code>/etc/nginx/nginx.conf</code></td>
+<td>与 Nginx 默认读取路径一致</td>
+</tr>
+<tr>
+<td>扩展配置</td>
+<td>整目录挂到 <code>/etc/nginx/conf.d</code></td>
+<td>新增文件自动进入容器，无需改 volumes</td>
+</tr>
+<tr>
+<td>是否整挂 <code>/etc/nginx</code></td>
+<td>否</td>
+<td>避免覆盖 <code>mime.types</code> 等默认文件</td>
+</tr>
+<tr>
+<td>路径形式</td>
+<td>相对路径 <code>./</code></td>
+<td>与常见 Compose / Swarm 写法一致</td>
+</tr>
+</tbody></table>
+<h2><span id="宿主机目录树">宿主机目录树</span></h2><figure class="highlight nix"><table><tbody><tr><td class="code"><pre><span class="line">docker<span class="symbol">/</span></span><br><span class="line">├── nginx<span class="symbol">/</span></span><br><span class="line">│   ├── nginx.conf              <span class="comment"># 主配置 → /etc/nginx/nginx.conf</span></span><br><span class="line">│   ├── conf<span class="symbol">/</span>                   <span class="comment"># 扩展 → /etc/nginx/conf.d</span></span><br><span class="line">│   │   ├── block_ips.conf      <span class="comment"># http 上下文（deny 等）</span></span><br><span class="line">│   │   └── block_spiders.inc   <span class="comment"># server 上下文（含 if）</span></span><br><span class="line">│   ├── logs<span class="symbol">/</span></span><br><span class="line">│   ├── https<span class="symbol">/</span></span><br><span class="line">│   ├── html<span class="symbol">/</span></span><br><span class="line">│   └── Dockerfile</span><br><span class="line">└── emqx_nginx<span class="symbol">/</span>                 <span class="comment"># 旁路 Nginx，结构相同</span></span><br><span class="line">    ├── nginx.conf</span><br><span class="line">    ├── conf<span class="symbol">/</span></span><br><span class="line">    │   ├── block_ips.conf</span><br><span class="line">    │   └── block_spiders.inc</span><br><span class="line">    ├── logs<span class="symbol">/</span></span><br><span class="line">    ├── https<span class="symbol">/</span></span><br><span class="line">    └── Dockerfile</span><br></pre></td></tr></tbody></table></figure>
+
+<h2><span id="compose-swarm-volumes-示例">Compose / Swarm volumes 示例</span></h2><p>业务 Nginx：</p>
+<figure class="highlight yaml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./nginx/nginx.conf:/etc/nginx/nginx.conf</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./nginx/conf:/etc/nginx/conf.d</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./nginx/logs:/var/log/nginx</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./nginx/https:/home/nginx/https</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./nginx/html:/home/nginx/html</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>旁路 Nginx：</p>
+<figure class="highlight yaml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./emqx_nginx/nginx.conf:/etc/nginx/nginx.conf</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./emqx_nginx/conf:/etc/nginx/conf.d</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./emqx_nginx/https:/home/nginx/https</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./emqx_nginx/logs:/var/log/nginx</span></span><br></pre></td></tr></tbody></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>宿主机路径</th>
+<th>容器路径</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>./nginx/nginx.conf</code></td>
+<td><code>/etc/nginx/nginx.conf</code></td>
+<td>主配置，单文件</td>
+</tr>
+<tr>
+<td><code>./nginx/conf</code></td>
+<td><code>/etc/nginx/conf.d</code></td>
+<td>扩展配置目录</td>
+</tr>
+<tr>
+<td><code>./nginx/logs</code></td>
+<td><code>/var/log/nginx</code></td>
+<td>访问 / 错误日志</td>
+</tr>
+<tr>
+<td><code>./nginx/https</code></td>
+<td><code>/home/nginx/https</code></td>
+<td>证书目录</td>
+</tr>
+<tr>
+<td><code>./nginx/html</code></td>
+<td><code>/home/nginx/html</code></td>
+<td>静态资源（业务 Nginx）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Swarm 部署时，相对路径按 stack 部署上下文解析；各运行节点上须存在对应目录内容。</p>
+</blockquote>
+<h1><span id="主配置如何引入扩展目录"><span id="inline-blue">主配置如何引入扩展目录</span></span></h1><h2><span id="http-级自动引入">http 级自动引入</span></h2><p>在主配置的 <code>http { }</code> 内加入：</p>
+<figure class="highlight nginx"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">### 引入扩展配置（http 上下文）</span></span><br><span class="line"><span class="attribute">include</span> /etc/nginx/conf.d/<span class="regexp">*.conf</span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>适合放在 <code>*.conf</code> 中的内容：<code>deny</code>、<code>map</code>（若拆分）、完整 <code>server { }</code> 块等 <strong>http 合法指令</strong>。</p>
+<p>示例 <code>conf/block_ips.conf</code>：</p>
+<figure class="highlight nginx"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">deny</span> <span class="number">203.0.113.10</span>;</span><br><span class="line"><span class="attribute">deny</span> <span class="number">198.51.100.20</span>;</span><br></pre></td></tr></tbody></table></figure>
+
+<h2><span id="server-级片段使用-inc">server 级片段：使用 .inc</span></h2><p>若规则里包含 <code>if</code>（如按 URI / UA 拦截），只能出现在 <code>server</code> / <code>location</code> 中。若仍命名为 <code>block_spiders.conf</code>，会被上面的 <code>include conf.d/*.conf</code> 在 http 层加载，导致校验失败。</p>
+<p>做法：</p>
+<ol>
+<li>文件改名为 <code>block_spiders.inc</code>（不匹配 <code>*.conf</code>）</li>
+<li>在每个需要防护的 <code>server { }</code> 内显式引入：</li>
+</ol>
+<figure class="highlight nginx"><table><tbody><tr><td class="code"><pre><span class="line"><span class="section">server</span> {</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">    <span class="attribute">server_name</span> &lt;your-domain&gt;;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">include</span> /etc/nginx/conf.d/block_spiders.inc;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span> / {</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://&lt;upstream-service&gt;:&lt;port&gt;/;</span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>文件后缀</th>
+<th>加载方式</th>
+<th>适用上下文</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.conf</code></td>
+<td><code>include /etc/nginx/conf.d/*.conf;</code></td>
+<td>http（或完整 server 块文件）</td>
+</tr>
+<tr>
+<td><code>.inc</code></td>
+<td>在 server 内显式 <code>include</code></td>
+<td>server / location</td>
+</tr>
+</tbody></table>
+<h1><span id="dockerfile-与挂载的关系"><span id="inline-blue">Dockerfile 与挂载的关系</span></span></h1><p>镜像内仍可 COPY 一份默认配置，作为「无挂载」时的兜底；有 volume 时以宿主机为准。</p>
+<figure class="highlight dockerfile"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> &lt;nginx-lua-alpine-image&gt;</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">mkdir</span> -p /home/nginx</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /home/nginx</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./nginx.conf /etc/nginx/nginx.conf</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./conf/ /etc/nginx/conf.d/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./https /home/nginx/https/</span></span><br><span class="line"><span class="comment"># 业务 Nginx 另按需 COPY html</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">"nginx"</span>, <span class="string">"-g"</span>, <span class="string">"daemon off;"</span>]</span></span><br></pre></td></tr></tbody></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>实际生效配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>仅 <code>docker run</code> 无挂载</td>
+<td>镜像内 COPY 的内容</td>
+</tr>
+<tr>
+<td>Compose / Swarm 带 volumes</td>
+<td>宿主机 <code>nginx.conf</code> + <code>conf/</code></td>
+</tr>
+</tbody></table>
+<p>日常改规则应只改宿主机文件并 reload，无需为改 IP 黑名单重建镜像。</p>
+<h1><span id="落地步骤"><span id="inline-blue">落地步骤</span></span></h1><h2><span id="调整宿主机目录">调整宿主机目录</span></h2><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /path/to/docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主配置从 conf/ 提到服务根目录（若仍在 conf 内）</span></span><br><span class="line"><span class="built_in">mv</span> ./nginx/conf/nginx.conf ./nginx/nginx.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># server 级规则改后缀，避免被 *.conf 误加载</span></span><br><span class="line"><span class="built_in">mv</span> ./nginx/conf/block_spiders.conf ./nginx/conf/block_spiders.inc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 旁路 Nginx 同样处理</span></span><br><span class="line"><span class="built_in">mv</span> ./emqx_nginx/conf/nginx.conf ./emqx_nginx/nginx.conf</span><br><span class="line"><span class="built_in">mv</span> ./emqx_nginx/conf/block_spiders.conf ./emqx_nginx/conf/block_spiders.inc</span><br></pre></td></tr></tbody></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>nginx.conf</code> 位置</td>
+<td>服务根目录，单独挂载</td>
+</tr>
+<tr>
+<td><code>conf/</code></td>
+<td>仅放扩展文件，整目录挂到 <code>conf.d</code></td>
+</tr>
+</tbody></table>
+<h2><span id="修改主配置-include">修改主配置 include</span></h2><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># 将原 include /etc/nginx/block_ips.conf</span></span><br><span class="line"><span class="comment"># 改为 http 内：</span></span><br><span class="line"><span class="comment">#   include /etc/nginx/conf.d/*.conf;</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 将原 include /etc/nginx/block_spiders.conf</span></span><br><span class="line"><span class="comment"># 改为各 server 内：</span></span><br><span class="line"><span class="comment">#   include /etc/nginx/conf.d/block_spiders.inc;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2><span id="更新编排-volumes">更新编排 volumes</span></h2><p>按上文「Compose / Swarm volumes 示例」替换原逐文件或错误路径挂载，保存后重新部署对应服务。</p>
+<h2><span id="校验并热加载">校验并热加载</span></h2><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Compose 示例</span></span><br><span class="line">docker <span class="built_in">exec</span> photoframe-nginx nginx -t</span><br><span class="line">docker <span class="built_in">exec</span> photoframe-nginx nginx -s reload</span><br><span class="line"></span><br><span class="line">docker <span class="built_in">exec</span> photoframe-emqx-nginx nginx -t</span><br><span class="line">docker <span class="built_in">exec</span> photoframe-emqx-nginx nginx -s reload</span><br></pre></td></tr></tbody></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>nginx -t</code></td>
+<td>语法与路径校验，失败勿 reload</td>
+</tr>
+<tr>
+<td><code>nginx -s reload</code></td>
+<td>平滑重载，尽量不中断已有连接</td>
+</tr>
+</tbody></table>
+<h1><span id="配置与验证"><span id="inline-blue">配置与验证</span></span></h1><table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>方法</th>
+<th>期望</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主配置已挂上</td>
+<td><code>docker exec &lt;ctr&gt; ls -l /etc/nginx/nginx.conf</code></td>
+<td>与宿主机内容一致</td>
+</tr>
+<tr>
+<td>扩展目录已挂上</td>
+<td><code>docker exec &lt;ctr&gt; ls /etc/nginx/conf.d</code></td>
+<td>可见 <code>block_ips.conf</code>、<code>block_spiders.inc</code></td>
+</tr>
+<tr>
+<td>默认文件仍在</td>
+<td><code>docker exec &lt;ctr&gt; ls /etc/nginx</code></td>
+<td>仍有 <code>mime.types</code>、<code>fastcgi_params</code> 等</td>
+</tr>
+<tr>
+<td>语法正确</td>
+<td><code>nginx -t</code></td>
+<td><code>syntax is ok</code> / <code>test is successful</code></td>
+</tr>
+<tr>
+<td>黑名单生效</td>
+<td>用被 deny 的源地址访问</td>
+<td>返回 403</td>
+</tr>
+<tr>
+<td>新增扩展 conf</td>
+<td>在宿主机 <code>conf/</code> 增加 http 合法 <code>*.conf</code> 后 reload</td>
+<td>无需改 yml 即可生效</td>
+</tr>
+</tbody></table>
+<p>查看容器内 <code>/etc/nginx</code> 时，正常应类似：</p>
+<figure class="highlight stata"><table><tbody><tr><td class="code"><pre><span class="line">block_ips.<span class="keyword">conf</span>      # 若误挂到 /etc/nginx 根则会看见；正确方案应在 <span class="keyword">conf</span>.<span class="keyword">d</span></span><br><span class="line"><span class="keyword">conf</span>.<span class="keyword">d</span>/</span><br><span class="line">fastcgi_params</span><br><span class="line">mime.types</span><br><span class="line">modules</span><br><span class="line">nginx.<span class="keyword">conf</span></span><br><span class="line">scgi_params</span><br><span class="line">uwsgi_params</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中自定义扩展应出现在 <code>conf.d/</code> 下，而不是把整个默认目录换成宿主机三个文件。</p>
+<h1><span id="常见问题"><span id="inline-blue">常见问题</span></span></h1><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>原因</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open() "/etc/nginx/mime.types" failed</code></td>
+<td>整目录覆盖了 <code>/etc/nginx</code></td>
+<td>改回「主配置 + conf.d」分离挂载，勿整挂 <code>/etc/nginx</code></td>
+</tr>
+<tr>
+<td><code>include</code> 报 <code>if</code> 指令不允许</td>
+<td><code>*.conf</code> 在 http 层加载了含 <code>if</code> 的文件</td>
+<td>改为 <code>.inc</code>，仅在 server 内 include</td>
+</tr>
+<tr>
+<td>改了宿主机 conf 不生效</td>
+<td>挂到了 <code>/etc/nginx/conf</code> 等错误路径，或未 reload</td>
+<td>核对 volumes 目标路径，执行 <code>nginx -t &amp;&amp; nginx -s reload</code></td>
+</tr>
+<tr>
+<td>Swarm 任务起不来 / 配置为空</td>
+<td>运行节点上相对路径对应目录不存在</td>
+<td>在节点同步编排目录内容后再部署</td>
+</tr>
+<tr>
+<td>镜像 rebuild 后行为与宿主机不一致</td>
+<td>误以为必须以镜像 COPY 为准</td>
+<td>有挂载时以 volume 为准；日常只改宿主机</td>
+</tr>
+</tbody></table>
+<h1><span id="完整命令清单"><span id="inline-blue">完整命令清单</span></span></h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># ── 1. 目录调整（业务 Nginx） ──</span></span><br><span class="line"><span class="built_in">cd</span> /path/to/docker</span><br><span class="line"><span class="built_in">mv</span> ./nginx/conf/nginx.conf ./nginx/nginx.conf</span><br><span class="line"><span class="built_in">mv</span> ./nginx/conf/block_spiders.conf ./nginx/conf/block_spiders.inc</span><br><span class="line"></span><br><span class="line"><span class="comment"># ── 2. 目录调整（旁路 Nginx） ──</span></span><br><span class="line"><span class="built_in">mv</span> ./emqx_nginx/conf/nginx.conf ./emqx_nginx/nginx.conf</span><br><span class="line"><span class="built_in">mv</span> ./emqx_nginx/conf/block_spiders.conf ./emqx_nginx/conf/block_spiders.inc</span><br><span class="line"></span><br><span class="line"><span class="comment"># ── 3. 确认宿主机结构 ──</span></span><br><span class="line"><span class="built_in">ls</span> -la ./nginx/ ./nginx/conf/</span><br><span class="line"><span class="built_in">ls</span> -la ./emqx_nginx/ ./emqx_nginx/conf/</span><br><span class="line"></span><br><span class="line"><span class="comment"># ── 4. 部署后校验（Compose 容器名按实际修改） ──</span></span><br><span class="line">docker <span class="built_in">exec</span> photoframe-nginx <span class="built_in">ls</span> /etc/nginx</span><br><span class="line">docker <span class="built_in">exec</span> photoframe-nginx <span class="built_in">ls</span> /etc/nginx/conf.d</span><br><span class="line">docker <span class="built_in">exec</span> photoframe-nginx nginx -t</span><br><span class="line">docker <span class="built_in">exec</span> photoframe-nginx nginx -s reload</span><br><span class="line"></span><br><span class="line">docker <span class="built_in">exec</span> photoframe-emqx-nginx <span class="built_in">ls</span> /etc/nginx/conf.d</span><br><span class="line">docker <span class="built_in">exec</span> photoframe-emqx-nginx nginx -t</span><br><span class="line">docker <span class="built_in">exec</span> photoframe-emqx-nginx nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="comment"># ── 5. 日常改扩展规则后 ──</span></span><br><span class="line"><span class="comment"># 编辑 ./nginx/conf/block_ips.conf 或新增 *.conf</span></span><br><span class="line">docker <span class="built_in">exec</span> photoframe-nginx nginx -t &amp;&amp; docker <span class="built_in">exec</span> photoframe-nginx nginx -s reload</span><br></pre></td></tr></tbody></table></figure>
+
+<p>完成以上配置后，可持续观察 <code>docker logs &lt;容器名&gt;</code> 与 <code>/var/log/nginx/error.log</code>，确认 reload 无报错且拦截规则按预期生效。</p>
+]]></content>
+      <categories>
+        <category>容器与运维</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Nginx</tag>
+        <tag>配置挂载</tag>
+        <tag>Docker Compose</tag>
+        <tag>Docker Swarm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker Swarm 模式下的微服务升级方案</title>
     <url>/Docker/blogs/Docker%20Swarm%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%8D%87%E7%BA%A7%E6%96%B9%E6%A1%88/</url>
     <content><![CDATA[<!-- toc -->
@@ -2158,8 +2588,8 @@
       </categories>
       <tags>
         <tag>Docker</tag>
-        <tag>Fail2ban</tag>
         <tag>Nginx</tag>
+        <tag>Fail2ban</tag>
       </tags>
   </entry>
   <entry>
@@ -15393,8 +15823,8 @@ DockerToolbox-18.03.0-ce.exe
         <category>Jsp</category>
       </categories>
       <tags>
-        <tag>Js</tag>
         <tag>Jsp</tag>
+        <tag>Js</tag>
       </tags>
   </entry>
   <entry>
@@ -16337,6 +16767,29 @@ tmp – 临时文件
       </tags>
   </entry>
   <entry>
+    <title>Hexo 文章添加阴影效果</title>
+    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
+    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开 themes/next/source/css/_custom/custom.styl 文件添加:</p>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> {</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> }</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo 文章置顶功能</title>
     <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E7%BD%AE%E9%A1%B6%E5%8A%9F%E8%83%BD/</url>
     <content><![CDATA[<h2><span id="移除默认安装的插件"><span id="inline-blue">移除默认安装的插件</span></span></h2><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">npm uninstall hexo-generator-index --save</span><br></pre></td></tr></tbody></table></figure>
@@ -16353,29 +16806,6 @@ tmp – 临时文件
 
 <p>如下图所示位置：</p>
 <p><img src="/images/hexo/next/hexo_next_2021_01_10_002.png" alt="hexo文章置顶图标"></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo 文章添加阴影效果</title>
-    <url>/Hexo/blogs/Hexo%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%B4%E5%BD%B1%E6%95%88%E6%9E%9C/</url>
-    <content><![CDATA[<h2><span id="文章添加阴影效果"><span id="inline-blue">文章添加阴影效果</span></span></h2><p>打开 themes/next/source/css/_custom/custom.styl 文件添加:</p>
-<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-class">.post</span> {</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">60px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  -webkit-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">203</span>, .<span class="number">5</span>);</span><br><span class="line">  -moz-<span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(<span class="number">202</span>, <span class="number">203</span>, <span class="number">204</span>, .<span class="number">5</span>);</span><br><span class="line"> }</span><br></pre></td></tr></tbody></table></figure>
-
-
-
-
-
-
-
-
-
-
 ]]></content>
       <categories>
         <category>Hexo</category>
