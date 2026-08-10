@@ -99,7 +99,7 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 #theme: 3-hexo
-theme: next
+theme: butterfly
 
 # Search Config
 search:
