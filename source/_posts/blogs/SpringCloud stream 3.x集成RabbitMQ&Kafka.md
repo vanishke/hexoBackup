@@ -6,7 +6,6 @@ tags:
 	- SpringCloud Stream
 	
 date: 2025-05-09 17:15:09
-updated: 2025-05-09 17:15:09
 ---
 <!-- toc -->
 # <span id="inline-blue">环境</span>

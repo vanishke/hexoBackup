@@ -6,7 +6,6 @@ tags:
 	- Hibernate
 	
 date: 2024-07-08 16:10:20	
-updated: 2024-07-08 16:10:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

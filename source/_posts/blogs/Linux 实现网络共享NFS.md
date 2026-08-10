@@ -6,7 +6,6 @@ tags:
 	- Linux
 	
 date: 2024-07-29 17:55:20	
-updated: 2024-07-29 17:55:20
 ---
 <!-- toc -->
 # <span id="inline-blue">环境</span>

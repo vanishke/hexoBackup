@@ -6,7 +6,6 @@ tags:
 	- Let's Encrypt
 	
 date: 2025-06-01 17:28:37
-updated: 2025-06-01 17:28:37
 ---
 <!-- toc -->
 # <span id="inline-blue">环境</span>
@@ -56,17 +55,17 @@ ACME协议支持​​：通过自动化工具（如Certbot）可实现证书的
 
 登录之后申请证书，信息如下：
 
-![乐此加密证书申请](/images/Let's Encrypt/202500601/letsEncrypt_20250601_001.png)
+![乐此加密证书申请](/images/Let's Encrypt/20250601/letsEncrypt_20250601_001.png)
 
 下载证书
 
-![乐此加密证书下载](/images/Let's Encrypt/202500601/letsEncrypt_20250601_002.png)
+![乐此加密证书下载](/images/Let's Encrypt/20250601/letsEncrypt_20250601_002.png)
 
 一般服务对外提供https都是使用nginx代理，默认在nginx 类型就可以，而且客户端不用导入证书就能够自动识别。
 
 证书验证
 
-![乐此加密证书验证](/images/Let's Encrypt/202500601/letsEncrypt_20250601_003.png)
+![乐此加密证书验证](/images/Let's Encrypt/20250601/letsEncrypt_20250601_003.png)
 
 验证步骤参考: https://blog.csdn.net/yangjing19910801/article/details/145815648
 

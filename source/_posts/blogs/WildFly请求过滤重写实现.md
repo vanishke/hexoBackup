@@ -6,7 +6,6 @@ tags:
 	- WildFly
 	
 date: 2023-07-28 17:49:20
-updated: 2023-07-28 17:49:20
 ---
 <!-- toc -->
 # <span id="inline-blue">背景</span>

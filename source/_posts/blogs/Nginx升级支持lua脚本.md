@@ -7,7 +7,6 @@ tags:
 	- Lua
 	
 date: 2025-04-21 17:03:09
-updated: 2025-04-21 17:03:09
 ---
 <!-- toc -->
 # <span id="inline-blue">环境</span>
@@ -127,4 +126,5 @@ http {
 ```
 
 # <span id="inline-blue">验证</span>
-![Nginx升级lua](/images/nginx/20250421/nginx_20250421_001.png)
+
+访问测试 location（如 `curl http://127.0.0.1/lua`），期望返回 `Hello world!`（或你配置的输出）。

@@ -6,7 +6,6 @@ tags:
 	- Linux
 	
 date: 2023-08-01 11:35:20
-updated: 2023-08-01 11:35:20
 ---
 <!-- toc -->
 # <span id="inline-blue">目的</span>

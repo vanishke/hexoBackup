@@ -6,7 +6,6 @@ tags:
 	- Hexo
 	- Next
 date: 2021-01-15 15:46:20
-updated: 2021-01-15 15:46:20
 ---
 
 ## <span id="inline-blue">安装插件</span>

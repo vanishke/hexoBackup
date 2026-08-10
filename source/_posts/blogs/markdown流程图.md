@@ -6,7 +6,6 @@ categories:
 	- Markdown
 
 date: 2021-09-29 15:37:15	
-updated: 2021-09-29 15:37:15
 ---
 # <span id="inline-blue">语法</span> 
 1. 定义元素

@@ -6,7 +6,6 @@ categories:
 	- Vue
 
 date: 2021-03-11 17:42:32	
-updated: 2021-03-11 17:42:32
 ---
 
 # <span id="inline-blue">Vue项目实战movieServer</span> 

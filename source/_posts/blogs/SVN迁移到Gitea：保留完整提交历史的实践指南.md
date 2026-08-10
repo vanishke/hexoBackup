@@ -8,7 +8,6 @@ tags:
 	- git-svn
 
 date: 2026-07-14 16:06:17
-updated: 2026-07-14 16:06:17
 ---
 <!-- toc -->
 
@@ -163,7 +162,7 @@ git log --format="%an <%ae>" | sort -u   # 无 (no author)
 
 工作区根目录应为源码顶层，不应再出现 `02.src/trunk`。
 
-![Gitea分支与标签](/images/Gitea/Gitea_20260714_001.png)
+验收以 `git ls-remote --heads/--tags` 与本地分支、标签数量一致为准。
 
 # <span id="inline-blue">常见问题</span>
 

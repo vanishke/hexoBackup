@@ -6,7 +6,6 @@ categories:
 	- Linux
 
 date: 2023-03-17 18:44:20
-updated: 2023-03-17 18:44:20
 ---
 ## <span id="inline-blue">查看空间占用</span>
 ```shell

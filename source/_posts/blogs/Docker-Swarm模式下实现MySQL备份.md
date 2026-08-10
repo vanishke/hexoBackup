@@ -8,7 +8,6 @@ tags:
 	- mysql-cron-backup
 
 date: 2026-01-09 13:52:10
-updated: 2026-01-09 13:52:10
 ---
 <!-- toc -->
 

@@ -6,7 +6,6 @@ tags:
 	- OpenGauss
 	
 date: 2024-08-12 09:27:20	
-updated: 2024-08-12 09:27:20
 ---
 <!-- toc -->
 # <span id="inline-blue">环境</span>

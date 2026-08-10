@@ -7,7 +7,6 @@ categories:
 	- Plugins
 
 date: 2021-02-22 15:59:20	
-updated: 2021-02-22 15:59:20
 ---
 ## <span id="inline-blue">安装环境</span>
 windows7 64

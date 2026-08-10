@@ -8,7 +8,6 @@ tags:
 	
 
 date: 2020-11-17 10:23:20
-updated: 2020-11-17 10:23:20
 ---
 
 ## <span id="inline-blue">linux环境</span>

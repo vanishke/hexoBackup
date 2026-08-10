@@ -6,7 +6,6 @@ tags:
 	- MySQL
 	
 date: 2023-01-09 17:34:20
-updated: 2023-01-09 17:34:20
 ---
 <!-- toc -->
 # <span id="inline-blue">表结构</span>

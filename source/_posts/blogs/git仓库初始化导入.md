@@ -6,7 +6,6 @@ categories:
 	- Git
 
 date: 2021-03-15 15:23:32	
-updated: 2021-03-15 15:23:32
 ---
 # <span id="inline-blue">创建本地仓库</span> 
 ```shell

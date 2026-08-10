@@ -1,5 +1,5 @@
 ---
-title: Spring Cloud微服务敏感配置统一加密实践
+title: SpringCloud微服务敏感配置统一加密实践
 categories:
 	- Jasypt
 tags:
@@ -8,7 +8,6 @@ tags:
 	- Jasypt
 
 date: 2026-07-20 14:39:20
-updated: 2026-07-20 14:45:00
 ---
 <!-- toc -->
 
