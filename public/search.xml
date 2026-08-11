@@ -4697,8 +4697,8 @@
       </categories>
       <tags>
         <tag>Jenkins</tag>
-        <tag>CI</tag>
         <tag>Pipeline</tag>
+        <tag>CI</tag>
       </tags>
   </entry>
   <entry>
@@ -15380,25 +15380,6 @@ DockerToolbox-18.03.0-ce.exe
       </tags>
   </entry>
   <entry>
-    <title>Linux 文件清空操作</title>
-    <url>/Linux/blogs/Linux%E6%96%87%E4%BB%B6%E6%B8%85%E7%A9%BA%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h2><span id="文件清空"><span id="inline-blue">文件清空</span></span></h2><p>windows7 64</p>
-<h3><span id="使用重定向的方法"><span id="inline-blue">使用重定向的方法</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">test.txt</span> </span><br></pre></td></tr></tbody></table></figure>
-
-<h3><span id="使用-true-命令重定向清空文件"><span id="inline-blue">使用 true 命令重定向清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">true &gt; test.txt</span><br></pre></td></tr></tbody></table></figure>
-
-<h3><span id="使用-catcpdd-命令及-devnull-设备来清空文件"><span id="inline-blue">使用 cat/cp/dd 命令及 /dev/null 设备来清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">cat /dev/null &gt;  test.txt</span><br><span class="line">cp -f /dev/null test.txt </span><br><span class="line">dd if=/dev/null of=test.txt</span><br></pre></td></tr></tbody></table></figure>
-<h3><span id="使用-echo-命令清空文件"><span id="inline-blue">使用 echo 命令清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">echo -n "" &gt; test.txt    ==&gt;要加上"-n"参数，默认情况下会"\n"，也就是回车符</span><br></pre></td></tr></tbody></table></figure>
-
-<h3><span id="使用-truncate-命令清空文件"><span id="inline-blue">使用 truncate 命令清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">truncate -s 0 test.txt   -s参数用来设定文件的大小，清空文件，就设定为0；</span><br></pre></td></tr></tbody></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 环境查看 class 文件编译版本信息</title>
     <url>/Linux/blogs/Linux%E7%8E%AF%E5%A2%83%E6%9F%A5%E7%9C%8Bclass%E6%96%87%E4%BB%B6%E7%BC%96%E8%AF%91%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF/</url>
     <content><![CDATA[<h2><span id="查看-class-文件编译版本信息"><span id="inline-blue">查看 class 文件编译版本信息</span></span></h2><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">[root@lwdCSCDN common]# javap -v CommonContent.class </span><br><span class="line">Classfile /usr/local/moui_nanjing/V242/coship-oms/webapps/oms/WEB-INF/classes/com/coship/oms/common/CommonContent.class</span><br><span class="line">  Last modified 2021-11-16; size 474 bytes</span><br><span class="line">  MD5 checksum def74d7189fc3d20401e9070e4c8ad37</span><br><span class="line">  Compiled from "CommonContent.java"</span><br><span class="line">public class com.coship.oms.common.CommonContent</span><br><span class="line">  minor version: 0</span><br><span class="line">  major version: 52</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">major version: 52  代表是java编译版本为1.8</span></span><br></pre></td></tr></tbody></table></figure>
@@ -15415,6 +15396,25 @@ DockerToolbox-18.03.0-ce.exe
       <tags>
         <tag>Linux</tag>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 文件清空操作</title>
+    <url>/Linux/blogs/Linux%E6%96%87%E4%BB%B6%E6%B8%85%E7%A9%BA%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h2><span id="文件清空"><span id="inline-blue">文件清空</span></span></h2><p>windows7 64</p>
+<h3><span id="使用重定向的方法"><span id="inline-blue">使用重定向的方法</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">test.txt</span> </span><br></pre></td></tr></tbody></table></figure>
+
+<h3><span id="使用-true-命令重定向清空文件"><span id="inline-blue">使用 true 命令重定向清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">true &gt; test.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<h3><span id="使用-catcpdd-命令及-devnull-设备来清空文件"><span id="inline-blue">使用 cat/cp/dd 命令及 /dev/null 设备来清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">cat /dev/null &gt;  test.txt</span><br><span class="line">cp -f /dev/null test.txt </span><br><span class="line">dd if=/dev/null of=test.txt</span><br></pre></td></tr></tbody></table></figure>
+<h3><span id="使用-echo-命令清空文件"><span id="inline-blue">使用 echo 命令清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">echo -n "" &gt; test.txt    ==&gt;要加上"-n"参数，默认情况下会"\n"，也就是回车符</span><br></pre></td></tr></tbody></table></figure>
+
+<h3><span id="使用-truncate-命令清空文件"><span id="inline-blue">使用 truncate 命令清空文件</span></span></h3><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">truncate -s 0 test.txt   -s参数用来设定文件的大小，清空文件，就设定为0；</span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -17912,36 +17912,6 @@ tmp – 临时文件
       </tags>
   </entry>
   <entry>
-    <title>windows 注册 Elasticsearch 服务</title>
-    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch 下载</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch 注册</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch 服务自启动设置</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch 服务验证</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch-下载"><span id="inline-blue">elasticsearch 下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的 elasticsearch-2.4.4 版本</p>
-<h1><span id="elasticsearch-注册"><span id="inline-blue">elasticsearch 注册</span></span></h1><p>1. 运行 windows cmd 命令，进入 nginx 安装目录 D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
-<p>2. 执行注册服务命令 elasticsearch.bat install</p>
-<p>3. 如果需要卸载 elasticsearch 服务，执行 elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch-服务自启动设置"><span id="inline-blue">elasticsearch 服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch-服务验证"><span id="inline-blue">elasticsearch 服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>Elasticsearch</tag>
-        <tag>Windows</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Windows 注册 Nginx 服务</title>
     <url>/Nginx/blogs/Windows%E6%B3%A8%E5%86%8CNginx%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<!-- toc -->
@@ -18004,6 +17974,36 @@ tmp – 临时文件
       </categories>
       <tags>
         <tag>Redis</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>windows 注册 Elasticsearch 服务</title>
+    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch 下载</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch 注册</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch 服务自启动设置</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch 服务验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
+<h1><span id="elasticsearch-下载"><span id="inline-blue">elasticsearch 下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的 elasticsearch-2.4.4 版本</p>
+<h1><span id="elasticsearch-注册"><span id="inline-blue">elasticsearch 注册</span></span></h1><p>1. 运行 windows cmd 命令，进入 nginx 安装目录 D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
+<p>2. 执行注册服务命令 elasticsearch.bat install</p>
+<p>3. 如果需要卸载 elasticsearch 服务，执行 elasticsearch.bat uninstall</p>
+<h1><span id="elasticsearch-服务自启动设置"><span id="inline-blue">elasticsearch 服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
+<h1><span id="elasticsearch-服务验证"><span id="inline-blue">elasticsearch 服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>Elasticsearch</tag>
         <tag>Windows</tag>
       </tags>
   </entry>

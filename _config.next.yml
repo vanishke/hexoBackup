@@ -576,9 +576,9 @@ math:
     display_overflow: scroll
 
   katex:
-    enable: true
+    enable: false
     # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex
-    copy_tex: true
+    copy_tex: false
 
 
 # ---------------------------------------------------------------
