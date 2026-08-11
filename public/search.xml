@@ -1162,8 +1162,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>Portainer</tag>
         <tag>Swarm</tag>
+        <tag>Portainer</tag>
       </tags>
   </entry>
   <entry>
@@ -9767,8 +9767,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>Docker</tag>
         <tag>Java</tag>
+        <tag>Docker</tag>
         <tag>SpringCloud</tag>
         <tag>JDK</tag>
         <tag>epoll</tag>
@@ -17912,6 +17912,36 @@ tmp – 临时文件
       </tags>
   </entry>
   <entry>
+    <title>windows 注册 Elasticsearch 服务</title>
+    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch 下载</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch 注册</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch 服务自启动设置</span></a></li>
+<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch 服务验证</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
+<h1><span id="elasticsearch-下载"><span id="inline-blue">elasticsearch 下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的 elasticsearch-2.4.4 版本</p>
+<h1><span id="elasticsearch-注册"><span id="inline-blue">elasticsearch 注册</span></span></h1><p>1. 运行 windows cmd 命令，进入 nginx 安装目录 D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
+<p>2. 执行注册服务命令 elasticsearch.bat install</p>
+<p>3. 如果需要卸载 elasticsearch 服务，执行 elasticsearch.bat uninstall</p>
+<h1><span id="elasticsearch-服务自启动设置"><span id="inline-blue">elasticsearch 服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
+<h1><span id="elasticsearch-服务验证"><span id="inline-blue">elasticsearch 服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+      </categories>
+      <tags>
+        <tag>Elasticsearch</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows 注册 Nginx 服务</title>
     <url>/Nginx/blogs/Windows%E6%B3%A8%E5%86%8CNginx%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<!-- toc -->
@@ -17974,36 +18004,6 @@ tmp – 临时文件
       </categories>
       <tags>
         <tag>Redis</tag>
-        <tag>Windows</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>windows 注册 Elasticsearch 服务</title>
-    <url>/Elasticsearch/blogs/Windows%E6%B3%A8%E5%86%8CElasticsearch%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E7%8E%AF%E5%A2%83span"><span id="inline-blue">环境</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E4%B8%8B%E8%BD%BDspan"><span id="inline-blue">elasticsearch 下载</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%B3%A8%E5%86%8Cspan"><span id="inline-blue">elasticsearch 注册</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AEspan"><span id="inline-blue">elasticsearch 服务自启动设置</span></a></li>
-<li><a href="#span-idinline-blueelasticsearch%E6%9C%8D%E5%8A%A1%E9%AA%8C%E8%AF%81span"><span id="inline-blue">elasticsearch 服务验证</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="环境"><span id="inline-blue">环境</span></span></h1><p>windows 7<br>elasticsearch-2.4.4</p>
-<h1><span id="elasticsearch-下载"><span id="inline-blue">elasticsearch 下载</span></span></h1><p><a href="https://www.elastic.co/cn/downloads/past-releases/elasticsearch-2-4-4">官方下载地址</a><br>笔者使用的 elasticsearch-2.4.4 版本</p>
-<h1><span id="elasticsearch-注册"><span id="inline-blue">elasticsearch 注册</span></span></h1><p>1. 运行 windows cmd 命令，进入 nginx 安装目录 D:\ElasticSearch.2.4.4\elasticsearch-2.4.4\elasticsearch-2.4.4\bin</p>
-<p>2. 执行注册服务命令 elasticsearch.bat install</p>
-<p>3. 如果需要卸载 elasticsearch 服务，执行 elasticsearch.bat uninstall</p>
-<h1><span id="elasticsearch-服务自启动设置"><span id="inline-blue">elasticsearch 服务自启动设置</span></span></h1><p><img src="/images/elasticsearch/es_20201231_01.png" alt="elasticsearch服务设置"><br><img src="/images/elasticsearch/es_20201231_02.png" alt="elasticsearch服务设置"></p>
-<h1><span id="elasticsearch-服务验证"><span id="inline-blue">elasticsearch 服务验证</span></span></h1><p><img src="/images/elasticsearch/es_20201231_03.png" alt="elasticsearch服务验证"></p>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-      </categories>
-      <tags>
-        <tag>Elasticsearch</tag>
         <tag>Windows</tag>
       </tags>
   </entry>
@@ -18158,6 +18158,31 @@ tmp – 临时文件
       </tags>
   </entry>
   <entry>
+    <title>Nginx 常用启动命令</title>
+    <url>/Nginx/blogs/Nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<!-- toc -->
+
+<ul>
+<li><a href="#span-idinline-blue%E5%90%AF%E5%8A%A8span"><span id="inline-blue">启动</span></a></li>
+<li><a href="#span-idinline-blue%E5%81%9C%E6%AD%A2span"><span id="inline-blue">停止</span></a></li>
+<li><a href="#span-idinline-blue%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDspan"><span id="inline-blue">重新加载</span></a></li>
+</ul>
+<!-- tocstop -->
+
+<h1><span id="启动"><span id="inline-blue">启动</span></span></h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">./nginx </span><br><span class="line">./nginx -c <span class="built_in">dir</span>(指定配置文件所在路径)</span><br></pre></td></tr></tbody></table></figure>
+
+<h1><span id="停止"><span id="inline-blue">停止</span></span></h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">./nginx -s quit /nginx处理完任务后停止</span><br><span class="line">./nginx -s stop /强制停止nginx进程</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<h1><span id="重新加载"><span id="inline-blue">重新加载</span></span></h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">./nginx -s reload /重新加载nginx.cnf配置文件</span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nginx 开机自启动</title>
     <url>/Nginx/blogs/Nginx%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8/</url>
     <content><![CDATA[<!-- toc -->
@@ -18190,31 +18215,6 @@ tmp – 临时文件
 
 
 ]]></content>
-      <categories>
-        <category>Nginx</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nginx 常用启动命令</title>
-    <url>/Nginx/blogs/Nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<!-- toc -->
-
-<ul>
-<li><a href="#span-idinline-blue%E5%90%AF%E5%8A%A8span"><span id="inline-blue">启动</span></a></li>
-<li><a href="#span-idinline-blue%E5%81%9C%E6%AD%A2span"><span id="inline-blue">停止</span></a></li>
-<li><a href="#span-idinline-blue%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BDspan"><span id="inline-blue">重新加载</span></a></li>
-</ul>
-<!-- tocstop -->
-
-<h1><span id="启动"><span id="inline-blue">启动</span></span></h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">./nginx </span><br><span class="line">./nginx -c <span class="built_in">dir</span>(指定配置文件所在路径)</span><br></pre></td></tr></tbody></table></figure>
-
-<h1><span id="停止"><span id="inline-blue">停止</span></span></h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">./nginx -s quit /nginx处理完任务后停止</span><br><span class="line">./nginx -s stop /强制停止nginx进程</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<h1><span id="重新加载"><span id="inline-blue">重新加载</span></span></h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">./nginx -s reload /重新加载nginx.cnf配置文件</span><br></pre></td></tr></tbody></table></figure>]]></content>
       <categories>
         <category>Nginx</category>
       </categories>
