@@ -1162,8 +1162,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>Swarm</tag>
         <tag>Portainer</tag>
+        <tag>Swarm</tag>
       </tags>
   </entry>
   <entry>
@@ -9767,8 +9767,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>Java</tag>
         <tag>Docker</tag>
+        <tag>Java</tag>
         <tag>SpringCloud</tag>
         <tag>JDK</tag>
         <tag>epoll</tag>

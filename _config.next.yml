@@ -39,8 +39,8 @@ custom_file_path:
 # Schemes
 #scheme: Muse
 #scheme: Mist
-scheme: Pisces
-#scheme: Gemini
+#scheme: Pisces
+scheme: Gemini
 
 # Dark Mode
 darkmode: true
@@ -274,7 +274,7 @@ tag_icon: true
 # Front-matter variable (nonsupport animation).
 reward_settings:
   # If true, a donate button will be displayed in every article by default.
-  enable: false
+  enable: true
   animation: false
 
 reward:
@@ -406,9 +406,9 @@ reading_progress:
 
 # Bookmark Support
 bookmark:
-  enable: false
+  enable: true
   # Customize the color of the bookmark.
-  color: "#222"
+  color: "#4fc3f7"
   # If auto, save the reading progress when closing the page or clicking the bookmark-icon.
   # If manual, only save it by clicking the bookmark-icon.
   save: auto
@@ -599,7 +599,7 @@ fancybox: true
 # Warning: Do not enable both `fancybox` and `mediumzoom`.
 # For more information: https://medium-zoom.francoischalifour.com
 # 关闭：CDN 失败时会在 next-boot.refresh() 中抛错，导致 registerCodeblock（复制按钮）无法执行
-mediumzoom: false
+mediumzoom: true
 
 # Automatically insert whitespace between CJK and half-width characters.
 # For more information: https://github.com/vinta/pangu.js
