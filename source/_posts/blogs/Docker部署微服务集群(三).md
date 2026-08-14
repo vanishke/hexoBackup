@@ -7,14 +7,15 @@ tags:
 	
 date: 2024-12-05 16:31:11
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Docker: 26.1.4
 docker-compose: v2.25.0
-# <span id="inline-blue">背景</span>
+# 背景
 为了更好的管理docker镜像和容器服务，引入docker-compose容器编排工具，统一配置和集成微服务和基础服务
 
-# <span id="inline-blue">docker-compose文件格式与docker 引擎版本对应</span>
+# docker-compose文件格式与docker 引擎版本对应
 docker-compose和docker engine版本说明：
 
 
@@ -99,7 +100,7 @@ V3:
 	支持新的服务监控和日志记录功能。
 	支持新的服务安全特性，如 secrets 和 configs。
 
-# <span id="inline-blue">docker-compose.yml</span>
+# docker-compose.yml
 ```yml
 version: '3'
 services:
@@ -395,9 +396,9 @@ networks:
     driver: bridge
 ```
 
-## <span id="inline-blue">docker-compose V3版本配置项语法</span>
+## docker-compose V3版本配置项语法
 
-### <span id="inline-blue">version</span>
+### version
 顶级version属性由Compose规范定义以实现向后兼容性它仅提供信息，如果使用版本规范不支持的属性，将收到一条警告消息，表明它已过时。
 version属性包含主要版本和次要版本，如果在V2版本规范下定义如下：
 ```yml
@@ -419,7 +420,7 @@ version: '3.0'
 ```
 V3版本在不明确指定次要版本的情况下，默认匹配最早的次要版本。
 
-### <span id="inline-blue">build</span>
+### build
 在构建时应用的配置选项。
 build可以指定为包含构建上下文路径的字符串：
 ```yml
@@ -445,7 +446,7 @@ build: ./dir
 image: webapp:tag
 ```
 
-### <span id="inline-blue">context</span>
+### context
 包含 Dockerfile 的目录的路径，或 git 存储库的 url。
 当提供的值是相对路径时，它将被解释为相对于Compose文件的位置。该目录也是发送到Docker守护进程的构建上下文。
 Compose构建并使用生成的名称对其进行标记，然后使用该图像。
@@ -454,7 +455,7 @@ build:
   context: ./dir
 ```
 
-### <span id="inline-blue">dockerfile</span>
+### dockerfile
 备用 Dockerfile。
 Compose使用备用文件进行构建。还必须指定构建路径。
 ```yml
@@ -463,7 +464,7 @@ build:
   dockerfile: Dockerfile-alternate
 ```
 
-### <span id="inline-blue">ARG</span>
+### ARG
 添加构建参数，这些参数是仅在构建过程中可访问的环境变量。
 首先，在 Dockerfile 中指定参数：
 ```yml
@@ -500,7 +501,7 @@ args:
 ```
 YAML布尔值( "true", "false", "yes", "no", "on", "off") 必须用引号引起来，以便解析器将它们解释为字符串。
 
-### <span id="inline-blue">cache_from</span>
+### cache_from
 引擎用于缓存解析的图像列表。
 ```yml
 build:
@@ -511,7 +512,7 @@ build:
 ```
 3.3版本docker compose文件格式添加
 
-### <span id="inline-blue">label</span>
+### label
 使用Docker 标签将元数据添加到生成的图像中 。您可以使用数组或字典。
 建议使用反向DNS表示法，以防止您的标签与其他软件使用的标签发生冲突。
 
@@ -539,7 +540,7 @@ build:
 
 3.3版本docker compose文件格式添加
 
-### <span id="inline-blue">network</span>
+### network
 
 设置网络容器连接以获取RUN构建期间的说明。
 
@@ -565,7 +566,7 @@ build:
 
 3.4版本docker compose文件格式添加
 
-### <span id="inline-blue">shm_size</span>
+### shm_size
 
 /dev/shm设置此构建容器的分区大小。指定为表示字节数的整数值或表示 字节值的字符串。
 
@@ -583,7 +584,7 @@ build:
 
 3.5版本docker compose文件格式添加
 
-### <span id="inline-blue">target</span>
+### target
 
 构建指定阶段，如Dockerfile
 
@@ -595,7 +596,7 @@ build:
 
 3.4版本docker compose文件格式添加
 
-### <span id="inline-blue">cap_add、cap_drop</span>
+### cap_add、cap_drop
 
 添加或删除容器功能
 
@@ -608,7 +609,7 @@ cap_drop:
   - SYS_ADMIN
 ```
 
-### <span id="inline-blue">cgroup_parent</span>
+### cgroup_parent
 
 为容器指定一个可选的父 cgroup。
 
@@ -618,7 +619,7 @@ cgroup_parent: m-executor-abcd
 
 在 Swarm 模式下部署堆栈时，该cgroup_parent选项将被忽略
 
-### <span id="inline-blue">command</span>
+### command
 
 覆盖默认命令。
 
@@ -632,7 +633,7 @@ command: bundle exec thin -p 3000
 command: ["bundle", "exec", "thin", "-p", "3000"]
 ```
 
-### <span id="inline-blue">container_name</span>
+### container_name
 
 指定自定义容器名称，而不是生成的默认名称。
 

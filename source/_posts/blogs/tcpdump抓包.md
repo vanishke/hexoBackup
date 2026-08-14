@@ -8,10 +8,11 @@ tags:
 	
 date: 2023-07-28 14:49:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">目的</span>
+# 目的
 	抓取Linux服务器上来自某一特定IP地址和端口的请求信息
-# <span id="inline-blue">tcpdump命令</span>
+# tcpdump命令
 选项
  -i  # 指定监听网络接口
  -w  # 将捕获到的信息保存到文件中，且不分析和打印在屏幕
@@ -30,11 +31,11 @@ date: 2023-07-28 14:49:20
  -F  # 指定使用哪个文件的过滤表达式抓包
  -l  # 对标准输出进行行缓冲
  
- # <span id="inline-blue">示例</span>
+ # 示例
  抓取源地址10.9212.55请求目的地址10.9.219.31对应8080端口请求信息
  ```shell
  tcpdump -i eth1 port 8080 and src host 10.9.212.55 and dst host 10.9.219.31 -s 0 -vv -w /tmp/1.cap
  ```
- # <span id="inline-blue">关键字搜索</span>
+ # 关键字搜索
  报文通过wireshark打开后点击下图中的搜索图标，将搜索类型修改为字符串，在搜索框填写关键字，点击查找即开始查找。
  ![wireshark分析](/images/linux/Linux_20230728_001.png)

@@ -10,16 +10,16 @@ date: 2025-01-14 11:31:28
 ---
 
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Linux: CentOS Linux release 7.7.1908 (Core)
 Docker：26.1.4
 Docker compose: v2.25.0
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 Docker swarm线上环境配置portainer容器管理服务，开启远程安全链接。
 
-# <span id="inline-blue">创建证书</span>
+# 创建证书
 
 创建证书生成脚本
 ```shell
@@ -119,7 +119,7 @@ cp ca.pem server-key.pem、server-cert.pem  server
 cp ca.pem cert.pem、key.pem client
 ```
 
-# <span id="inline-blue">server端配置tls连接</span>
+# server端配置tls连接
 
 修改docker配置
 
@@ -139,7 +139,7 @@ ExecStart=/usr/bin/dockerd --tlsverify --tlscacert=/etc/docker/certs/server/ca.p
 systemctl daemon-reload
 systemctl restart docker
 ```
-# <span id="inline-blue">client端配置tls连接</span>
+# client端配置tls连接
 client端：
 使用server文件夹内三个文件ca.pem、key.pem、cert.pem
 
@@ -153,4 +153,3 @@ docker --tlsverify --tlscacert=/etc/docker/certs/client/ca.pem --tlscert=/etc/do
 portainer配置tls
 
 ![Dockerfile 远程安全连接](/images/docker/20250114/docker_20250114_002.png)
-

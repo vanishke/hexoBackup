@@ -8,10 +8,11 @@ top: 2
 
 date: 2023-01-29 16:40:20
 ---
+
 <!-- toc -->
 
 
-## <span id="inline-blue">ftp命令 </span>
+## ftp命令
 
 **作用**
 	本地和远程服务器之间上传和下载文件，实现两端服务通信。
@@ -101,7 +102,7 @@ ftp> dir
 226 Transfer complete.
 ```
 
-## <span id="inline-blue">rsync命令 </span>
+## rsync命令
 
 **作用**
 	rsync命令来自于英文词组“remote sync”的缩写，其功能是用于远程数据同步。rsync命令能够基于网络（含局域网和互联网）快速的实现多台主机间的文件同步工作，并与scp或ftp发送完整文件不同，rsync有独立的文件内容差异算法，会在传送前对两个文件进行比较，只传送两者内容间的差异部分，因此速度更快。
@@ -131,7 +132,3 @@ ftp> dir
 #同步远程文件夹
 [root@lwdCSCDN /]rsync -r rsync_dir1 10.9.216.12:/rsync_dir2
 ```
-
-
-
-

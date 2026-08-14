@@ -8,19 +8,20 @@ tags:
 
 date: 2025-11-24 17:34:09
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 Zipkin: zipkin-server-2.26.0
 Elasticsearch: 8.8.0
-# <span id="inline-blue">背景</span>
+# 背景
 
 微服务基于zipkin上述微服务调用链路追踪信息，数据存储Elasticsearch之后没有自动删除机制导致数据越来越多，已经快要超过数据节点设置的分片大小导致数据写入失败，接下来借助Elasticsearch生命周期管理实现自动清除过期的索引。
 
-# <span id="inline-blue">实现</span>
+# 实现
 
-## <span id="inline-blue">创建生命周期</span>
+## 创建生命周期
 
 ```shell
 PUT http://10.0.0.14:9200/_ilm/policy/zipkin_delete_policy
@@ -41,11 +42,11 @@ PUT http://10.0.0.14:9200/_ilm/policy/zipkin_delete_policy
 ```
 上述命令表示创建zipkin_delete_policy策略，最大保存索引时间为7天。
 
-## <span id="inline-blue">索引模板关联策略</span>
+## 索引模板关联策略
 
 Elasticsearch索引模板关联删除策略一定是在模板完整配置内容中添加删除策略才是正确的方法，如果使用以下方式进行关联，虽然策略能够正常关联上，但这种设置会导致其他有关索引动态字段映射的相关内容全部丢失，导致zipkin后台查询总是报错，通过比对不同日期的索引发现索引字段traceId字段的类型不一致。
 
-### <span id="inline-blue">zipkin-dependency_template</span>
+### zipkin-dependency_template
 
 错误的方式:
 
@@ -131,7 +132,7 @@ PUT http://10.0.0.14:9200/_template/zipkin-dependency_template
 
 ```
 
-### <span id="inline-blue">zipkin-span_template</span>
+### zipkin-span_template
 
 错误的方式:
 
@@ -348,7 +349,7 @@ PUT http://10.0.0.14:9200/_template/zipkin-span_template
 索引生命周期检测自动删除的检测机制是10分钟执行一次
 ![Zipkin索引自动删除_01](/images/Zipkin/Zipkin_20251124_006.png)
 
-## <span id="inline-blue">已存在索引关联删除策略方式</span>
+## 已存在索引关联删除策略方式
 
 上述操作只能保证新生成的索引能够自动关联删除策略，之前生成的索引无法自动应用上述删除策略，解决办法如下：
 
@@ -378,7 +379,7 @@ PUT http://10.0.0.14:9200/zipkin-dependency-*/_settings
 }
 ```
 
-## <span id="inline-blue">验证</span>
+## 验证
 ![Zipkin索引自动删除_02](/images/Zipkin/Zipkin_20251124_007.png)
 
 

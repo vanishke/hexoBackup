@@ -8,13 +8,14 @@ tags:
 
 date: 2025-11-21 17:42:45
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 项目因为业务上的原因需要对模块部分源代码实现混淆，以下实现借助proguard实现java代码混淆。
 
-# <span id="inline-blue">ProGuard</span>
+# ProGuard
 
 ProGuard是一个免费的Java类文件收缩，优化，混淆和预校验器。
 它可以检测并删除未使用的类，字段，方法和属性。它可以优化字节码，并删除未使用的指令。
@@ -22,7 +23,7 @@ ProGuard是一个免费的Java类文件收缩，优化，混淆和预校验器�
 最后，预校验的Java6或针对Java MicroEdition的所述处理后的码。 
 如果开启了混淆，Proguard默认情况下会对所有代码，包括第三方包都进行混淆，可是有些代码或者第三方包是不能混淆的，这就需要我们手动编写混淆规则来保持不能被混淆的部分。
 
-# <span id="inline-blue">实现</span>
+# 实现
 
 maven项目引入proguard混淆插件,实现针对com.test.common.service包目录下的源代码实现混淆，排除类中特定的方法和变量
 
@@ -157,4 +158,3 @@ maven项目引入proguard混淆插件,实现针对com.test.common.service包目�
 ```
 
 proguard插件相关参数用法参考官方文档: https://wvengen.github.io/proguard-maven-plugin/proguard-mojo.html#options
-

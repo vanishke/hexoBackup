@@ -9,16 +9,17 @@ tags:
 date: 2024-03-19 17:24:20
 
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">环境</span>
+## 环境
 SpringBoot : 2.2.6.RELEASE
 SpringCloud : 2021.0.5
 RabbitMQ : 3.8.8
 Nacos : 2.1.1
-## <span id="inline-blue">背景</span>
+## 背景
 Spring微服务集成RabbitMQ，项目启动加载RabbitMQ连接失败导致项目无法启动，增加配置项控制RabbitMQ有条件加载。
-## <span id="inline-blue">实现</span>
+## 实现
 nacos上对应模块配置文件增加配置项
 ```properties
 spring.rabbitmq.enable=true

@@ -7,16 +7,17 @@ tags:
 	
 date: 2025-10-17 15:11:23
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 java: 1.8
 maven: 3.8.9
 
 
-# <span id="inline-blue">现象</span>
+# 现象
 maven 执行clean install之后生成的war没有把本地依赖的jar包拷贝到WEB-INF/lib目录下，启动应用程序提示相应的class缺失。
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 模块对应pom.xml文件添加maven-dependency-plugin插件，在prepare-package阶段拷贝jar包，配置如下：
 ```xml
 <plugin>
@@ -38,4 +39,3 @@ maven 执行clean install之后生成的war没有把本地依赖的jar包拷贝�
 				</executions>
 			</plugin>
 ```
-

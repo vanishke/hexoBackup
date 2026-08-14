@@ -7,43 +7,44 @@ tags:
 	
 date: 2024-06-13 10:34:23
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">查看所有索引信息</span>
+# 查看所有索引信息
 
 http://10.0.0.14:9200/_cat/indices
 
-# <span id="inline-blue">查看指定索引映射Mapping详情</span>
+# 查看指定索引映射Mapping详情
 
 http://10.0.0.14:9200/${indexName}?pretty
 
-# <span id="inline-blue">创建索引</span>
+# 创建索引
 
 POST http://10.0.0.14:9200/${indexName}
 
-# <span id="inline-blue">删除索引</span>
+# 删除索引
 
 DELETE http://10.0.0.14:9200/${indexName}
 
-# <span id="inline-blue">查看模板配置</span>
+# 查看模板配置
 
 GET http://10.0.0.14:9200/_template/*
 
-# <span id="inline-blue">查看集群配置</span>
+# 查看集群配置
 
 GET http://10.0.0.14:9200/_cluster/settings
 
-# <span id="inline-blue">查看集群健康状态</span>
+# 查看集群健康状态
 
 GET http://10.0.0.14:9200/_cluster/health
 
-# <span id="inline-blue">查看节点索引分片状态</span>
+# 查看节点索引分片状态
 
 GET http://10.0.0.14:9200/_cat/shards?v&h=index,shard,prirep,state,unassigned.reason
 
-# <span id="inline-blue">创建索引mapping</span>
+# 创建索引mapping
 
-## <span id="inline-blue">2.4版本</span>
+## 2.4版本
 
 ```json
 POST http://10.0.0.14:9200/coseelog/doc/_mapping?pretty
@@ -79,7 +80,7 @@ POST http://10.0.0.14:9200/coseelog/doc/_mapping?pretty
 }
 ```
 
-## <span id="inline-blue">5.0 版本</span>
+## 5.0 版本
 
 ```json
 mapping POST http://10.0.0.14:9200/coseelog/doc/_mapping?pretty
@@ -115,7 +116,7 @@ mapping POST http://10.0.0.14:9200/coseelog/doc/_mapping?pretty
 }
 ```
 
-# <span id="inline-blue">创建模板</span>
+# 创建模板
 
 ```json
 POST http://10.0.0.14:9200/_template/vistors_flow_total/
@@ -159,4 +160,3 @@ POST http://10.0.0.14:9200/_template/vistors_flow_total/
 }
 
 ```
-

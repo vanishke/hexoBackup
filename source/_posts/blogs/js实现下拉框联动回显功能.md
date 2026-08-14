@@ -8,16 +8,17 @@ tags:
 	
 date: 2022-09-27 16:24:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">jsp页面添加依赖项</span>
+# jsp页面添加依赖项
 
 ```jsp
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <script type="text/javascript" src="<s:url value='js/cdnmanage.pagination.js'/>"></script>
 ```
 
-# <span id="inline-blue">下拉框定义</span>
+# 下拉框定义
 ```jsp
 <label><s:text name="grmmanage.log.moduleName" /></label>
 <select name="logBean.moduleName" id="moduleName" onchange="setAction(this.options[this.selectedIndex].text);"  onselect="setAction(this.options[this.selectedIndex].text);" style="width:120px">
@@ -42,7 +43,7 @@ date: 2022-09-27 16:24:20
 </select>
 ```
 
-# <span id="inline-blue">js联动实现</span>
+# js联动实现
 ```js
 	//下拉选项数组定义
 	var actionArr = [];
@@ -213,7 +214,7 @@ function setSelectOption(selectObj, optionList, firstOption) {
 	}
 }
 ```
-# <span id="inline-blue">数据回显</span>
+# 数据回显
 ```js
 jQuery(function($) {
 
@@ -236,5 +237,5 @@ jQuery(function($) {
 	}
 });
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 ![下拉联动验证](/images/js/js_2022_09_27_001.png)

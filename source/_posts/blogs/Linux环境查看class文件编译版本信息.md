@@ -8,7 +8,8 @@ categories:
 
 date: 2023-03-17 17:44:20
 ---
-## <span id="inline-blue">查看class文件编译版本信息</span>
+
+## 查看class文件编译版本信息
 ```shell
 [root@lwdCSCDN common]# javap -v CommonContent.class 
 Classfile /usr/local/moui_nanjing/V242/coship-oms/webapps/oms/WEB-INF/classes/com/coship/oms/common/CommonContent.class
@@ -20,7 +21,7 @@ public class com.coship.oms.common.CommonContent
   major version: 52
 # major version: 52  代表是java编译版本为1.8
 ```
-## <span id="inline-blue">Java编译器版本对应关系</span>
+## Java编译器版本对应关系
 
 	Unsupported major.minor version 52.0 对应于 JDK1.8（JRE1.8） 
 
@@ -30,5 +31,5 @@ public class com.coship.oms.common.CommonContent
 
 　　Unsupported major.minor version 49.0 对应于 JDK1.5（JRE1.5）
 
-## <span id="inline-blue">兼容关系</span>
+## 兼容关系
 Java低版本编译的jar包，可以在高版本Java编译环境下运行，反之，Java高版本编译的jar包不能在低版本Java环境运行

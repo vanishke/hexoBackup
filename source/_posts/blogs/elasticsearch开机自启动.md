@@ -7,9 +7,10 @@ tags:
 	
 date: 2024-01-17 16:11:35
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">创建elasticsearch启动配置文件</span>
+# 创建elasticsearch启动配置文件
 ```shell
 # 系统自启动服务目录
 cd /etc/init.d 
@@ -61,19 +62,19 @@ esac
 exit 0
 
 ```
-# <span id="inline-blue">修改文件权限</span>
+# 修改文件权限
 ```shell
 	chmod 777 elasticsearch
 ```
 
-# <span id="inline-blue">添加和删除自启动服务</span>
+# 添加和删除自启动服务
 ```shell
 #添加服务
 chkconfig --add elasticsearch
 #删除服务
 chkconfig --del elasticsearch
 ```
-# <span id="inline-blue">开启和关闭服务</span>
+# 开启和关闭服务
 ```shell
 # 启动
 service elasticsearch start
@@ -82,7 +83,7 @@ service elasticsearch stop
 #查看状态
 service elasticsearch status
 ```
-# <span id="inline-blue">设置服务开启自启动</span>
+# 设置服务开启自启动
 ```shell
 #开启
 chkconfig elasticsearch  on
@@ -91,11 +92,3 @@ chkconfig elasticsearch  off
 #查看自启动服务状态
 chkconfig  --list
 ```
-
-
-
-
-
-
-
-

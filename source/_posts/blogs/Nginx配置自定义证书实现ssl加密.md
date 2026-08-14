@@ -7,14 +7,15 @@ tags:
 	
 date: 2024-01-09 9:50:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 nginx : 1.18.1
-# <span id="inline-blue">目的</span>
+# 目的
 访问nginx添加ssl加密，使用自定义安全证书
-# <span id="inline-blue">实现</span>
+# 实现
 查看当前nginx版本是否支持ssl
 ```shell
 cd /usr/local/nginx/sbin
@@ -47,35 +48,35 @@ configure arguments: --prefix=/usr/local/nginx --user=nginx --group=nginx --with
 
 
 
-## <span id="inline-blue">自定义安全证书</span>
+## 自定义安全证书
 ```shell
 #指定/home路径下生成certificate.jks证书，秘钥为coshipOk698
 keytool -genkey -alias coship  -keyalg RSA -keysize 2048 -validity 3650 -ext SAN=dns:www.nginx12.com,ip:10.9.216.12  -keystore /home/certificate.jks -storepass coshipOk698 -dname "CN=www.nginx82.com, OU=www.nginx82.com, O=www.nginx82.com, L=wuhan, ST=wuhan, C=cn"
 ```
 
-## <span id="inline-blue">证书格式转换</span>
+## 证书格式转换
 ```shell
 #certificate.jks是键值对形式的证书，推荐转换为标准格式pkcs12
 keytool -importkeystore -srckeystore certificate.jks -destkeystore certificate.jks -deststoretype pkcs12
 ```
 
-## <span id="inline-blue">导出证书</span>
+## 导出证书
 ```shell
 #将certificate.jks证书导出，certificate.jks已经是pkcs12格式
 keytool -export -trustcacerts -alias coship -file /home/cas.crt -keystore /home/certificate.jks -storepass coshipOk698
 ```
-## <span id="inline-blue">cer格式转换为pem</span>
+## cer格式转换为pem
 ```shell
 #将cas.crt格式转换为server.pem，方便nginx使用
 openssl x509 -inform der -in cas.crt -out server.pem
 ```
 
-## <span id="inline-blue">提取私钥</span>
+## 提取私钥
 ```shell
 openssl pkcs12 -nocerts -nodes -in certificate.jks -out server.key
 ```
 
-## <span id="inline-blue">nginx配置</span>
+## nginx配置
 将转换后的证书server.pem、server.key 上传到nginx配置对应的目录，当前使用的是默认的/home路径下
 监听端口为443， ssl_certificate、ssl_certificate_key配置为新增的证书和密钥的路径
 ```shell
@@ -120,5 +121,5 @@ server {
     }
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 ![nginx安全访问验证](/images/nginx/nginx_20240109_001.png)

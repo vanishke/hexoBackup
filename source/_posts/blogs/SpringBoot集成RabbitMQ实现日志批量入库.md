@@ -10,17 +10,18 @@ tags:
 	
 date: 2024-03-15 16:53:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">环境</span>
+## 环境
 SpringCloud : 2021.0.5
 SpringBoot : 2.2.6.RELEASE
 Spring : 5.2.5.RELEASE
 RabbitMQ : 3.8.8
 Java : 1.8
-## <span id="inline-blue">背景</span>
+## 背景
 微服务在压力测试情况下产生大量接口请求日志导致日志记录模块并发过高，MySQL连接占用过高，采用RabbitMQ缓解日志并发写入压力，批量提交写入日志请求到MYSQL。
-## <span id="inline-blue">实现</span>
+## 实现
 Maven添加RabbitMQ依赖，不需要指定版本，默认是保持和SpringBoot版本一致
 ```java
 <dependency>
@@ -408,9 +409,5 @@ public class RabbitMQReceiver implements BatchMessageListener {
 
 ```
 
-## <span id="inline-blue">验证</span>
+## 验证
 ![RabbitMQ记录日志](/images/RabbitMQ/RabbitMQ_20240315_001.png)
-
-
-
-

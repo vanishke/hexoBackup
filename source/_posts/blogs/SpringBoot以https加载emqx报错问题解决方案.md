@@ -9,8 +9,9 @@ tags:
 	
 date: 2025-04-09 14:35:22
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Docker: 27.3.1
 docker compose: v2.29.7
@@ -18,7 +19,7 @@ Emqx: 5.7.2
 Nginx: 1.27.4
 SpringBoot: 2.6.6
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 Docker 环境下部署微服务，启动过程中日志报错提示如下：
 
@@ -26,7 +27,7 @@ Docker 环境下部署微服务，启动过程中日志报错提示如下：
 unable to find valid certification path to requested target 
 ```
 
-# <span id="inline-blue">原因</span>
+# 原因
 
 springboot集成emqx，使用https协议连接nginx代理的emqx集群，nginx配置的自签名证书不被jdk所信任，导致加载证书失败，emqx相关配置如下:
 
@@ -91,7 +92,7 @@ emqx:
 ```yml
 url: ssl://10.0.1.202:8884
 ```
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 
 Dockerfile将证书拷贝进镜像，并将证书导入jdk受信任证书库
 

@@ -9,16 +9,17 @@ tags:
 	
 date: 2024-11-24 16:12:05
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
     Docker: 26.1.4
 	
-# <span id="inline-blue">背景</span>
+# 背景
 项目模块打包后希望能通过Docker构建镜像部署，包括微服务模块以及基础服务模块（MySQL、redis、elasticsearch等）
 
-# <span id="inline-blue">构建基础镜像</span>
+# 构建基础镜像
 
-## <span id="inline-blue">MySQL</span>
+## MySQL
 构建镜像上下文文件预览：
 ![Dockerfile MySQL](/images/docker/20241124/Docker_MySQL_20241124_001.png)
 ```Dockerfile
@@ -213,7 +214,7 @@ interactive-timeout
 ```
 
 
-## <span id="inline-blue">Redis</span>
+## Redis
 构建镜像上下文文件预览：
 ![Dockerfile Redis](/images/docker/20241124/Docker_Redis_20241124_002.png)
 ```Dockerfile
@@ -1634,7 +1635,7 @@ rdb-save-incremental-fsync yes
 #
 # ignore-warnings ARM64-COW-BUG
 ```
-## <span id="inline-blue">nacos</span>
+## nacos
 构建镜像上下文文件预览：
 ![Dockerfile nacos](/images/docker/20241124/Docker_nacos_20241124_003.png)
 ```Dockerfile
@@ -1691,7 +1692,7 @@ nacos.core.auth.server.identity.value=security
 nacos.istio.mcp.server.enabled=false
 ```
 
-## <span id="inline-blue">Elasticsearch</span>
+## Elasticsearch
 构建镜像上下文文件预览：
 ![Dockerfile elasticsearch](/images/docker/20241124/Docker_Elasticsearch_20241124_004.png)
 ```Dockerfile
@@ -1840,7 +1841,7 @@ config目录下的文件百度网盘分享链接：
 链接：https://pan.baidu.com/s/1io2oJNmVRVG6WHgoNBQXmA?pwd=az9e 
 提取码：az9e
 
-## <span id="inline-blue">nginx</span>
+## nginx
 构建镜像上下文文件预览：
 ![Dockerfile nginx](/images/docker/20241124/Docker_nginx_20241124_005.png)
 ```Dockerfile
@@ -1957,7 +1958,7 @@ http {
 }
 ```
 
-## <span id="inline-blue">rabbitmq</span>
+## rabbitmq
 构建镜像上下文文件预览：
 ![Dockerfile rabbitmq](/images/docker/20241124/Docker_rabbitmq_20241124_006.png)
 ```Dockerfile

@@ -7,14 +7,15 @@ tags:
 	
 date: 2024-03-01 17:11:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">环境</span>
+## 环境
 Linux : CentOS Linux release 7.6.1810 (Core) 
 MySQL : 5.7
-## <span id="inline-blue">背景</span>
+## 背景
 现网模块在运行一段时间之后发现产生大量业务日志，占用系统硬盘空间，需要在线将历史数据清除，只保留1年的记录
-## <span id="inline-blue">实现</span>
+## 实现
 按日期统计查询t_sys_log表数据
 ```sql
 select DATE_FORMAT(t.createTime,"%Y-%m-%d") date,count(*) num from t_sys_log t
@@ -61,8 +62,3 @@ drop table t_sys_log;
 ```sql
 rename table t_sys_log_new to t_sys_log;
 ```
-
-
-
-
-

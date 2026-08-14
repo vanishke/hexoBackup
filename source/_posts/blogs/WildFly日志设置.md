@@ -7,9 +7,10 @@ tags:
 	
 date: 2023-04-27 16:35:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">定义handler</span>
+# 定义handler
 /usr/local/wildfly26-portal/standalone/configuration/standalone.xml文件添加handler
 ```xml
 <periodic-size-rotating-file-handler name="FILE" autoflush="true">
@@ -547,7 +548,7 @@ standalone.xml完整内容
 </server>
 ```
 
-# <span id="inline-blue">使用创建的handler</span>
+# 使用创建的handler
 ```xml
 	<root-logger>
         <level name="INFO"/>
@@ -556,7 +557,5 @@ standalone.xml完整内容
         </handlers>
     </root-logger>
 ```
-# <span id="inline-blue">使用创建的handler</span>
+# 使用创建的handler
 ![wildFly日志优化](/images/WildFly/WildFly_20230427_001.png)
-
-

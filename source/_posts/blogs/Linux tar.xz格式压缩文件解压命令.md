@@ -7,10 +7,11 @@ tags:
 	
 date: 2023-08-01 11:35:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">目的</span>
+# 目的
 	tar.xz格式的压缩包和tar.gz格式解压命令不一样，记录一下
-# <span id="inline-blue">解压</span>
+# 解压
 压缩文件名：glibc-2.27.tar.xz
 ```shell
 #进行两次解压
@@ -19,4 +20,3 @@ xz -d glibc-2.27.tar.xz
 #在解压tar格式
 tar -xvf glibc-2.27.tar
 ```
- 

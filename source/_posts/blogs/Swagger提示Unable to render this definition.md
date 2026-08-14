@@ -7,9 +7,10 @@ tags:
 	
 date: 2023-09-18 17:25:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">项目环境</span>
+# 项目环境
 SpringBoot: 2.2.6.RELEASE
 SpringCloud: 2021.0.5
 Swagger UI: 2.9.2
@@ -54,7 +55,7 @@ Please indicate a valid Swagger or OpenAPI version field. Supported version fiel
 ```
 所有的返回数据外层都是{"code":"","msg":"","data":[]}这样的结构，导致Swagger无法解析。
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 在代码判断逻辑排除掉Swagger接口相关的返回信息
 ```java
 @ControllerAdvice
@@ -88,8 +89,5 @@ Please indicate a valid Swagger or OpenAPI version field. Supported version fiel
    }
  }
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 ![Swagger集成](/images/Swagger/Swagger_20230918_001.png)
-
-
-

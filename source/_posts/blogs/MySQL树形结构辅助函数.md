@@ -7,8 +7,9 @@ tags:
 	
 date: 2023-01-09 17:34:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">表结构</span>
+# 表结构
 ```sql
 /*
  Navicat Premium Data Transfer
@@ -230,7 +231,7 @@ INSERT INTO `area` VALUES ('1249', '200000805203', '蒋王街道悦来村', '112
 SET FOREIGN_KEY_CHECKS = 1;
 
 ```
-# <span id="inline-blue">queryChildren</span>
+# queryChildren
 查询当前节点的孩子节点集合(包含自身节点)
 ```sql
 /*
@@ -280,7 +281,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 ```sql
 select queryChildren(1048);//待查询节点ID
 ```
-# <span id="inline-blue">getParentList</span>
+# getParentList
 查询当前节点的父级节点(包含自身节点)
 
 ```sql
@@ -335,6 +336,3 @@ SET FOREIGN_KEY_CHECKS = 1;
 ```sql
 select getParentList(1048)//待查询节点ID
 ```
-
-
-

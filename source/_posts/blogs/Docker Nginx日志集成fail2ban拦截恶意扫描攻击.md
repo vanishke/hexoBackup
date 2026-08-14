@@ -9,9 +9,10 @@ tags:
 
 date: 2026-07-24 15:08:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 Docker 部署的 Nginx / 反向代理入口长期暴露在公网时，`access.log` 里往往充斥 `.env`、`.git`、Nmap、路径穿越等扫描请求。仅靠 Nginx 静态 `deny` / 路径拦截能挡单次探测，却无法自动封禁反复扫描的源 IP，日志噪音与带宽消耗仍会持续。
 
@@ -35,7 +36,7 @@ Docker 部署的 Nginx / 反向代理入口长期暴露在公网时，`access.lo
 | 管理入口 | `https://<admin-host>` |
 | API 入口 | `https://<api-host>` |
 
-# <span id="inline-blue">架构说明</span>
+# 架构说明
 
 ```mermaid
 flowchart TB
@@ -57,7 +58,7 @@ flowchart TB
 | 不开 ufw | 避免与 Docker 规则冲突；外层用云安全组即可 |
 | 匹配扫描特征 | 禁止对全部 404 计次，避免误封业务 API |
 
-# <span id="inline-blue">环境要求</span>
+# 环境要求
 
 | 项 | 要求 |
 |----|------|
@@ -90,7 +91,7 @@ $remote_addr - $remote_user [$time_local] "$request" $status ...
 <scanner-ip> - - [24/Jul/2026:08:27:29 +0000] "GET /HNAP1 HTTP/1.1" 404 153 "-" "Nmap Scripting Engine" "-"
 ```
 
-# <span id="inline-blue">核心步骤</span>
+# 核心步骤
 
 ## 确认宿主机日志可读
 
@@ -218,7 +219,7 @@ sudo fail2ban-client status
 sudo fail2ban-client status nginx-admin   # 或 nginx-api
 ```
 
-# <span id="inline-blue">配置与验证</span>
+# 配置与验证
 
 ## 手工测封（确认 nftables 真正生效）
 
@@ -272,7 +273,7 @@ sudo fail2ban-client set nginx-admin unbanip "$TEST_IP"
 | 看服务日志 | `journalctl -u fail2ban -f` |
 | 看 nft 规则 | `nft list table inet f2b-table` |
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -283,7 +284,7 @@ sudo fail2ban-client set nginx-admin unbanip "$TEST_IP"
 | 业务 API 误封 | 对全部 404 计次 | 只用扫描特征 failregex |
 | 需要开 ufw 吗 | 不需要 | 安全组 + nftables 即可 |
 
-# <span id="inline-blue">完整命令清单</span>
+# 完整命令清单
 
 ```bash
 # ── 1. 确认日志 ──

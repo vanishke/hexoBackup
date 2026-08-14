@@ -8,14 +8,15 @@ tags:
 	
 date: 2020-12-24 10:11:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">创建FTP用户组</span>
+## 创建FTP用户组
 ```shell
 #添加ftp用户组
 groupadd ftp
 ```
-## <span id="inline-blue">创建FTP用户</span>
+## 创建FTP用户
 ```shell
 useradd -G ftp -d /home/oracle -s /sbin/nologin  oracle
 
@@ -27,11 +28,11 @@ useradd -G ftp -d /home/oracle -s /sbin/nologin  oracle
 #设置用户密码
 passwd oracle
 ```
-## <span id="inline-blue">vsftpd参数及配置文件说明</span>
+## vsftpd参数及配置文件说明
 
 ftpusers: 用户黑名单
 user_list: 用户是否受到限制只能访问主目录，与参数chroot_local_user配合使用，chroot_local_user=yes,表示user_list里面的用户不受限制，chroot_local_user=NO,表示user_list里面的用户受限制，只能访问主目录
 chroot_list：表示FTP用户只能访问自己的工作目录，与参数chroot_list_enable和chroot_list_file配合使用
 
-## <span id="inline-blue">验证</span>
+## 验证
 ![FTP验证](/images/linux/ftp_20211118_001.png)

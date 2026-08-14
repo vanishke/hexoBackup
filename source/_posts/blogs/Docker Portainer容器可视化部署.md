@@ -8,20 +8,21 @@ tags:
 	
 date: 2025-04-25 17:20:31
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Linux: CentOS Linux release 7.4.1708 (Core) 
 Docker: 26.1.4
 docker-compose: v2.25.0
 
-# <span id="inline-blue">介绍</span>
+# 介绍
 
 Portainer 是一个轻量级的管理 UI ，可让你轻松管理不同的 Docker 环境（Docker 主机或 Swarm 群集）。
 Portainer 的目的是部署和使用一样简单。它由一个可以在任何 Docker 引擎上运行的单一容器组成（可以部署为 Linux 容器或 Windows 本地容器，也支持其他平台）。
 Portainer 允许你管理所有的 Docker 资源（容器、镜像、卷、网络等等）。它与独立的 Docker 引擎和 Docker Swarm 模式兼容。
 
-# <span id="inline-blue">容器编排工具</span>
+# 容器编排工具
 
 docker swarm部署模式下portainer需要和agent配合使用
 
@@ -67,7 +68,7 @@ networks:
     external: true
 ```
 
-# <span id="inline-blue">部署</span>
+# 部署
 
 ```shell
 #docker swarm模式下需要将容器volume挂载路径转换为绝对路径
@@ -76,7 +77,7 @@ docker stack config -c docker-swarm-portainer.yml > docker-swarm-portainer-proce
 docker stack deploy -c docker-swarm-portainer-process.yml --resolve-image never test-portainer
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 通过容器映射外部宿主机9000端口，访问portainer后台管理: http://10.9.216.12:9000
 ![portainer部署](/images/portainer/20250425/portainer_20250425_001.png)

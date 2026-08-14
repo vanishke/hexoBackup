@@ -9,9 +9,10 @@ tags:
 	
 date: 2023-10-26 14:25:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">项目环境</span>
+# 项目环境
 SpringBoot: 2.2.6.RELEASE
 SpringCloud: 2021.0.5
 Druid: 1.1.22
@@ -22,13 +23,13 @@ Mybatis-plus: 3.3.1
 ```shell
 Error updating database. Cause: java.sql.SQLException: sql injection violation, multi-statement not allow 
 ```
-# <span id="inline-blue">问题原因</span>
+# 问题原因
 mysql默认不支持批量更新
 Druid的multiStatementAllow默认是false
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 
-## <span id="inline-blue">方案一</span>
+## 方案一
 mysql连接url参数添加allowMultiQueries=true
 如果配置了druid 注释掉 filters: wall，加上
 	filter:
@@ -58,7 +59,7 @@ mysql连接url参数添加allowMultiQueries=true
 	spring.datasource.druid.filter.wall.config.none-base-statement-allow=true	
 ```
 
-##  <span id="inline-blue">方案二</span>
+##  方案二
 
 DataSourceProperties配置类添加SQL多条更新支持
 
@@ -159,6 +160,3 @@ DataSourceProperties配置类添加SQL多条更新支持
 		}
 	}
 ```
-
-
-

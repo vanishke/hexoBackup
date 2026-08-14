@@ -10,16 +10,17 @@ categories:
 	
 date: 2024-04-29 14:11:20
 ---
-## <span id="inline-blue">环境</span>
+
+## 环境
 Java: 1.8
 SpringBoot: 2.2.6.Release
 SpringCloud: 2021.0.5
 Sentinel: 1.8.7
 nacos：2.2.0
-### <span id="inline-blue">背景</span>
+### 背景
 SpringBoot版本升级为2.6.6，SpringCloud对应模块组件升级3.1.6版本之后，SpringCloud移除了hytrix和Ribbon实现，网关配置的hytrix自定义过滤和限流不能使用，因此选择集成Sentinel实现从网关上限制各个路由节点的流量和熔断功能。
 
-### <span id="inline-blue">实现</span>
+### 实现
 网关模块添加sentinel和nacos依赖
 ```xml
 		<dependency>
@@ -111,15 +112,15 @@ spring.cloud.sentinel.datasource.system.nacos.data-type=json
 spring.cloud.sentinel.datasource.system.nacos.rule-type=system
 ```
 
-### <span id="inline-blue">Sentinel源码适配</span>
+### Sentinel源码适配
 Sentinel默认是不支持控制台规则同步nacos,需要自己修改源码实现。
 Sentinel版本使用1.8.7，自定义规则同步实现参考：https://www.cnblogs.com/cndarren/p/16197684.html
 已经修改完成的nacos分支版本地址：https://github.com/vanishke/sentinel-1.8.7/tree/master
 
 
-<a id="download" href="/images/Sentinel/sentinel-dashboard-1.8.7-customized.zip"><i class="fa fa-download"></i><span>sentinel-dashboard-1.8.7-customized.zip</span> </a>
+<a href="/images/Sentinel/sentinel-dashboard-1.8.7-customized.zip">sentinel-dashboard-1.8.7-customized.zip</a>
 
-### <span id="inline-blue">Sentinel启动</span>
+### Sentinel启动
 start.sh脚本内容如下：
 ```shell
 #!/bin/bash
@@ -134,14 +135,14 @@ nohup java -Dserver.port=8180 -Dnacos.serverAddr=localhost:8848 -Dsentinel.dashb
 #-Dcsp.sentinel.dashboard.server=localhost:8180 Sentinel控制台
 ```
 
-### <span id="inline-blue">Sentinel熔断和限流规则配置</span>
+### Sentinel熔断和限流规则配置
 
-#### <span id="inline-blue">限流</span>
+#### 限流
 ![Sentinel限流](/images/Sentinel/sentinel_20240531_001.png)
-#### <span id="inline-blue">熔断</span>
+#### 熔断
 ![Sentinel熔断](/images/Sentinel/sentinel_20240531_002.png)
 
-### <span id="inline-blue">网关统一设置限流异常</span>
+### 网关统一设置限流异常
 ```java
 @Bean
     @Order(-2)
@@ -189,7 +190,7 @@ nohup java -Dserver.port=8180 -Dnacos.serverAddr=localhost:8848 -Dsentinel.dashb
     }
 ```
 
-### <span id="inline-blue">验证</span>
+### 验证
 限流：
 ![Sentinel限流](/images/Sentinel/sentinel_20240531_003.png)
 熔断：

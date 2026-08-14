@@ -8,15 +8,16 @@ tags:
 	
 date: 2024-01-03 14:50:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 rsync : rsync-3.0.7
 inotify : inotify-tools-3.13
-# <span id="inline-blue">目的</span>
+# 目的
 管理后台上传到FTP的图片目录，需要通过使用nginx代理给接口下载使用，但nginx如果采用回源方案的话导致在接口大量并发的情况下，nginx源服务器出现报错，代理下载nginx服务器缓存出现异常，不能正常提供下载服务。所以将nginx都修改为代理本地服务器的目录，通过rsync将上传文件的FTP目录同步到nginx服务器，减少回源的时间。
-# <span id="inline-blue">实现</span>
+# 实现
 1、先查看linux的内核是否支持inotify，支持inotify的内核最小为2.6.13，输入命令：uname –a。如下图所示，内核为3.10.0，支持inotify：
 ```shell
 Linux S21614 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux

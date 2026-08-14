@@ -8,19 +8,20 @@ tags:
 	
 date: 2025-12-05 16:47:40
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 应用程序JDK版本升级为1.8之后，之前部署应用程序使用jboss-4.2.3在server.xml配置代理文件上传路径方式发生变化，现在演示在Wildfly-26.1.0-Final环境下自定义导航路径，使得应用程序上传的文件目录能够通过Wildfly的http://IP:port格式直接访问。
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 JDK： 1.8
 Spring: 4.3.20.RELEASE
 WildFly: 26.1.0-Final
 
-# <span id="inline-blue">实现</span>
+# 实现
 修改Wildfly配置文件standalone.xml,文件所在位置：/home/tianjin_istore/wildfly26-istore/standalone/configuration undertow子系统配置节点修改如下：
 ```xml
         <subsystem xmlns="urn:jboss:domain:undertow:12.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
@@ -56,6 +57,6 @@ WildFly: 26.1.0-Final
 ```
 
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 ![WildFly自定义导航](/images/WildFly/20251205/WildFly_20251205_001.png)

@@ -8,29 +8,8 @@ categories:
 date: 2021-01-12 10:11:20
 ---
 
-## <span id="inline-blue">问题描述<span>
+> 本文记录的是 **NexT 5.x** 主题定制 / 旧插件接入方式。
+> 站点已升级到 **NexT 8.x**，相关优化与接入代码已过时并移除。
+> 请改用站点根目录 `_config.next.yml` 与 [NexT 8 文档](https://theme-next.js.org/)。
 
-访问hexo ,出现以下提示
-
-```css
-{% extends '_layout.swig' %} {% import '_macro/post.swig' as post_template %} {% import '_macro/sidebar.swig' as sidebar_template %} {% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %} {% block page_class %} {% if is_home() %}page-home{% endif -%} {% endblock %} {% block content %}
-{% for post in page.posts %} {{ post_template.render(post, true) }} {% endfor %}
-{% include '_partials/pagination.swig' %} {% endblock %} {% block sidebar %} {{ sidebar_template.render(false) }} {% endblock %}
-
-```
-
-
-
-## <span id="inline-blue">问题原因</span>
-
-hexo在5.0之后把swig给删除了需要自己手动安装
-
-## 解决办法
-
-```shell
-npm i hexo-renderer-swig
-
-```
-
-
-
+（原「Hexo使用Next主题异常」实现代码已清理。）

@@ -8,9 +8,10 @@ tags:
 	
 date: 2026-02-28 14:23:52
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">问题背景</span>
+## 问题背景
 
 在使用Maven多模块项目进行Spring Boot开发时，我们经常会遇到这样的场景：
 
@@ -21,9 +22,9 @@ date: 2026-02-28 14:23:52
 
 这是一个典型的**IDEA构建系统与Maven资源过滤机制冲突**的问题。
 
-## <span id="inline-blue">问题现象</span>
+## 问题现象
 
-### <span id="inline-blue">正常情况（Maven构建）</span>
+### 正常情况（Maven构建）
 
 执行`mvn clean install -Pdev`后，查看编译后的资源文件：
 
@@ -38,7 +39,7 @@ spring:
         username: your-username               # ✅ 占位符已替换（示例用户名，已脱敏）
 ```
 
-### <span id="inline-blue">异常情况（IDEA默认构建）</span>
+### 异常情况（IDEA默认构建）
 
 在IDEA中直接启动应用时，查看编译后的资源文件：
 
@@ -157,9 +158,9 @@ found character '@' that cannot start any token. (Do not use @ for indentation)
 
 ```
 
-## <span id="inline-blue">问题根本原因</span>
+## 问题根本原因
 
-### <span id="inline-blue">Maven资源过滤机制</span>
+### Maven资源过滤机制
 
 Maven通过`maven-resources-plugin`插件在`process-resources`阶段执行资源过滤：
 
@@ -197,7 +198,7 @@ Maven通过`maven-resources-plugin`插件在`process-resources`阶段执行资�
 </build>
 ```
 
-### <span id="inline-blue">IDEA构建系统</span>
+### IDEA构建系统
 
 IDEA默认使用自己的构建系统（IntelliJ Compiler），而不是Maven：
 
@@ -212,28 +213,28 @@ IDEA默认使用自己的构建系统（IntelliJ Compiler），而不是Maven：
    - 提供增量编译支持
    - 提供更好的IDE集成体验
 
-### <span id="inline-blue">冲突点</span>
+### 冲突点
 
 | 构建方式 | 资源过滤 | 占位符替换 | 结果 |
 |---------|---------|-----------|------|
 | Maven命令行 | ✅ 执行 | ✅ 成功 | 正常启动 |
 | IDEA默认构建 | ❌ 不执行 | ❌ 失败 | 启动报错 |
 
-## <span id="inline-blue">解决方案：将构建委托给Maven</span>
+## 解决方案：将构建委托给Maven
 
-### <span id="inline-blue">方案概述</span>
+### 方案概述
 
 将IDEA的构建和运行操作委托给Maven，确保IDEA使用Maven的完整构建流程，包括资源过滤。
 
-### <span id="inline-blue">配置步骤</span>
+### 配置步骤
 
-#### <span id="inline-blue">步骤1：打开IDEA设置</span>
+#### 步骤1：打开IDEA设置
 
 - **Windows**: `File` → `Settings`
 - **Mac**: `IntelliJ IDEA` → `Preferences`
 - **快捷键**: `Ctrl+Alt+S` (Windows) 或 `Cmd+,` (Mac)
 
-#### <span id="inline-blue">步骤2：导航到Maven Runner设置</span>
+#### 步骤2：导航到Maven Runner设置
 
 在设置窗口中，导航到：
 ```
@@ -243,7 +244,7 @@ Build, Execution, Deployment
       → Runner
 ```
 
-#### <span id="inline-blue">步骤3：启用构建委托</span>
+#### 步骤3：启用构建委托
 
 在`Runner`页面中：
 
@@ -254,11 +255,11 @@ Build, Execution, Deployment
    - **VM options**: 可以添加`-DskipTests`来跳过测试（如果需要）
    - **Command line**: 可以添加`-Pdev`来指定默认激活的profile
 
-#### <span id="inline-blue">步骤4：应用配置</span>
+#### 步骤4：应用配置
 
 点击`Apply`和`OK`保存配置。
 
-### <span id="inline-blue">配置效果</span>
+### 配置效果
 
 启用后，IDEA的行为将发生以下变化：
 
@@ -276,9 +277,9 @@ Build, Execution, Deployment
    - 构建速度可能稍慢（因为要执行Maven插件）
    - 但构建结果更可靠，与命令行构建一致
 
-## <span id="inline-blue">验证配置是否生效</span>
+## 验证配置是否生效
 
-### <span id="inline-blue">方法1：检查构建输出</span>
+### 方法1：检查构建输出
 
 在IDEA中启动应用时，查看底部的`Build`输出窗口：
 
@@ -294,7 +295,7 @@ Build, Execution, Deployment
 Compiling...
 ```
 
-### <span id="inline-blue">方法2：检查编译后的资源文件</span>
+### 方法2：检查编译后的资源文件
 
 1. 在IDEA中启动应用（或执行构建）
 2. 打开`target/classes/bootstrap.yml`
@@ -310,7 +311,7 @@ spring:
         namespace: your-namespace             # ✅ 已替换（示例命名空间，已脱敏）
 ```
 
-### <span id="inline-blue">方法3：查看应用启动日志</span>
+### 方法3：查看应用启动日志
 
 启动应用后，检查日志中Nacos连接信息：
 
@@ -321,9 +322,9 @@ Nacos Discovery initialized with server address: your-nacos-address:8848
 
 如果看到占位符，说明配置未生效。
 
-## <span id="inline-blue">环境切换</span>
+## 环境切换
 
-### <span id="inline-blue">切换不同的Profile</span>
+### 切换不同的Profile
 
 当需要在不同环境（dev/test/prod）间切换时：
 
@@ -342,13 +343,13 @@ Nacos Discovery initialized with server address: your-nacos-address:8848
    mvn clean compile -Ptest
    ```
 
-## <span id="inline-blue">常见问题</span>
+## 常见问题
 
-### <span id="inline-blue">Q1: 配置后构建速度变慢了？</span>
+### Q1: 配置后构建速度变慢了？
 
 **A**: 这是正常的。使用Maven构建会比IDEA自己的构建系统稍慢，因为需要执行Maven插件。但这样可以确保构建结果的一致性。
 
-### <span id="inline-blue">Q2: 配置后仍然出现占位符？</span>
+### Q2: 配置后仍然出现占位符？
 
 **A**: 请检查以下几点：
 1. 确认已勾选`Delegate IDE build/run actions to Maven`
@@ -356,19 +357,19 @@ Nacos Discovery initialized with server address: your-nacos-address:8848
 3. 尝试重启IDEA
 4. 执行`mvn clean compile -Pdev`重新编译
 
-### <span id="inline-blue">Q3: 可以只对特定模块启用吗？</span>
+### Q3: 可以只对特定模块启用吗？
 
 **A**: 这个配置是项目级别的，会影响整个项目。如果需要，可以考虑：
 - 使用Maven命令启动特定模块：`mvn spring-boot:run -pl photoframe-auth -Pdev`
 - 或者为特定模块创建单独的Run Configuration
 
-### <span id="inline-blue">Q4: 团队其他成员也需要配置吗？</span>
+### Q4: 团队其他成员也需要配置吗？
 
 **A**: 是的。这个配置是保存在本地IDEA设置中的，每个开发者都需要在自己的IDEA中配置。建议：
 - 将配置步骤写入团队文档
 - 新成员加入时统一说明
 
-## <span id="inline-blue">总结</span>
+## 总结
 
 Maven多模块项目中资源文件占位符替换失败的问题，本质上是IDEA构建系统与Maven资源过滤机制的冲突。通过将IDEA的构建和运行操作委托给Maven，可以确保：
 
@@ -379,9 +380,9 @@ Maven多模块项目中资源文件占位符替换失败的问题，本质上是
 
 虽然构建速度可能稍慢，但这是确保项目构建可靠性的最佳方案。
 
-## <span id="inline-blue">相关配置参考</span>
+## 相关配置参考
 
-### <span id="inline-blue">Maven Profile配置示例</span>
+### Maven Profile配置示例
 
 ```xml
 <profiles>
@@ -400,7 +401,7 @@ Maven多模块项目中资源文件占位符替换失败的问题，本质上是
 </profiles>
 ```
 
-### <span id="inline-blue">资源文件占位符示例</span>
+### 资源文件占位符示例
 
 ```yaml
 # bootstrap.yml

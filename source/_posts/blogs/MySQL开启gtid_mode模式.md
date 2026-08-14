@@ -7,14 +7,15 @@ tags:
 	
 date: 2024-08-12 10:03:47	
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 MySQL: 5.7
-# <span id="inline-blue">背景</span>
+# 背景
 使用OpenGauss数据库迁移工具chameleon迁移MySQL全量数据需要MySQL支持gtid_mode模式。
-# <span id="inline-blue">实现</span>
+# 实现
 尝试在mysql控制台设置环境变量，被告知只读变量，通过配置文件又无法启动。
-## <span id="inline-blue">在线修改</span>
+## 在线修改
 需要以root身份在mysql服务器端的mysql控制台进行如下操作，其实就是gtid_mode不能直接设置为ON。按下列步骤依次操作即可。
 ```shell
 set global gtid_mode=on;

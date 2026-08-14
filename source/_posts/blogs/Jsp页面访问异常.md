@@ -8,9 +8,10 @@ tags:
 	
 date: 2023-01-06 10:44:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 后台管理页面请求Jsp异常，报错信息如下：
 ```log
 HTTP ERROR 500 javax.servlet.ServletException: org.apache.jasper.JasperException: java.lang.ClassNotFoundException: org.apache.jsp.views.mould_005fcoder.mould_005fcoder_005flist_jsp
@@ -22,7 +23,7 @@ CAUSED BY:	javax.servlet.ServletException: org.apache.jasper.JasperException: ja
 CAUSED BY:	org.apache.jasper.JasperException: java.lang.ClassNotFoundException: org.apache.jsp.views.mould_005fcoder.mould_005fcoder_005flist_jsp
 CAUSED BY:	java.lang.ClassNotFoundException: org.apache.jsp.views.mould_005fcoder.mould_005fcoder_005flist_jsp
 ```
-# <span id="inline-blue">Jsp声明周期</span>
+# Jsp声明周期
 1、第一次访问JSP，会验证一下是否第一次访问，然后把JSP转化成java(Servlet),再编译成class文件。
 
 2、生成的class文件中会自动生成几个方法：jspInit()、jspDestroy()、jspService().Tomcat仅仅在第一次请求时，调用jspInit()方法，然后调用jspService()进行处理。
@@ -30,7 +31,7 @@ CAUSED BY:	java.lang.ClassNotFoundException: org.apache.jsp.views.mould_005fcode
 3、之后的每个请求，都会分配一个线程调用jspService()方法。
 
 4、如果页面被销毁或者关闭，都会调用jspDestroy由于该文件是常驻内存的，又是多线程调用，所以访问的效率和速度都会很快。
-# <span id="inline-blue">原因</span>
+# 原因
 Jsp文件编译失败导致访问失败，对比之前正常的版本发现Jsp文件内容缺失。
 ```jsp
 String path =request.getContextPath();
@@ -47,7 +48,7 @@ if(""==userLanguage || null==userLanguage){
 }
 ```
 ![下拉联动验证](/images/jetty/Jsp/Jetty_Jsp_2023_01_06_001.png)
-# <span id="inline-blue">Jsp编译文件生成位置</span>
+# Jsp编译文件生成位置
 Tomcat:
 	Linux: /usr/local/AMS/apache-tomcat-8.0.18/work/Catalina/localhost/myAM/org/apache/jsp
 	windows: 
@@ -61,6 +62,3 @@ Tomcat:
 Jetty：
 	Linux：
 		/usr/local/moui_tianjin/oms/coship-oms/work/jetty-0_0_0_0-18080-oms-_oms-any-/jsp/org/apache/jsp
-	
-
-

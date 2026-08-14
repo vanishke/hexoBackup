@@ -8,7 +8,8 @@ categories:
 date: 2022-05-18 09:32:12
 ---
 
-## <span id="inline-blue">新建404</span>
+
+## 新建404
 
 在站点根目录下,输入 hexo new page 404,默认在Hexo 站点下/source/404/index.md
 打开新建的404界面，在顶部插入一行，写上permalink: /404，这表示指定该页固定链接为 http://"主页"/404.html
@@ -22,12 +23,3 @@ comments: false
 permalink: /404
 ---
 ```
-
-
-
-
-
-
-
-
-

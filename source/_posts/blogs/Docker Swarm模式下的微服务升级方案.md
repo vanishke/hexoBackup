@@ -10,9 +10,10 @@ date: 2026-08-10 09:23:04
 
 ---
 
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 测试环境微服务若长期使用 `dev` 仓库的 `latest` 镜像，且宿主机只挂 FatJar，发版难追溯、切换易与运行中文件互相干扰。在 Docker Swarm 单节点 + Portainer 堆栈场景下，改为拉取带日期 Tag 的新镜像，按栈串行增加 `lib` 挂载并切换瘦 Jar：先上传 lib 与临时名 jar，再改编排、备份改名后「更新堆栈」。效果是升级窗口可控、失败可整栈回滚到旧镜像与旧挂载形态，网关放在最后以降低 `/wait` 超时概率。
 
@@ -34,7 +35,7 @@ date: 2026-08-10 09:23:04
 | 新镜像 | `harbor.demo-lab.net:8443/clearstream-test/clearstream-admin-biz:20260804` |
 | 宿主机模块根 | `/usr/local/docker/clearstream/` |
 
-# <span id="inline-blue">通用升级状态机</span>
+# 通用升级状态机
 
 与具体栈名无关的流程可抽象为：
 
@@ -57,7 +58,7 @@ flowchart LR
 
 **多副本差异：** `replicas > 1` 时 Swarm 可滚动更新，窗口与单副本不同；本文样板按 `replicas: 1` 描述，扩副本前请单独演练。
 
-# <span id="inline-blue">环境要求</span>
+# 环境要求
 
 | 项 | 要求 |
 |----|------|
@@ -76,7 +77,7 @@ flowchart LR
   └── logs/         # 已有日志挂载
 ```
 
-# <span id="inline-blue">升级顺序</span>
+# 升级顺序
 
 ```mermaid
 flowchart TB
@@ -98,7 +99,7 @@ flowchart TB
 
 > gateway 放最后：其 `/wait` 依赖后端多端口。每栈验收通过后再做下一栈，降低回滚面。
 
-# <span id="inline-blue">核心步骤</span>
+# 核心步骤
 
 ## 节点确认新镜像已就绪
 
@@ -191,7 +192,7 @@ docker rmi harbor.demo-lab.net:8443/clearstream-dev/clearstream-admin-biz:latest
 | 仅改业务 | lib 未变时可只换 jar 并更新堆栈 |
 | 依赖变更 | 必须同步更新 lib，并视情况重建镜像 |
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 ```mermaid
 flowchart LR
@@ -215,7 +216,7 @@ docker service logs clearstream-stack-service_clearstream-admin-biz --tail 100
 
 验收以 Portainer / `docker service ls` 状态全部为 Running 为准。
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -225,7 +226,7 @@ docker service logs clearstream-stack-service_clearstream-admin-biz --tail 100
 | 多栈同时点更新 | 回滚面过大 | **按栈串行** |
 | `docker rmi` 提示占用 | 仍有服务引用旧镜像 | 确认无引用后再删，或谨慎 `docker image prune` |
 
-# <span id="inline-blue">完整命令清单</span>
+# 完整命令清单
 
 ```bash
 # ── 1. 节点拉取（示例） ──
@@ -248,7 +249,7 @@ docker service logs clearstream-stack-service_clearstream-admin-biz --tail 100
 docker rmi harbor.demo-lab.net:8443/clearstream-dev/clearstream-admin-biz:latest
 ```
 
-# <span id="inline-blue">小结</span>
+# 小结
 
 1. **通用状态机**是 pull → 预置 → 改编排 → 切正式名 → 更新 → 验收/回滚；栈名与路径只是环境示例。  
 2. **单副本短暂停服**可接受时按栈串行；gateway 放最后，降低 `/wait` 失败面。  

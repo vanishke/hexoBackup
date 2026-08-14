@@ -8,12 +8,13 @@ tags:
 	
 date: 2023-11-22 17:55:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 Linux: Red Hat Enterprise Linux Server release 6.8 (Santiago)
 Java： 1.8.0_31
-# <span id="inline-blue">背景</span>
+# 背景
 JavaWeb项目后台管理nginx所在IP、端口、用户名、密码，后台管理页面通过页面定时请求nginx服务器端口连接数，nginx服务启动成功后发现页面一直显示连接异常，浏览器F12条件下查看接口返回结果，发现数据对应nginx状态值错误，接口请求返回需要10秒钟左右。
 Jsch工具包连接Linux服务器的情况下，执行的shell命令如下：
 ```shell
@@ -175,14 +176,14 @@ public class ShellService {
 其中主要调用了runCommand方法实现执行shell命令，后台页面日志没有输出异常信息。
 并且同样的应用程序部署到其他服务器是正常的，所以大概是由于服务器的原因造成的。
 
-# <span id="inline-blue">问题排查思路</span>
+# 问题排查思路
 页面提示nginx连接异常，做出以下尝试
 1、将nginx服务移动到应用程序所在服务器，问题依然存在。
 2、删除已有nginx连接配置信息，重新配置，问题依然存在。
 3、检查服务器系统版本、JDK版本与正常版本差异，发现并无差异。
 4、发现后台管理有配置域名,nginx请求代理有使用域名，猜测可能是由于域名解析导致。
 
-# <span id="inline-blue">原因</span>
+# 原因
 应用程序所在服务器配置了错误的域名解析，导致每次请求都要经过错误的域名解析，导致请求超时。
 配置文件所在路径： /etc/resolv.conf
 ![域名解析配置](/images/Java/Java_20231122_001.png)

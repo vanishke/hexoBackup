@@ -8,19 +8,20 @@ tags:
 	
 date: 2025-12-05 16:12:27
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 项目模块升级为spring-4.3.20+JDK8之后，之前部署模块应用程序容器jboss-4.2.3已经不再兼容，需要对容器进行升级，综合考虑之下，选择wildfly-26.1.0-Final作为部署容器。
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 JDK： 1.8
 Spring: 4.3.20.RELEASE
 WildFly: 26.1.0-Final
 
-# <span id="inline-blue">现象</span>
+# 现象
 
 WildFly部署应用程序启动加载出现如下报错信息：
 
@@ -105,7 +106,7 @@ Caused by: java.lang.NullPointerException
         ... 10 more
 ```
 
-# <span id="inline-blue">问题原因</span>
+# 问题原因
 
 应用启动加载配置的正确的逻辑是加载wildfly部署应用程序所在class目录下的conf.properties配置文件，从实际的错误信息看加载的路径是wildfly自身modules依赖下目录，加载读取conf.properties配置的代码如下：
 
@@ -249,7 +250,7 @@ public class SysConfigManager {
 
 结合代码分析问题原因就是SystemConfig.class.getClassLoader().getResource("")调用没有获取到正确的资源文件的根路径，而是去wildfly自身的modules依赖下去读取对应的配置文件，导致加载异常
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 
 
 更改资源文件的读取方式，优化后加载配置文件的代码内容如下：

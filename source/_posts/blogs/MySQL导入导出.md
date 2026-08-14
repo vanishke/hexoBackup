@@ -7,9 +7,10 @@ tags:
 
 date: 2020-11-17 12:23:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">导出数据库中的表</span>
+# 导出数据库中的表
 
 ```sql
 mysqldump -u root -p report_hrb140 > report_hrb140.sql;
@@ -17,7 +18,7 @@ mysqldump -u root -p report_hrb140 > report_hrb140.sql;
 
 
 
-# <span id="inline-blue">导出数据库中的存储过程和事务</span>
+# 导出数据库中的存储过程和事务
 
 ```sql
 mysqldump -uroot -pcoship -ntd -R report_hrb121> report_hrb121_FP.sql;
@@ -27,7 +28,7 @@ mysqldump -uroot -pcoship -ntd -R report_hrb121> report_hrb121_FP.sql;
 
 
 
-# <span id="inline-blue">导入数据库表结构和数据</span>
+# 导入数据库表结构和数据
 
 ```sql
 mysql -u root -p
@@ -42,4 +43,3 @@ mysql>use 数据库(数据库的名称)
 然后使用source命令,后面参数为脚本文件(report_hrb121_FP.sql)
 mysql>source report_hrb121_FP.sql;
 ```
-

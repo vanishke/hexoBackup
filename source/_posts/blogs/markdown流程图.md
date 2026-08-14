@@ -7,7 +7,8 @@ categories:
 
 date: 2021-09-29 15:37:15	
 ---
-# <span id="inline-blue">语法</span> 
+
+# 语法 
 1. 定义元素
 ```code
 
@@ -45,7 +46,7 @@ subroutineID->endID
 以上两种连接方式均可
 ```
 
-# <span id="inline-blue">示例</span> 
+# 示例 
 
 ```flow
 startID=>start: 开始
@@ -62,8 +63,3 @@ conditionID(no,right)->inputoutputID3
 inputoutputID2->endID
 inputoutputID3->endID
 ```
-
-
-
-
-

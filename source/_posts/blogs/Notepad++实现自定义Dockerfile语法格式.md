@@ -8,11 +8,12 @@ tags:
 	
 date: 2025-08-22 17:36:25
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Notepad++: v7.9.3
 
-# <span id="inline-blue">自定义Dockerfile语法格式</span>
+# 自定义Dockerfile语法格式
 
 ![Dockerfile语法格式](/images/Notepad++/Notepad++_20250822_001.png)
 
@@ -84,6 +85,6 @@ Notepad++: v7.9.3
     </UserLang>
 </NotepadPlus>
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 打开Dockerfile文件,Notepad++菜单栏语言切换为Dockerfile,相关命令高亮显示如下：
-![Dockerfile语法验证](/images/Notepad++/Notepad++_20250822_002.png) 
+![Dockerfile语法验证](/images/Notepad++/Notepad++_20250822_002.png)

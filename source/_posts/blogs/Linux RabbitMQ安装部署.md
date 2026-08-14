@@ -8,14 +8,15 @@ tags:
 	
 date: 2024-09-20 14:14:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 Linux: CentOS Linux release 7.4.1708 (Core) 
 Erlang: erlang-21.3.8.16-1.el7.x86_64.rpm
 RabbitMQ: rabbitmq-server-3.8.8-1.el7.noarch.rpm
-# <span id="inline-blue">安装包下载</span>
+# 安装包下载
 RabbitMQ安装需要依赖Erlang环境，两者版本对应关系如下：
 ![RabbitMQ&Erlang版本关系](/images/RabbitMQ/RabbitMQ_20240920_001.png)
 版本对应详情地址：https://www.rabbitmq.com/docs/which-erlang
@@ -27,7 +28,7 @@ https://packagecloud.io/rabbitmq/erlang/packages/el/7/erlang-21.3.8.16-1.el7.x86
 RabbitMQ下载地址：
 https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.8/rabbitmq-server-3.8.8-1.el7.noarch.rpm
 
-# <span id="inline-blue">Erlang安装</span>
+# Erlang安装
 创建RabbitMQ安装包存放路径
 ```shell
 mkdir /usr/local/rabbitMQ
@@ -43,7 +44,7 @@ Erlang/OTP 21 [erts-10.3.5.12] [source] [64-bit] [smp:8:8] [ds:8:8:10] [async-th
 Eshell V10.3.5.12  (abort with ^G)
 ```
 
-# <span id="inline-blue">RabbitMQ安装</span>
+# RabbitMQ安装
 
 RabbitMQ安装过程中需要依赖socat插件，安装命令如下：
 ```shell
@@ -67,7 +68,7 @@ systemctl status rabbitmq-server
 ```
 ![RabbitMQ状态信息](/images/RabbitMQ/RabbitMQ_20240920_003.png)
 
-## <span id="inline-blue">RabbitMQ后台管理及授权</span>
+## RabbitMQ后台管理及授权
 
 RabbitMQ通信端口：5672
 RabbitMQ后台访问web端口：15672
@@ -99,9 +100,9 @@ managment：普通管理员；登录控制
 添加完用户后访问管理后台http://127.0.0.1:15672
 ![RabbitMQ后台管理](/images/RabbitMQ/RabbitMQ_20240920_003.png)
 
-# <span id="inline-blue">安装过程中问题总结</span>
+# 安装过程中问题总结
 
-## <span id="inline-blue">unknown command: erl. Perhaps you have to reshim?</span>
+## unknown command: erl. Perhaps you have to reshim?
 错误提示貌似看着是Erlang环境的问题，实际是RabbitMQ安装之后的相关命令和之前卸载遗留的文件冲突导致
 本次安装RabbitMQ生成命令所在位置/usr/lib/bin,命令如下：
 ![RabbitMQ后台管理](/images/RabbitMQ/RabbitMQ_20240920_004.png)
@@ -121,7 +122,7 @@ ln -s /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.8/sbin/rabbitmq-queues /usr/sbin
 ln -s /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.8/sbin/rabbitmq-server /usr/sbin/rabbitmq-server
 ln -s /usr/lib/rabbitmq/lib/rabbitmq_server-3.8.8/sbin/rabbitmq-upgrade /usr/sbin/rabbitmq-upgrade
 ```
-## <span id="inline-blue">Authentication failed (rejected by the remote node), please check the Erlang cookie</span>
+## Authentication failed (rejected by the remote node), please check the Erlang cookie
 错误信息如下：
 ```shell
 rabbit@izrj9fqhk4voecczvplwe1z:

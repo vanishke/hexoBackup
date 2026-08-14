@@ -7,7 +7,8 @@ categories:
 
 date: 2023-03-17 18:44:20
 ---
-## <span id="inline-blue">查看空间占用</span>
+
+## 查看空间占用
 ```shell
 [root@lwdCSCDN elasticsearch-2.4.4]# ls
 bin  config  data  EsToolNew  jdk1.7.0_67  lib  LICENSE.txt  logs  modules  NOTICE.txt  pid  plugins  README.textile
@@ -27,7 +28,7 @@ bin  config  data  EsToolNew  jdk1.7.0_67  lib  LICENSE.txt  logs  modules  NOTI
 21M	plugins
 12K	README.textile
 ```
-## <span id="inline-blue">查看指定层级空间占用</span>
+## 查看指定层级空间占用
 ```shell
 [root@lwdCSCDN elasticsearch-2.4.4]# du -h --max-depth=2
 6.7M	./EsToolNew/logs
@@ -79,7 +80,3 @@ bin  config  data  EsToolNew  jdk1.7.0_67  lib  LICENSE.txt  logs  modules  NOTI
 --max-depth=<目录层数> 超过指定层数的目录后，予以忽略。
 --help 显示帮助。
 --version 显示版本信息。
-	
-	
-	
-	

@@ -7,7 +7,8 @@ categories:
 
 date: 2022-01-17 16:35:12	
 ---
-## <span id="inline-blue">多层级区域树加载</span>
+
+## 多层级区域树加载
 
 ### 树的数据格式（Tree Data Format）
 
@@ -246,6 +247,3 @@ function expandArea(id) {
     	}
 }
 ```
-
-
-

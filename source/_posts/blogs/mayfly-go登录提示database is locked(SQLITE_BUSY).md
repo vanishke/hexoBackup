@@ -8,20 +8,21 @@ tags:
 	
 date: 2025-03-06 17:46:28
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 linux: centos7.9
 mayfly-go: 1.9.3
 
-# <span id="inline-blue">现象</span>
+# 现象
 mayfly-go登录提示database is locked(SQLITE_BUSY)
 
-# <span id="inline-blue">原因</span>
+# 原因
 sqlite只支持库级锁，当多线程并发访问sqlite导致触发锁定。
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 
-## <span id="inline-blue">修改sqlite模式</span>
+## 修改sqlite模式
 ```shell
 #打开指定sqlite数据库文件
 sqlite3 mayfly-go.sqlite3
@@ -46,7 +47,7 @@ WAL 的全称是 Write Ahead Logging（预写日志），它是很多数据库�
 3、对于非常大的事务，WAL 的性能将会降低。虽然 WAL 是一个高性能选项，但是非常大或运行时间非常长的事务会引入额外的开销。
 
 
-## <span id="inline-blue">添加查询超时时间</span>
+## 添加查询超时时间
 
 修改busy_timeout参数为5000毫秒,该参数设置了等待其他进程或线程释放数据库锁的时间，单位为毫秒。如果在指定的时间内锁定依然无法释放，则会继续报错
 ```shell

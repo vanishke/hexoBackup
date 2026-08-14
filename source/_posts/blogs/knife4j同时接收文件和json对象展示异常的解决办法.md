@@ -8,9 +8,10 @@ tags:
 
 date: 2025-11-26 14:47:58
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 knife4j-openapi3-spring-boot-starter：4.5.0
 knife4j-gateway-spring-boot-starter：4.5.0
@@ -19,7 +20,7 @@ Springboot: 2.6.6
 Springcloud: 2021.0.6
 JDK: 1.8
 
-# <span id="inline-blue">现象</span>
+# 现象
 
 微服务网关统一集成knife4j依赖，实现微服务模块在线接口文档，模块接口参数需要同时传递接口json对象和文件时，在线接口文档展示错乱。
 
@@ -66,7 +67,7 @@ springdoc:
 ![Knife4j在线文档_01](/images/Knife4j/Knife4j_20251126_002.png)
 
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 
 如果想要同时传递对象和文件，解决办法是关闭default-flat-param-object配置，同时在传递对象参数上添加@ParameterObject注解，这样使得对象参数可以以表单参数的形式展现。
 
@@ -105,7 +106,7 @@ springdoc:
     }
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 ![Knife4j在线文档_01](/images/Knife4j/Knife4j_20251126_003.png)
 ![Knife4j在线文档_01](/images/Knife4j/Knife4j_20251126_004.png)

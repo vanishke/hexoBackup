@@ -9,17 +9,18 @@ tags:
 
 date: 2026-01-19 11:46:37
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">Docker部署SpringCloud微服务文件上传超时问题排查</span>
+# Docker部署SpringCloud微服务文件上传超时问题排查
 
-## <span id="inline-blue">问题背景</span>
+## 问题背景
 
 在生产环境中，系统处理大文件上传时频繁出现超时错误，导致文件上传失败。本文记录了完整的问题排查过程和解决方案。
 
-## <span id="inline-blue">问题现象</span>
+## 问题现象
 
-### <span id="inline-blue">错误日志 1：Tomcat 连接超时</span>
+### 错误日志 1：Tomcat 连接超时
 
 ```
 Caused by: org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException: 
@@ -32,7 +33,7 @@ Caused by: java.net.SocketTimeoutException: null
     at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.fillReadBuffer(NioEndpoint.java:1309)
 ```
 
-### <span id="inline-blue">错误日志 2：Nginx 上游连接重置</span>
+### 错误日志 2：Nginx 上游连接重置
 
 ```
 2026/01/16 16:39:11 [error] 8#8: *81 recv() failed (104: Connection reset by peer) 
@@ -42,16 +43,16 @@ upstream: "http://10.0.0.83:9001/prod/admin/appVersion/upload/74",
 host: "api.example.com:8080"
 ```
 
-## <span id="inline-blue">问题分析</span>
+## 问题分析
 
-### <span id="inline-blue">1. 错误类型分析</span>
+### 1. 错误类型分析
 
 从错误日志可以看出两个关键问题：
 
 - **Tomcat SocketTimeoutException**：Spring Boot 应用在处理 multipart/form-data 请求时，读取客户端数据超时
 - **Nginx Connection reset by peer**：Nginx 在读取上游服务响应时，连接被上游服务器关闭
 
-### <span id="inline-blue">2. 请求链路分析</span>
+### 2. 请求链路分析
 
 文件上传的完整请求链路：
 ```
@@ -63,7 +64,7 @@ host: "api.example.com:8080"
 - Gateway 服务超时配置
 - 业务服务（Tomcat）超时配置
 
-### <span id="inline-blue">3. 根本原因</span>
+### 3. 根本原因
 
 通过排查发现，主要问题在于：
 
@@ -79,9 +80,9 @@ host: "api.example.com:8080"
    - 前端已配置 `timeout: 600000`（10 分钟）
    - 但后端和中间件超时时间不匹配
 
-## <span id="inline-blue">解决方案</span>
+## 解决方案
 
-### <span id="inline-blue">1. Nginx 超时配置调整</span>
+### 1. Nginx 超时配置调整
 
 修改 `docker/nginx/conf/nginx.conf`：
 
@@ -124,9 +125,9 @@ location / {
 - `proxy_send_timeout 600s`：允许向上游服务器发送请求 10 分钟
 - `send_timeout 600s`：允许向客户端发送响应 10 分钟
 
-### <span id="inline-blue">2. Spring Boot 服务超时配置</span>
+### 2. Spring Boot 服务超时配置
 
-#### <span id="inline-blue">2.1 Gateway 服务配置</span>
+#### 2.1 Gateway 服务配置
 
 修改 `ffcs-gateway/src/main/resources/application-prod.yml`：
 
@@ -139,7 +140,7 @@ server:
         keep-alive-timeout: 600000 # Keep-Alive 超时
 ```
 
-#### <span id="inline-blue">2.2 业务服务配置</span>
+#### 2.2 业务服务配置
 
 **ffcs-admin-biz 服务**（`ffcs-admin/ffcs-admin-biz/src/main/resources/application-prod.yml`）：
 
@@ -174,7 +175,7 @@ server:
         keep-alive-timeout: 600000
 ```
 
-### <span id="inline-blue">3. Multipart 配置（已有，确保正确）</span>
+### 3. Multipart 配置（已有，确保正确）
 
 确保 Spring Boot 的 multipart 配置合理：
 
@@ -189,7 +190,7 @@ spring:
             location: /home/lmode/temp # 临时文件目录
 ```
 
-## <span id="inline-blue">配置对比表</span>
+## 配置对比表
 
 | 配置项 | 修改前 | 修改后 | 说明 |
 |--------|--------|--------|------|
@@ -200,7 +201,7 @@ spring:
 | Tomcat connection-timeout | 默认 | 600000ms | Tomcat 连接超时 |
 | Tomcat keep-alive-timeout | 默认 | 600000ms | Keep-Alive 超时 |
 
-## <span id="inline-blue">验证步骤</span>
+## 验证步骤
 
 1. **重启 Nginx**
    ```bash
@@ -222,9 +223,9 @@ spring:
    - 上传大文件（> 50MB）：验证超时问题已解决
    - 监控日志：确认无超时错误
 
-## <span id="inline-blue">注意事项</span>
+## 注意事项
 
-### <span id="inline-blue">1. 超时时间选择</span>
+### 1. 超时时间选择
 
 - **建议值**：600 秒（10 分钟）
 - **考虑因素**：
@@ -233,44 +234,44 @@ spring:
   - 用户体验
   - 服务器资源
 
-### <span id="inline-blue">2. 超时时间一致性</span>
+### 2. 超时时间一致性
 
 确保整个请求链路中的超时时间保持一致或递增：
 ```
 客户端超时 ≥ Nginx 超时 ≥ Gateway 超时 ≥ 业务服务超时
 ```
 
-### <span id="inline-blue">3. 临时文件管理</span>
+### 3. 临时文件管理
 
 大文件上传时，确保：
 - 临时文件目录有足够空间
 - 定期清理临时文件
 - 监控磁盘使用情况
 
-### <span id="inline-blue">4. 性能考虑</span>
+### 4. 性能考虑
 
 增加超时时间虽然解决了问题，但要注意：
 - 长时间连接占用服务器资源
 - 考虑实现分片上传机制
 - 监控连接数和资源使用
 
-## <span id="inline-blue">最佳实践建议</span>
+## 最佳实践建议
 
-### <span id="inline-blue">1. 分片上传</span>
+### 1. 分片上传
 
 对于大文件（> 100MB），建议实现分片上传：
 - 减少单次请求超时风险
 - 支持断点续传
 - 提升上传成功率
 
-### <span id="inline-blue">2. 异步处理</span>
+### 2. 异步处理
 
 对于文件处理任务：
 - 上传后立即返回
 - 后台异步处理文件
 - 通过消息队列通知处理结果
 
-### <span id="inline-blue">3. 监控告警</span>
+### 3. 监控告警
 
 配置监控指标：
 - 上传请求超时率
@@ -278,13 +279,13 @@ spring:
 - 平均上传时长
 - 服务器连接数
 
-### <span id="inline-blue">4. 配置统一管理</span>
+### 4. 配置统一管理
 
 - 将超时配置纳入配置中心管理
 - 支持动态调整
 - 记录配置变更历史
 
-## <span id="inline-blue">问题排查清单</span>
+## 问题排查清单
 
 当遇到文件上传超时问题时，按以下清单排查：
 
@@ -299,7 +300,7 @@ spring:
 - [ ] 检查防火墙和安全组配置
 - [ ] 验证超时时间在整条链路中的一致性
 
-## <span id="inline-blue">总结</span>
+## 总结
 
 通过以上配置调整，我们成功解决了文件上传超时问题。关键点：
 
@@ -313,6 +314,3 @@ spring:
 - 微服务架构中，每个环节的超时配置都很重要
 - 错误日志是问题排查的关键依据
 - 配置变更后要进行充分测试
-
-
-

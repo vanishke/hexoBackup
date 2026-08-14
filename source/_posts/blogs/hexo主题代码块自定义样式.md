@@ -8,29 +8,8 @@ categories:
 date: 2020-11-17 10:05:12
 ---
 
-## <span id="inline-blue">代码块自定义样式</span>
-打开themes/next/source/css/_custom/下的custom.styl,向里面加代码(颜色可以自己定义)
+> 本文记录的是 **NexT 5.x** 主题定制 / 旧插件接入方式。
+> 站点已升级到 **NexT 8.x**，相关优化与接入代码已过时并移除。
+> 请改用站点根目录 `_config.next.yml` 与 [NexT 8 文档](https://theme-next.js.org/)。
 
-```css
-code {
-    color: #ff7600;
-    background: #fbf7f8;
-    margin: 2px;
-}
-// 边框的自定义样式
-.highlight, pre {
-    margin: 5px 0;
-    padding: 5px;
-    border-radius: 3px;
-}
-.highlight, code, pre {
-    border: 1px solid #d6d6d6;
-}
-```
-
-
-
-
-
-
-
+（原「Hexo主题代码块自定义样式」实现代码已清理。）

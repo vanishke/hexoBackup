@@ -9,17 +9,18 @@ tags:
 	
 date: 2025-04-03 10:44:10
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Docker: 27.3.1
 docker compose: v2.29.7
 Emqx: 5.7.2
 Nginx: 1.27.4
 
-# <span id="inline-blue">背景</span>
+# 背景
 docker部署emqx集群服务之后，查看emqx官方文档,建议使用nginx提供https访问并实现负载均衡。
 
-# <span id="inline-blue">实现</span>
+# 实现
 
 docker-swarm-emqx-nginx.yml配置文件如下：
 ```yml
@@ -283,5 +284,3 @@ configure arguments: --prefix=/usr/local/nginx --user=nginx --group=nginx --with
 ```shell
 Error: Client network socket disconnected before secure TLS connection was established
 ```
-
-

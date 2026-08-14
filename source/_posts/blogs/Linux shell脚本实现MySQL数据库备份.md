@@ -8,15 +8,16 @@ tags:
 	
 date: 2025-01-03 16:36:03
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 	Linux: CentOS Linux release 7.7.1908 (Core)
 	MySQL：5.7
-# <span id="inline-blue">背景</span>
+# 背景
 
 线上服务对应数据库没有做备份，担心故障会导致数据丢失和业务异常，所以使用shell脚本定时备份数据库。
 
-# <span id="inline-blue">mysqlBackup.sh</span>
+# mysqlBackup.sh
 
 ```shell
 #!/bin/bash
@@ -65,7 +66,7 @@ mysqldump使用绝对路径，否则通过crontab系统定时任务支持脚本�
 --ignore-table用于指定备份需要忽略的表项，忽略多个表的情况下指定多次。
 BACKUP_SAVE_DAYS参数控制备份文件只保留7天以内。
 
-# <span id="inline-blue">crontab定时任务</span>
+# crontab定时任务
 
 ```shell
 0 1  * * * cd /DB  && sh mysqlBackup.sh /dev/null 2>&1

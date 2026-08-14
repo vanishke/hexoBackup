@@ -8,16 +8,17 @@ tags:
 	
 date: 2025-03-28 15:08:44
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Docker: 27.3.1
 docker compose: v2.29.7
 Emqx: 5.7.2
 
-# <span id="inline-blue">背景</span>
+# 背景
 线上业务涉及大量推送服务，原本使用的极光推送因为使用限制原因改由mqtt实现。
 
-# <span id="inline-blue">实现</span>
+# 实现
 
 ```yml
 services:

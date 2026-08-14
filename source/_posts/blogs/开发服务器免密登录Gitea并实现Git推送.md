@@ -9,9 +9,10 @@ tags:
 
 date: 2026-07-01 17:39:33
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 本文承接上篇 Remote-SSH 远程开发，继续解决一个常见痛点：**在远程开发服务器上 `git push` 时仍需要输入用户名/密码**。
 
@@ -36,7 +37,7 @@ date: 2026-07-01 17:39:33
 
 参见上篇（Cursor Remote-SSH 免密登录）：[Cursor-Remote-SSH免密登录远程开发服务器](./Cursor-Remote-SSH免密登录远程开发服务器.md)
 
-# <span id="inline-blue">环境要求</span>
+# 环境要求
 
 | 项 | 建议/示例 |
 |----|-----------|
@@ -45,7 +46,7 @@ date: 2026-07-01 17:39:33
 | SSH 客户端（远程） | OpenSSH 7.6+（示例：7.6p1） |
 | Gitea | 1.21.x（示例：1.21.11） |
 
-# <span id="inline-blue">核心步骤</span>
+# 核心步骤
 
 ## 在远程开发服务器生成 SSH Key（用于推送）
 
@@ -146,7 +147,7 @@ git push -u origin main
 
 通过标准：不再提示输入用户名/密码，push 正常完成（或显示 `Everything up-to-date`）。
 
-# <span id="inline-blue">配置与验证</span>
+# 配置与验证
 
 | 验证项 | 命令 | 通过标准 |
 |------|------|----------|
@@ -154,7 +155,7 @@ git push -u origin main
 | remote 协议正确 | `git remote -v` | `origin` 为 `ssh://...` 而非 `http(s)://...` |
 | 推送免密 | `git push` | 不询问用户名/密码 |
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -163,7 +164,7 @@ git push -u origin main
 | `Host key verification failed` | known_hosts 冲突或首次未确认 | 删除对应条目：`ssh-keygen -R "[10.88.1.20]:2222"` 后重试 |
 | 多个密钥导致选错 | SSH 自动尝试了其他 key | 在 `~/.ssh/config` 固定 `IdentityFile`，必要时加 `IdentitiesOnly yes` |
 
-# <span id="inline-blue">完整命令清单</span>
+# 完整命令清单
 
 ```bash
 # ── 1. 远程服务器：生成用于 Gitea 的 SSH Key ──
@@ -190,4 +191,3 @@ git push -u origin main
 ```
 
 完成以上步骤后，你的日常流程就是：Remote-SSH 连接远程服务器 → 编码 → `git push`（免密）→ 构建/部署。
-

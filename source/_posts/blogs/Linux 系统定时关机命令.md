@@ -7,10 +7,11 @@ tags:
 	
 date: 2024-06-14 15:03:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">目的</span>
+# 目的
 	Linux服务器空闲时间点自动关机
-# <span id="inline-blue">实现</span>
+# 实现
 添加系统定时任务
 ```shell
 vim /etc/crontab

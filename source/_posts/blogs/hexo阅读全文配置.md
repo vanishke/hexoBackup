@@ -8,7 +8,8 @@ categories:
 date: 2020-11-18 14:23:07
 ---
 
-## <span id="inline-blue">修改[阅读全文]前显示文字数量</span>
+
+## 修改[阅读全文]前显示文字数量
 第一种方式：
 打开 themes/next/_config.yml，搜索关键字 auto_excerpt，开启配置项； 修改length即可修改阅读全文前显示文字数量
 ```shell
@@ -24,11 +25,3 @@ auto_excerpt:
 ```shell
  <!-- more -->
 ```
-
-
-
-
-
-
-
-

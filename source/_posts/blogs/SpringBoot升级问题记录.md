@@ -8,9 +8,10 @@ categories:
 
 date: 2024-05-31 14:11:20
 ---
-## <span id="inline-blue">项目背景</span>
+
+## 项目背景
 项目为实现全链路灰度发布功能，需要引入loadbalance依赖，放弃掉现有hytrix和ribbon,因此将项目微服务框架版本升级
-## <span id="inline-blue">升级内容</span>
+## 升级内容
 |名称|原始版本|新版本|
 |----|----|----|
 |SpringBoot|2.2.6.RELEASE|2.6.6 |
@@ -20,7 +21,7 @@ date: 2024-05-31 14:11:20
 |spring-boot-stater|2.2.6.RELEASE|2.6.6|
 |spring|5.2.5.RELEASE|5.3.18|
 |mybatis-plus|3.3.1|3.5.3|
-### <span id="inline-blue">RedisUtil问题</span>
+### RedisUtil问题
 redis版本升级导致语法变更
 解决方案：
 ```java
@@ -31,7 +32,7 @@ redis版本升级导致语法变更
 修正代码: Cursor<byte[]> cursor = connection.scan(ScanOptions.scanOptions().match(realKey).count(Integer.MAX_VALUE).build());
 ```
 
-### <span id="inline-blue">Junit问题</span>
+### Junit问题
 解决方案：
 SpringBoot升级之后需要自行导入Junit依赖
 ```xml
@@ -43,7 +44,7 @@ SpringBoot升级之后需要自行导入Junit依赖
         </dependency>
 ```
 
-### <span id="inline-blue">定时任务问题</span>
+### 定时任务问题
 spring-boot-starter-quartz 2.5.9 之前使用org.quartz.impl.jdbcjobstore.JobStoreTX定义quartz的默认数据源支持，即如下配置：
 ```properties
 org.quartz.jobStore.class=org.quartz.impl.jdbcjobstore.JobStoreTX
@@ -54,7 +55,7 @@ org.quartz.jobStore.class=org.quartz.impl.jdbcjobstore.JobStoreTX
 org.quartz.jobStore.class=org.springframework.scheduling.quartz.LocalDataSourceJobStore
 ```
 
-### <span id="inline-blue">循环依赖问题</span>
+### 循环依赖问题
 ```java
 Application run failed   org.springframework.boot.SpringApplication.reportFailure(SpringApplication.java:824) 
 org.springframework.context.ApplicationContextException: Failed to start bean 'documentationPluginsBootstrapper'; nested exception is java.lang.NullPointerException
@@ -68,7 +69,7 @@ org.springframework.context.ApplicationContextException: Failed to start bean 'd
 spring.main.allow-circular-references=true
 ```
 
-### <span id="inline-blue">knife4j启动加载问题</span>
+### knife4j启动加载问题
 ![Swagger2.0报错](/images/SpringBoot/SpringBoot_20240531_001.png)
 
 springboot2.6.x以及上版本默认使用的PATH_PATTERN_PARSER而knife4j的springfox使用的是ANT_PATH_MATCHER导致的
@@ -118,7 +119,7 @@ public static BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
 }
 ```
 
-### <span id="inline-blue">微服务启动缺失nacos配置信息导致启动报错</span>
+### 微服务启动缺失nacos配置信息导致启动报错
 问题原因：
 SpringBoot项目，只会识别application.properties 配置文件，并不会自动识别bootstrap.properties。
 bootstrap.yml配置是SpringCloud项目才会用到的，如果你想在springboot项目中用bootstrap.properties，那么你需要添加bootstrap启动器。
@@ -138,7 +139,7 @@ pom.xml添加对应依赖
         </dependency>
 ```
 
-### <span id="inline-blue">hibernate-validator加载报错</span>
+### hibernate-validator加载报错
 Springboot从2.3以后，spring-boot-starter-web中不再引入hibernate-validator
 解决方案：
 pom.xml引入对应依赖
@@ -151,7 +152,7 @@ pom.xml引入对应依赖
 </dependency>
 ```
 
-### <span id="inline-blue">微服务启动时No Feign Client for loadBalancing defined</span>
+### 微服务启动时No Feign Client for loadBalancing defined
 SpringCloud版本升级后移除hytrix熔断和Ribbon负载均衡实现
 解决方案：
 pom.xml手动引入openfeign和loadbalance依赖
@@ -168,7 +169,7 @@ pom.xml手动引入openfeign和loadbalance依赖
         </dependency>
 ```
 
-### <span id="inline-blue">java.lang.NoSuchFieldError: INSTANCE</span>
+### java.lang.NoSuchFieldError: INSTANCE
 启动报错，错误信息如下：
 ```java
 Could not instantiate bean class EventPublishingRunListener   
@@ -179,7 +180,7 @@ exception is java.lang.NoSuchFieldError: INSTANCE
 解决方案：
 排除掉存在冲突的依赖版本，只保留最新的版本。
 
-### <span id="inline-blue">commons-pool2兼容性报错</span>
+### commons-pool2兼容性报错
 错误信息
 ```java
 Description:

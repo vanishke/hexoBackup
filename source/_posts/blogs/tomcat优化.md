@@ -8,7 +8,8 @@ tags:
 date: 2020-11-17 8:23:20
 ---
 
-## <span id="inline-blue">内存优化</span>
+
+## 内存优化
 
 ```txt
 文件名称：catalina.sh 
@@ -18,7 +19,7 @@ JAVA_OPTS="-Djava.awt.headless=true -Xms1024m -Xmx2048m -XX:PermSize=256M -XX:Ma
 
 
 
-## <span id="inline-blue">连接数优化</span>
+## 连接数优化
 
 ```txt
 文件名称：server.xml  
@@ -28,7 +29,7 @@ JAVA_OPTS="-Djava.awt.headless=true -Xms1024m -Xmx2048m -XX:PermSize=256M -XX:Ma
 
 ```
 
-## <span id="inline-blue">启动参数优化</span>
+## 启动参数优化
 
 ```txt
 文件名称：catalina.properties 
@@ -40,6 +41,3 @@ JAVA_OPTS="-Djava.awt.headless=true -Xms1024m -Xmx2048m -XX:PermSize=256M -XX:Ma
 4.修改完之后保存回到eclipse删除以前的tomcat配置，并重新配置
 
 ```
-
-
-

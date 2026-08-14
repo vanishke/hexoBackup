@@ -9,7 +9,8 @@ date: 2022-05-17 11:33:49
 
 ---
 
-## <span id="inline-blue">卸载默认引擎</span>
+
+## 卸载默认引擎
 
 
 
@@ -19,14 +20,14 @@ npm uninstall hexo-renderer-marked –save
 
 
 
-## <span id="inline-blue">安装新渲染引擎和katex引擎</span>
+## 安装新渲染引擎和katex引擎
 
 ```shell
 npm install hexo-renderer-markdown-it --save
 npm install markdown-it-katex --save
 ```
 
-## <span id="inline-blue">引擎设置</span>
+## 引擎设置
 
 修改hexo根目录下_config.xml
 
@@ -58,7 +59,7 @@ math:
 
 ```
 
-## <span id="inline-blue">开启NexT主题math支持</span>
+## 开启NexT主题math支持
 
 修改next主题下_config.xml
 
@@ -82,7 +83,3 @@ math:
     # See: https://github.com/KaTeX/KaTeX/tree/master/contrib/copy-tex
     copy_tex: false
 ```
-
-
-
-

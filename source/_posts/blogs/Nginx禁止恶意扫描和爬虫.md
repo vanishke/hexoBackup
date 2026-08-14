@@ -7,15 +7,16 @@ tags:
 	
 date: 2025-04-27 16:30:25
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 nginx: 1.24.0
 
 
-# <span id="inline-blue">背景</span>
+# 背景
 阿里云服务器部署微服务，Nginx请求日志出现大量莫名其妙的请求日志，并且请求路径携带非法特殊字符竟然导致微服务挂掉，所以需要增加访问过滤和反爬虫设置。
 
-# <span id="inline-blue">过滤非法特殊字符</span>
+# 过滤非法特殊字符
 
 http节点增加如下内容，修复nginx漏洞攻击，并定义非法控制字符
 
@@ -79,7 +80,7 @@ server{
 ```
 
 
-# <span id="inline-blue">过滤ip</span>
+# 过滤ip
 
 nginx配置文件nginx.conf http节点增加如下配置：
 
@@ -104,7 +105,7 @@ deny 203.0.113.12;
 deny 203.0.113.13;
 ```
 
-# <span id="inline-blue">过滤爬虫请求</span>
+# 过滤爬虫请求
 
 nginx配置文件nginx.conf server节点增加如下配置：
 

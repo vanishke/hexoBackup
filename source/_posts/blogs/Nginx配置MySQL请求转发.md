@@ -8,15 +8,16 @@ tags:
 date: 2024-01-12 11:26:20
 
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 nginx : 1.18.1
 MySQL : 5.7
-# <span id="inline-blue">目的</span>
+# 目的
 通过nginx转发MySQL请求，解决内网环境和MySQL网络不能通信的情况
-# <span id="inline-blue">实现</span>
+# 实现
 查看当前nginx版本是否支持ssl
 ```shell
 cd /usr/local/nginx/sbin
@@ -42,7 +43,7 @@ configure arguments: --prefix=/usr/local/nginx --user=nginx --group=nginx --with
 --with-http_ssl_module \
 --with-stream
 ```
-## <span id="inline-blue">nginx配置</span>
+## nginx配置
 nginx当前所在服务器为10.9.216.12,,监听3308端口，将请求转发到10.9.216.14:3306
 ```shell
 user  root;
@@ -73,7 +74,7 @@ stream {
 }
 ```
 strean节点的内容是对应转发的关键配置，其他的信息主要是用于确定节点添加的位置。
-# <span id="inline-blue">数据库连接配置</span>
+# 数据库连接配置
 ```properties
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.url=jdbc:mysql://10.0.0.12:3308/app_main_demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8

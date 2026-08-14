@@ -8,9 +8,10 @@ tags:
 	
 date: 2022-08-26 16:10:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">gc参数设置</span>
+# gc参数设置
 文件名称：run.conf 
 文件路径：/usr/local/sdp_trunk/usm/jboss5/bin
  ## 配置信息
@@ -32,7 +33,7 @@ if [ "x$JAVA_OPTS" = "x" ]; then
 lGCsBeforeCompaction=0 -XX:+CMSClassUnloadingEnabled -XX:+CMSPermGenSweepingEnabled -XX:+CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=85 -XX:SoftRefLRUPolicyMSPerMB=0 -XX:-ReduceInitialCardMarks -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000"
 fi
 ```
-# <span id="inline-blue">gc日志输出</span>
+# gc日志输出
 ```shell
 Total time for which application threads were stopped: 0.0002160 seconds
 Total time for which application threads were stopped: 0.0002200 seconds
@@ -65,5 +66,3 @@ Total time for which application threads were stopped: 0.0001760 seconds
   to   space 65152K,   0% used [0x0000000733860000, 0x0000000733860000, 0x0000000737800000)
  concurrent mark-sweep generation total 2760704K, used 0K [0x0000000737800000, 0x00000007e0000000, 0x00000007e0000000)
  ```
-
-

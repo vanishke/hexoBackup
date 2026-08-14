@@ -7,16 +7,17 @@ tags:
 	- pt-archiver
 date: 2024-03-19 16:24:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">环境</span>
+## 环境
 MySQL : 5.7
 pt-archiver : 3.5.7
-## <span id="inline-blue">背景</span>
+## 背景
 微服务大量请求日志积压数据库表，导致查询很慢，需要将指定一段时间的历史记录清除或者移动到其他数据库表上，减缓查询的压力。
-## <span id="inline-blue">实现</span>
+## 实现
 
-### <span id="inline-blue">pt-archiver</span>
+### pt-archiver
 
 pt-archiver是Percona-Toolkit工具集中的一个组件，是一个主要用于对MySQL表数据进行归档和清除的工具。pt-archiver在清除表数据的过程中并不会影响OLTP事务的查询性能。对于数据的归档，它可以归档到另一台服务器上的另一张表，也可归档到一个文件中，文件可以用LOAD DATA INFILE进行数据装载。
 
@@ -270,4 +271,3 @@ echo 'sys_log_api'_$max_id1 >> $logDir/archivelog_${DATE}.log
 pt-archiver --source u=root,p='<DB_PASSWORD>',h=10.0.0.14,S=/tmp/mysql.sock,D=app_main_20240223,t=sys_log_api,b=true --dest u=root,p='<DB_PASSWORD>',h=10.0.0.14,S=/tmp/mysql.sock,D=app_main_20240223,t=sys_log_api_his,b=true  --where "id < $max_id1" --progress 10000 --no-check-charset --statistics --buffer --limit=10000 --commit-each --no-check-charset --share-lock
 
 ```
-

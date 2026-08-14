@@ -9,9 +9,10 @@ tags:
 
 date: 2026-06-18 15:36:05
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 前置条件：已完成 [Jenkins部署](./Jenkins部署.md)。流水线文件位于项目根目录 `Jenkinsfile`，Harbor 使用乐此加密 HTTPS，无需 `insecure-registries`。
 
@@ -27,7 +28,7 @@ date: 2026-06-18 15:36:05
 | SVN 凭据 ID | `SVN-<项目名>` |
 | Harbor 凭据 ID | `harbor-<项目名>` |
 
-# <span id="inline-blue">流水线目标</span>
+# 流水线目标
 
 ```
 SVN 提交 → post-commit Hook 触发 Jenkins（推荐）
@@ -65,7 +66,7 @@ docker push → Harbor <Harbor项目名-test>
 | `<Harbor项目名-test>` | Jenkins CI 与 Hook 默认推送目标 |
 | `<Harbor项目名-prod>` | 生产发版时手动选择 |
 
-# <span id="inline-blue">Jenkinsfile 与 SVN</span>
+# Jenkinsfile 与 SVN
 
 `Jenkinsfile` 须与 `pom.xml` 一同放在 SVN **仓库根目录**：
 
@@ -85,7 +86,7 @@ svn commit -m "update CI pipeline and per-service build binaries"
 | 默认 `HARBOR_PROJECT` | `<Harbor项目名-test>` |
 | 默认 `SERVICE` | `all` |
 
-# <span id="inline-blue">创建 Pipeline 任务</span>
+# 创建 Pipeline 任务
 
 1. **New Item** → `<Pipeline任务名>` → **Pipeline**
 2. **Pipeline script from SCM** → **Subversion**
@@ -105,7 +106,7 @@ svn commit -m "update CI pipeline and per-service build binaries"
 Finished: SUCCESS
 ```
 
-# <span id="inline-blue">自动触发</span>
+# 自动触发
 
 ## 推荐：SVN post-commit Hook
 
@@ -191,7 +192,7 @@ triggers { pollSCM('H/5 * * * *') }
 
 **可选：** 任务 **Do not allow concurrent builds** 禁止同一任务并行（仍可能有两条记录，但严格串行）。
 
-# <span id="inline-blue">流水线阶段说明</span>
+# 流水线阶段说明
 
 ## Checkout
 
@@ -245,7 +246,7 @@ docker push ...
 | `jattach` | 各 `docker/<项目名>/app-*/bin/jattach`，`COPY bin/jattach` |
 | `docker-compose-wait` | 各 `docker/<项目名>/app-*/docker-compose-wait/wait`，`COPY docker-compose-wait/wait /wait` |
 
-# <span id="inline-blue">手动验证</span>
+# 手动验证
 
 在 Jenkins 服务器上执行：
 
@@ -263,7 +264,7 @@ docker build -f <项目名>/app-gateway/Dockerfile \
 docker push <Harbor地址>:8443/<Harbor项目名-test>/app-gateway:manual-test
 ```
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 现象 | 原因 | 处理 |
 |------|------|------|
@@ -278,11 +279,11 @@ docker push <Harbor地址>:8443/<Harbor项目名-test>/app-gateway:manual-test
 | SVN checkout 失败 | 网络或 URL | 确认 `<SVN服务器IP>:3690`，URL 为仓库根 |
 | 镜像在 test 仓库但连 dev Nacos | Maven 默认 `dev` profile | 评估 CI 使用 `-Ptest` 或与 `HARBOR_PROJECT` 联动 |
 
-# <span id="inline-blue">后续扩展</span>
+# 后续扩展
 
 镜像推送成功后，可通过 SSH 在 Swarm Manager 执行 `docker service update`（需配置 `swarm-ssh-key` 凭据），详见 Swarm 编排文档。
 
-# <span id="inline-blue">相关文件</span>
+# 相关文件
 
 | 文件 | 说明 |
 |------|------|

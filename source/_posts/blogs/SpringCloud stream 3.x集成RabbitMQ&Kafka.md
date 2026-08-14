@@ -7,15 +7,16 @@ tags:
 	
 date: 2025-05-09 17:15:09
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 SpringBoot: 2.6.6
 SpringCloud: 2021.0.6
 SpringCloud stream: 3.2.6
 jdk: 1.8
 
-# <span id="inline-blue">实现</span>
+# 实现
 
 同时加载spring-cloud-stream-binder-kafka和spring-cloud-stream-binder-rabbit依赖
 

@@ -8,13 +8,14 @@ tags:
 	
 date: 2025-10-17 14:53:11
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 OS:  window10
 Docker: 27.5.1
 
 
-# <span id="inline-blue">现象</span>
+# 现象
 Docker部署mysql8.0,容器启动正常，宿主机相关文件目录挂载正常，甚至进入容器内，文件的内容也是一致的，但是mysql配置参数就是不生效。
 mysql对应的配置文件内容如下：
 ```shell
@@ -73,7 +74,7 @@ docker容器部署命令如下：
 docker run  -v D:/dockerVolume/mysql8/conf/:/etc/mysql/conf.d -v D:/dockerVolume/mysql8/data:/var/lib/mysql -v D:/dockerVolume/mysql8/log:/var/log/mysql  --name mysql8 -e MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD> -p 3307:3306  -d mysql:8.0
 ```
 
-# <span id="inline-blue">原因</span>
+# 原因
 进入mysql容器内部登录出现如下提示：
 ```shell
 bash-5.1# mysql -uroot -p<MYSQL_ROOT_PASSWORD>
@@ -94,8 +95,7 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 配置文件权限过于宽松（全局可写），MySQL 出于安全考虑忽略了这个配置文件
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 更改文件属性，设置为只读。
 
 ![Docker mysql配置](/images/docker/20251017/docker_20251017_001.png)
-

@@ -8,9 +8,10 @@ tags:
 
 date: 2026-07-08 17:39:45
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 本文记录如何在 **Windows 开发机**使用 **Cursor + Remote-SSH** 实现**免密 SSH 登录**到一台 Ubuntu 代码开发服务器，并在服务器上打开代码目录进行日常开发。
 
@@ -31,7 +32,7 @@ date: 2026-07-08 17:39:45
 
 参见下篇（远程服务器免密推送到 Gitea）：[开发服务器免密登录Gitea并实现Git推送（下）](./开发服务器免密登录Gitea并实现Git推送（下）.md)
 
-# <span id="inline-blue">环境要求</span>
+# 环境要求
 
 > 版本号以“本教程验证环境”为例，和你的实际环境不一致也通常不影响，核心是 Remote-SSH 能工作、SSH 能免密登录。
 
@@ -51,7 +52,7 @@ date: 2026-07-08 17:39:45
 | 提供者 | Microsoft |
 | 版本 | 0.113.1 |
 
-# <span id="inline-blue">核心步骤</span>
+# 核心步骤
 
 ## 安装 Cursor 与 Remote-SSH 插件
 
@@ -163,7 +164,7 @@ pwd
 ls -la
 ```
 
-# <span id="inline-blue">配置与验证</span>
+# 配置与验证
 
 | 验证项 | 命令/现象 | 通过标准 |
 |------|-----------|----------|
@@ -171,7 +172,7 @@ ls -la
 | Cursor 远程状态 | 左下角显示 `SSH: devbox-02` | 连接稳定、可打开远程文件 |
 | 终端是否远程 | 终端执行 `hostname` | 输出远程主机名（示例：`devbox-02`） |
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -179,7 +180,7 @@ ls -la
 | `Permission denied (publickey)` | `IdentityFile` 指向错误密钥 | 在 `~/.ssh/config` 明确 `IdentityFile`，并用 `ssh -v devbox-02` 查看选用的 key |
 | 连接一段时间后断开 | 网络抖动/空闲断开 | 加 `ServerAliveInterval/CountMax`；必要时调整服务器端 `sshd_config` |
 
-# <span id="inline-blue">完整命令清单</span>
+# 完整命令清单
 
 ```bash
 # ── 1. Windows 本地：生成密钥 ──
@@ -199,4 +200,3 @@ chmod 600 ~/.ssh/authorized_keys
 ```
 
 完成以上配置后，继续按下篇将“远程服务器 → Gitea”也配置为免密推送：参见 [开发服务器免密登录Gitea并实现Git推送](./开发服务器免密登录Gitea并实现Git推送.md)。
-

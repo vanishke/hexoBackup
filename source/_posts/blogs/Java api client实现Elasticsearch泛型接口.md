@@ -7,18 +7,19 @@ tags:
 	
 date: 2025-05-30 17:05:12
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Linux：CentOS Linux release 7.9.2009 (Core)
 ElasticSearch： 8.8.0
 
-# <span id="inline-blue">描述</span>
+# 描述
 
 Elasticsearch升级8.8.0版本后，官方已经弃用之前RestHighLevel方式client,推荐使用java api client方式，于是通过实现通用接口，将常用针对索引的增删改查都统一进行实现。
 
-# <span id="inline-blue">实现</span>
+# 实现
 
-## <span id="inline-blue">Asset</span>
+## Asset
 
 ```java
 
@@ -239,7 +240,7 @@ public class Asset {
 }
 ```
 
-## <span id="inline-blue">Program</span>
+## Program
 
 ```java
 
@@ -295,7 +296,7 @@ public class Program {
 }
 ```
 
-## <span id="inline-blue">注解@Id</span>
+## 注解@Id
 
 ```java
 @Target( { ElementType.FIELD })
@@ -305,7 +306,7 @@ public @interface Id {
 
 ```
 
-## <span id="inline-blue">注解@Index</span>
+## 注解@Index
 
 ```java
 @Retention(RetentionPolicy.RUNTIME)
@@ -317,9 +318,9 @@ public @interface Index {
 
 ```
 
-## <span id="inline-blue">接口实现</span>
+## 接口实现
 
-## <span id="inline-blue">BaseElasticRepository</span>
+## BaseElasticRepository
 
 ```java
 public class BaseElasticRepository<T, PK extends Serializable> {
@@ -541,7 +542,7 @@ public class BaseElasticRepository<T, PK extends Serializable> {
 }
 ```
 
-## <span id="inline-blue">AssetElasticsearchRepository</span>
+## AssetElasticsearchRepository
 
 ```java
 public class AssetElasticsearchRepository extends BaseElasticRepository<Asset,String> {
@@ -560,7 +561,7 @@ public class AssetElasticsearchRepository extends BaseElasticRepository<Asset,St
 }
 ```
 
-## <span id="inline-blue">ProgramElasticsearchRepository</span>
+## ProgramElasticsearchRepository
 
 ```java
 public class ProgramElasticsearchRepository extends BaseElasticRepository<Program,String> {
@@ -568,6 +569,6 @@ public class ProgramElasticsearchRepository extends BaseElasticRepository<Progra
 }
 ```
 
-## <span id="inline-blue">功能描述</span>
+## 功能描述
 
 Asset、Program实体类使用@Id、@index注解，标识Elasticsearch对应索引ID、index名称，BaseElasticRepository通用接口基于java api  client方式实现Elasticsearch 针对索引增删改查以及批量操作，索引文档ID使用自定义组合ID，更加方便针对组合ID查询文档信息。

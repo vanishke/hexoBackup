@@ -7,16 +7,17 @@ tags:
 	
 date: 2023-11-23 09:21:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 Jetty: jetty-9.4.42.v20210604
 Java： 1.8.0_31
-# <span id="inline-blue">背景</span>
+# 背景
 如果您不执行任何操作来配置单独的日志记录框架，Jetty将默认使用内部org.eclipse.jetty.util.log.StdErrLog实施。这会将所有日志记录事件输出到STDERR（aka System.err ）。
 Jetty发行版中包含一个名为的日志模块console-capture能够简单捕获所有STDOUT（ System.out ）和STDERR（ System.err ）输出到每天轮换的文件。
 Jetty部署应用经常503，只打印对应的应用程序日志，无法进一步跟踪错误原因，通过增加配置输出Jetty容器的日志.
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 Jetty启动增加两个默认依赖模块
 console-capture
 logging-jetty

@@ -7,38 +7,9 @@ categories:
 
 date: 2021-01-15 15:50:20	
 ---
-## <span id="inline-blue">安装插件</span>
-hexo站点根目录目录下执行
-```shell
-git clone https://github.com/theme-next/theme-next-needmoreshare2 themes/next/source/lib/needsharebutton
-```
 
-## <span id="inline-blue">修改Next主题配置文件</span>
-打开themes/next/_config.yml 搜索关键字needmoreshare2 修改为下面设置
-```xml
-needmoreshare2:
-  enable: true
-  postbottom:
-    enable: true #开启底部分享按钮
-    options:
-      iconStyle: box
-      boxForm: horizontal
-      position: bottom
-      networks: Weibo,Wechat,Douban,QQZone,Twitter,Facebook
-  float:
-    enable: false #左侧分享不开启
-    options:
-      iconStyle: box
-      boxForm: horizontal
-      position: Left
-      networks: Weibo,Wechat,Douban,QQZone,Twitter,Facebook
-```
+> 本文记录的是 **NexT 5.x** 主题定制 / 旧插件接入方式。
+> 站点已升级到 **NexT 8.x**，相关优化与接入代码已过时并移除。
+> 请改用站点根目录 `_config.next.yml` 与 [NexT 8 文档](https://theme-next.js.org/)。
 
-## <span id="inline-blue">验证</span>
-![分享](/images/hexo/next/hexo_next_2021_01_19_001.png)
-
-
-
-
-
-
+（原「Hexo添加分享功能」实现代码已清理。）

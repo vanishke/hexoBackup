@@ -11,7 +11,8 @@ date: 2023-01-10 09:25:38
 
 ---
 
-# <span id="inline-blue">现象</span> 
+
+# 现象 
 java应用程序接口请求数据无响应，抓取堆栈日志如下：
 
 ```shell
@@ -60,7 +61,7 @@ Full thread dump Java HotSpot(TM) 64-Bit Server VM (25.131-b11 mixed mode):
 
 搜索了下堆栈关键字信息,网上解释说这个问题是由于jdk的漏洞导致，但这个问题是最近才发现，所以继续查找对应的可能信息
 
-# <span id="inline-blue">分析</span> 
+# 分析 
 查看文件打开数设置：
 ```shell
 ulimit -a
@@ -92,7 +93,7 @@ ulimit -n
 发现无法生效，继续排查原因发现在系统日志目录下/var/log/messages,打印错误信息，提示UsePAM参数不支持，参考网上解决方案https://www.jianshu.com/p/db918237644a，
 意思是说openssh模块开始安装的时候没有添加--with-pam 选项，导致PAM参数无法更改。
 
-# <span id="inline-blue">解决办法</span> 
+# 解决办法 
 在不重装openssh模块的前提下：
 应用程序的文件打开数实际是由/proc/pid/limits文件控制，如果能修改为65535，那也能规避这个问题。通过将应用重启命令加入到自启动(rc.local),添加命令内容如下：
 
@@ -105,7 +106,7 @@ sh start.sh;
 这样修改之后如果重启jboss，则参数恢复到1024,将ulimit -HSn 65535添加到start.sh文件开始位置,
 保证即使重启也能生效，避免应用程序接口响应现象不一致的问题。
 
-# <span id="inline-blue">验证</span> 
+# 验证 
 20601为应用程序进程号
 
 ```shell
@@ -113,11 +114,3 @@ cat /proc/20601/limits
 ```
 
 ![验证](/images/Jboss/20221117_Jboss_002.png)
-
-
-
-
-
-
-
-

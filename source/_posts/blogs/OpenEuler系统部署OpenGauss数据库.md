@@ -8,15 +8,16 @@ tags:
 	
 date: 2024-08-09 15:42:21	
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 系统：openEuler release 20.03 (LTS-SP3)
 数据库： openGauss-6.0.0-RC1
-# <span id="inline-blue">背景</span>
+# 背景
 项目应用为集成国产系统和数据库，基于安全和性能上考虑选择openEuler系统和openGauss数据库
-# <span id="inline-blue">实现</span>
+# 实现
 
-## <span id="inline-blue">关闭防火墙</span>
+## 关闭防火墙
 ```shell
 [root@openeuler172 ~]# systemctl stop firewalld.service
 [root@openeuler172 ~]# systemctl status firewalld.service
@@ -32,7 +33,7 @@ date: 2024-08-09 15:42:21
 8月 09 16:05:37 openeuler172 systemd[1]: Stopped firewalld - dynamic firewall daemon.
 ```
 
-## <span id="inline-blue">设置字符集和环境变量</span>
+## 设置字符集和环境变量
 ```shell
 [root@openeuler172 ~]# vim /etc/profile
 #文件末尾添加如下内容,packagePath为安装后OpenGauss所在位置，根据实际安装路径修改
@@ -45,12 +46,12 @@ export LD_LIBRARY_PATH=$packagePath/script/gspylib/clib:$LD_LIBRARY_PATH
 [root@openeuler172 ~]# echo $LD_LIBRARY_PATH
 /data/openGauss/script/gspylib/clib
 ```
-## <span id="inline-blue">下载数据库安装包</span>
+## 下载数据库安装包
 将openGauss安装包上传至/data/openGauss
 openGauss下载地址：https://opengauss.org/zh/download/
 下载页面，架构选择X86_64,系统选择openEuler release 20.03
 架构和系统一定要和实际安装一致，否则安装过程会出现依赖缺失问题。
-## <span id="inline-blue">安装OpenGauss数据库</span>
+## 安装OpenGauss数据库
 ```shell
 #创建openGauss管理员用户组
 [root@openeuler172 ~]# groupadd dbgroup
@@ -147,7 +148,7 @@ libcgroup          openGauss-6.0.0-RC1-openEuler-64bit-om.tar.gz   upgrade_sql.s
 执行过程中会提示设置omm管理用户的密码，设置完成后记住就行。
 
 
-## <span id="inline-blue">数据库基本操作</span>
+## 数据库基本操作
 ```shell
 #将openGauss数据库安装目录的所属群组赋予omm:dbgroup，并给与相应读写、执行权限
 [root@openeuler172 openGauss]# cd /data/openGauss/script/
@@ -190,6 +191,4 @@ openGauss=# \dt #查看数据库所有表名
 openGauss=# \d mytable #查看表结构
 openGauss=# \d+ mytable #查看表结构
 ```
-参考官方文档：<a id="download" href="/images/OpenGauss/openEuler-openGauss.pdf"><i class="fa fa-download"></i><span>官方文档</span> </a>
-
-
+参考官方文档：<a href="/images/OpenGauss/openEuler-openGauss.pdf">官方文档</a>

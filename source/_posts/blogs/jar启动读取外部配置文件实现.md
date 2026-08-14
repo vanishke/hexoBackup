@@ -7,10 +7,11 @@ tags:
 	
 date: 2023-08-11 14:35:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">背景</span>
+# 背景
 项目编译打成jar包后，配置文件包含在jar包内部不方便修改，希望实现本地启动读取classpath路径下的配置信息，在生产环境部署的情况下读取同级目录下的配置信息
-# <span id="inline-blue">实现</span>
+# 实现
 通过静态工具类读取配置信息
 1、本地开发时读取资源目录下的配置文件信息
 2、打成jar包部署时，资源文件放置在jar包同级conf目录下
@@ -147,7 +148,7 @@ public class PropertiesUtil {
  java -jar -Dlog4j.configuration=file:./conf/log4j.properties XXX.jar &
  ```
  
- # <span id="inline-blue">启动命令</span>
+ # 启动命令
  start.sh
  ```shell
  #!/bin/sh

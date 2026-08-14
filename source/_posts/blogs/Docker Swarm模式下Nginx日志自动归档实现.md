@@ -10,15 +10,16 @@ tags:
 	
 date: 2026-04-16 11:43:13
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 在 Docker Swarm 模式下运行 Nginx 时，如果 Nginx 将请求日志写入容器内文件（例如 `/var/log/nginx/access.log` / `error.log`），通常会将该目录 bind mount 到宿主机目录，方便集中查看与持久化。
 
 本篇目标是实现：仅在本机进行日志轮转保留（自动归档），不引入 ELK/Loki/S3 等集中式日志系统。核心方案是：宿主机使用 `logrotate` 对挂载目录中的 Nginx 日志进行轮转/压缩/保留。
 
-# <span id="inline-blue">环境信息</span>
+# 环境信息
 
 宿主机系统版本：
 
@@ -27,7 +28,7 @@ date: 2026-04-16 11:43:13
 AlmaLinux release 9.5 (Teal Serval)
 ```
 
-# <span id="inline-blue">Nginx 日志关键配置</span>
+# Nginx 日志关键配置
 
 `nginx.conf` 中与日志相关的关键配置如下：
 
@@ -48,7 +49,7 @@ error_log  /var/log/nginx/error.log;
 - Nginx 将访问日志写入 `/var/log/nginx/access.log`，错误日志写入 `/var/log/nginx/error.log`。
 - 在 Swarm 部署时，通常会把容器的 `/var/log/nginx` 目录挂载到宿主机目录（例如 `/usr/local/docker/nginx/logs`），宿主机即可直接拿到日志文件。
 
-# <span id="inline-blue">Docker Swarm 下的日志落盘方式</span>
+# Docker Swarm 下的日志落盘方式
 
 典型做法是对 Nginx 服务做 bind mount，把容器的 `/var/log/nginx` 映射到宿主机目录（本机归档诉求下，日志留在本节点即可）：
 
@@ -61,7 +62,7 @@ error_log  /var/log/nginx/error.log;
 - 在 Swarm 场景中，服务任务可能重建，但只要日志目录是宿主机挂载目录，日志文件就不会随容器删除而丢失。
 - 如果同一节点可能同时跑多个副本（`replicas > 1` 且调度到同一节点），要避免多个 task 写同一份日志文件（否则轮转会“打架”）。本篇前提是：同一节点对应该日志目录只有一个 Nginx 写入者（常见是 `global` 模式每节点一份，或 `replicas=1`）。
 
-# <span id="inline-blue">logrotate 配置（自动轮转归档）</span>
+# logrotate 配置（自动轮转归档）
 
 `logrotate` 配置目录：
 
@@ -107,9 +108,9 @@ error_log  /var/log/nginx/error.log;
 - **`sharedscripts`**：多个日志匹配到同一段配置时，`postrotate/ prerotate` 脚本只执行一次（避免对同一服务重复 `reopen`）。
 - **`postrotate ... endscript`**：轮转完成后执行脚本。本例通过 `docker exec ... nginx -s reopen` 让 nginx 重新打开日志文件句柄，确保轮转后继续写入新文件而不是写到旧文件上。
 
-# <span id="inline-blue">验证 logrotate 是否生效</span>
+# 验证 logrotate 是否生效
 
-## <span id="inline-blue">手动执行一次</span>
+## 手动执行一次
 
 1）先用调试模式查看会做哪些动作（不会真的轮转）：
 
@@ -135,7 +136,7 @@ ls -lh /usr/local/docker/nginx/logs/
 - `access.log-YYYYMMDD` 或 `access.log-YYYYMMDD.gz`（历史归档）
 - `error.log` 同理
 
-## <span id="inline-blue">查看是否由 systemd timer / cron 自动触发</span>
+## 查看是否由 systemd timer / cron 自动触发
 
 AlmaLinux 9 通常是 systemd timer 驱动 `logrotate`（也可能存在 cron 兜底，取决于安装与配置）。
 
@@ -171,7 +172,7 @@ journalctl -u logrotate.service --since "7 days ago"
 ls -l /var/lib/logrotate/status /var/lib/logrotate.status 2>/dev/null
 ```
 
-## <span id="inline-blue">systemd 定时执行失败但手动执行正常（ProtectSystem 权限限制）</span>
+## systemd 定时执行失败但手动执行正常（ProtectSystem 权限限制）
 
 现象是：手动执行 `logrotate -vf /etc/logrotate.d/photoframe-nginx` 正常，但通过 systemd timer 触发的 `logrotate.service` 失败。
 
@@ -223,9 +224,9 @@ systemctl restart logrotate.service
 systemctl show logrotate.service -p ReadWritePaths
 ```
 
-# <span id="inline-blue">常见问题与注意事项</span>
+# 常见问题与注意事项
 
-## <span id="inline-blue">同节点多副本写同一目录</span>
+## 同节点多副本写同一目录
 
 如果某节点同时运行多个 Nginx task，并且都挂载到同一个宿主机日志目录且写同名文件，会导致：
 
@@ -234,11 +235,10 @@ systemctl show logrotate.service -p ReadWritePaths
 
 建议保证 同节点同一路径只有一个写入者（例如使用 `global` 或确保 `replicas=1`），或者按 task/节点拆分日志目录与文件名。
 
-## <span id="inline-blue">权限问题</span>
+## 权限问题
 
 确保容器内 Nginx 写日志用户对挂载目录有写权限；同时宿主机执行轮转的用户（本例为 root）对目录有读写权限。若系统启用了更严格的权限策略（某些 RHEL 系发行版），可在配置段内增加 `su root root` 来明确以 root 身份轮转（否则可能出现 “permission denied” 或轮转脚本不执行）。
 
-# <span id="inline-blue">总结</span>
+# 总结
 
 在 Docker Swarm 下，如果 Nginx 以“写文件日志 + 挂载宿主机目录”的方式落盘，并且只需要本机轮转保留（归档），最稳妥的方式是：在每个节点上使用 `logrotate` 对挂载目录的 `*.log` 进行 `daily + rotate + compress` 轮转。该方式与容器生命周期解耦，容器重建不影响历史归档文件。
-

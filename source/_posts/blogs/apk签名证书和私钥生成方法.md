@@ -8,8 +8,9 @@ tags:
 
 date: 2025-11-14 16:07:18
 ---
+
 <!-- toc -->
-# <span id="inline-blue">使用keytool生成密钥对，存储到JKS格式的密钥库中</span>
+# 使用keytool生成密钥对，存储到JKS格式的密钥库中
 
 ```shell
 keytool -genkeypair \
@@ -30,7 +31,7 @@ keytool -genkeypair \
 -storepass  密钥库的访问密码（保护整个密钥库）<br>
 -keypass    密钥对自身的密码（保护私钥，此处与密钥库密码相同）<br>
 
-# <span id="inline-blue">从JKS密钥库中导出证书（DER格式，包含公钥</span>
+# 从JKS密钥库中导出证书（DER格式，包含公钥
 ```shell
 keytool -exportcert \
   -alias istore \                  
@@ -45,7 +46,7 @@ keytool -exportcert \
 -storepass  密钥库访问密码（验证权限）<br>
 -file       导出的证书文件名（DER格式，二进制）<br>
 
-# <span id="inline-blue">使用openssl将DER格式证书转换为PEM格式（文本格式，便于查看和使用</span>
+# 使用openssl将DER格式证书转换为PEM格式（文本格式，便于查看和使用
 
 
 ```shell
@@ -59,7 +60,7 @@ openssl x509 \
 -in          输入的DER格式证书文件 <br>
 -out         输出的PEM格式文件（包含公钥）<br>
 
-# <span id="inline-blue">将JKS格式密钥库转换为PKCS12格式(更通用的密钥库格式，跨平台支持更好)</span>
+# 将JKS格式密钥库转换为PKCS12格式(更通用的密钥库格式，跨平台支持更好)
 
 ```shell
 keytool -importkeystore \
@@ -81,7 +82,7 @@ keytool -importkeystore \
 -deststorepass 目标密钥库密码 <br>
 -alias         要转换的密钥对别名 <br>
 
-# <span id="inline-blue">从PKCS12密钥库中提取私钥(PEM格式，文本)</span>
+# 从PKCS12密钥库中提取私钥(PEM格式，文本)
 
 
 ```shell
@@ -98,7 +99,7 @@ openssl pkcs12 \
 -nocerts 只提取私钥，不提取证书 <br>
 -out     输出的临时私钥文件（PEM格式）<br>
 
-# <span id="inline-blue">将PEM格式私钥转换为PKCS#8 DER格式(二进制，常用于Java等平台)</span>
+# 将PEM格式私钥转换为PKCS#8 DER格式(二进制，常用于Java等平台)
 
 ```shell
 openssl pkcs8 \
@@ -117,4 +118,3 @@ openssl pkcs8 \
 -in      输入的PEM格式私钥 <br>
 -out     输出的PKCS#8 DER格式私钥文件 <br>
 -nocrypt 不加密输出文件（否则会要求设置密码）<br>
-

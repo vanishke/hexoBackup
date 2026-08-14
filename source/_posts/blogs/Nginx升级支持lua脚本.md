@@ -8,18 +8,19 @@ tags:
 	
 date: 2025-04-21 17:03:09
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Linux: CentOS Linux release 7.4.1708 (Core) 
 nginx: 1.24.0
 luajit2: 2.0.4
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 线上服务支付宝相关接口服务使用nginx代理，请求携带特殊字符导致出现400错误，需要借助lua脚本实现特殊字符编码转换。
 
-# <span id="inline-blue">安装依赖</span>
+# 安装依赖
 
 ```shell
 yum install -y zlib zlib-devel
@@ -28,7 +29,7 @@ yum install -y pcre pcre-devel
 yum install -y openssl openssl-devel
 ```
 
-# <span id="inline-blue">下载nginx源码</span>
+# 下载nginx源码
 
 ```shell
 cd /usr/local/
@@ -36,7 +37,7 @@ wget https://nginx.org/download/nginx-1.24.0.tar.gz
 tar -zxvf nginx-1.24.0.tar.gz
 ```
 
-# <span id="inline-blue">下载luajit2并编译</span>
+# 下载luajit2并编译
 
 ```shell
 wget http://luajit.org/download/LuaJIT-2.0.5.tar.gz
@@ -48,7 +49,7 @@ $ make install
 或者访问https://github.com/openresty/luajit2/releases/tag/,下载对应版本
 
 
-## <span id="inline-blue">设置luajit2环境变量</span>
+## 设置luajit2环境变量
 ```shell
 export LUAJIT_LIB=/usr/local/lib
 export LUAJIT_INC=/usr/local/include/luajit-2.0
@@ -56,9 +57,9 @@ echo "/usr/local/lib" > /etc/ld.so.conf.d/usr_local_lib.conf
 ldconfig
 ```
 
-# <span id="inline-blue">下载相关模块</span>
+# 下载相关模块
 
-## <span id="inline-blue">ngx_devel_kit</span>
+## ngx_devel_kit
 
 ```shell
 wget https://github.com/simpl/ngx_devel_kit/archive/v0.3.2.tar.gz
@@ -68,7 +69,7 @@ tar zxvf v0.3.2.tar.gz
 ```
 
 
-## <span id="inline-blue">lua-nginx-module</span>
+## lua-nginx-module
 
 ```shell
 $ wget https://github.com/openresty/lua-nginx-module/archive/v0.10.13.tar.gz
@@ -78,7 +79,7 @@ lua-nginx-module-0.10.13
 
 ```
 
-# <span id="inline-blue">重新编译nginx</span>
+# 重新编译nginx
 
 ```shell
 cd /usr/local/nginx-1.24.0
@@ -102,9 +103,9 @@ error: 'ngx_http_headers_in_t' has no member named 'cookies'
 
 重新编译就可以了
 
-# <span id="inline-blue">lua配置</span>
+# lua配置
 
-## <span id="inline-blue">nginx添加lua支持</span>
+## nginx添加lua支持
 
 ```shell
 http {
@@ -114,7 +115,7 @@ http {
 }
 ```
 
-## <span id="inline-blue">nginx添加lua支持</span>
+## nginx添加lua支持
 
 ```shell
 			location = /lua_content {
@@ -125,6 +126,6 @@ http {
         }
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 访问测试 location（如 `curl http://127.0.0.1/lua`），期望返回 `Hello world!`（或你配置的输出）。

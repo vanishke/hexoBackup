@@ -8,9 +8,10 @@ categories:
 
 date: 2024-10-21 09:20:11	
 ---
-# <span id="inline-blue">背景</span> 
+
+# 背景 
 Windows安装新版本JDK8，安装之后更改系统环境变量发现不生效
-# <span id="inline-blue">解决方案</span> 
+# 解决方案 
 查看系统环境变量下 JDK 和 JRE 路径是否正常（`JAVA_HOME` / `JRE_HOME` 指向新安装目录）。
 ![Windows环境下JDK配置](/images/Windows/Windows_JDK_20241021_001.png)
 查看系统 Path 环境变量，关注 `Oracle\Java\javapath` 与 `%JAVA_HOME%\bin` 的先后顺序：
@@ -30,7 +31,7 @@ C:\Program Files\TortoiseSVN\bin;C:\Users\<USER_ID>\AppData\Roaming\npm;%MVND_HO
 %JAVA_HOME%\bin;%JRE_HOME%\bin; 路径引用在C:\Program Files (x86)\Common Files\Oracle\Java\javapath后面，发现在对应路径下面存在java.exe执行文件，Path路径命令查找逻辑是只要找到对应的命令就成功返回，不会全部扫描。
 将%JAVA_HOME%\bin;%JRE_HOME%\bin;移动到命令扫描的第一行即可。
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 ```shell
 where java
@@ -38,4 +39,3 @@ java -version
 ```
 
 期望：`where java` 首条落在 `%JAVA_HOME%\bin\java.exe`，`java -version` 与新安装版本一致。
-

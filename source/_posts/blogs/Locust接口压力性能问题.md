@@ -7,9 +7,10 @@ tags:
 	
 date: 2023-04-21 14:07:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 使用locust做接口压力测试，发现RPS在550个用户的并发压力下急剧下降，查看接口所在服务器的cpu、内存、IO、网络传输状态都是正常。
 查看cpu使用情况命令：top
 多核的情况下使用mpstat -P ALL 2 1000 可以查看具体每个核上的压力
@@ -23,7 +24,7 @@ locust的启动命令：locust -f getprograms.py -P 8888
 -f:指定压测脚本
 上述命令在压测脚本所在目录执行。
 
-# <span id="inline-blue">脚本内容</span>
+# 脚本内容
 
 ```shell
 from locust import task, between
@@ -58,22 +59,21 @@ class httpResponse(HttpUser):
         self.client.post(url, data=put_data, headers=headers, name="GetPrograms")
 ```
 
-# <span id="inline-blue">问题原因</span>
+# 问题原因
 
 locust对多核系统支持不是很好，常规启动的情况下locust会把所有的压力给到一个cpu核心，导致单核cpu占用过高后，RPS急剧下降。
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 采用单机主从模式或则多机主从模式
-## <span id="inline-blue">单机主从模式</span>
+## 单机主从模式
 启动主节点命令： locust -f getprograms.py -P 8888 --master
 启动从节点命令： locust -f getprograms.py -P 8888 --worker
 上述命令可以打开多个linux窗口，针对同一个脚本执行，不需要拷贝多份脚本。
 
-## <span id="inline-blue">多机主从模式</span>
+## 多机主从模式
 启动主节点命令： locust -f getprograms.py -P 8888 --master
 启动从节点命令： locust -f getprograms.py -P 8888 -master-host=10.9.217.33
 上述命令可以打开多个linux窗口，针对同一个脚本执行，不需要拷贝多份脚本。
 
-# <span id="inline-blue">验证</span>
+# 验证
 ![Jboss容器自启动](/images/Locust/Locust_20230421_001.png)
-

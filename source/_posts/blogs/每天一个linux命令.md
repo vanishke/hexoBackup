@@ -8,13 +8,14 @@ top: 1
 
 date: 2022-05-19 10:17:29
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">文件和目录管理 </span>
+# 文件和目录管理
 
 
 
-## <span id="inline-blue">chgrp命令</span>
+## chgrp命令
 
 **作用**
 ```shell
@@ -39,7 +40,7 @@ elasticsearch-2738171260560954631  erm_gd  mysql.sock  pulse-24KvvDfOHjjf  v8-co
 "erm_gd/dg_erm_mysql.sql" 的所属组已更改为report_hrb
 "erm_gd" 的所属组已更改为report_hrb
 ```
-## <span id="inline-blue">chattr命令</span>
+## chattr命令
 
 **作用**
 ```shell
@@ -92,7 +93,7 @@ You have new mail in /var/spool/mail/root
 
 
 
-## <span id="inline-blue">more命令</span>
+## more命令
 
 **作用**
 	基于vi编辑文本过滤器，以全屏幕分页显示文件内容，支持vi模式下关键字定位操作。
@@ -144,7 +145,7 @@ worker_processes  1;
 
 
 
-## <span id="inline-blue">find命令</span>
+## find命令
 
 **作用**
 	find命令用来在指定目录下查找对应的文件，如果不设置任何参数的话，则在当前目录下查找，并将结果全部显示。
@@ -274,7 +275,7 @@ exp1, exp2
 
 
 
-## <span id="inline-blue">dirname命令
+## dirname命令
 
 ***作用***
 去除参数里面非目录部分
@@ -298,7 +299,7 @@ exp1, exp2
 . 
 ```
 
-## <span id="inline-blue">iconv命令</span>
+## iconv命令
 
 ***作用***
 	转换文件编码
@@ -348,8 +349,3 @@ listed with several different names (aliases).
 
   示例：tar -zxvf etl.V300R002B042.tar.gz 
 ```
-
-
-
-
-

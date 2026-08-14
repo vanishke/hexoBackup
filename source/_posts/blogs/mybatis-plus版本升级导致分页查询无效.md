@@ -7,17 +7,18 @@ categories:
 
 date: 2024-05-31 15:43:20
 ---
-## <span id="inline-blue">环境</span>
+
+## 环境
 os: Linux centos 7.9
 Java: 1.8
 SpringBoot: 2.6.6
 SpringCloud: 2021.0.6
 mybatis-plus: 3.3.1
 
-### <span id="inline-blue">现象</span>
+### 现象
 后台管理页面查询一直卡死，断点之后发现传递的分页参数没有效果，导致一次加载所有数据。
 
-### <span id="inline-blue">解决方案</span>
+### 解决方案
 mybatisPlusConfig升级前配置：
 ```java
 package com.xxx.xxx.common.config.mybatis;

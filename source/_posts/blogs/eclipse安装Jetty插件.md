@@ -8,7 +8,8 @@ categories:
 
 date: 2021-08-31 18:07:15	
 ---
-# <span id="inline-blue">插件下载地址连接失败解决办法</span> 
+
+# 插件下载地址连接失败解决办法 
 1. 访问https://github.com.ipaddress.com/ 查找到github公网IP地址
 ![查找结果](/images/intelliJ/intelliJ_2021_04_29_001.png)
 
@@ -22,7 +23,7 @@ cmd命令模式下执行以下命令：
 ipconfig /flushdns
 ```
 
-# <span id="inline-blue">在线安装</span> 
+# 在线安装 
 eclipse菜单栏依次点击  Help>eclipse Marketplace
 安装版本选择第一项(可以切换不同的版本),安装之后重启eclispe,jetty插件才能生效
 ![安装步骤1](/images/eclipse/eclipse_jetty_2021_08_31_001.png)
@@ -36,11 +37,3 @@ eclipse菜单栏依次点击  Help>eclipse Marketplace
 ![安装步骤5](/images/eclipse/eclipse_jetty_2021_08_31_005.png)
 配置项目部署class文件以及依赖jar包,主要解决子项目依赖导致jar包冲突
 ![安装步骤6](/images/eclipse/eclipse_jetty_2021_08_31_006.png)
-
-
-
-
-
-
-
-

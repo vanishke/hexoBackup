@@ -7,9 +7,10 @@ tags:
 	
 date: 2023-04-21 14:35:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 接口并发压力测试下，RPS耗时非常严重，使用jstack命令抓取堆栈，发现线程在JAXBUtil.jaxbStreamToBean(JAXBUtil.java:314)方法耗时特别严重。
 ```java
 "http-0.0.0.0-8080-472" daemon prio=10 tid=0x00007f4a00371000 nid=0x11891 runnable [0x00007f46c003d000]
@@ -150,7 +151,7 @@ date: 2023-04-21 14:35:20
 	- None
 
 ```
-# <span id="inline-blue">原始JAXBUtil</span>
+# 原始JAXBUtil
 
 ```java
 package com.coship.usm.util;
@@ -474,7 +475,7 @@ public class JAXBUtil<T extends Object>
 ```
 main方法多线程执行的情况下缓存几乎没有作用，耗时特别严重。
 ![JAXB性能优化](/images/JAXB/JAXB_20230421_001.png)
-# <span id="inline-blue">问题原因</span>
+# 问题原因
 
 JAXBContent类是线程安全的、Unmarshal、Marshal是非线程安全的。
 JAXBContent采用单例进行实例化，map缓存class对应的JAXBContent实例。
@@ -535,7 +536,7 @@ JAXBContent采用单例进行实例化，map缓存class对应的JAXBContent实�
 ```
 applicationContext-jaxb.xml文件放在/src/main/resources目录下即可。
 constructor-arg节点配置的是由@XmlRootElement注解的xml根节点类路径，多个接口的情况下需要都配置上。
-# <span id="inline-blue">JAXB优化</span>
+# JAXB优化
 JAXB.java
 ```java
 package com.coship.usm.util;
@@ -877,7 +878,7 @@ public class SpringContextUtil
 
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 JAXBTest.java
 ```java
 package com.coship.usm.base;
@@ -925,4 +926,3 @@ public class JAXBTest {
 
 ```
 ![JAXB性能优化验证](/images/JAXB/JAXB_20230421_002.png)
-

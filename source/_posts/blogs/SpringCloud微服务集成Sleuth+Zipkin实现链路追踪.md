@@ -10,13 +10,14 @@ categories:
 	
 date: 2024-06-14 9:45:20
 ---
-## <span id="inline-blue">环境</span>
+
+## 环境
 Java: 1.8
 SpringBoot: 2.2.6.Release
 SpringCloud: 2021.0.5
 Sleuth: 2.2.8.RELEASE
 Zipkin：2.2.8.RELEASE
-### <span id="inline-blue">背景</span>
+### 背景
 SpringCloud集群部署之后，线上问题的排查和分析变得异常繁琐，通过日志定位问题原因总是花费不少时间，于是想要通过集成链路追踪的插件实现调用链路的实时分析，集成Sleuth+Zipkin.
 Sleuth:
 sleuth 是一个 Go 库，它提供无主对等自动发现和位于同一网络上的 HTTP 服务之间的 RPC。它以最低配置运行，并提供一种机制，既可以作为不提供服务的客户端加入本地网络，也可以作为使用 HTTP 的任何服务加入本地网络。它的主要用例是同一网络上相互调用的微服务。
@@ -30,7 +31,7 @@ Zipkin:
 zipkin是一个分布式追踪系统，能够收集服务间调用的时序数据，提供调用链路的追踪，在微服务架构下，十分方便地用于服务响应延迟等问题的定位。
 zipkin每一个调用链路通过一个trace id来串联起来，只要你有一个trace id，就能够直接定位到这次调用链路，并且可以根据服务名、标签、响应时间等进行查询，过滤那些耗时比较长的链路节点。
 
-### <span id="inline-blue">实现</span>
+### 实现
 模块增加依赖如下：
 ```xml
 		<dependency>
@@ -57,13 +58,13 @@ spring.zipkin.discoveryClientEnabled=false
 spring.zipkin.sender.type=web
 ```
 
-### <span id="inline-blue">Zipkin部署</span>
+### Zipkin部署
 github地址：https://github.com/openzipkin/zipkin
 为了后续集成Elasticsearch8.x版本,部署使用zipkin-server-2.26.0-exec.jar
 Maven仓库地址：https://mvnrepository.com/artifact/io.zipkin/zipkin-server/2.26.0
 Zipkin-2.26.0版本的启动需要JDK11.
 Zipkin采集数据的存储方式主要支持内存、MySQL、Elasticsearch、Cassandra，下面主要介绍内存、MySQL、Elasticsearch三种方式的部署。
-#### <span id="inline-blue">内存模式</span>
+#### 内存模式
 start.sh脚本内容如下：
 ```shell
 #!/bin/bash
@@ -72,7 +73,7 @@ kill -9 $pid
 nohup /usr/local/java/jdk-11.0.18/bin/java  -jar zipkin-server-2.26.0-exec.jar  > ./info.log &
 ```
 
-#### <span id="inline-blue">MySQL模式</span>
+#### MySQL模式
 MySQL服务器新建数据库Zipkin，数据库版本要求5.6+
 导入如下脚本内容：
 ```sql
@@ -132,7 +133,7 @@ pid=$(ps -ef | grep zipkin-server-2.26.0-exec.jar | grep -v grep | awk '{print $
 kill -9 $pid
 nohup /usr/local/java/jdk-11.0.18/bin/java  -jar zipkin-server-2.26.0-exec.jar --STORAGE_TYPE=mysql --MYSQL_HOST=10.9.216.12 --MYSQL_TCP_PORT=3306 --MYSQL_USER=root --MYSQL_PASS=coship --MYSQL_DB=zipkin > ./info.log &
 ```
-#### <span id="inline-blue">Elasticsearch模式</span>
+#### Elasticsearch模式
 start_elasticsearch.sh脚本内容如下：
 ```shell
 #!/bin/bash
@@ -141,7 +142,7 @@ kill -9 $pid
 nohup /usr/local/java/jdk-11.0.18/bin/java  -jar zipkin-server-2.26.0-exec.jar  --STORAGE_TYPE=elasticsearch --ES_HOSTS=http://10.9.216.12:9200 > ./info.log &
 ```
 
-### <span id="inline-blue">链路分析验证</span>
+### 链路分析验证
 链路信息：
 ![Zipkin链路](/images/Zipkin/Zipkin_20240614_001.png)
 请求耗时分析：

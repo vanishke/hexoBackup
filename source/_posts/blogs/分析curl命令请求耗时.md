@@ -8,15 +8,16 @@ tags:
 	
 date: 2024-02-26 15:11:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">环境</span>
+## 环境
 Linux : CentOS Linux release 7.6.1810 (Core) 
 
-## <span id="inline-blue">背景</span>
+## 背景
 项目部署Linux服务器之后，接口涉及第三方请求耗时达到3秒左右，需要进一步分析耗时发生在那个阶段
 
-## <span id="inline-blue">实现</span>
+## 实现
 curl命令统计各阶段耗时
 在当前调用curl命令路径下新建一个文件curl-format.txt，文件内部添加以下内容
 ```shell
@@ -60,8 +61,3 @@ time_pretransfer：从请求开始到响应开始传输的时间
 time_starttransfer：从请求开始到第一个字节将要传输的时间
 time_total：这次请求花费的全部时间
 ```
-
-
-
-
-

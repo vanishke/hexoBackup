@@ -8,15 +8,16 @@ tags:
 
 date: 2023-07-18 16:45:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">代理访问路径</span>
+## 代理访问路径
 
 接口真实访问地址：http://10.26.0.19:9001/prodtest/admin/user/getCaptcha?width=140&height=50
 
 接口代理访问地址：http://10.26.0.19:8080/prodtest/admin/user/getCaptcha?width=140&height=50
 
-## <span id="inline-blue">配置详情</span>
+## 配置详情
 前端访问接口耗时接近10秒，nginx代理超时配置配置多少都是等待超时然后请求报错
 ```shell
 server {
@@ -57,7 +58,7 @@ server {
 		}
 ```
 
-## <span id="inline-blue">原因</span>
+## 原因
 域名解析导致
  文件/etc/resolv.conf配置内容如下：
 ```shell
@@ -108,7 +109,7 @@ java    32627 root   78u  IPv6 32124395      0t0  TCP app1.novalocal:56587->app1
 ```
 
 
-## <span id="inline-blue">解决办法</span>
+## 解决办法
 
 修改/etc/resolv.conf配置内容如下：
 ```shell
@@ -129,7 +130,3 @@ nameserver 10.26.0.3
 10.26.0.19 app1
 ```
 重新请求恢复正常。
-
-
-
-

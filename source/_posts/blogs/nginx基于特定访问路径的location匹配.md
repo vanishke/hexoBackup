@@ -7,13 +7,14 @@ tags:
 	
 date: 2024-01-25 17:11:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">环境</span>
+## 环境
 Linux : CentOS Linux release 7.6.1810 (Core) 
 Nginx : nginx/1.18.0 
 
-## <span id="inline-blue">背景</span>
+## 背景
 项目最近实现了"一键置灰"功能，通过在原始接口下发的图片访问路径增加一层路径实现切换到自定义图片访问地址。
 
 接口下发图片地址：
@@ -26,7 +27,7 @@ Nginx : nginx/1.18.0
 灰色主题下访问路径在oms-pic前面多了/grey/路径。
 
 
-## <span id="inline-blue">实现</span>
+## 实现
 ```shell
 server {
         listen       8098;
@@ -70,7 +71,7 @@ server {
  }
 ```
 
-## <span id="inline-blue">文件访问指令root和alias的差异</span>
+## 文件访问指令root和alias的差异
 root: 服务器实际访问路径为 root路径 ＋ location路径
 ```shell
 location /html {
@@ -93,9 +94,3 @@ location /html/www {
 请求:  http://10.9.212.55:8080/html/www/a.html => 匹配服务器文件: /usr/local/nginx/a.html
 
 ```
-
-
-
-
-
-

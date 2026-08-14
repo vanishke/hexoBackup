@@ -8,16 +8,17 @@ tags:
 	
 date: 2024-12-06 10:05:19
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Docker: 26.1.4
 docker-compose: v2.25.0
-# <span id="inline-blue">背景</span>
+# 背景
 基于docker-compose容器编排工具，实现容器启动、停止、删除，镜像批量导入导出，微服务打包自动拷贝镜像构建上下文环境。
-# <span id="inline-blue">docker构建上下文环境</span>
+# docker构建上下文环境
 ![Dockerfile docker-compose](/images/docker/20241206/Docker_docker_compose_20241206_001.png)
 
-# <span id="inline-blue">拷贝微服务镜像构建上下文内容</span>
+# 拷贝微服务镜像构建上下文内容
 
 copy.sh
 
@@ -73,7 +74,7 @@ cp ../photoframe-quartz/target/photoframe-quartz.jar ./photoframe/photoframe-qua
 
 windows环境执行copy.sh需要git环境支持	
 
-# <span id="inline-blue">镜像批量导出</span>
+# 镜像批量导出
 
 export.sh
 
@@ -97,7 +98,7 @@ echo "images export finish"
 ```
 批量导出docker环境下的镜像到当前目录images文件夹下
 
-# <span id="inline-blue">镜像批量导入</span>
+# 镜像批量导入
 
 import.sh
 
@@ -112,7 +113,7 @@ echo finish
 ```
 导入当前目录下images文件夹下的镜像
 
-# <span id="inline-blue">自动执行脚本</span>
+# 自动执行脚本
 
 run.sh
 
@@ -287,7 +288,7 @@ case "$1" in
 esac
 ```
 
-# <span id="inline-blue">使用说明</span>
+# 使用说明
 
 ```shell
 各模块jar包拷贝至对应docker环境目录(idea terminal需要配置git bash工具)
@@ -306,9 +307,9 @@ docker镜像批量导入
 sh import.sh
 ```
 
-# <span id="inline-blue">部署过程中遇到的问题</span>
+# 部署过程中遇到的问题
 
-## <span id="inline-blue">端口映射问题</span>
+## 端口映射问题
 
 容器端口映射配置需要使用双引号，如下所示：
 
@@ -317,7 +318,7 @@ sh import.sh
     - "8080:8080"
 ```
 
-## <span id="inline-blue">Elasticseach权限问题</span>
+## Elasticseach权限问题
 Elasticsearch容器启动提示es.log not found ,没有对应的写入权限。
 
 在Dockerfile里面创建对应的es用户，创建对应的日志目录，并且赋予了可读可写权限之外，docker-compose容器编排也加入了对应的权限赋予操作
@@ -387,7 +388,7 @@ chown -R es:es /usr/local/docker/elasticsearch
 chmod -R 777  /usr/local/docker/elasticsearch
 ```
 
-## <span id="inline-blue">接口获取验证码失败</span>
+## 接口获取验证码失败
 
 报错信息如下：
 ```shell
@@ -430,7 +431,7 @@ Exception in thread "main" java.lang.NullPointerException
 +++ FROM openjdk:8-jre
 ```
 
-## <span id="inline-blue">depends_on导致容器启动异常</span>
+## depends_on导致容器启动异常
 depends_on配置项控制容器的启动顺序，只能保证容器启动顺序，不能实现被依赖容器服务启动完成的情况下再去启动相应的服务，导致加载异常，naocs依赖mysql,但不能保证MySQL服务可用的情况下去启动nacos,导致启动异常。
 
 容器的依赖改用docker-compose-wait，实现容器间的心跳检测

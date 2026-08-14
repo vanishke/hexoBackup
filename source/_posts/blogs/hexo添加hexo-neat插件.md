@@ -8,12 +8,13 @@ tags:
 date: 2021-01-15 15:46:20
 ---
 
-## <span id="inline-blue">安装插件</span>
+
+## 安装插件
 
 ```shell
 npm install hexo-neat --save
 ```
-## <span id="inline-blue">站点配置</span>
+## 站点配置
 hexo _config.yml文件添加
 ```shell
 # hexo-neat

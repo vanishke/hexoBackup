@@ -10,16 +10,17 @@ categories:
 
 date: 2024-05-31 16:10:20
 ---
-## <span id="inline-blue">环境</span>
+
+## 环境
 Java: 1.8
 SpringBoot: 2.6.6
 SpringCloud: 2021.0.6
 springDoc: 1.6.9
 knife-gateway:4.4.0
-### <span id="inline-blue">升级原因</span>
+### 升级原因
 原本项目api文档由knife+Swagger2.0实现，springBoot升级2.6.6，发现swagger2.0已经停止 维护，knife后续版本也只兼容适配swagger3.0,也就是openapi,并且Swagger2.0最高只能集成knife-2.0.9
 ,由于考虑到knife的兼容性，于是将swagger2.0升级为openapi,knife升级为knife-gateway.
-### <span id="inline-blue">解决方案</span>
+### 解决方案
 网关以外的微服务模块pom.xml增加如下依赖：
 ```xml
 		<dependency>
@@ -167,5 +168,5 @@ knife4j.gateway.discover.version=openapi3
 knife4j.gateway.discover.enabled=true
 knife4j.gateway.discover.excluded-services=ffcs-gateway,ffcs-event-producer,ffcs-event-consumer,ffcs-admin-server,ffcs-sync-api
 ```
-### <span id="inline-blue">验证</span>
+### 验证
 ![knife-gateway](/images/Swagger/Swagger_20240531_001.png)

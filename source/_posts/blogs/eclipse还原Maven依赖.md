@@ -8,10 +8,11 @@ categories:
 
 date: 2022-10-29 09:17:11
 ---
-## <span id="inline-blue">现象</span>
+
+## 现象
 eclipse移除项目Maven依赖之后发现无法添加
 
-## <span id="inline-blue">解决办法</span>
+## 解决办法
 打开项目下.classpath文件
 ![Maven依赖恢复](/images/Maven/20221025_Maven_001.png)
 添加如下内容
@@ -27,7 +28,5 @@ eclipse移除项目Maven依赖之后发现无法添加
 添加后内容如下：
 ![Maven依赖恢复](/images/Maven/20221025_Maven_002.png)
 
-## <span id="inline-blue">验证</span>
+## 验证
 ![Maven依赖恢复](/images/Maven/20221025_Maven_003.png)
-
-

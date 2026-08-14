@@ -7,9 +7,10 @@ tags:
 
 date: 2022-04-12 10:10:12
 ---
+
  
 
-## <span id="inline-blue">存储过程</span>
+## 存储过程
 存储过程使用游标清理过期布局数据
 ```sql
 /*
@@ -86,6 +87,4 @@ DELIMITER ;
 
 ```
 
-<a id="download" href="/images/mysql/test.sql"><i class="fa fa-download"></i><span>测试数据脚本</span> </a>
-
-
+<a href="/images/mysql/test.sql">测试数据脚本</a>

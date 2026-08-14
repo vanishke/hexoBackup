@@ -7,7 +7,8 @@ categories:
 
 date: 2022-12-23 15:31:49
 ---
-# <span id="inline-blue">maven生成war包包含空文件</span> 
+
+# maven生成war包包含空文件 
 ```xml
 <plugin>
 	<artifactId>maven-war-plugin</artifactId>
@@ -16,7 +17,7 @@ date: 2022-12-23 15:31:49
 	</configuration>
 </plugin>
 ```
-# <span id="inline-blue">maven生成war包包含子模块资源文件</span> 
+# maven生成war包包含子模块资源文件 
 ```xml
 <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
@@ -49,7 +50,7 @@ date: 2022-12-23 15:31:49
 	</executions>
 </plugin>
 ```
-# <span id="inline-blue">maven生成war包子模块jar包依赖以class文件呈现</span> 
+# maven生成war包子模块jar包依赖以class文件呈现 
 ```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -87,7 +88,7 @@ date: 2022-12-23 15:31:49
     </executions>
 </plugin>
 ```
-# <span id="inline-blue">解决本地依赖导致模块之间传递依赖失效</span>
+# 解决本地依赖导致模块之间传递依赖失效
 pom.xml文件内正常使用依赖
 ```xml
 <dependency>
@@ -127,7 +128,7 @@ mvn clean
 ```
 右键项目maven->update project,勾选Force update Snapshots/Release
 
-# <span id="inline-blue">war包生成指定忽略指定目录</span>
+# war包生成指定忽略指定目录
 添加maven-war-plugin插件,指定忽略/WEB-INF/lib_bak目录下的jar包
 ```xml
 <plugin>
@@ -141,7 +142,3 @@ mvn clean
 				</configuration>
 			</plugin>
 ```
-
-
-
-

@@ -11,15 +11,16 @@ tags:
 	
 date: 2025-12-09 15:02:32
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 springCloud微服务网关通过docker部署之后，阿里云服务器经常出现cpu占用156%，但是查看业务请求日志，对应的请求日志很少，并发请求并不高，所以估计是网关服务自身的服务出现了问题。
 
-# <span id="inline-blue">问题分析</span>
+# 问题分析
 
-## <span id="inline-blue">zipkin上报排查</span>
+## zipkin上报排查
 
 微服务因为集成zipkin+sleuth实现链路追踪，第一时间感觉可能是zipkin的问题导致cpu占用，所以直接在nacos上将zipkin的相关上报配置给关掉了，zipkin的配置如下：
 
@@ -46,7 +47,7 @@ spring:
 修改完上述配置之后在portainer可视化容器管理后台重启了相关的微服务应用，cpu占用短暂下降之后立马就上升到了156%，这下意识到问题不是由zipkin引起的，继续排查。
 
 
-## <span id="inline-blue">tcpdump抓包</span>
+## tcpdump抓包
 
 因为应用部署在docker容器，并且容器基于openjdk:8-jre基础镜像构建，导致容器内部无法使用jdk排查应用堆栈命令jstack和top命令(依赖版本有冲突)，所以采用tcpdump抓包的方式先看看微服务网关和其他模块的交互请求。
 使用的tcpdump命令如下：
@@ -65,7 +66,7 @@ docker cp containerId:/tmp/q.cap  /usr/local/1.cap
 
 分析网关的请求交互没有出现特殊的请求内容，不应该出现cpu占用异常的情况。
 
-## <span id="inline-blue">jstack命令抓取应用堆栈</span>
+## jstack命令抓取应用堆栈
 
 微服务因为基于openjdk:8-jre基础镜像构建，导致容器内部无法使用jdk排查应用堆栈命令jstack和top命令,下载第三方轻量工具jattach实现对java应用程序堆栈的抓取，配置jattach命令如下：
 
@@ -168,7 +169,7 @@ grep -A 10 -B 10 "0x56" /tmp/java_stack_force.log
         at org.xnio.nio.WorkerThread.run(WorkerThread.java:551) 
 ```
 
-# <span id="inline-blue">问题原因</span>
+# 问题原因
 
 JDK NIO的BUG epoll，导致Selector空轮询，最终导致CPU 占用居高不下。官方声称在JDK1.6版本的update18修复了该问题，但是直到JDK1.7版本该问题仍旧存在，只不过该BUG发生概率降低了一些而已，它并没有被根本解决。该BUG以及与该BUG相关的问题单可以参见以下链接内容。
 
@@ -177,7 +178,7 @@ https://bugs.java.com/bugdatabase/view_bug.do?bug_id=2147719
 https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6403933
 
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 
 微服务网关集成的应用容器为undertow,该容器没有对JDK epoll模型进行优化导致上述问题，Tomcat已经对epoll bug进行封装和改进，需要将项目中的undertow依赖替换为tomcat.
 
@@ -201,5 +202,5 @@ https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6403933
 
 重新执行clean install命令打包部署后，微服务网关的cpu占用恢复正常。
 
-# <span id="inline-blue">验证</span>
+# 验证
 ![微服务网关cpu占用问题分析](/images/docker/20251209/docker_20251209_002.png)

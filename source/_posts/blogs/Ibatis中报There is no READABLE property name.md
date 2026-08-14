@@ -9,7 +9,8 @@ categories:
 
 date: 2024-10-21 09:34:27	
 ---
-# <span id="inline-blue">背景</span> 
+
+# 背景 
 项目打包之后部署启动出现报错
 ```shell
 2024-10-18 13:39:00,296 ERROR [org.springframework.web.context.ContextLoader] (ServerService Thread Pool -- 94) Context initialization failed: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'LogDao' defined in class path resource [conf/appContextDaoLog.xml]: Cannot resolve reference to bean 'sqlMapClient' while setting bean property 'sqlMapClient'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlMapClient' defined in class path resource [conf/appContextDao.xml]: Invocation of init method failed; nested exception is org.springframework.core.NestedIOException: Failed to parse config resource: class path resource [conf/sql-map-config-oracle.xml]; nested exception is com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath '/sqlMapConfig/sqlMap'.  Cause: com.ibatis.common.xml.NodeletException: Error parsing XML.  Cause: java.lang.RuntimeException: Error parsing XPath '/sqlMap/resultMap/result'.  Cause: com.ibatis.common.beans.ProbeException: There is no WRITEABLE property named 'sTBSuggestedPrice' in class 'com.xxx.dhm.core.dao.resource.po.PAsset'
@@ -71,7 +72,7 @@ Caused by: org.springframework.core.NestedIOException: Failed to parse config re
         at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1417)
         ... 47 more
 ```
-# <span id="inline-blue">原因分析</span> 
+# 原因分析 
 问题咋一看之下以为是ibatis对应的实体类属性驼峰命名不规范导致，替换过报错对应实体属性对应的get/set方法，启动依然报错，察觉新版本才有这个问题，之前发布的版本也有这个实体类，并且没有做过改动，按道理应该不会报错，有可能是最近做的改动导致的问题，于是通过比对不同版本的pom.xml及发布后WEB-INF/lib目录下的jar包，发下如下差异：
 pom.xml差异：
 ![Ibatis报错](/images/Ibatis/Ibatis_20241021_001.png)
@@ -85,4 +86,3 @@ lib目录差异：
 			<artifactId>spring-ibatis</artifactId>
 		</dependency>
 ```
-

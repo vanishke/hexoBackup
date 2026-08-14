@@ -8,17 +8,18 @@ tags:
 	
 date: 2024-12-13 17:53:24
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Docker: 26.1.4
 docker-compose: v2.25.0
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 docker-compose 编排容器部署后发现zipkin-dependencies模块启动之后容器就退出了，因为zipkin-dependencies是基于spark执行的统计计算任务，导致后续在系统定时任务添加的定时脚本无法执行。
 
-# <span id="inline-blue">容器执行完不退出的方法</span>
+# 容器执行完不退出的方法
 
 ```Dockerfile
 # 基础镜像
@@ -58,6 +59,3 @@ CMD  cron  && tail -f /var/log/cron.log
 ```
 
 关键点在于tail -f /var/log/cron.log，表示一直监控定时任务的日志输出。这样可以保证容器执行完计算任务不退出容器，保持在线状态。
-
-
-

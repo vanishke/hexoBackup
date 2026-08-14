@@ -8,18 +8,19 @@ tags:
 	
 date: 2025-01-14 16:56:36
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Linux: CentOS Linux release 7.7.1908 (Core)
 Docker：26.1.4
 Docker compose: v2.25.0
 	
-# <span id="inline-blue">背景</span>
+# 背景
 
 线上Docker环境部署容器，在portainer容器可视化管理工具的支持下，部署方便了很多，但镜像不想暴露到公网环境上，于是部署了Harbor私有镜像仓库，但安全传输成了大问题，以下通过生成自签名证书实现harbor安全访问。
 
-# <span id="inline-blue">自定义https证书</span>
+# 自定义https证书
 
 创建自动生成https脚本gen-TLS.sh
 
@@ -139,7 +140,7 @@ cd /usr/local/harbor
 docker-compose up -d 
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 将脚本生成的证书文件ca.crt上传到浏览器受信任的根证书机构下，重启浏览器，访问https://harbor.example.com
 
@@ -170,8 +171,3 @@ docker push harbor.example.com:433/library/nginx:latest
 
 登录harbor,查看推送的镜像
 ![Dockerfile 远程安全连接](/images/docker/20250114/docker_20250114_004.png)
-
-
-
-
-

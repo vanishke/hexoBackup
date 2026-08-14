@@ -8,27 +8,8 @@ categories:
 date: 2022-05-18 09:32:12
 ---
 
-## <span id="inline-blue">安装插件</span>
+> 本文记录的是 **NexT 5.x** 主题定制 / 旧插件接入方式。
+> 站点已升级到 **NexT 8.x**，相关优化与接入代码已过时并移除。
+> 请改用站点根目录 `_config.next.yml` 与 [NexT 8 文档](https://theme-next.js.org/)。
 
-
-```shell
-
-npm install hexo-wordcount --save
-```
-
-修改themes/next/_config.yml主题配置文件，搜索关键字post_wordcount,修改如下:
-```shell
-post_wordcount:
-  item_text: true
-  wordcount: true #单篇文章字数
-  min2read: true #单篇阅读时长
-  totalcount: true #站点总字数
-  separated_meta: true
-```
-
-
-
-
-
-
-
+（原「Hexo统计功能」实现代码已清理。）

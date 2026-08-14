@@ -9,10 +9,11 @@ tags:
 	
 date: 2024-07-09 14:10:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">背景</span>
+# 背景
 hexo打包启动之后本地访问特别慢，通过nginx代理静态文件优化访问速度
-# <span id="inline-blue">实现</span>
+# 实现
 Hexo所在根目录执行Hexo deploy命令之后在public目录生成静态文件，将其拷贝至nginx主目录
 Hexo静态文件生成目录图
 ![Hexo优化](/images/hexo/nginx/hexo_nginx_20240709_001.png)
@@ -41,7 +42,7 @@ server {
         }
     }
 ```
-# <span id="inline-blue">hexo部署自动同步nginx</span>
+# hexo部署自动同步nginx
 hexo内容变动之后nginx对应静态资源同步更新，利用hexo deploy事件完成自动备份hexo的基础上实现，hexo根目录增加scripts/auto_backup.js
 ```javascript
 require('shelljs/global');

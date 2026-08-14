@@ -9,15 +9,16 @@ tags:
 	
 date: 2025-12-30 17:40:32
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 Portainer CE：2.24.1-alpine (中文版)
 Docker：26.1.4
 Docker Swarm：支持集群模式
 
-# <span id="inline-blue">介绍</span>
+# 介绍
 
 Portainer CE（Community Edition）是一个轻量级的Docker容器管理UI工具，提供了直观的可视化界面来管理Docker环境。Portainer CE 2.24.1-alpine中文版在原有功能基础上增加了中文界面支持，使得国内用户使用更加便捷。
 
@@ -35,11 +36,11 @@ Portainer CE的主要功能包括：
 
 本文将详细介绍Portainer CE中文版的主要功能模块和使用方法。
 
-# <span id="inline-blue">镜像仓库管理</span>
+# 镜像仓库管理
 
 镜像仓库（Registry）是存储Docker镜像的服务器。Portainer支持配置多个镜像仓库，包括Docker Hub、Harbor、阿里云容器镜像服务等私有或公有仓库。
 
-## <span id="inline-blue">添加镜像仓库</span>
+## 添加镜像仓库
 
 ### Docker Hub
 
@@ -81,7 +82,7 @@ Harbor是企业级私有镜像仓库，配置步骤如下：
    - **Password**：阿里云账号密码或访问令牌
 3. 点击 **"Create registry"** 完成创建
 
-## <span id="inline-blue">使用镜像仓库</span>
+## 使用镜像仓库
 
 配置完成后，在拉取镜像时可以选择使用已配置的镜像仓库：
 
@@ -91,17 +92,17 @@ Harbor是企业级私有镜像仓库，配置步骤如下：
 4. 输入镜像名称（如：nginx:latest）
 5. 点击 **"Pull the image"**（拉取镜像）
 
-## <span id="inline-blue">管理镜像仓库</span>
+## 管理镜像仓库
 
 - **编辑仓库**：点击仓库名称，可以修改仓库配置信息
 - **删除仓库**：点击仓库右侧的删除按钮，可以移除不需要的镜像仓库
 - **测试连接**：在编辑页面可以测试仓库连接是否正常
 
-# <span id="inline-blue">项目权限管理</span>
+# 项目权限管理
 
 Portainer CE支持多用户和权限管理，可以通过项目（Endpoint）和用户组来控制系统访问权限。
 
-## <span id="inline-blue">用户管理</span>
+## 用户管理
 
 ### 创建用户
 
@@ -128,7 +129,7 @@ Portainer CE支持多用户和权限管理，可以通过项目（Endpoint）和
    - **Members**：选择团队成员
 4. 点击 **"Create team"**（创建团队）
 
-## <span id="inline-blue">权限分配</span>
+## 权限分配
 
 ### 项目权限
 
@@ -151,18 +152,18 @@ Portainer支持对容器、镜像、网络等资源设置访问权限：
 3. 添加授权的用户或团队
 4. 设置权限级别
 
-## <span id="inline-blue">权限最佳实践</span>
+## 权限最佳实践
 
 - **最小权限原则**：只授予用户完成工作所需的最小权限
 - **使用团队管理**：将用户组织成团队，便于批量权限管理
 - **定期审查权限**：定期检查用户权限，及时撤销不必要的访问权限
 - **分离管理权限**：生产环境和开发环境使用不同的用户和权限配置
 
-# <span id="inline-blue">镜像管理</span>
+# 镜像管理
 
 镜像管理是Portainer的核心功能之一，可以方便地查看、拉取、删除和管理Docker镜像。
 
-## <span id="inline-blue">查看镜像列表</span>
+## 查看镜像列表
 
 1. 进入 **"Images"**（镜像）页面
 2. 可以看到所有可用的镜像列表，包括：
@@ -172,7 +173,7 @@ Portainer支持对容器、镜像、网络等资源设置访问权限：
    - **Size**：镜像大小
    - **Used by**：使用该镜像的容器数量
 
-## <span id="inline-blue">拉取镜像</span>
+## 拉取镜像
 
 ### 从公共仓库拉取
 
@@ -189,7 +190,7 @@ Portainer支持对容器、镜像、网络等资源设置访问权限：
 3. 输入完整的镜像路径（如：harbor.example.com/project/nginx:latest）
 4. 点击拉取按钮
 
-## <span id="inline-blue">镜像操作</span>
+## 镜像操作
 
 ### 查看镜像详情
 
@@ -219,7 +220,7 @@ Portainer支持对容器、镜像、网络等资源设置访问权限：
 2. 选择本地的tar格式镜像文件
 3. 点击 **"Import"**（导入）完成导入
 
-## <span id="inline-blue">镜像清理</span>
+## 镜像清理
 
 Portainer提供了镜像清理功能，可以删除未使用的镜像：
 
@@ -228,11 +229,11 @@ Portainer提供了镜像清理功能，可以删除未使用的镜像：
 3. 系统会列出可以安全删除的镜像
 4. 确认后执行清理操作
 
-# <span id="inline-blue">Docker Swarm集群管理</span>
+# Docker Swarm集群管理
 
 Docker Swarm是Docker原生的集群管理和编排工具。Portainer CE提供了完整的Swarm集群管理功能。
 
-## <span id="inline-blue">初始化Swarm集群</span>
+## 初始化Swarm集群
 
 ### 通过命令行初始化
 
@@ -252,7 +253,7 @@ docker swarm init --advertise-addr <管理节点IP>
    - **Listen address**：监听地址（默认0.0.0.0）
 5. 点击 **"Initialize"**（初始化）完成集群创建
 
-## <span id="inline-blue">添加工作节点</span>
+## 添加工作节点
 
 ### 获取加入令牌
 
@@ -284,7 +285,7 @@ docker swarm join --token <工作节点令牌> <管理节点IP>:2377
    - **Availability**：节点可用性状态
    - **Status**：节点状态（Ready就绪 或 Down离线）
 
-## <span id="inline-blue">节点管理</span>
+## 节点管理
 
 ### 节点操作
 
@@ -300,7 +301,7 @@ docker swarm join --token <工作节点令牌> <管理节点IP>:2377
 2. 在 **"Labels"**（标签）部分添加标签
 3. 标签格式：key=value（如：role=web, zone=zone1）
 
-## <span id="inline-blue">集群网络管理</span>
+## 集群网络管理
 
 Swarm集群使用覆盖网络（Overlay Network）实现跨节点通信：
 
@@ -314,7 +315,7 @@ Swarm集群使用覆盖网络（Overlay Network）实现跨节点通信：
    - **Gateway**：网关地址（可选）
 5. 点击 **"Create network"**（创建网络）
 
-## <span id="inline-blue">集群配置和密钥</span>
+## 集群配置和密钥
 
 ### Config（配置）
 
@@ -340,11 +341,11 @@ Swarm集群使用覆盖网络（Overlay Network）实现跨节点通信：
 
 配置和密钥可以在服务部署时挂载到容器中使用。
 
-# <span id="inline-blue">容器管理</span>
+# 容器管理
 
 容器管理是Portainer最常用的功能，提供了完整的容器生命周期管理。
 
-## <span id="inline-blue">创建容器</span>
+## 创建容器
 
 ### 快速创建
 
@@ -393,7 +394,7 @@ Swarm集群使用覆盖网络（Overlay Network）实现跨节点通信：
 - **Command**：容器启动命令
 - **Args**：命令参数
 
-## <span id="inline-blue">容器操作</span>
+## 容器操作
 
 ### 启动/停止容器
 
@@ -416,7 +417,7 @@ Swarm集群使用覆盖网络（Overlay Network）实现跨节点通信：
 3. 如果容器正在运行，需要先停止容器
 4. 可以选择 **"Remove associated volumes"**（删除关联的卷）来同时删除数据卷
 
-## <span id="inline-blue">查看容器信息</span>
+## 查看容器信息
 
 ### 容器详情
 
@@ -451,7 +452,7 @@ Swarm集群使用覆盖网络（Overlay Network）实现跨节点通信：
 3. 点击 **"Connect"**（连接）进入容器命令行
 4. 可以在容器内执行命令
 
-## <span id="inline-blue">容器批量操作</span>
+## 容器批量操作
 
 Portainer支持对多个容器进行批量操作：
 
@@ -462,11 +463,11 @@ Portainer支持对多个容器进行批量操作：
    - **Restart selected**：重启选中的容器
    - **Remove selected**：删除选中的容器
 
-# <span id="inline-blue">服务管理</span>
+# 服务管理
 
 在Docker Swarm模式下，服务（Service）是集群中运行应用的基本单位。Portainer提供了完整的服务管理功能。
 
-## <span id="inline-blue">创建服务</span>
+## 创建服务
 
 ### 基本创建
 
@@ -525,7 +526,7 @@ Portainer支持对多个容器进行批量操作：
 - **Configs**：配置文件挂载
 - **Secrets**：密钥挂载
 
-## <span id="inline-blue">服务操作</span>
+## 服务操作
 
 ### 扩缩容
 
@@ -553,7 +554,7 @@ Portainer支持对多个容器进行批量操作：
 1. 选择服务，点击 **"Remove"**（删除）按钮
 2. 确认删除操作
 
-## <span id="inline-blue">服务详情</span>
+## 服务详情
 
 点击服务名称，可以查看：
 
@@ -573,13 +574,13 @@ Portainer支持对多个容器进行批量操作：
 - 查看任务错误信息
 - 强制重新部署任务
 
-# <span id="inline-blue">堆栈管理</span>
+# 堆栈管理
 
 堆栈（Stack）是通过docker-compose文件定义的一组相关服务。Portainer支持通过Web编辑器或文件上传的方式部署堆栈。
 
 ![堆栈管理](/images/portainer/20251230/堆栈.gif)
 
-## <span id="inline-blue">创建堆栈</span>
+## 创建堆栈
 
 ### 通过Web编辑器创建
 
@@ -612,7 +613,7 @@ Portainer支持对多个容器进行批量操作：
    - **Username/Password**：Git认证信息（私有仓库需要）
 3. 点击 **"Deploy the stack"**（部署堆栈）
 
-## <span id="inline-blue">堆栈示例</span>
+## 堆栈示例
 
 ### 简单Web应用堆栈
 
@@ -660,7 +661,7 @@ volumes:
   db_data:
 ```
 
-## <span id="inline-blue">堆栈操作</span>
+## 堆栈操作
 
 ### 更新堆栈
 
@@ -691,7 +692,7 @@ Portainer支持堆栈的迁移和复制功能，方便在不同环境间迁移�
 
 ![堆栈删除](/images/portainer/20251230/堆栈_删除.gif)
 
-## <span id="inline-blue">堆栈详情</span>
+## 堆栈详情
 
 点击堆栈名称，可以查看：
 
@@ -708,9 +709,9 @@ Portainer支持堆栈的迁移和复制功能，方便在不同环境间迁移�
 - **Logs**：查看服务日志
 - **Inspect**：查看服务详情
 
-# <span id="inline-blue">最佳实践</span>
+# 最佳实践
 
-## <span id="inline-blue">安全建议</span>
+## 安全建议
 
 1. **定期更新**：保持Portainer和Docker版本最新
 2. **访问控制**：使用HTTPS访问Portainer，配置强密码
@@ -718,44 +719,44 @@ Portainer支持堆栈的迁移和复制功能，方便在不同环境间迁移�
 4. **审计日志**：定期查看Portainer的审计日志，监控异常操作
 5. **网络安全**：使用防火墙限制Portainer访问，仅允许授权IP访问
 
-## <span id="inline-blue">性能优化</span>
+## 性能优化
 
 1. **资源限制**：为容器和服务设置合理的资源限制
 2. **镜像优化**：使用较小的基础镜像，减少镜像大小
 3. **日志管理**：配置日志轮转，避免日志文件过大
 4. **网络优化**：合理规划网络结构，减少网络延迟
 
-## <span id="inline-blue">备份和恢复</span>
+## 备份和恢复
 
 1. **数据备份**：定期备份Portainer数据目录和Docker卷
 2. **配置备份**：备份docker-compose.yml文件和配置文件
 3. **镜像备份**：重要镜像导出备份，避免镜像仓库故障
 4. **灾难恢复**：制定灾难恢复计划，定期测试恢复流程
 
-## <span id="inline-blue">监控和告警</span>
+## 监控和告警
 
 1. **资源监控**：定期查看容器和服务的资源使用情况
 2. **健康检查**：为服务配置健康检查，及时发现问题
 3. **日志分析**：定期分析容器日志，发现潜在问题
 4. **告警配置**：配置告警规则，及时通知异常情况
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
-## <span id="inline-blue">Q: Portainer无法连接到Docker守护进程？</span>
+## Q: Portainer无法连接到Docker守护进程？
 
 A: 检查以下几点：
 - 确保Docker服务正在运行
 - 检查Portainer容器是否正确挂载了Docker socket
 - 验证Docker socket路径是否正确（Linux: /var/run/docker.sock）
 
-## <span id="inline-blue">Q: 如何重置Portainer管理员密码？</span>
+## Q: 如何重置Portainer管理员密码？
 
 A: 可以通过Portainer数据目录重置：
 1. 停止Portainer容器
 2. 删除Portainer数据目录中的用户数据
 3. 重新启动Portainer，会提示创建新管理员账户
 
-## <span id="inline-blue">Q: Swarm服务无法正常启动？</span>
+## Q: Swarm服务无法正常启动？
 
 A: 检查以下方面：
 - 确保所有节点都已加入Swarm集群
@@ -763,7 +764,7 @@ A: 检查以下方面：
 - 查看服务任务日志，定位具体错误
 - 检查网络配置是否正确
 
-## <span id="inline-blue">Q: 镜像拉取失败？</span>
+## Q: 镜像拉取失败？
 
 A: 可能的原因：
 - 镜像仓库地址不正确或无法访问
@@ -771,14 +772,14 @@ A: 可能的原因：
 - 网络连接问题
 - 镜像名称或标签不存在
 
-## <span id="inline-blue">Q: 如何备份Portainer配置？</span>
+## Q: 如何备份Portainer配置？
 
 A: Portainer配置存储在数据卷中，备份方法：
 1. 停止Portainer容器
 2. 备份数据卷目录（默认：/data）
 3. 备份docker-compose.yml或部署配置
 
-# <span id="inline-blue">总结</span>
+# 总结
 
 Portainer CE 2.24.1-alpine中文版提供了完整的Docker容器管理功能，通过可视化的Web界面，大大简化了Docker环境的管理工作。本文介绍了Portainer的主要功能模块：
 
@@ -791,4 +792,3 @@ Portainer CE 2.24.1-alpine中文版提供了完整的Docker容器管理功能，
 - **堆栈管理**：通过docker-compose文件部署和管理应用堆栈
 
 通过合理使用Portainer的各项功能，可以显著提升Docker环境的管理效率和运维质量。建议结合实际需求，逐步深入学习和使用Portainer的高级功能，充分发挥其容器管理能力。
-

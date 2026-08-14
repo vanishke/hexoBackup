@@ -8,17 +8,18 @@ tags:
 
 date: 2022-07-01 16:23:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">版本信息</span>
+# 版本信息
 Freemarker: 2.3.24
 Ztree：JQuery zTree core v3.5.17-beta.2
 
-# <span id="inline-blue">关键点</span>
+# 关键点
 >因为使用hibernate的缘故，栏目节点的parent为对象，而非简单数据类型，这里将影响到ztree初始化节点key设置，pIdKey设置为parentNode.id。
 >栏目模板的递归调用,后台返回的节点存在children节点，可以递归得到所有数据节点。
 
-# <span id="inline-blue">页面实现细节</span>
+# 页面实现细节
 页面引入ztree依赖资源文件：
 ```html
 <link href="${base}/res/ztree/css/ztree.css" rel="stylesheet">
@@ -753,7 +754,6 @@ tree模板数据展现json格式:
 		}
 	]
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 
 ![Freemarker宏模板实现ztree栏目树01](/images/Freemarker/Freemarker_20220701_001.png)
-

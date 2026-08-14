@@ -7,11 +7,12 @@ tags:
 	
 date: 2023-07-28 17:49:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">背景</span>
+# 背景
 WildFly容器部署项目偶现400 Bad request请求，在排查环境没有结果的情况下希望通过记录wildFly的请求，分析请求内容处理这一异常请求。
 
-# <span id="inline-blue">WildFly过滤器实现</span>
+# WildFly过滤器实现
 初始化maven项目custom-filter
 pom.xml文件定义如下：
 ```shell
@@ -235,7 +236,7 @@ WIldFly的module目录：/usr/local/fujian_sdp/wildfly26-portal/modules
 如下图所示：
 ![WildFly过滤器重写](/images/WildFly/WildFly_20230728_001.png)
 
-# <span id="inline-blue">配置undertow子系统</span>
+# 配置undertow子系统
 在undertow子系统声明filter,文件所在路径参考：/usr/local/fujian_sdp/wildfly26-portal/standalone/configuration/standalone.xml
 ```xml
 ...

@@ -8,22 +8,23 @@ tags:
 	
 date: 2026-02-28 14:51:43
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 Jasypt（Java Simplified Encryption）是一个用于简化Java加密操作的库，它提供了简单易用的API来加密和解密敏感数据。在Spring Boot项目中，Jasypt可以帮助我们加密配置文件中的敏感信息，如数据库密码、API密钥等，从而提高应用的安全性。
 
 Spring Boot集成Jasypt后，可以通过在配置文件中使用`ENC(...)`包裹加密后的值，应用启动时会自动解密这些值。本文描述Idea本地启动微服务模块，jasypt加密配置项的注意事项。
 
-# <span id="inline-blue">项目依赖版本信息</span>
+# 项目依赖版本信息
 
 - **Spring Boot**：2.6.6
 - **JDK / 编译版本**：1.8
 - **Jasypt Spring Boot Starter**：3.0.4
 - **Jasypt Maven Plugin**：3.0.4
 
-# <span id="inline-blue">添加依赖</span>
+# 添加依赖
 
 ```xml
 	  <dependency>
@@ -43,7 +44,7 @@ Spring Boot集成Jasypt后，可以通过在配置文件中使用`ENC(...)`包�
 	  
 ```
 
-# <span id="inline-blue">Jasypt 基本配置</span>
+# Jasypt 基本配置
 
 在需要加密配置的微服务模块 `application.yml` / `bootstrap.yml` 中增加：
 
@@ -64,7 +65,7 @@ jasypt:
 - **salt / iv 随机化**：提高密文安全性。
 - **输出格式 base64**：便于直接放在 YAML / properties 中。
 
-# <span id="inline-blue">IDEA 本地启动必须配置的 JVM 环境变量</span>
+# IDEA 本地启动必须配置的 JVM 环境变量
 
 不管是 **IDEA Run Configuration** 还是命令行 `java -jar`，只要要让应用正确解密，都必须在 JVM 启动参数里加上 **同一把密钥**：
 
@@ -72,7 +73,7 @@ jasypt:
 -Djasypt.encryptor.password=YOUR_ENCRYPTOR_PASSWORD
 ```
 
-## <span id="inline-blue">IDEA配置</span>
+## IDEA配置
 
 在对应模块的 **Run/Debug Configuration** 中：
 
@@ -88,9 +89,9 @@ jasypt:
 - 这把密码必须和你使用 Jasypt 插件加密时的密码完全一致。
 - 不同微服务如果共用一套密钥，可以统一用同一个；否则注意区分。
 
-## <span id="inline-blue">配置项的加密/解密操作</span>
+## 配置项的加密/解密操作
 
-### <span id="inline-blue">手动加密单个值</span>
+### 手动加密单个值
 
 在 **微服务模块根目录**（例如 `your-module-name`）执行：
 
@@ -103,7 +104,7 @@ mvn jasypt:encrypt-value \
 - **`jasypt.plugin.value`**：要加密的明文，比如数据库密码、AK/SK 等。
 - 输出是一个 `ENC(...)` 字符串，把它复制到配置文件相应位置即可。
 
-### <span id="inline-blue">手动解密单个值</span>
+### 手动解密单个值
 
 ```bash
 mvn jasypt:decrypt-value \
@@ -114,7 +115,7 @@ mvn jasypt:decrypt-value \
 - **`jasypt.plugin.value`**：配置文件里已有的 `ENC(...)` 内部密文（去掉 `ENC()` 外壳或直接贴整个 `ENC(...)`，视插件版本而定）。
 - 输出为对应的明文，便于排查或迁移。
 
-### <span id="inline-blue">批量加密配置文件（YAML）</span>
+### 批量加密配置文件（YAML）
 
 将 `application-dev.yml` 中的 `DEC(aaaa)` 自动替换为 `ENC(...)`：
 
@@ -126,7 +127,7 @@ mvn jasypt:encrypt \
 
 - 插件会扫描目标文件，将 `DEC(明文)` 替换成 `ENC(密文)`。
 
-### <span id="inline-blue">批量解密配置文件（YAML）</span>
+### 批量解密配置文件（YAML）
 
 将 `application-dev.yml` 中的 `ENC(...)` 自动替换为 `DEC(明文)`：
 
@@ -141,7 +142,7 @@ mvn jasypt:decrypt \
 - 必须在 **对应微服务模块的根目录** 执行（有自己 `pom.xml` 的那个目录）。
 - 插件默认会在该模块下的 `src/main/resources` 查找配置文件。
 
-# <span id="inline-blue">占位符踩坑</span>
+# 占位符踩坑
 
 项目中许多模块用到了 Maven 占位符：
 
@@ -183,4 +184,3 @@ spring:
 - 对 YAML：这是一个普通字符串，解析不再报错。
 - 对 Maven 过滤：仍然会把 `"@activatedProperties@"` 替换为真实值。
 - 对 Jasypt 插件 / 单元测试：可以正常读取配置，避免因为占位符解析失败导致插件执行中断。
-

@@ -8,7 +8,8 @@ tags:
 date: 2020-11-17 11:23:20
 ---
 
-##  <span id="inline-blue">清理</span>
+
+##  清理
 
 ```sql
 SELECT l.session_id sid,  
@@ -31,5 +32,4 @@ alter system kill session sid,serial';
 
 
 
-​	
-
+​

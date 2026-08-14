@@ -7,9 +7,10 @@ tags:
 	
 date: 2023-10-27 10:25:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">项目环境</span>
+# 项目环境
 JDK: 1.8.0_31
 系统是定时执行计算任务系统，业务代码主要是定时加载多个模块MySQL、Oracle数据库业务数据进行统计计算并更新，系统在运行一段时间之后自动停止，产生JVM奔溃日志，日志内容如下：
 ```shell
@@ -2912,7 +2913,7 @@ elapsed time: 21839 seconds (0d 6h 3m 59s)
 
 ```
 
-# <span id="inline-blue">问题原因分析</span>
+# 问题原因分析
 
 日志输出关键部分信息：
 
@@ -3038,11 +3039,7 @@ i = /
 i = /
 ```
 
-# <span id="inline-blue">参考</span>
+# 参考
 
 https://www.jianshu.com/p/04c83f718248
 https://blog.csdn.net/weixin_42437633/article/details/122908943
-
-
-
-

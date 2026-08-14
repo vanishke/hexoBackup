@@ -7,9 +7,10 @@ tags:
 	
 date: 2022-12-30 11:32:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 tomcat由版本8.0.38升级为8.5.41，请求接口报错，错误信息如下：
 http://10.9.212.55:8080/SPSmartCMS/json/content_list.jspx?channelIds[]=156&first=0&count=7
 ```log
@@ -34,16 +35,13 @@ java.lang.IllegalArgumentException: Invalid character found in the request targe
 	org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	java.lang.Thread.run(Thread.java:745)
 ```
-# <span id="inline-blue">原因</span>
+# 原因
 参考https://www.cnblogs.com/DDgougou/p/11668073.html
 大致原因是因为tomcat版本版本升级之后对url请求特殊字符有严格的编码要求,[]字符不符合编码规范。
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 D:\Tomcat\smartCMS_GZ\apache-tomcat-8.5.41\conf\server.xml，修改connector节点，增加配置内容如下：
 relaxedQueryChars="[,]"
 ```xml
  <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" relaxedQueryChars="[,]"/>
 ```
 重启Tomcat服务，接口请求正常。
-
-
-

@@ -7,11 +7,12 @@ tags:
 	
 date: 2023-07-10 14:49:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 	Windows7
 	DockerToolbox-18.03.0-ce.exe
-# <span id="inline-blue">导出</span>
+# 导出
 ```shell
 #!/bin/bash
 rm -rf  images
@@ -29,7 +30,7 @@ rm -rf images.txt REPOSITORY.txt
 cp import.sh ./images/
 echo "images export finish"
 ```
-# <span id="inline-blue">导入</span>
+# 导入
 ```shell
 #!/bin/bash
 while read LINE

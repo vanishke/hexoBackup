@@ -7,9 +7,10 @@ tags:
 	
 date: 2023-03-03 11:25:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">build.xml读取pom.xml版本信息</span>
+# build.xml读取pom.xml版本信息
 ```ant
 #引入pom.xml文件，以xml方式读取文件内容，节点属性以pom.project开始
 <xmlproperty file="pom.xml" prefix="pom" />
@@ -33,8 +34,5 @@ ant的构建文件build.xml用法如下：
 <xmlproperty file="pom.xml" prefix="pom" />
 <echo>The version is ${pom.project.properties.log4j-version}</echo>
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 ![ant读取pom文件信息](/images/Maven/Maven_20230303_001.png)
-
-
-

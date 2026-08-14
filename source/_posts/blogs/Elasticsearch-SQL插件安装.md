@@ -7,27 +7,28 @@ tags:
 	
 date: 2023-08-02 14:35:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Elasticsearch-7.15.1
-# <span id="inline-blue">插件</span>
+# 插件
 Elasticsearch-SQL-7.15.1.0 : es SQL查询插件
 es-sql-site-standalone ： es SQL查询前端
 下载地址：链接：https://pan.baidu.com/s/1wyUFPOU6uywOOAhw2f9QEA 
 提取码：z2od
-# <span id="inline-blue">Elasticsearch-SQL在线安装</span>
+# Elasticsearch-SQL在线安装
 ```shell
 #Elasticsearch主目录下执行
 ./bin/elasticsearch-plugin install https://github.com/NLPchina/elasticsearch-sql/releases/download/7.15.1.0/elasticsearch-sql-7.15.1.0.zip
 ```
 
-# <span id="inline-blue">Elasticsearch-SQL离线安装</span>
+# Elasticsearch-SQL离线安装
 ```shell
 #自行下载对应压缩包https://github.com/NLPchina/elasticsearch-sql/releases/download/7.15.1.0/elasticsearch-sql-7.15.1.0.zip,并将其上传至服务器/home目录，执行以下命令
 cd /usr/local/ELK/elasticsearch-7.15.1/
 ./bin/elasticsearch-plugin install file:/home/elasticsearch-sql-7.15.1.0.zip
 ```
-# <span id="inline-blue">es-sql-site-standalone安装</span>
+# es-sql-site-standalone安装
 在Elasticsearch主目录下创建文件夹global_plugins,将es-sql-site-standalone.zip上传到该目录下，执行以下命令
 ```shell
 unzip es-sql-site-standalone.zip -d es-sql-site
@@ -73,7 +74,7 @@ http.cors.allow-origin: "*"
                 }
 
 ```
-# <span id="inline-blue">es-sql-site-standalone启动</span>
+# es-sql-site-standalone启动
 es-sql-site-standalone插件需要node环境支持，除此之外需要连接外网
 有外网的情况下启动：
 ```shell
@@ -94,7 +95,7 @@ unzip es-sql-site-standalone.zip -d sql
 启动tomcat，访问 ip:端口/sql/_site/ 
 ![Elasticsearch-SQL](/images/elasticsearch/es_20230802_002.png)
 
-# <span id="inline-blue">Elasticsearch-SQL和x-pack-sql差异</span>
+# Elasticsearch-SQL和x-pack-sql差异
 Elasticsearch-SQL接口访问
 访问地址
 http://10.26.0.22:9200/_nlpcn/sql

@@ -7,9 +7,10 @@ tags:
 
 date: 2025-11-24 15:56:25
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 基于Debian基础镜像构建的zipkin容器，在追查模块发送链路追踪消息时，发现数据未上报到Elasticsearch，在使用docker exec -it 容器ID /bin/bash进入容器内部，使用curl命令测试容器之间的连通性时提示命令无法识别，提示信息如下：
 ```shell
@@ -20,13 +21,13 @@ Reading state information... Done
 E: Unable to locate package curl
 ```
 
-# <span id="inline-blue">问题原因</span>
+# 问题原因
 
 Debian Buster（10）已经进入旧版本归档（oldoldstable），官方源地址变更导致无法访问
 
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 
-## <span id="inline-blue">修改source.list文件</span>
+## 修改source.list文件
 
 ```shell
 # 备份原有源文件
@@ -43,7 +44,7 @@ EOF
 echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
 ```
 
-## <span id="inline-blue">更新并安装 curl</span>
+## 更新并安装 curl
 
 ```shell
 # 更新源缓存
@@ -53,13 +54,10 @@ apt-get update
 apt-get install -y curl
 ```
 
-## <span id="inline-blue">验证</span>
+## 验证
 
 ```shell
 curl --version
 #common-elasticsearch是Docker swarm模式下部署的服务名
 curl http://common-elasticsearch:9200
 ```
-
-
-

@@ -8,14 +8,15 @@ categories:
 
 date: 2021-02-22 15:56:20	
 ---
-## <span id="inline-blue">安装环境</span>
+
+## 安装环境
 windows7 64
 
-## <span id="inline-blue">下载插件</span>
+## 下载插件
 https://pan.baidu.com/s/1R_KgYR3-QK3e8tufvBlcNQ
 提取码：pvc4
 
-## <span id="inline-blue">加载插件</span>
+## 加载插件
 chrome地址栏访问chrome://extensions/,打开chrome扩展程序
 ![扩展程序](/images/chrome/chrome_2021_02_22_001.png)
 
@@ -43,8 +44,7 @@ Ignored insecure CSP value "https://ssl.google-analytics.com/ga.js" in directive
 ```
 加载https://ssl.google-analytics.com/ga.js报错，去掉就可以
 
-## <span id="inline-blue">验证</span>
+## 验证
 chrome左上角点击应用，找到postman插件点击运行，成功运行如下图
 ![验证](/images/chrome/chrome_2021_02_22_003.png)
 ![验证](/images/chrome/chrome_2021_02_22_004.png)
-

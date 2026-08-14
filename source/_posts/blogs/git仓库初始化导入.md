@@ -7,7 +7,8 @@ categories:
 
 date: 2021-03-15 15:23:32	
 ---
-# <span id="inline-blue">创建本地仓库</span> 
+
+# 创建本地仓库 
 ```shell
 git init  //当前目录初始化版本库
 
@@ -15,7 +16,7 @@ git add . //将当前路径下的所有文件添加到版本库
 
 git commit -m "first commit" //文件提交到版本库，并添加备注
 ```
-# <span id="inline-blue">远程仓库推送</span> 
+# 远程仓库推送 
 ```shell
 git remote add origin "远程仓库地址" //关联远程仓库
 
@@ -23,7 +24,7 @@ git remote add origin "远程仓库地址" //关联远程仓库
 
 ```
 
-# <span id="inline-blue">推送报错解决</span> 
+# 推送报错解决 
 推送报错信息如下：
 git push error: failed to push some refs to
 

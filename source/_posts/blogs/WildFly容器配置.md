@@ -8,14 +8,15 @@ tags:
 	
 date: 2022-08-26 13:55:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">下载</span>
+# 下载
 官网下载地址：https://www.wildfly.org/downloads/
 
 容器版本：wildfly-26.1.0.Final
 
-# <span id="inline-blue">目录说明</span>
+# 目录说明
 appclient – application client 客户端
 bin – 各种脚本的位置
 docs – 各种文档信息和配置例子
@@ -25,7 +26,7 @@ modules – server中的各种模块
 welcome-content – 默认的欢迎页面
 WildFly启动分为单机和域模式，启动脚本对应bin目录下standalone.sh和domain.sh
 
-# <span id="inline-blue">模式说明</span>
+# 模式说明
 
  ## domain模式
 	configuration – 配置文件目录
@@ -44,7 +45,7 @@ WildFly启动分为单机和域模式，启动脚本对应bin目录下standalone
 	log – 日志目录
 	tmp – 临时文件
 
-# <span id="inline-blue">注册MySQL数据源模块驱动</span>
+# 注册MySQL数据源模块驱动
 创建mysql模块依赖文件目录及相应文件内容
 cd /usr/local/WildFly/modules/system/layers/base/com
 #创建mysql模块所在目录
@@ -93,7 +94,7 @@ cd mysql/main
 mysql 驱动jar包名称，根据项目可自行更改。
 将mysql-connector-java-5.1.12.jar文件上传到目录/usr/local/WildFly/modules/system/layers/base/com/mysql/main
 
-# <span id="inline-blue">配置项目JNDI数据源</span>
+# 配置项目JNDI数据源
 cd /usr/local/WildFly/standalone/configuration
 vim standalone.xml
 在datasources节点下新增如下内容:
@@ -138,7 +139,7 @@ vim standalone.xml
                     </driver>
 
 ```
-# <span id="inline-blue">开启外部主机访问</span>
+# 开启外部主机访问
 Interfaces节点下修改配置如下：
 ```xml
 <interfaces>
@@ -166,7 +167,7 @@ Interfaces节点下修改配置如下：
     </socket-binding-group>
 
 ```
-# <span id="inline-blue">配置SSL</span>
+# 配置SSL
 通过jdk工具keyTool生成证书
 ## 生成证书命令
 ```shell
@@ -201,7 +202,7 @@ keytool -export -trustcacerts -alias coship -file /home/cas.crt -keystore /home/
 
 /home路径下生成两个文件certificate.jks、cas.crt，将certificate.jks文件拷贝至/usr/local/WildFly/standalone/configuration目录下，浏览器访问后台需要导入cas.crt证书文件（导入到受信任的根证书颁发机构）
 
-# <span id="inline-blue">应用配置SSL</span>
+# 应用配置SSL
 cd /usr/local/GRM/WildFly/standalone/configuration/ 
 standalone.xml文件tls节点更改如下：
 ```xml
@@ -223,7 +224,7 @@ standalone.xml文件tls节点更改如下：
                 </server-ssl-contexts>
             </tls>
 ```
-# <span id="inline-blue">管理后台配置SSL</span>
+# 管理后台配置SSL
 cd /usr/local/GRM/WildFly/standalone/configuration/ standalone.xml文件management-interfaces节点更新内容如下：
 ```xml
 <management-interfaces>
@@ -233,7 +234,7 @@ cd /usr/local/GRM/WildFly/standalone/configuration/ standalone.xml文件manageme
             </http-interface>
         </management-interfaces>
 ```
-# <span id="inline-blue">添加管理员</span>
+# 添加管理员
 cd /usr/local/GRM/WildFly/bin
  sh add-user.sh
 ```shell
@@ -266,7 +267,7 @@ e.g. for a slave host controller connecting to the master or for a Remoting conn
 
 默认管理员添加完成后，重启即可通过管理员访问管理后台。
 
-# <span id="inline-blue">验证</span>
+# 验证
 SSL配置完成后
 服务器配置域名：
 新增条目 10.9.216.12 www.grm.com
@@ -314,4 +315,3 @@ sh standalone.xml &
 
 https://www.grm.com:9993/console/index.html
 ![WildFly容器配置](/images/WildFly/WildFly_2022_08_26_002.png)
-

@@ -7,9 +7,10 @@ categories:
 	
 date: 2024-06-06 13:46:20
 ---
-## <span id="inline-blue">环境</span>
+
+## 环境
 MySQL:5.7
-### <span id="inline-blue">背景</span>
+### 背景
 数据库大表中出现了垃圾数据导致业务调用异常，希望通过存储过程清理满足特定条件的数据记录。
 ipqam_usage表记录按照ipqam_id字段进行分组统计,prog_no字段升序排序，清理对应分组记录数多余16的记录
 表字段如下：
@@ -27,7 +28,7 @@ CREATE TABLE `ipqam_usage` (
   KEY `idx_onwer_id` (`owner_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9028760 DEFAULT CHARSET=gbk;
 ```
-#### <span id="inline-blue">实现思路</span>
+#### 实现思路
 借助MySQL游标，先查询出ipqam_id对应记录大于16的ipqam_id，并开启游标遍历操作，然后根据需要进行清理数据的ipqam_id,查询出16条记录数之外的ID暂存到临时表上，最后根据临时表上的id进行删除即可。
 如下是存储过程实现：
 ```MySQL
@@ -84,6 +85,5 @@ DELIMITER ;
 
 SET FOREIGN_KEY_CHECKS=1;
 ```
-#### <span id="inline-blue">验证</span>
+#### 验证
 ![MySQL大表清理](/images/mysql/mysql_20240606_001.png)
-

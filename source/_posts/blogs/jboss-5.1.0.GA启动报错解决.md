@@ -9,9 +9,10 @@ tags:
 	
 date: 2022-07-06 10:55:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 ```shell
 10:13:23,908 INFO  [JMXKernel] Legacy JMX core initialized
 10:13:24,590 ERROR [AbstractKernelController] Error installing to Instantiated: name=AttachmentStore state=Described
@@ -64,7 +65,7 @@ java.lang.IllegalStateException: Incompletely deployed:
 
 
 
-# <span id="inline-blue">解决方案</span>
+# 解决方案
 修改以下文件对应节点内容：/usr/local/GRM/jboss-5.1.0.GA/server/default/conf/bootstrap/profile.xml
 修改前：
 ```shell

@@ -7,14 +7,15 @@ tags:
 	
 date: 2024-11-18 17:01:21
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
     Docker: 26.1.4
 	idea: 2018-2-1
 	dockerfile-maven-plugin: 1.4.9
-# <span id="inline-blue">背景</span>
+# 背景
 微服务打包之后希望Docker构建镜像生成容器运行，使用dockerfile-maven-plugin插件实现
-# <span id="inline-blue">Docker开放远程连接</span>
+# Docker开放远程连接
 修改Docker服务配置文件，增加远程连接端口监听，文件所在位置
 vim /lib/systemd/system/docker.service
 ```shell
@@ -30,14 +31,14 @@ RestartSec=2
 Restart=always
 ```
 -H tcp://0.0.0.0:2375  指定监听所有地址的2375端口连接
-# <span id="inline-blue">重启Docker服务</span>
+# 重启Docker服务
 ```shell
 sudo systemctl daemon-reload
 sudo systemctl restart docker.service
 ```
-# <span id="inline-blue">idea配置Docker连接</span>
+# idea配置Docker连接
 ![Docker远程连接](/images/docker/20241118/Docker_Idea_20241118_001.png)
-# <span id="inline-blue">添加maven插件依赖</span>
+# 添加maven插件依赖
 ```xml
 <!--控制微服务build阶段生成jar时构建镜像 true:不执行 false:执行-->
 <properties>
@@ -66,6 +67,6 @@ sudo systemctl restart docker.service
                 </configuration>
             </plugin> 
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 maven clean install 执行后微服务模块自动构建对应镜像
 ![Docker构建镜像验证](/images/docker/20241118/Docker_Idea_20241118_002.png)

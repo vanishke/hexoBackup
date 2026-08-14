@@ -7,9 +7,10 @@ tags:
 	
 date: 2023-01-09 17:25:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">要求</span>
+# 要求
 按照一级城市统计单引擎、双引擎、总数来统计盒子的数量
 appType:0 单引擎
 appType:1 双引擎
@@ -41,7 +42,7 @@ CREATE TABLE `smartcard_district_relation` (
   KEY `idx_smartCardId` (`smartCardId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1462231 DEFAULT CHARSET=utf8 COMMENT='智能卡和分公司编码关联表';
 ```
-# <span id="inline-blue">实现</span>
+# 实现
 创建caculateTVboxTotal存储过程及辅助函数queryChildren
 ```sql
 SET NAMES utf8mb4;
@@ -186,9 +187,7 @@ delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 ```sql
 call caculateTVboxTotal;
 ```
-
-

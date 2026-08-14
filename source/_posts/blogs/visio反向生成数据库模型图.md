@@ -10,13 +10,14 @@ tags:
 	
 date: 2022-05-27 14:23:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">安装MySQL ODBC驱动</span>
+# 安装MySQL ODBC驱动
 官网地址: https://dev.mysql.com/downloads/connector/odbc/5.1.html
 选择对应操作系统版本,类型安装包下载(msi格式)，下载完按照提示安装。
 
-# <span id="inline-blue">配置数据源</span>
+# 配置数据源
 打开 开始菜单->控制面板-》管理工具-》数据源配置
 配置详情如下图
 ![MySQL系统数据源配置01](/images/Windows/MySQL/WM_20220620_001.png)
@@ -24,7 +25,7 @@ date: 2022-05-27 14:23:20
 数据库连接信息，信息填完之后测试一下连接是否可用，检查参数是否正常。
 ![MySQL系统数据源配置02](/images/Windows/MySQL/WM_20220620_002.png)
 
-# <span id="inline-blue">Visio生成数据库模型图</span>
+# Visio生成数据库模型图
 
 创建对应类型visio文件,如下图：
 ![MySQL系统数据源配置03](/images/Windows/MySQL/WM_20220620_003.png)
@@ -50,5 +51,5 @@ date: 2022-05-27 14:23:20
 导出表项在当前文件生成数据对象,如下图：
 ![MySQL系统数据源配置10](/images/Windows/MySQL/WM_20220620_010.png)
 
-# <span id="inline-blue">验证</span>
+# 验证
 ![MySQL系统数据源配置11](/images/Windows/MySQL/WM_20220620_011.png)

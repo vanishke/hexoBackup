@@ -8,9 +8,10 @@ tags:
 date: 2020-11-17 11:11:20
 ---
 
+
 <!-- toc -->
 
-## <span id="inline-blue">启动</span>
+## 启动
 
 ```shell
 $ su – oracle 
@@ -27,7 +28,7 @@ $ lsnrctl stop(关闭监听器，在这之前，应该先关闭应用程序）
 
 ​	
 
-## <span id="inline-blue">停止</span>
+## 停止
 
 ```shell
 su - oracle
@@ -36,4 +37,3 @@ $ sqlplus /nolog
 sql> conn / as sysdba 
 sql> shutdown immediate
 ```
-

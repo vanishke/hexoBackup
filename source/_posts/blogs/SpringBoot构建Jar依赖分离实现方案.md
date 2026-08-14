@@ -9,9 +9,10 @@ tags:
 
 date: 2026-08-10 09:23:04
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 Spring Boot 微服务若以 FatJar 交付，业务代码与第三方依赖打在同一包内，镜像体积大，依赖未变时也要整包重传。构建阶段改为产出瘦业务 Jar，并用 `maven-dependency-plugin` 将 `runtime` 依赖复制到外置 `lib/`，在 Manifest 中写入 `Class-Path: lib/...`，再经 docker 目录同步脚本落到镜像构建上下文。效果是业务与依赖物理分离：仅改业务时可只替换瘦 Jar；依赖变更时同步更新 `lib` 并视情况重建镜像。
 
@@ -31,7 +32,7 @@ Spring Boot 微服务若以 FatJar 交付，业务代码与第三方依赖打在
 | 模块产物 | `clearstream-admin/clearstream-admin-biz/target/` |
 | docker 同步目录 | `docker/clearstream/clearstream-admin-biz/` |
 
-# <span id="inline-blue">环境要求</span>
+# 环境要求
 
 | 项 | 要求 |
 |----|------|
@@ -43,7 +44,7 @@ Spring Boot 微服务若以 FatJar 交付，业务代码与第三方依赖打在
 
 > `copy-dependencies` 不会清理历史 jar，重新打包前必须 `clean`。
 
-# <span id="inline-blue">目标产物形态</span>
+# 目标产物形态
 
 ```mermaid
 flowchart TB
@@ -72,7 +73,7 @@ docker/clearstream/<模块名>/
   └── Dockerfile
 ```
 
-# <span id="inline-blue">核心步骤</span>
+# 核心步骤
 
 ## 配置瘦 Jar 与外置依赖复制
 
@@ -155,7 +156,7 @@ CMD ["java", "-jar", "clearstream-admin-biz.jar"]
 | 依赖变更（pom 增减） | 同步更新 `lib/`，并视情况重建应用镜像 |
 | 混用不同构建批次 | **禁止**；易出现 ClassNotFound 或行为漂移 |
 
-# <span id="inline-blue">验证</span>
+# 验证
 
 ```mermaid
 flowchart LR
@@ -175,7 +176,7 @@ flowchart LR
 
 验收以 `target/` 下瘦 Jar 体积明显小于 FatJar、且同目录 `lib/` 非空为准。
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -184,7 +185,7 @@ flowchart LR
 | 测试包进了 lib | scope 未限制或 SDK 误标 compile | `includeScope=runtime` + 排除名单 |
 | 只换了瘦 Jar 仍报缺类 | 依赖已变却未更新 lib | 依赖变更必须同步 lib |
 
-# <span id="inline-blue">完整命令清单</span>
+# 完整命令清单
 
 ```bash
 # ── 1. 干净构建 ──

@@ -7,12 +7,13 @@ tags:
 	
 date: 2024-01-24 11:26:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 Elasticsearch : 6.8.4
-# <span id="inline-blue">目的</span>
+# 目的
 Elasticsearch统计用户的访问记录，需要在已有模板的基础上增加几个上报属性，通过head和SQL插件能够查询到新增的属性，并将新增的属性应用到已存在的历史索引
 新增属性：
 softwareVersion(String) : 软件版本
@@ -21,7 +22,7 @@ model(String):	硬件型号
 socmodel(String): 芯片型号
 districtCodeName(String): 区域名称
 mac(String): MAC地址
-# <span id="inline-blue">实现</span>
+# 实现
 原始模板：
 ```json
  {
@@ -210,7 +211,7 @@ mac(String): MAC地址
 }
 ```
 删除原始模板，创新新的索引模板，模板变更之后只对新增的索引有效，历史索引依然保持之前的mapping映射。
-## <span id="inline-blue">更改历史索引mapping映射</span>
+## 更改历史索引mapping映射
 索引: user_action_moui_202312
 
 ```shell
@@ -242,10 +243,7 @@ scroll_size=10000 ：采用Scroll方式翻页的大小，默认为1000
 ```shell
 curl -X GET http://10.9.216.12:9200/_tasks/z4Wm_2UETI2ni9yFXxjcew:974983 
 ```
-## <span id="inline-blue">验证</span>
+## 验证
 
 通过SQL插件查询user_action_moui_*索引，验证新增字段属性是否生效
 ![Elasticsearch索引变更](/images/elasticsearch/es_20240116_001.png)
-
-
-

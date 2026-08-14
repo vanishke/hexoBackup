@@ -7,13 +7,14 @@ tags:
 	
 date: 2023-12-18 16:21:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 MySQL : 5.7
-# <span id="inline-blue">背景</span>
+# 背景
 导出现网数据库数据，发现数据量过大，排除一些和核心业务无关的表
-# <span id="inline-blue">实现</span>
+# 实现
 查询当前需要进行导出的数据库各个表的空间占用情况
 ```sql
 SELECT

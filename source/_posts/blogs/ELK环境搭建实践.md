@@ -10,15 +10,14 @@ tags:
 date: 2021-11-09 11:11:20
 ---
 
-
-## <span id="inline-blue">工具安装包下载</span>
-<a id="download" href="https://www.elastic.co/cn/what-is/elk-stack"><i class="fa fa-download"></i><span>elasticsearch官方地址</span> </a>
-<a id="download" href="https://pan.baidu.com/s/1oaa1tRrbKokXyE1ZqEHpSg"><i class="fa fa-download"></i><span>百度云地址</span> </a>  提取码：op7h
+## 工具安装包下载
+<a href="https://www.elastic.co/cn/what-is/elk-stack">elasticsearch官方地址</a>
+<a href="https://pan.baidu.com/s/1oaa1tRrbKokXyE1ZqEHpSg">百度云地址</a>  提取码：op7h
 
 Elasticsearch、logstash、kibana 三者使用同一版本7.15.1
 
 
-## <span id="inline-blue">Elasticsearch</span>
+## Elasticsearch
 	上传安装包到指定的目录 /usr/local/ELK/ 
 ![ELK安装目录](/images/elasticsearch/es_20211009_001.png)	
 
@@ -118,7 +117,7 @@ http.cors.allow-origin: "*"
 pack.security.enabled: false
 
 ```
-## <span id="inline-blue">安装head插件</span>
+## 安装head插件
 
 head插件地址：git://github.com/mobz/elasticsearch-head.git
 下载之后将插件上传到Elasticsearch目录，创建一个自定义目录（放在原有plugins目录启动会报错）
@@ -269,7 +268,7 @@ Started connect web server on http://localhost:9100
 ![head插件访问](/images/elasticsearch/es_20211009_004.png)
 
 
-## <span id="inline-blue">logstash安装</span>
+## logstash安装
 
 解压安装包，进入对应的目录
 ```shell
@@ -384,7 +383,7 @@ The stdin plugin is now waiting for input:
 -f 参数指定启动配置文件
 启动成功后，logstash监控控制台输出，在控制台随意输入一些信息，logstash会将信息存入Elasticsearch,可以通过Head插件查看
 
-## <span id="inline-blue">kibana安装</span>
+## kibana安装
 
 解压对应安装包，进入对应目录
 ```shell
@@ -555,7 +554,7 @@ GLIBC_2.17
 GLIBC_PRIVATE
 ```
 lib64stdc++升级到gcc4.8
-<a id="download" href="http://ftp.de.debian.org/debian/pool/main/g/gcc-4.8/"><i class="fa fa-download"></i><span>gcc4.8下载地址</span> </a>
+<a href="http://ftp.de.debian.org/debian/pool/main/g/gcc-4.8/">gcc4.8下载地址</a>
 服务器创建临时目录lib64stdc，上传压缩包解压
 ```shell
 # 解压
@@ -607,6 +606,3 @@ GLIBCXX_DEBUG_MESSAGE_LENGTH
 http://10.9.216.12:5601/app/home#/
 
 ![kibana启动报错](/images/elasticsearch/es_20211009_006.png)
-
-
-

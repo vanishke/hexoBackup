@@ -7,12 +7,13 @@ tags:
 	
 date: 2024-07-08 11:25:20
 ---
-<!-- toc -->
-# <span id="inline-blue">背景</span>
-ORACLE数据库基于安全考虑迁移至达梦数据库，采用达梦8
-# <span id="inline-blue">安装</span>
 
-## <span id="inline-blue">下载达梦8安装包</span>
+<!-- toc -->
+# 背景
+ORACLE数据库基于安全考虑迁移至达梦数据库，采用达梦8
+# 安装
+
+## 下载达梦8安装包
 下载地址:
 https://download.dameng.com/eco/adapter/DM8/202405/dm8_20240408_x86_rh7_64_ent_8.1.3.140.zip
 下载之后本地解压dm8_20240408_x86_rh7_64_ent_8.1.3.140.zip文件得到文件内容如下：
@@ -26,17 +27,17 @@ DAEMON Tools Lite下载地址: https://www.xitongzhijia.net/soft/215783.html
 镜像加载后在电脑本地文件出现如下标识，双击进去之后可以看到DMInstall.bin就是需要上传的安装文件
 ![DM8](/images/DM8/DM8_20240708_004.png)
 ![DM8](/images/DM8/DM8_20240708_005.png)
-## <span id="inline-blue">安装</span>
+## 安装
 参考官方安装文档地址：https://eco.dameng.com/document/dm/zh-cn/start/install-dm-linux-prepare.html
 
-## <span id="inline-blue">安装过程中遇到的问题</span>
+## 安装过程中遇到的问题
 
-### <span id="inline-blue">DMInstall.bin安装启动失败</span>
+### DMInstall.bin安装启动失败
 描述：DmServiceDMSERVER start命令之后后没有启动成功
 原因：没有使用dmdba用户初始化实例
 解决方案：重新使用dmdba用户初始化数据库实例
 
-### <span id="inline-blue">Red Hat 7.9安装达梦数据库DM8图形化显示英文和乱码</span>
+### Red Hat 7.9安装达梦数据库DM8图形化显示英文和乱码
 描述：DM8图形化显示英文和乱码
 原因：系统缺失相应的字体依赖
 解决方案：安装字体库
@@ -46,7 +47,7 @@ DAEMON Tools Lite下载地址: https://www.xitongzhijia.net/soft/215783.html
 ```
 
 
-### <span id="inline-blue"> Could not load SWT library. Reasons</span>
+### Could not load SWT library. Reasons
 描述：./DMInstall.bin -i 执行报错，java.lang.UnsatisfiedLinkError: Could not load SWT library. Reasons:     no swt-pi-gtk-3659
 原因：缺失gtk依赖
 解决方案：
@@ -120,7 +121,7 @@ xdg-user-dirs-gtk.x86_64 : Gnome integration of special directories
 [root@S21612 dm]# yum install gtk2.x86_64
 ```
 
-### <span id="inline-blue">xhost: command not found</span>
+### xhost: command not found
 描述：-bash: xhost: command not found
 原因：缺失xorg-x11-server-utils对应依赖
 解决方案：yum安装xorg-x11-server-utils依赖
@@ -143,7 +144,7 @@ Filename    : /usr/bin/xhost
 #安装
 [root@S21612 bin]#yum install -y xorg-x11-server-utils-7.7-20.el7.x86_64
 ```
-### <span id="inline-blue">No more handles [gtk_init_check() failed</span>
+### No more handles [gtk_init_check() failed
 描述：No more handles [gtk_init_check()] failed
 原因：当前操作系统的登录用户应该为非dmdba 用户，如果在当前会话中启用图形界面需
 要将图形界面权限放开
@@ -159,6 +160,3 @@ DISPLAY环境变量含义：该方法为本地调用图形化界面，如果希�
 
 启动方式：
 ![DM8](/images/DM8/DM8_20240708_006.png)
-
-
-

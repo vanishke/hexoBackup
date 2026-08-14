@@ -8,17 +8,18 @@ tags:
 	
 date: 2024-09-23 14:30:03
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 Java : 1.8
 Flatten-maven-plugin: 1.3.0
 SpringBoot: 2.6.6
 SpringCloud: 2021.0.6
 Maven: 3.5.4
-# <span id="inline-blue">背景</span>
+# 背景
 微服务项目集成模块越来越多，公共模块的版本管理很麻烦，通过集成Flatten-maven-plugin插件，实现版本号统一管理
-# <span id="inline-blue">Flatten-maven-plugin插件</span>
+# Flatten-maven-plugin插件
 项目父级pom.xml引入Flatten-maven-plugin插件及版本占位符${revision}定义
 ```xml
   <modelVersion>4.0.0</modelVersion>
@@ -67,7 +68,7 @@ Maven: 3.5.4
 父模块引入插件定义
 模块${revision}版本号占位符不可与明确字符串版本号混用，否则报错
 
-# <span id="inline-blue">子模块版本号定义</span>
+# 子模块版本号定义
 子模块引用${revision}占位符，替代父项目的版本号
 ```xml
 <project>
@@ -148,9 +149,9 @@ idea忽略Flatten-maven-plugin生成的.flattened-pom.xml文件
         <artifactId>common-redis</artifactId>
       </dependency>
 ```
-# <span id="inline-blue">插件使用过程中的问题记录</span>
+# 插件使用过程中的问题记录
 
-## <span id="inline-blue">revision变量爆红</span>
+## revision变量爆红
 	
 ${revision}占位符支持需要升级Maven到3.5.2及以上，并且需要手动变更下idea的目录引用设置，如下图：
 

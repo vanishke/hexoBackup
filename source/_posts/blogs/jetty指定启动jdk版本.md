@@ -8,7 +8,8 @@ tags:
 date: 2020-11-17 10:11:12
 ---
 
-## <span id="inline-blue">linux环境</span>
+
+## linux环境
 
 ```bash
 文件名称：setenv.sh 文件路径：/usr/local/
@@ -16,6 +17,3 @@ date: 2020-11-17 10:11:12
 export JAVA_HOME=/usr/java/jdk1.6.0_21
 export JRE_HOME=/usr/java/jdk1.6.0_21/jre
 ```
-
-
-

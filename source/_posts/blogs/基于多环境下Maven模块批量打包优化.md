@@ -7,18 +7,19 @@ tags:
 	
 date: 2023-12-07 16:21:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 SpringBoot: 2.2.6.RELEASE
 SpringCloud: 2021.0.5
 nacos: nacos-2.1.1
 mybatis-plus: 3.3.1
 Java： 1.8
-# <span id="inline-blue">背景</span>
+# 背景
  微服务模块使用nacos作为注册中心和配置中心，在多环境下批量打包需要逐个更改对应模块的bootstrap.properties文件很耗时，实现通过根模块pom统一设置环境变量，只更改一次便可以实现所有模块nacos命令空间和生产环境变更。
 
-# <span id="inline-blue">实现</span>
+# 实现
 根模块定义nacos所需要的命令空间和生产环境相关变量
 ```xml
  <nacos-addr>10.26.0.19:8848</nacos-addr>

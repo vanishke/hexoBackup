@@ -9,25 +9,26 @@ tags:
 	
 date: 2026-02-04 15:29:03
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 - CentOS Linux release 7.9.2009 (Core)
 
-# <span id="inline-blue">配置docker-ce yum源</span>
+# 配置docker-ce yum源
 
 ```shell
 sudo wget -O /etc/yum.repos.d/docker-ce.repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 ```
 
-# <span id="inline-blue">安装Docker</span>
+# 安装Docker
 
 ```shell
 sudo yum -y install docker-ce
 ```
 
-# <span id="inline-blue">依赖报错（container-selinux / slirp4netns / fuse-overlayfs）</span>
+# 依赖报错（container-selinux / slirp4netns / fuse-overlayfs）
 
 安装过程中可能遇到依赖缺失，报错示例如下（节选）：
 
@@ -80,7 +81,7 @@ Error: Package: docker-ce-rootless-extras-26.1.4-1.el7.x86_64 (docker-ce-stable)
 
 其中 `slirp4netns`、`fuse-overlayfs`、`container-selinux` 等依赖在部分离线/受限环境中无法通过 yum 直接拉取到满足版本要求的包，需要改用**离线方式**补齐依赖。
 
-# <span id="inline-blue">离线安装依赖包清单</span>
+# 离线安装依赖包清单
 
 离线安装时，除 `slirp4netns`、`fuse-overlayfs` 自身外，往往还需要额外依赖。以下为一组可用的依赖 RPM（示例清单）：
 
@@ -102,7 +103,7 @@ slirp4netns-0.4.2-3.git21fdece.module+el8.5.0+770+e2f49861.x86_64.rpm
 
 > 建议将所有 rpm 放在同一目录（例如 `/usr/local/docker-rpms`），然后按依赖关系顺序执行安装。
 
-# <span id="inline-blue">离线安装（按依赖顺序rpm -ivh）</span>
+# 离线安装（按依赖顺序rpm -ivh）
 
 进入 RPM 所在目录后，按依赖关系顺序安装（示例命令如下，实际请以你手头 rpm 文件名为准）：
 
@@ -138,7 +139,7 @@ rpm -ivh slirp4netns-0.4.2-3.git21fdece.module+el8.5.0+770+e2f49861.x86_64.rpm
 sudo yum -y install docker-ce
 ```
 
-# <span id="inline-blue">container-selinux下载地址</span>
+# container-selinux下载地址
 
 `container-selinux` 可在以下地址下载（按需要选择版本）：
 
@@ -153,7 +154,7 @@ sudo yum -y install docker-ce
 - 链接：`https://pan.baidu.com/s/1p0WWIbXqqlW73aNcSfxHhA?pwd=1g5u`
 - 提取码：`1g5u`
 
-# <span id="inline-blue">安装container-selinux提示policycoreutils-python缺失</span>
+# 安装container-selinux提示policycoreutils-python缺失
 
 安装 `container-selinux-2.107-3.el7.noarch.rpm` 时可能提示：
 
@@ -178,10 +179,9 @@ yum makecache
 yum install -y policycoreutils-python
 ```
 
-# <span id="inline-blue">启动并设置开机自启</span>
+# 启动并设置开机自启
 
 ```shell
 systemctl start docker
 systemctl enable docker
 ```
-

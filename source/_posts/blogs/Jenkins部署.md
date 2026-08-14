@@ -10,9 +10,10 @@ tags:
 
 date: 2026-06-12 10:05:56
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 Jenkins 以 WAR 包独立部署于 CI 构建节点，与 SVN 代码仓库、Harbor 镜像仓库配合，为流水线提供编译与镜像构建环境。流水线触发与推送逻辑见 [Jenkins流水线配置](./Jenkins流水线配置.md)。
 
@@ -31,7 +32,7 @@ Jenkins 以 WAR 包独立部署于 CI 构建节点，与 SVN 代码仓库、Harb
 | Harbor | `https://<Harbor地址>:8443` |
 | Harbor CI 推送项目 | `<Harbor项目名-test>`（`<Harbor项目名-dev>` 若已被其他环境占用则选用 test） |
 
-# <span id="inline-blue">部署架构</span>
+# 部署架构
 
 ## 总体架构
 
@@ -88,7 +89,7 @@ flowchart TB
 
 Harbor 使用乐此加密 HTTPS 证书，**无需**在 `daemon.json` 配置 `insecure-registries`，直接 `docker login` / `docker push` 即可。
 
-# <span id="inline-blue">环境要求</span>
+# 环境要求
 
 | 项 | 建议 |
 |----|------|
@@ -104,7 +105,7 @@ docker version
 svn --version
 ```
 
-# <span id="inline-blue">官方资源</span>
+# 官方资源
 
 **WAR 包下载：**
 
@@ -115,7 +116,7 @@ svn --version
 
 - 插件中心：[https://updates.jenkins-ci.org/download/plugins/](https://updates.jenkins-ci.org/download/plugins/)
 
-# <span id="inline-blue">目录规划</span>
+# 目录规划
 
 ```
 /home/jenkins/
@@ -132,7 +133,7 @@ svn --version
     └── .m2/
 ```
 
-# <span id="inline-blue">安装与启动</span>
+# 安装与启动
 
 ```bash
 cd /home/jenkins
@@ -153,7 +154,7 @@ nohup java -jar /home/jenkins/jenkins.war --httpPort=10240 --httpListenAddress=0
 
 推荐使用 systemd 托管，首次访问 `http://<节点IP>:<httpPort>`，从 `jenkins_home/secrets/initialAdminPassword` 获取初始密码。
 
-# <span id="inline-blue">插件安装</span>
+# 插件安装
 
 | 插件 | 用途 |
 |------|------|
@@ -165,7 +166,7 @@ nohup java -jar /home/jenkins/jenkins.war --httpPort=10240 --httpListenAddress=0
 | JDK Tool Plugin | 全局 JDK |
 | Timestamps / Workspace Cleanup / Build Timeout | 日志与构建管理 |
 
-# <span id="inline-blue">全局工具配置</span>
+# 全局工具配置
 
 路径：**Manage Jenkins → Global Tool Configuration**（取消 *Install automatically*）
 
@@ -174,7 +175,7 @@ nohup java -jar /home/jenkins/jenkins.war --httpPort=10240 --httpListenAddress=0
 | `jdk8` | JDK | `/usr/local/java/jdk8u312-b07` |
 | `maven3` | Maven | `/home/apache-maven-3.8.9` |
 
-# <span id="inline-blue">Docker 与镜像构建环境</span>
+# Docker 与镜像构建环境
 
 Jenkins 流水线在宿主机执行 `docker build` / `docker push`，需完成以下配置。
 
@@ -263,7 +264,7 @@ docker build -f docker/<项目名>/app-gateway/Dockerfile \
 - 若去掉 `activeByDefault`，CI **必须**显式 `-Pdev` / `-Ptest` / `-Pprod`。
 - 镜像推送到 `<Harbor项目名-test>` 时，运行时 Nacos 往往应对应 **test** 配置；若 jar 内仍是 dev 的 `nacos-address` / `namespace`，属于 **Harbor 目标环境与 Maven profile 不一致**，需在流水线中显式 `-Ptest` 或按参数选择 profile（见流水线配置说明）。
 
-# <span id="inline-blue">凭据配置</span>
+# 凭据配置
 
 路径：**Manage Jenkins → Credentials → System → Global credentials**
 
@@ -278,7 +279,7 @@ docker build -f docker/<项目名>/app-gateway/Dockerfile \
 - **不得**写入 `Jenkinsfile`、SVN 仓库或本文档。
 - SVN `post-commit` Hook 使用 Jenkins **API Token**（非登录密码），且**勿提交到 SVN 仓库**；泄露后须立即撤销并重新生成。
 
-# <span id="inline-blue">版本升级</span>
+# 版本升级
 
 ```bash
 systemctl stop jenkins

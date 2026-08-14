@@ -9,7 +9,8 @@ tags:
 date: 2021-01-15 14:11:20
 ---
 
-## <span id="inline-blue">实现原理</span>
+
+## 实现原理
 通过监听hexo事件完成博客源码备份，hexo主要事件如下表
 
 |事件名称|时间发生时间|
@@ -23,7 +24,7 @@ date: 2021-01-15 14:11:20
 
 监听deployAfter事件，hexo上传文件到github之后自动运行git备份命令，完成博客备份。
 
-## <span id="inline-blue">hexo源码添加Git仓库</span>
+## hexo源码添加Git仓库
  1. github仓库新建repository,命名为hexoBackup
  2. 进入本地hexo目录，执行以下命令
  ```shell
@@ -45,7 +46,7 @@ date: 2021-01-15 14:11:20
  ```shell
  git push origin master
  ```
- ## <span id="inline-blue">安装shelljs模块</span>
+ ## 安装shelljs模块
 
  1. 要实现这个自动备份功能，需要依赖 Node.js的一个 shelljs 模块,该模块重新包装了child_process,调用系统命令更加的方便。该模块需要安装后使用。
  
@@ -97,7 +98,7 @@ function run() {
 修改脚本中路径，替换为对应源码路径，注意仓库分支是否为master,保存脚本并退出。
 
 ，
-## <span id="inline-blue">验证</span>
+## 验证
 执行 hexo d 命令，执行结果如下:
 ```shell
 $ hexo d
@@ -128,8 +129,3 @@ To git@github.com:<YOUR_GITHUB_USERNAME>/hexoBackup.git
 ==================Auto Backup Complete============================
 
 ```
-
-
-
-
-

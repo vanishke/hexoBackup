@@ -9,7 +9,8 @@ date: 2022-05-15 10:57:21
 
 ---
 
-## <span id="inline-blue">上传配置</span>
+
+## 上传配置
 
 hexo配置和文件文件添加如下
 
@@ -22,7 +23,7 @@ deploy:
 
 
 
-## <span id="inline-blue">安装插件</span>
+## 安装插件
 
 安装GitHub部署插件
 
@@ -30,12 +31,9 @@ deploy:
 npm install hexo-deployer-git --save
 ```
 
-## <span id="inline-blue">测试部署</span>
+## 测试部署
 
 ```shell
 hexo d   
 
 ```
-
-
-

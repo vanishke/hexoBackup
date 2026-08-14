@@ -8,9 +8,10 @@ top: 2
 
 date: 2022-05-19 11:27:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">strings命令</span>
+## strings命令
 
 **作用**
 在对象或二进制文件中查找可打印的字符串，字符可以是由4个或者更多字符组成的字符序列，以换行符或空字符结束。
@@ -55,7 +56,7 @@ date: 2022-05-19 11:27:20
 ```
 
 
-## <span id="inline-blue">unlink命令</span>
+## unlink命令
 
 **作用**
 删除指定的文件，功能和rm命令一样。
@@ -75,7 +76,7 @@ elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  puls
 ```
 
 
-## <span id="inline-blue">chown命令</span>
+## chown命令
 
 **作用**
 ```shell
@@ -106,7 +107,7 @@ You have new mail in /var/spool/mail/root
 ```
 
 
-## <span id="inline-blue">stat命令</span>
+## stat命令
 
 **作用**
 	显示文件状态信息，stat命令的输出信息比ls命令的输出信息要更详细。
@@ -148,7 +149,7 @@ ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 16082745
 ```
 
 
-## <span id="inline-blue">which命令
+## which命令
 
 **作用**
 查找命令所在的绝对路径（包含命令别名）。
@@ -180,7 +181,7 @@ alias ls='ls --color=auto'
 ```
 
 
-## <span id="inline-blue">file命令</span>
+## file命令
 
 **作用**
     file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.
@@ -213,7 +214,7 @@ text/plain; charset=us-ascii
 ```
 
 
-## <span id="inline-blue">whereis命令 </span>
+## whereis命令
 
 **作用**
 	定位二进制程序文件、man手册、源代码文件所在位置，搜索效率比find命令高，因为查找的是数据库索引文件，和locate命令同理，但索引内容不是实时更新。
@@ -245,7 +246,7 @@ ls: /usr/share/man/man1/ls.1.gz
 ```
 
 
-## <span id="inline-blue">locate命令</span>
+## locate命令
 
 **作用**
 	查找文件或目录所在位置（locate 命令实际是查找的/var/lib/mlocate/mlocate.db 文件，所以查找速度比find命令快的多）
@@ -274,7 +275,7 @@ This program is provided with NO WARRANTY, to the extent permitted by law.
  
  
  
- ## <span id="inline-blue">ln命令</span>
+ ## ln命令
 
 **作用**
 	为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上-s 选项。
@@ -355,7 +356,7 @@ You have new mail in /var/spool/mail/root
 -rwxrwxrwx 2 root root    8505 12月 18 14:23 record.ini
 ```
 
-## <span id="inline-blue">touch命令
+## touch命令
 
 **作用**
 更改已存在文件的时间戳为当前时间戳，或创建新的文件
@@ -405,7 +406,7 @@ drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
 ```
 
 
-## <span id="inline-blue">mv命令</span>
+## mv命令
 
 **作用**
 	移动文件或将文件改名
@@ -504,7 +505,7 @@ mv：是否覆盖"newDir/1.txt"？ y
 
 
 
-## <span id="inline-blue">pwd命令</span>
+## pwd命令
 
 **作用**
 	以绝对路径显示当前用户的所在目录
@@ -519,7 +520,7 @@ mv：是否覆盖"newDir/1.txt"？ y
 ```
 
 
-## <span id="inline-blue">mkdir命令</span>
+## mkdir命令
 
 **作用**
 mkdir用来创建dirname指定的目录。
@@ -548,7 +549,7 @@ elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  puls
 ```
 
 
-## <span id="inline-blue">ls命令</span>
+## ls命令
 
 **作用**
 显示目标文件列表
@@ -625,7 +626,7 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
 
 
-## <span id="inline-blue">sz命令</span>
+## sz命令
 
 **作用**
 基于zmodern协议实现远程文件下载
@@ -645,7 +646,7 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
 
 
-## <span id="inline-blue">rz命令</span>
+## rz命令
 
 **作用**
 基于zmodern协议实现本地文件上传
@@ -666,7 +667,7 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
 
 
-## <span id="inline-blue">true命令</span>
+## true命令
 
 **作用**
 清空文件内容、不删除文件
@@ -681,7 +682,7 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
 
 
-## <span id="inline-blue">tree命令</span>
+## tree命令
 
 **作用**
 以树形结构展现当前目录的文件
@@ -701,7 +702,7 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 ```
 
 
-## <span id="inline-blue">last命令</span>
+## last命令
 
 **作用**
 显示最近终端登录信息
@@ -719,6 +720,3 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 [root@lwdCSCDN info]# last
 
 ```
-
-
-

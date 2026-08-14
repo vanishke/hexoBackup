@@ -9,9 +9,10 @@ tags:
 
 date: 2026-07-20 14:39:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 在 Spring Cloud 微服务体系中，MySQL、Redis、Elasticsearch、RabbitMQ、支付密钥、对象存储 AK/SK、EMQX、第三方登录 Client Secret 等敏感信息若以明文散落在各 Nacos data-id 中，存在泄露与变更成本高的问题。本文介绍一套在现有 **Nacos 扩展配置 + jasypt-spring-boot-starter 3.0.4** 基础上落地的方案：用独立的 `encrypt.yml` 集中存放 `ENC(密文)`，业务配置通过 `${VAR}` 引用，运行时仅外置 Jasypt 主密钥。
 
@@ -35,7 +36,7 @@ date: 2026-07-20 14:39:20
 | 微服务 | `http://<app-host>:<port>` |
 | 工程根目录 | `/path/to/<repo-root>` |
 
-# <span id="inline-blue">改造目标与范围</span>
+# 改造目标与范围
 
 ## 目标
 
@@ -64,7 +65,7 @@ date: 2026-07-20 14:39:20
 | `NACOS_USERNAME` / `NACOS_PASSWORD` | bootstrap 拉取配置前即需要 |
 | `JASYPT_ENCRYPTOR_PASSWORD` | 解密根密钥，写入 Nacos 等于明文泄露 |
 
-# <span id="inline-blue">整体架构</span>
+# 整体架构
 
 ```mermaid
 flowchart TB
@@ -93,7 +94,7 @@ flowchart TB
   JASYPT --> BEAN
 ```
 
-# <span id="inline-blue">依赖与 Jasypt 配置（内联）</span>
+# 依赖与 Jasypt 配置（内联）
 
 ## Maven 依赖与插件
 
@@ -166,7 +167,7 @@ jasypt:
 
 > 后加载的 extension-config 对同名 key 优先级更高；`encrypt.yml` 置顶便于约定密文清单位置。`${VAR}` 解析时，只要 Environment 中存在对应属性即可。
 
-# <span id="inline-blue">配置契约与样例（内联）</span>
+# 配置契约与样例（内联）
 
 ## encrypt.yml：加密前用 DEC，加密后用 ENC
 
@@ -305,7 +306,7 @@ knife4j:
 
 键名写成 `SCREAMING_SNAKE` 只是运维习惯；若系统存在**空的**同名环境变量，可能覆盖 Nacos 密文，业务侧得到空字符串。
 
-# <span id="inline-blue">核心步骤：批量加解密</span>
+# 核心步骤：批量加解密
 
 加解密使用官方 `jasypt-maven-plugin`，须在**已声明该插件的微服务模块根目录**执行。
 
@@ -355,7 +356,7 @@ mvn jasypt:decrypt-value \
   -Djasypt.plugin.value="YOUR_ENCRYPTED_VALUE"
 ```
 
-# <span id="inline-blue">运行时注入主密钥</span>
+# 运行时注入主密钥
 
 Jasypt Starter 读取 Spring 属性 **`jasypt.encryptor.password`**。下列两种方式等价：
 
@@ -418,7 +419,7 @@ services:
 | deploy 展开 | `${JASYPT_ENCRYPTOR_PASSWORD}` 取自 **管理节点** 环境；节点未设置则容器内为空 |
 | 是否重建镜像 | 仅改 Nacos / 环境变量：**不需要**；改了 `bootstrap.yml` 或 Java 代码：**需要**重建并滚动更新 |
 
-# <span id="inline-blue">配置与验证</span>
+# 配置与验证
 
 | 检查项 | 预期 |
 |--------|------|
@@ -429,7 +430,7 @@ services:
 | 启动日志 | 无 placeholder 无法解析、无 `Password cannot be set empty` |
 | 连通性 | DB / Redis / 支付等依赖可正常连接 |
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -439,7 +440,7 @@ services:
 | 只改了 Nacos，行为未变 | 连接池可能不热更新密码；镜像仍是旧 bootstrap | 滚动重启；缺加载项则重建镜像 |
 | 批量加密无效果 | 文件不是 `DEC(...)`，或不在含插件的模块目录执行 | 使用 `DEC(明文)`；`cd` 到对应模块再执行 |
 
-# <span id="inline-blue">完整命令清单</span>
+# 完整命令清单
 
 ```bash
 # ── 1. 生成并导出主密钥 ──

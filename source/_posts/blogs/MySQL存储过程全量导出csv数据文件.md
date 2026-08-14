@@ -7,14 +7,15 @@ tags:
 	
 date: 2023-11-10 15:55:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 MySQL:5.7
-# <span id="inline-blue">背景</span>
+# 背景
 将数据库指定表全量导出到csv文件，并上传至指定位置，采用存储过程实现。
 
-# <span id="inline-blue">实现</span>
+# 实现
 
 ## MySQL开启导出配置
 ![导出配置](/images/mysql/mysql_20231110_001.png)
@@ -331,5 +332,3 @@ mkdir -p $exportPath$currentDate
 #添加"\""转义,导出路径参数path必须使用双引号引起来，否则作为调用报错
 mysql -uroot -pcoship -e "use nanjing_iepg_v270; call ExportOnlineTvBox("\"${exportPath}${currentDate}\"",500000);"
 ```
-
-

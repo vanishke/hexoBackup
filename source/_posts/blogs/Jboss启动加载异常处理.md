@@ -9,9 +9,10 @@ tags:
 	
 date: 2022-08-26 16:01:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 ```shell
 2022-08-11 11:01:09,709 INFO  [org.quartz.core.QuartzScheduler] (main) Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
 2022-08-11 11:01:09,981 ERROR [org.jboss.kernel.plugins.dependency.AbstractKernelController] (main) Error installing to Start: name=jboss:database=localDB,service=Hypersonic state=Create mode=Manual requiredState=Installed
@@ -91,7 +92,7 @@ java.sql.SQLException: error in script file line: 1 Unexpected token: TP in stat
 	at java.lang.Thread.run(Thread.java:662)
 2022-08-11 11:01:09,986 ERROR 
 ```
-# <span id="inline-blue">原因分析</span>
+# 原因分析
 根据报错信息跟踪Jboss默认加载hsqldb数据库信息，查看/usr/local/sdp_trunk/usm/jboss5/server/default/data/hypersonic对应路径数据库文件，发现localDB.script文件内容输出异常。
 ## 异常内容
 ```shell
@@ -148,9 +149,6 @@ INSERT INTO JBM_ROLE VALUES('noacc','nobody')
 INSERT INTO JBM_POSTOFFICE VALUES('JMS post office',0,'DLQ','queue.DLQ',NULL,1,'N','N')
 INSERT INTO JBM_POSTOFFICE VALUES('JMS post office',0,'ExpiryQueue','queue.ExpiryQueue',NULL,0,'N','N')
 ```
-# <span id="inline-blue">解决方案</span>
+# 解决方案
 cd /usr/local/sdp_trunk/usm/jboss5/server/default/data/hypersonic 拷贝一份正常文件localDB.script，覆盖启动异常文件
 重新启动Jboss
-
-
-

@@ -9,13 +9,14 @@ categories:
 date: 2021-08-23 18:05:15	
 ---
 
-# <span id="inline-blue">现象</span> 
+
+# 现象 
 Push failed
 			Fatal: HttpRequestException encountered.
 			unable to access 'https://github.com/vanishke/DataStructure-Algorithm.git/': Unknown SSL protocol error in connection to github.com:443
 
 
-# <span id="inline-blue">解决办法</span> 
+# 解决办法 
 1. 访问https://github.com.ipaddress.com/ 查找到github公网IP地址
 ![查找结果](/images/intelliJ/intelliJ_2021_04_29_001.png)
 
@@ -28,9 +29,3 @@ cmd命令模式下执行以下命令：
 ```shell
 ipconfig /flushdns
 ```
-
-
-
-
-
-

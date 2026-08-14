@@ -8,9 +8,10 @@ tags:
 	
 date: 2026-01-23 10:55:28
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">MySQL 容器初始化数据覆盖问题排查与解决</span>
+# MySQL 容器初始化数据覆盖问题排查与解决
 
 ## 问题背景
 
@@ -325,4 +326,3 @@ MySQL 官方镜像的 entrypoint 脚本在读取配置文件之前检查默认�
 - [MySQL Docker Official Image](https://hub.docker.com/_/mysql)
 - [Docker Entrypoint Scripts](https://docs.docker.com/engine/reference/builder/#entrypoint)
 - [MySQL Data Directory](https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization.html)
-

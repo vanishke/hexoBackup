@@ -8,6 +8,7 @@ tags:
 
 date: 2025-11-14 17:23:02
 ---
+
 <!-- toc -->
 
 
@@ -15,18 +16,18 @@ apksigner是android sdk提供的android 实现V1 V2应用签名的签名工具�
 
 cmdline-tool版本与JDK对应关系参考 :https://likfe.com/2023/11/21/cmdlineToolsWithJdk/
 
-# <span id="inline-blue">安装cmdline-tools</span>
+# 安装cmdline-tools
 
-## <span id="inline-blue">Linux</span>
+## Linux
 
 本地使用jdk1.8，对应cmdline-tools下载地址为: 
 https://dl.google.com/android/repository/commandlinetools-linux-9123335_latest.zip
 
-### <span id="inline-blue">上传</span>
+### 上传
 
 下载完成之后通过XFtp上传到服务器目录，示例: /usr/local/android-tools
 
-### <span id="inline-blue">解压</span>
+### 解压
 
 ```shell
 unzip commandlinetools-linux-9123335_latest.zip
@@ -36,14 +37,14 @@ unzip commandlinetools-linux-9123335_latest.zip
 ![cmdline-tools目录](/images/Apksigner/Apksigner_Linux_20251118_001.png)
 
 
-### <span id="inline-blue">赋予可执行权限</span>
+### 赋予可执行权限
 
 ```shell
 cd /usr/local/android-tools/cmdline-tools/latest/bin
 chmod a+x *
 ```
 
-### <span id="inline-blue">安装build-tools</span>
+### 安装build-tools
 
 build-tools在24.0.3及之后的版本提供apksigner工具，目前安装使用的34.0.0版本
 
@@ -53,7 +54,7 @@ cd /usr/local/android-tools/cmdline-tools/latest/bin
 ./sdkmanager "build-tools;34.0.0"
 ```
 
-### <span id="inline-blue">配置环境变量</span>
+### 配置环境变量
 
 ```shell
 vim /etc/profile
@@ -66,7 +67,7 @@ export PATH
 source /etc/profile
 ```
 
-### <span id="inline-blue">验证</span>
+### 验证
 
 ```shell
 apksigner --help
@@ -74,13 +75,13 @@ apksigner --help
 
 ![apksigner验证](/images/Apksigner/Apksigner_Linux_20251118_002.png)
 
-## <span id="inline-blue">Windows</span>
+## Windows
 
 本地使用jdk1.8，对应cmdline-tools下载地址为: 
 https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip
 
 
-### <span id="inline-blue">安装cmdline-tools</span>
+### 安装cmdline-tools
 
 1. 下载后解压commandlinetools-win-9123335_latest.zip，指定解压到指定目录，示例: D:\android-sdk
 2. 在解压缩的 cmdline-tools 目录中，创建一个名为 latest 文件夹。
@@ -89,7 +90,7 @@ https://dl.google.com/android/repository/commandlinetools-win-9123335_latest.zip
 
 ![cmdline-tools安装](/images/Apksigner/Apksigner_Windows_20251118_003.png)
 
-### <span id="inline-blue">安装build-tools</span>
+### 安装build-tools
 
 build-tools在24.0.3及之后的版本提供apksigner工具，目前安装使用的34.0.0版本
 
@@ -107,14 +108,13 @@ apksigner签名工具位于build-tools目录下，具体位置如下:
 
 ![build-tools安装](/images/Apksigner/Apksigner_Windows_20251118_005.png)
 
-### <span id="inline-blue">配置环境变量</span>
+### 配置环境变量
 
 为了方便应用程序调用，为apksigner工具配置环境变量
 
 ![build-tools安装](/images/Apksigner/Apksigner_Windows_20251118_006.png)
 
 
-### <span id="inline-blue">验证</span>
+### 验证
 
 ![Apksigner验证](/images/Apksigner/Apksigner_Windows_20251118_007.png)
-

@@ -9,9 +9,10 @@ tags:
 
 date: 2026-07-21 09:20:50
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 使用 Cursor 通过 **Remote-SSH** 连接远程 Linux 上的 Git 工程做 Java 开发时，常出现在方法调用处无法「跳转到定义 / 实现」（如 `F12`、`Ctrl+单击`，或自定义的跳转快捷键）的情况：点了没反应、提示找不到符号，或索引一直转圈。根因多半是：**语言服务跑在远程端**，本机装的 Java 扩展不会自动在远端生效，或 Language Server 工作区缓存损坏。
 
@@ -33,7 +34,7 @@ date: 2026-07-21 09:20:50
 | 远程主机 | `ssh <user>@<remote-host>` |
 | 远程工程 | `/path/to/<repo-root>` |
 
-# <span id="inline-blue">原因说明</span>
+# 原因说明
 
 | 点 | 说明 |
 |----|------|
@@ -53,7 +54,7 @@ flowchart LR
   Local --> SSH --> Ext --> LS --> Proj
 ```
 
-# <span id="inline-blue">解决方案（三步）</span>
+# 解决方案（三步）
 
 按顺序执行即可，多数情况下无需改代码。
 
@@ -105,7 +106,7 @@ Java: Clean Java Language Server Workspace
 
 > 若你将跳转改成了其它组合键（例如部分习惯用的快捷键），以 **File → Preferences → Keyboard Shortcuts** 中 `Go to Definition` / `Go to Implementation` 的实际绑定为准。
 
-# <span id="inline-blue">配置与验证</span>
+# 配置与验证
 
 | 检查项 | 预期 |
 |--------|------|
@@ -143,7 +144,7 @@ Java: Clean Java Language Server Workspace
 
 > 不要在远程窗口把 `java.jdt.ls.java.home` 设成 JDK 8，否则会出现类似 “does not meet the minimum required version of '21'” 的提示，语言服务会拒绝使用该运行时。
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -153,7 +154,7 @@ Java: Clean Java Language Server Workspace
 | 快捷键无反应但右键「转到定义」可用 | 快捷键被占用或未绑定 | 在 Keyboard Shortcuts 中搜索 `Go to Definition` 重新绑定 |
 | User settings 里配了 Windows 的 `java.configuration.runtimes` 提示「无法在此窗口应用」 | 当前是远程窗口，本地 User 设置不作用于远程 LS | 在 **Remote Settings** 或工作区 `.vscode/settings.json` 中配置远程 Linux 路径 |
 
-# <span id="inline-blue">完整操作清单</span>
+# 完整操作清单
 
 ```bash
 # ── 1. 确认已进入 Remote-SSH 窗口 ──

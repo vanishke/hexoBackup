@@ -7,17 +7,18 @@ tags:
 	
 date: 2024-11-25 10:27:05
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Docker: 26.1.4
-# <span id="inline-blue">背景</span>
+# 背景
 微服务使用docker镜像方式部署的优势
 1、轻量级和可移植性
 2、一致的开发和生产环境
 3、快速部署和扩展
 4、安全和隔离性
 
-# <span id="inline-blue">微服务网关</span>
+# 微服务网关
 构建镜像上下文文件预览：
 ![Dockerfile microservice](/images/docker/20241125/Docker_microservice_20241125_001.png)
 ```shell
@@ -42,7 +43,7 @@ EXPOSE 9001
 # 启动服务
 CMD /wait && java -jar -Dcsp.sentinel.app.type=1 app-gateway.jar
 ```
-# <span id="inline-blue">微服务鉴权</span>
+# 微服务鉴权
 构建镜像上下文文件预览：
 ![Dockerfile microservice](/images/docker/20241125/Docker_microservice_20241125_002.png)
 ```shell
@@ -68,7 +69,7 @@ EXPOSE 9003
 CMD /wait && java -jar app-auth.jar
 ```
 
-# <span id="inline-blue">微服务后台管理</span>
+# 微服务后台管理
 构建镜像上下文文件预览：
 ![Dockerfile microservice](/images/docker/20241125/Docker_microservice_20241125_003.png)
 ```shell
@@ -94,7 +95,7 @@ EXPOSE 9020
 CMD /wait && java -jar app-admin-biz.jar
 ```
 
-# <span id="inline-blue">微服务日志服务</span>
+# 微服务日志服务
 构建镜像上下文文件预览：
 ![Dockerfile microservice](/images/docker/20241125/Docker_microservice_20241125_004.png)
 ```shell
@@ -120,7 +121,7 @@ EXPOSE 9021
 CMD /wait && java -jar app-admin-log.jar
 ```
 
-# <span id="inline-blue">微服务app接口服务</span>
+# 微服务app接口服务
 构建镜像上下文文件预览：
 ![Dockerfile microservice](/images/docker/20241125/Docker_microservice_20241125_005.png)
 ```shell
@@ -146,7 +147,7 @@ EXPOSE 9006
 CMD /wait && java -jar app-api-app.jar
 ```
 
-# <span id="inline-blue">微服务pad接口服务</span>
+# 微服务pad接口服务
 构建镜像上下文文件预览：
 ![Dockerfile microservice](/images/docker/20241125/Docker_microservice_20241125_006.png)
 ```shell
@@ -172,7 +173,7 @@ EXPOSE 9007
 CMD /wait && java -jar app-api-pad.jar
 ```
 
-# <span id="inline-blue">微服务定时服务</span>
+# 微服务定时服务
 构建镜像上下文文件预览：
 ![Dockerfile microservice](/images/docker/20241125/Docker_microservice_20241125_007.png)
 ```shell

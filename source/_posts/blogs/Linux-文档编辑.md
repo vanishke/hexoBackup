@@ -8,9 +8,10 @@ top: 2
 
 date: 2022-05-19 11:27:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">vim命令</span>
+## vim命令
 
 **作用**
 vi命令是unix和类unix系统通用全屏幕文本编辑器，vim是vi的加强版，与vi完全兼容，并添加了很多增强功能。
@@ -111,7 +112,7 @@ ESC:从编辑模式切换到命令模式。
 /columnTask
 ```
 
-## <span id="inline-blue">head命令</span>
+## head命令
 
 **作用**
 	显示文件开头内容，默认显示前10行
@@ -166,7 +167,7 @@ ESC:从编辑模式切换到命令模式。
 
 ```
 
-## <span id="inline-blue">rm命令 </span>
+## rm命令
 
 **作用**
 	删除一个目录下的多个文件或目录，对于链接文件，只删除整个链接文件，而原有文件不变。
@@ -198,7 +199,7 @@ rm：是否删除普通空文件 "b.sh"？y
 
 ```
 
-## <span id="inline-blue">cat命令</span>
+## cat命令
 
 ***作用***
 	合并文件内容并显示
@@ -228,7 +229,7 @@ dbUrl=jdbc:mysql://10.9.216.14:3306/test?useUnicode=true&amp;characterEncoding=U
 dbUserName=root
 ```
 
-## <span id="inline-blue">tar命令</span>
+## tar命令
 
 选项
 ```shell
@@ -254,8 +255,3 @@ dbUserName=root
 
 示例：tar -czf etl.V300R002B042.tar.gz etl.V300R002B042/
 ```
-
-
-
-
-

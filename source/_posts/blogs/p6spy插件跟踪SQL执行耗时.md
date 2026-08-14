@@ -8,19 +8,20 @@ tags:
 	
 date: 2023-12-26 9:50:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 MySQL : 5.7
 Mybatis-plus: 3.3.1
 Mybatis：3.5.3
 SpringBoot: 2.2.6.RELEASE
 SpringCloud: 2021.0.5
-# <span id="inline-blue">背景</span>
+# 背景
 微服务接口模块部署到现网环境，发现接口请求大量超时，需要对接口执行耗时的原因进行分析。
-# <span id="inline-blue">实现</span>
+# 实现
 
-## <span id="inline-blue">引入依赖</span>
+## 引入依赖
 
 ```xml
 <dependency>
@@ -29,7 +30,7 @@ SpringCloud: 2021.0.5
     <version>3.9.1</version>
 </dependency>
 ```
-## <span id="inline-blue">修改数据库连接</span>
+## 修改数据库连接
 ```properties
 #spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 #spring.datasource.url=jdbc:mysql://10.0.0.14:3306/app_db_demo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
@@ -39,7 +40,7 @@ spring.datasource.url=jdbc:p6spy:mysql://10.0.0.14:3306/app_db_demo?serverTimezo
 spring.datasource.db-type=mysql
 ```
 
-## <span id="inline-blue">添加spy.properties配置文件</span>
+## 添加spy.properties配置文件
 一开始将p6spy配置项直接配置在application.properties文件并由nacos下发，发现启动之后sql打印日志不是期待的自定义SQL打印，后面新建了对应的配置文件之后打印正常了
 ```properties
 # 应用的拦截模块
@@ -80,7 +81,7 @@ outagedetectioninterval=10
 customLogMessageFormat=[%(currentTime)] [%(category)-%(connectionId)] [execute time: %(executionTime) ms] execute sql:\n %(sqlSingleLine)
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 ```shell
 2023-12-26 09:55:01.699 [http-nio-10050-exec-3] INFO p6spy - [2023-12-26 09:55:01] [statement-4] [execute time: 99 ms] execute sql:SELECT t . id ,
 		t.uid ,

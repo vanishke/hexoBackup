@@ -7,12 +7,13 @@ tags:
 	
 date: 2023-10-30 9:55:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 Tomcat: 8.0.38
 项目部署Tomcat之后，访问后台和接口不带项目名称
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 修改配置文件server.xml,文件所在路径：/usr/local/tomcat8/conf/server.xml
 添加如下内容：
 ```xml
@@ -153,6 +154,3 @@ Tomcat: 8.0.38
   </Service>
 </Server>
 ```
-
-
-

@@ -7,7 +7,8 @@ categories:
 
 date: 2021-11-29 14:32:11	
 ---
-## <span id="inline-blue">cpu信息</span>
+
+## cpu信息
 
 ```script
 #查看cpu信息(配置)
@@ -26,8 +27,3 @@ cpu cores	: 4
 [root@lwdCSCDN ~]# cat /proc/cpuinfo| grep "processor"| wc -l
 8
 ```
-
-
-
-
-

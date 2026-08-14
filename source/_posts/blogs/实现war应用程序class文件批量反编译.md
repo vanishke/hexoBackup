@@ -8,13 +8,14 @@ tags:
 	
 date: 2026-02-02 14:45:51
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 在实际开发过程中，有时需要对已部署的war应用程序进行反编译分析，特别是当源代码丢失或需要分析第三方war包时。war包中的class文件通常位于 `WEB-INF/classes` 目录下，直接反编译单个class文件效率较低，需要一种批量反编译的方法来提高效率。
 
-# <span id="inline-blue">实现思路</span>
+# 实现思路
 
 war应用程序的class文件批量反编译的核心思路是：
 
@@ -23,7 +24,7 @@ war应用程序的class文件批量反编译的核心思路是：
 3. **使用反编译工具**：通过lutyen等反编译工具打开压缩后的jar包
 4. **批量反编译**：反编译工具会自动批量处理jar包中的所有class文件，生成对应的源文件
 
-# <span id="inline-blue">实现步骤</span>
+# 实现步骤
 
 ## 1. 解压war包
 
@@ -107,7 +108,7 @@ find output_directory -name "*.java" | head -20
 cat output_directory/com/example/YourClass.java
 ```
 
-# <span id="inline-blue">完整操作示例</span>
+# 完整操作示例
 
 以下是一个完整的操作示例：
 
@@ -132,7 +133,7 @@ jar -tvf test.jar | head -20
 # （通过图形界面操作）
 ```
 
-# <span id="inline-blue">注意事项</span>
+# 注意事项
 
 ## 1. 保持目录结构
 
@@ -159,7 +160,7 @@ jar -tvf test.jar | head -20
 反编译后的源文件默认使用UTF-8编码，如果原始代码使用其他编码，可能需要手动调整。
 
 
-# <span id="inline-blue">总结</span>
+# 总结
 
 通过将war包中的class文件压缩为jar包，然后使用Luyten等反编译工具进行批量反编译，可以高效地获取war应用程序的源代码。这种方法特别适用于：
 

@@ -7,15 +7,16 @@ tags:
 	
 date: 2024-08-12 10:31:29	
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 MySQL: 5.7
 chameleon: chameleon-6.0.0
 OpenGauss: openGauss-6.0.0
-# <span id="inline-blue">背景</span>
+# 背景
 项目迁移到国产操作系统，对应的数据库也一并更换为openGauss,需要将MySQL全量数据迁移到OpenGauss
 
-## <span id="inline-blue">安装chameleon</span>
+## 安装chameleon
 chameleon:
 chameleon是一个用Python3编写的将MySQL迁移至openGauss的实时复制工具，支持初始全量数据的复制以及后续增量数据的实时在线复制功能。chameleon通过一次初始化配置，使用只读模式，将MySQL的数据全量拉取到openGauss。支持在同一快照下，表间数据并行迁移。
 全量迁移支持的功能：支持表及表数据、视图、触发器、自定义函数、存储过程的全量迁移
@@ -75,7 +76,7 @@ cd /chameleon/chameleon-6.0.0/
 python3 -m venv venv
 source venv/bin/activate
 ```
-## <span id="inline-blue">数据迁移</span>
+## 数据迁移
 
 MySQL开启复制功能,mysql配置文件mysqld节点下新增如下配置，MySQL服务重启生效
 ```shell
@@ -251,13 +252,13 @@ cd /chameleon/chameleon-6.0.0/venv/bin
 ./chameleon drop_replica_schema --config default
 ```
 
-# <span id="inline-blue">问题汇总</span>
+# 问题汇总
 
-## <span id="inline-blue">问题一</span>
+## 问题一
 chameleon执行完初始化和复制初始化数据命令之后，发现日志没有报错，但MySQL数据库中的表数据库没有迁移到openGauss,可以到openGauss的日志运行目录查看对应的日志
 ，日志目录：/data/openGauss/gaussdb/data/db1/pg_log
 
-## <span id="inline-blue">问题二</span>
+## 问题二
 执行数据迁移命令后openGauss日志报错，提示数据库不兼容，原因是创建数据库时没有加上指定的兼容参数。
 ```shell
 CREATE DATABASE database_test WITH OWNER joe ENCODING 'utf8' dbcompatibility='B';
@@ -270,7 +271,7 @@ CREATE DATABASE database_test WITH OWNER joe ENCODING 'utf8' dbcompatibility='B'
 #"ERROR:  Comment is supported only in B compatible database."
 ```
 
-## <span id="inline-blue">问题三</span>
+## 问题三
 执行数据迁移命令后openGauss日志报错，提示迁移用户权限不足，原因是没有给迁移用户分配足够的权限。
 给迁移用户admin增加对应的权限
 ```shell

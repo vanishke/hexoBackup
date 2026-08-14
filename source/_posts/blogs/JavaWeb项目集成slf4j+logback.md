@@ -8,12 +8,13 @@ tags:
 	
 date: 2025-09-26 16:30:02
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Spring: 4.3.20.RELEASE
 Java: 1.8
 
-# <span id="inline-blue">背景</span>
+# 背景
 项目模块集成log4j实现日志输出，最近在后台管理批量处理相关操作下发现耗时特别严重，通过jstack -l pid命令抓取进程堆栈，发现阻塞在log4j相关实现上，于是进行升级，将日志实现改造为slf4j+logback实现。
 ```shell
 "pool-5-thread-23" #928 prio=5 os_prio=0 tid=0x00007fd93405a000 nid=0x4ca16 waiting for monitor entry [0x00007fd83afed000]
@@ -29,7 +30,7 @@ Java: 1.8
 	at com.sun.proxy.$Proxy31.selectOne(Unknown Source)
 	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:160)
 ```
-# <span id="inline-blue">实现</span>
+# 实现
 项目pom.xml添加slf4j+logback依赖，排除log4j相关依赖
 ```
 	<properties>

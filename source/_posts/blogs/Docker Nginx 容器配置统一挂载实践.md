@@ -12,9 +12,10 @@ tags:
 date: 2026-08-10 17:08:47
 updated: 2026-08-10 17:08:47
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 在 Docker / Swarm 中部署 Nginx 时，配置往往散落在镜像 COPY、逐文件挂载、错误目标路径等多种方式里，改一条规则就要改编排文件或重建镜像。本文给出一套可落地的「主配置单文件 + 扩展目录挂 conf.d」统一挂载方案，适用于业务网关 Nginx 与同类旁路 Nginx（如 MQTT 入口反代），已在 Compose 与 Swarm 场景验证。
 
@@ -36,7 +37,7 @@ updated: 2026-08-10 17:08:47
 | 容器内主配置 | `/etc/nginx/nginx.conf` |
 | 容器内扩展目录 | `/etc/nginx/conf.d` |
 
-# <span id="inline-blue">改造前的典型问题</span>
+# 改造前的典型问题
 
 | 写法 | 现象 | 后果 |
 |------|------|------|
@@ -51,7 +52,7 @@ updated: 2026-08-10 17:08:47
 2. 主配置、扩展规则都能从宿主机统一管理
 3. 新增扩展文件时尽量只改宿主机目录，不改编排
 
-# <span id="inline-blue">最终挂载方案</span>
+# 最终挂载方案
 
 ## 设计要点
 
@@ -144,7 +145,7 @@ volumes:
 
 > Swarm 部署时，相对路径按 stack 部署上下文解析；各运行节点上须存在对应目录内容。
 
-# <span id="inline-blue">主配置如何引入扩展目录</span>
+# 主配置如何引入扩展目录
 
 ## http 级自动引入
 
@@ -192,7 +193,7 @@ server {
 | `.conf` | `include /etc/nginx/conf.d/*.conf;` | http（或完整 server 块文件） |
 | `.inc` | 在 server 内显式 `include` | server / location |
 
-# <span id="inline-blue">Dockerfile 与挂载的关系</span>
+# Dockerfile 与挂载的关系
 
 镜像内仍可 COPY 一份默认配置，作为「无挂载」时的兜底；有 volume 时以宿主机为准。
 
@@ -214,7 +215,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 日常改规则应只改宿主机文件并 reload，无需为改 IP 黑名单重建镜像。
 
-# <span id="inline-blue">落地步骤</span>
+# 落地步骤
 
 ## 调整宿主机目录
 
@@ -269,7 +270,7 @@ docker exec photoframe-emqx-nginx nginx -s reload
 | `nginx -t` | 语法与路径校验，失败勿 reload |
 | `nginx -s reload` | 平滑重载，尽量不中断已有连接 |
 
-# <span id="inline-blue">配置与验证</span>
+# 配置与验证
 
 | 检查项 | 方法 | 期望 |
 |--------|------|------|
@@ -295,7 +296,7 @@ uwsgi_params
 
 其中自定义扩展应出现在 `conf.d/` 下，而不是把整个默认目录换成宿主机三个文件。
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 问题 | 原因 | 处理 |
 |------|------|------|
@@ -305,7 +306,7 @@ uwsgi_params
 | Swarm 任务起不来 / 配置为空 | 运行节点上相对路径对应目录不存在 | 在节点同步编排目录内容后再部署 |
 | 镜像 rebuild 后行为与宿主机不一致 | 误以为必须以镜像 COPY 为准 | 有挂载时以 volume 为准；日常只改宿主机 |
 
-# <span id="inline-blue">完整命令清单</span>
+# 完整命令清单
 
 ```bash
 # ── 1. 目录调整（业务 Nginx） ──

@@ -7,10 +7,11 @@ tags:
 	
 date: 2023-08-11 14:56:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">背景</span>
+# 背景
 项目编译打成jar包后，依赖的lib被以源代码形式添加进了源码包目录，导致项目真实的源码目录和依赖混淆，希望能够将项目源码和依赖jar包区分开来，剔除多余的配置文件信息
-# <span id="inline-blue">实现</span>
+# 实现
 maven项目打包只保存项目的classpath信息，jar包内部MANNIFEST.MF文件信息如下：
 ```shell
 Manifest-Version: 1.0

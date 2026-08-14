@@ -8,41 +8,8 @@ categories:
 date: 2022-05-18 09:32:12
 ---
 
-## <span id="inline-blue">移除默认安装的插件</span>
-```shell
-npm uninstall hexo-generator-index --save
-```
+> 本文记录的是 **NexT 5.x** 主题定制 / 旧插件接入方式。
+> 站点已升级到 **NexT 8.x**，相关优化与接入代码已过时并移除。
+> 请改用站点根目录 `_config.next.yml` 与 [NexT 8 文档](https://theme-next.js.org/)。
 
-## <span id="inline-blue">安装新插件</span>
-```shell
-
-npm install hexo-generator-index-pin-top --save
-```
-
-## <span id="inline-blue">置顶操作</span>
-文章开头分割部分添加
-```shell
-top: true
-```
-多篇文章置顶，控制顺序，数值较大的排在前面
-```shell
-top:n
-```
-
-## <span id="inline-blue">设置置顶图标</span>
-打开 /themes/next/layout/_macro/post.swig文件，在&lt;div class=&quot;post-meta&quot;&gt;下方，插入如下代码：
-```shell
-{% if post.top %}
-    &lt;i class=&quot;fa fa-thumb-tack&quot;&gt;&lt;/i&gt;
-    &lt;font color=7D26CD&gt;置顶&lt;/font&gt;
-   &lt;span class=&quot;post-meta-divider&quot;&gt;|&lt;/span&gt;
-{% endif %}
-```
-
-如下图所示位置：
-
-![hexo文章置顶图标](/images/hexo/next/hexo_next_2021_01_10_002.png)
-
-
-
-
+（原「Hexo文章置顶功能」实现代码已清理。）

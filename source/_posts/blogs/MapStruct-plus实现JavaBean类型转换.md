@@ -7,21 +7,22 @@ tags:
 	
 date: 2025-03-14 15:32:29
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 SpringBoot: 2.6.6
 Java：1.8
 MapStruct-plus: 1.4.6
 maven: 3.5.4
 
-# <span id="inline-blue">介绍</span>
+# 介绍
 MapStructPlus是MapStruct的增强工具，在MapStruct的基础上实现了自动生成Mapper接口的功能，并且增强了一些功能，使得Java类型转换更加方便、优雅。
 
 与MapStruct一样，它本质上是基于JSR 269的Java注解处理器，因此可以通过Maven、Gradle、Ant等构建触发器。
 
 MapStructPlus 嵌入 MapStruct，与 MapStruct 完全兼容，如果您之前使用过 MapStruct，可以无缝替换依赖项。
 
-# <span id="inline-blue">配置</span>
+# 配置
 
 pom.xml引入相关依赖和插件
 
@@ -67,7 +68,7 @@ pom.xml引入相关依赖和插件
 </build>
 ```
 
-## <span id="inline-blue">两个类之间的转换</span>
+## 两个类之间的转换
 
 ```java
 @AutoMapper(target = CarDto.class,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -77,7 +78,7 @@ public class Car {
 ```
 nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE表示在source转换为target的过程中，如果source属性为空所执行的属性替换的策略，NullValuePropertyMappingStrategy.IGNORE带包忽略
 
-## <span id="inline-blue">类与多个类转换</span>
+## 类与多个类转换
 
 ```java
 @Data
@@ -99,7 +100,7 @@ public class DeviceSlideConfig {
 为了解决这个问题，可以首先使用注解指定多条转换规则@AutoMappings，并在使用@AutoMapping注解时配置targetClass属性为当前规则指定应用目标转换类。
 如果配置注解targetClass时没有指定@AutoMapping，则当前规则适用于所有的类转换。
 
-# <span id="inline-blue">调用</span>
+# 调用
 
 ```java
 import io.github.linpeilie.Converter;

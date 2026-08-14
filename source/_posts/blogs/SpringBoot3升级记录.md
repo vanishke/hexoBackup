@@ -7,8 +7,9 @@ tags:
 	
 date: 2025-02-28 16:27:25
 ---
+
 <!-- toc -->
-# <span id="inline-blue">背景</span>
+# 背景
 项目微服务redisson bug需要进行升级，redisson版本需要升级到3.40.1，但升级的同时springBoot、spring、springCloud、java版本都需要进行升级，如下是升级前后对比：
 
 |依赖项|升级前版本|升级后版本|备注|
@@ -23,9 +24,9 @@ date: 2025-02-28 16:27:25
 |springcloud-alibaba|2021.0.6.0|2023.0.3.2|对应SpringCloud版本2024.0.0|
 |java|1.8|21|对应SpringBoot版本3.4.1|
 
-# <span id="inline-blue">依赖报错问题</span>
+# 依赖报错问题
 
-## <span id="inline-blue">MySQL</span>
+## MySQL
 
 ![MySQL依赖迁移](/images/SpringBoot/20250228/SpringBoot_20250228_001.png)
 mysql maven依赖坐标由com.mysql:mysql-connector-java更新为mysql:mysql-connector-j
@@ -37,7 +38,7 @@ mysql maven依赖坐标由com.mysql:mysql-connector-java更新为mysql:mysql-con
         </dependency>
 ```
 
-## <span id="inline-blue">Mybatis-plus</span>
+## Mybatis-plus
 
 Mybatis-plus升级到3.5.9版本后，MybatisPlusInterceptor代码爆红，提示类缺失，查了之后发现3.5.9之后MybatisPlusInterceptor被拆分到mybatis-plus-jsqlparser依赖里面，添加如下依赖：
 
@@ -48,7 +49,7 @@ Mybatis-plus升级到3.5.9版本后，MybatisPlusInterceptor代码爆红，提�
         </dependency>
 ```
 
-## <span id="inline-blue">Jakarta EE</span>
+## Jakarta EE
 
 ![Jakarta EE依赖迁移](/images/SpringBoot/20250228/SpringBoot_20250228_002.png)
 
@@ -63,7 +64,7 @@ maven依赖坐标javax.servlet:javax.servlet-api更新为jakarta.servlet:jakarta
 </dependency>
 ```
 
-## <span id="inline-blue">Redis</span>
+## Redis
 
 ![redis配置迁移](/images/SpringBoot/20250228/SpringBoot_20250228_003.png)
 
@@ -93,7 +94,7 @@ spring:
       timeout: 10s
 ```
 
-## <span id="inline-blue">Elasticsearch</span>
+## Elasticsearch
 
 ![Elasticsearch迁移](/images/SpringBoot/20250228/SpringBoot_20250228_004.png)
 
@@ -109,16 +110,16 @@ SpringBoot3默认使用的Elasticsearch版本为8.8.0,和项目里面使用的�
         </dependency>
 ```
 
-## <span id="inline-blue">AutoConfiguration</span>
+## AutoConfiguration
 
 SpringBoot2.7时已经提出使用META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 代替 spring.factories
 
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#changes-to-auto-configuration
 
-## <span id="inline-blue">升级后模块启动报错问题</span>
+## 升级后模块启动报错问题
 
-### <span id="inline-blue">springdoc</span>
+### springdoc
 
 ```log
 java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@4d065e1a testClass = cofee.controller.CrewMemberControllerTest, locations = [], classes = [cofee.CofeeApplication], contextInitializerClasses = [], activeProfiles = ["junit", "cdsmock"], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true", "server.port=0"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1a245833, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@5b799640, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@194fad1, org.springframework.boot.test.web.reactive.server.WebTestClientContextCustomizer@790da477, org.springframework.boot.test.web.reactor.netty.DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory$DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer@55de24cc, org.springframework.boot.test.autoconfigure.OnFailureConditionReportContextCustomizerFactory$OnFailureConditionReportContextCustomizer@69c81773, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@5c86a017, org.springframework.boot.test.context.SpringBootTestAnnotation@6e5c6e5c], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
@@ -211,7 +212,7 @@ Caused by: java.lang.ClassNotFoundException: org.springframework.web.servlet.res
 
 ![springdoc兼容问题](/images/SpringBoot/20250228/SpringBoot_20250228_005.png)
 
-### <span id="inline-blue">zipkin启动报错</span>
+### zipkin启动报错
 
 ```log
 Caused by: java.lang.NoClassDefFoundError: zipkin2/codec/BytesEncoder
@@ -279,7 +280,7 @@ Caused by: java.lang.ClassNotFoundException: zipkin2.codec.BytesEncoder
         </dependency>
 ```
 
-### <span id="inline-blue">nacos配置文件动态刷新失败</span>
+### nacos配置文件动态刷新失败
 
 ```log
 java.lang.IllegalArgumentException: ExistingValue must be an instance of com.zaxxer.hikari.HikariDataSource
@@ -374,7 +375,7 @@ java.lang.IllegalArgumentException: ExistingValue must be an instance of com.zax
       </dependency>
 ```
 
-### <span id="inline-blue">logback加载报错</span>
+### logback加载报错
 
 报错信息：
 ```log
@@ -651,7 +652,7 @@ logging:
     root: INFO
 ```
 
-### <span id="inline-blue">序列化报错</span>
+### 序列化报错
 
 ```log
 Caused by: com.fasterxml.jackson.databind.JsonMappingException:
@@ -660,7 +661,7 @@ need JSON Array to contain As.WRAPPER_ARRAY type information for class java.lang
 ```
 原因是因为升级前redis里面存储的数据没有清除，导致反序列化时报错，redis清掉数据再重启就好了。
 
-### <span id="inline-blue">登录报错</span>
+### 登录报错
 
 错误信息：
 ```log
@@ -679,11 +680,6 @@ update sys_user set password = concat('{bcrypt}',password);
 ```
 
 
-## <span id="inline-blue">参考</span>
+## 参考
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide
-
-
-
-
-

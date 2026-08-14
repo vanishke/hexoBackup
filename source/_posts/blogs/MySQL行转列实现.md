@@ -7,16 +7,17 @@ tags:
 	
 date: 2023-01-09 16:24:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">要求</span>
+# 要求
 原始表数据：
 
 ![原表](/images/mysql/mysql_20230109_001.png)
 新表数据：
 ![新表](/images/mysql/mysql_20230109_002.png)
 将父级区域对应的子区域集合合并展现
-# <span id="inline-blue">实现</span>
+# 实现
 通过group_concat函数实现行转列
 原始表结构
 ```sql
@@ -248,6 +249,3 @@ GROUP BY parentId
 ORDER BY parentId
 desc;
 ```
-
-
-

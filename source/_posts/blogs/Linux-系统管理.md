@@ -8,9 +8,10 @@ top: 2
 
 date: 2022-06-02 17:27:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">reboot命令</span>
+## reboot命令
 
 
 **作用**
@@ -30,7 +31,7 @@ date: 2022-06-02 17:27:20
 ```
 
 
-## <span id="inline-blue">sleep命令</span>
+## sleep命令
 
 
 **作用**
@@ -53,7 +54,7 @@ date: 2022-06-02 17:27:20
 
 
 
-## <span id="inline-blue">top命令</span>
+## top命令
 
 
 **作用**
@@ -86,7 +87,7 @@ Swap: 16777208k total,        0k used, 16777208k free,  3290016k cached
 
 
 
-## <span id="inline-blue">who命令</span>
+## who命令
 
 
 **作用**

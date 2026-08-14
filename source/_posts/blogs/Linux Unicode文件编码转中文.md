@@ -7,10 +7,11 @@ categories:
 	
 date: 2024-03-25 9:44:20
 ---
-## <span id="inline-blue">Unicode文件转码</span>
+
+## Unicode文件转码
 Linux : CentOS Linux release 7.7.1908 (Core)
 
-### <span id="inline-blue">native2ascii</span>
+### native2ascii
 
 **语法**
 ```shell
@@ -29,5 +30,3 @@ outputfile：输出文件名。如果缺少此参数，将输出到控制台。
 ```shell
 native2ascii -encoding UTF-8 -reverse I18nResource.properties I18nResource.bak
 ```
-
-

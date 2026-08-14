@@ -7,16 +7,17 @@ tags:
 	
 date: 2026-02-28 16:17:07
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 在前后端分离的项目中，前端通过浏览器访问后端 API 时，经常会遇到 CORS（跨域资源共享）问题。  
 本文以 Nginx 为网关为例，整理一份**可直接使用**、同时考虑到“后端可能已经返回部分 CORS 头”的完整配置方案。
 
 ---
 
-# <span id="inline-blue">跨域的本质</span>
+# 跨域的本质
 
 浏览器是否允许跨域访问，主要看后端返回的几类 HTTP 头：
 
@@ -40,7 +41,7 @@ add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Ag
 
 
 
-# <span id="inline-blue">方案一</span>
+# 方案一
 
 在实际生产中，最推荐的做法是：
 
@@ -48,7 +49,7 @@ add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Ag
 - 把上游（后端服务）返回的同名 CORS 头统统“隐藏”（丢弃）
 - 避免重复与冲突，不去做“存在就不加”的复杂判断
 
-## <span id="inline-blue">配置示例</span>
+## 配置示例
 
 ```nginx
 server {
@@ -78,7 +79,7 @@ server {
 }
 ```
 
-## <span id="inline-blue">配置要点说明</span>
+## 配置要点说明
 
 - **`proxy_hide_header`**  
   - **作用**：把后端返回的同名响应头“丢掉”，对客户端不可见。  
@@ -96,7 +97,7 @@ server {
 
 ---
 
-# <span id="inline-blue">方案二</span>
+# 方案二
 
 如果你有更严格的需求：
 
@@ -105,13 +106,13 @@ server {
 
 那么，**仅靠 Nginx 自带模块是不够的**，需要借助第三方模块，例如：`headers-more-nginx-module`。
 
-## <span id="inline-blue">思路说明</span>
+## 思路说明
 
 - Nginx 提供了 `$upstream_http_*` 变量，可以读取后端返回的响应头，例如：
   - `$upstream_http_access_control_allow_origin`
 - 借助 `headers-more-nginx-module` 的 `more_set_headers` 指令，可以在 `if` 逻辑中按条件设置响应头。
 
-## <span id="inline-blue">示例配置</span>
+## 示例配置
 
 ```nginx
 http {
@@ -141,7 +142,7 @@ http {
 }
 ```
 
-## <span id="inline-blue">注意点</span>
+## 注意点
 
 - 需要在编译 Nginx 时加上 `--add-module=...` 或使用已经集成此模块的发行版。
 - 上面的判断只针对 `Access-Control-Allow-Origin`，你也可以按需对其它头做类似判断。
@@ -149,7 +150,7 @@ http {
 
 ---
 
-# <span id="inline-blue">两种方案对比与实践建议</span>
+# 两种方案对比与实践建议
 
 - **方案一：统一由 Nginx 管理 CORS（推荐）**
   - **优点**：实现简单、行为一致、排查方便。
@@ -168,7 +169,7 @@ http {
 
 ---
 
-# <span id="inline-blue">常见问题排查建议</span>
+# 常见问题排查建议
 
 - **问题 1：浏览器仍然报跨域错误**
   - 检查是否命中了正确的 `server` 和 `location`；
@@ -190,4 +191,3 @@ http {
 - **“有则不加、无则补充”** 的精细方案。  
 
 在生产环境中，**保持 CORS 配置的单一来源（通常是网关 Nginx）**，是最易维护、最不易出错的做法。
-

@@ -8,26 +8,8 @@ categories:
 date: 2023-05-20 14:50:53
 ---
 
-## <span id="inline-blue">修改链接文字样式</span>
-打开themes\next\source\css\\_common\components\post\post.styl添加以下代码:
-```css
-.post-body p a{
+> 本文记录的是 **NexT 5.x** 主题定制 / 旧插件接入方式。
+> 站点已升级到 **NexT 8.x**，相关优化与接入代码已过时并移除。
+> 请改用站点根目录 `_config.next.yml` 与 [NexT 8 文档](https://theme-next.js.org/)。
 
- color: #0593d3;
- border-bottom: none;
- &:hover {
-   color: #ff106c;
-   text-decoration: underline;
- }
-}
-```
-
-
-
-
-
-
-
-
-
-
+（原「Hexo修改链接文字样式」实现代码已清理。）

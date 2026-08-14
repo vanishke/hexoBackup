@@ -10,9 +10,10 @@ tags:
 	
 date: 2025-12-29 17:52:08
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 
 OS： Windows10
 MySQL： 5.7.41、8.0
@@ -20,11 +21,11 @@ Redis: 5.0.14
 Elasticsearch： 8.8.0
 
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 在现代软件开发中，本地开发环境往往需要部署多种基础服务，如MySQL、Redis、Elasticsearch、Nginx等。选择合适的部署方式对于提升开发效率和维护成本至关重要。下面我们将对比传统本地安装方式和Docker容器化部署方式的优缺点。
 
-## <span id="inline-blue">传统本地安装方式</span>
+## 传统本地安装方式
 
 ### 优点
 
@@ -42,7 +43,7 @@ Elasticsearch： 8.8.0
 - **团队协作困难**：不同开发者的环境配置可能不一致，导致"在我机器上能跑"的问题
 - **清理困难**：卸载服务后，注册表、配置文件、日志等残留文件难以彻底清理
 
-## <span id="inline-blue">Docker容器化部署方式</span>
+## Docker容器化部署方式
 
 ### 优点
 
@@ -63,7 +64,7 @@ Elasticsearch： 8.8.0
 - **资源占用**：需要运行Docker守护进程，占用一定的系统资源
 - **网络配置**：容器网络配置相对复杂，需要理解端口映射、网络模式等概念
 
-## <span id="inline-blue">为什么选择Docker部署</span>
+## 为什么选择Docker部署
 
 综合对比两种方式，**对于本地开发环境，Docker容器化部署方式具有明显优势**：
 
@@ -85,13 +86,13 @@ Elasticsearch： 8.8.0
 
 
 
- # <span id="inline-blue">实现</span>
+ # 实现
  
- ## <span id="inline-blue">MySQL</span>
+ ## MySQL
  
  MySQL部署常用版本分为5.7和8.0，两个版本部署方式分别介绍如下：
  
- ### <span id="inline-blue">MySQL-5.7</span>
+ ### MySQL-5.7
  
  在部署MySQL 5.7之前，需要先在Windows系统上创建对应的目录用于数据持久化：
  
@@ -186,7 +187,7 @@ binlog_format = ROW
 
  ```
  
- ### <span id="inline-blue">MySQL-8.0</span>
+ ### MySQL-8.0
  
  MySQL 8.0的部署方式与5.7类似，同样需要创建对应的目录：
  
@@ -219,7 +220,7 @@ binlog_format = ROW
  
  MySQL 8.0的配置文件位于 `D:/dockerVolume/mysql8/conf/` 目录下，可根据需要进行自定义配置。
  
- ## <span id="inline-blue">Redis</span>
+ ## Redis
  
  Redis部署前需要准备配置文件和数据目录：
  
@@ -538,7 +539,7 @@ requirepass <REDIS_PASSWORD>
 # rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52
  ```
  
- ## <span id="inline-blue">Elasticsearch</span>
+ ## Elasticsearch
  
  Elasticsearch部署需要先从一个临时容器中拷贝默认配置，然后再启动正式容器。
  
@@ -627,7 +628,7 @@ cluster.initial_master_nodes: ["01334468b92f"]
 #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
  ```
  
- ## <span id="inline-blue">Nginx</span>
+ ## Nginx
  
  Nginx部署同样需要先从临时容器中拷贝默认配置，然后再启动正式容器。
  
@@ -679,6 +680,6 @@ cluster.initial_master_nodes: ["01334468b92f"]
  Nginx配置文件位于 `D:/dockerVolume/nginx/conf.d/` 目录下，可根据需要进行自定义配置。
  
  
-# <span id="inline-blue">参考</span>
+# 参考
 
 参考：https://www.cnblogs.com/chen2ha/p/15914157.html

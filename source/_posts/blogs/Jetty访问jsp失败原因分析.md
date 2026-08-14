@@ -8,9 +8,10 @@ tags:
 	
 date: 2022-07-06 11:32:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 ```shell
 HTTP ERROR 404
 
@@ -18,7 +19,7 @@ Problem accessing /cache/cosole.jsp. Reason:
 
 Not Found
 ```
-# <span id="inline-blue">原因分析</span>
+# 原因分析
 应用部署到Jetty之后，因为jetty没有work目录的原因，导致jetty使用的是/tmp目录
 对应jetty配置文件内容如下：
 文件路径：/usr/local/iepg-jetty/bin/jetty.sh
@@ -67,7 +68,7 @@ tmpwatch脚本作用是根据创建时间清除/tmp目录下指定时间没有�
 -x, --exclude=path	排除路径，如果路径是一个目录，它包含的所有文件被排除了。如果路径不存在，它必须是一个绝对路径不包含符号链接。
 -X, --exclude-pattern=pattern	排除某规则下的路径。
 ```
-# <span id="inline-blue">解决方案</span>
+# 解决方案
 
 ***方案1***
 jetty主目录下新建work目录
@@ -81,6 +82,3 @@ TMPDIR=${TMPDIR:-/tmp}
 改为
 TMPDIR=${TMPDIR:-/usr/local/tmp}
 ```
-
-
-

@@ -8,13 +8,14 @@ tags:
 	
 date: 2025-04-03 14:52:34
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Docker: 27.3.1
 docker compose: v2.29.7
 Harbor: v2.12.1
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 harbor配置https证书必要性
 
@@ -46,15 +47,15 @@ HTTPS 通过 TLS/SSL 协议对通信内容加密，避免镜像传输、用户�
 ```
 拉取镜像文件经常出现超时，所以决定将Harbor仓库通信协议升级为https，并配置好局域网内的域名和IP之间映射，这样既保证了docker拉取镜像文件时的安全保证，同时也为harbor服务后续升级到公网打下基础。
 
-# <span id="inline-blue">实现</span>
+# 实现
 
-## <span id="inline-blue">生成https证书</span>
+## 生成https证书
 
-### <span id="inline-blue">生成证书颁发机构证书</span>
+### 生成证书颁发机构证书
 
 生产环境下通常是由受信任的CA机构颁发证书，但如果想使用自签名证书，可以生成自己的CA
 
-#### <span id="inline-blue">生成CA证书私钥</span>
+#### 生成CA证书私钥
 
 ```shell
 
@@ -62,7 +63,7 @@ openssl genrsa -out ca.key 4096
 
 ```
 
-#### <span id="inline-blue">生成CA证书</span>
+#### 生成CA证书
 
 ```shell
 
@@ -73,7 +74,7 @@ openssl req -x509 -new -nodes -sha512 -days 3650 \
 
 ```
 
-### <span id="inline-blue">生成服务端证书</span>
+### 生成服务端证书
 
 服务端证书使用通常包含两个文件，后缀分别为.key和.crt
 
@@ -93,7 +94,7 @@ openssl req -sha512 -new \
     -out harbor.test.com.csr
 ```
 
-#### <span id="inline-blue">生成x509 v3扩展文件</span>
+#### 生成x509 v3扩展文件
 
 扩展功能的引入背景​
 
@@ -161,9 +162,9 @@ openssl x509 -req -sha512 -days 3650 \
     -out harbor.test.com.crt
 ```
 
-## <span id="inline-blue">提供证书给harbor和docker</span>
+## 提供证书给harbor和docker
 
-### <span id="inline-blue">Habor</span>
+### Habor
 
 将生成harbor.test.com.crt、harbor.test.com.key文件上传到harbor配置文件harbor.yml指定位置
 
@@ -174,7 +175,7 @@ cp harbor.test.com.key /usr/local/harbor/https/
 
 ```
 
-#### <span id="inline-blue">更新配置</span>
+#### 更新配置
 
 更改harbor.yml配置文件,内容如下：
 
@@ -254,18 +255,18 @@ ipconfig /flushdns
 ![Harbor升级https](/images/Harbor/20250416/Harbor_20250416_003.png)
 ![Harbor升级https](/images/Harbor/20250416/Harbor_20250416_004.png)
 
-### <span id="inline-blue">Docker</span>
+### Docker
 
 docker默认需要使用ca.crt、harbor.test.com.key、harbor.test.com.cert三个文件
 Docker守护程序将.crt文件解释为CA证书，并将.cert文件解释为客户端证书
 
-### <span id="inline-blue">转换客户端证书</span>
+### 转换客户端证书
 
 ```shell
 openssl x509 -inform PEM -in harbor.test.com.crt -out harbor.test.com.cert
 ```
 
-### <span id="inline-blue">上传证书</span>
+### 上传证书
 
 docker客户端证书默认路径为/etc/docker/certs.d,在此路径下创建对应域名证书路径，如果harbor https开放的不是443端口，请创建文件夹/etc/docker/certs.d/yourdomain.com:port或/etc/docker/certs.d/harbor_IP:port，如下所示：
 
@@ -275,14 +276,14 @@ cp harbor.test.com.cert /etc/docker/certs.d/harbor.test.com/
 cp harbor.test.com.key /etc/docker/certs.d/harbor.test.com/
 cp ca.crt /etc/docker/certs.d/harbor.test.com/
 ```
-### <span id="inline-blue">重启docker服务</span>
+### 重启docker服务
 
 ```shell
 systemctl daemon-reload
 systemctl restart docker
 ```
 
-## <span id="inline-blue">验证</span>
+## 验证
 
 
 执行以下命令重启harbor服务

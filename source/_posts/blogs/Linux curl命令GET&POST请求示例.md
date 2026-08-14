@@ -7,20 +7,21 @@ tags:
 	
 date: 2023-08-01 11:29:20
 ---
+
 <!-- toc -->
-# <span id="inline-blue">目的</span>
+# 目的
 	因为VPN的原因导致不能直接通过第三方工具请求接口数据，需要直接在服务器上请求对应服务接口
-# <span id="inline-blue">curl命令</span>
+# curl命令
 选项
  -X  指定请求的方式  GET/POST
  -H  指定请求的头部信息
  -d  指定请求的参数内容
  
- # <span id="inline-blue">GET请求示例</span>
+ # GET请求示例
  ```shell
  curl htttp://10.9.216.12:8080/iepg/getMarquee?terminalType=1&version=20000
  ```
- # <span id="inline-blue">POST请求示例</span>
+ # POST请求示例
  向指定接口发送xml报文并指定头部请求信息
  ```shell
  curl -X POST http://10.9.219.31:8080/GetItemData \

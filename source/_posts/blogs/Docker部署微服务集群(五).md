@@ -8,17 +8,18 @@ tags:
 	
 date: 2024-12-13 15:38:45
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Docker: 26.1.4
 docker-compose: v2.25.0
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 基于docker-compose容器编排工具，实现容器在swarm集群环境下的分布式部署.
 
-# <span id="inline-blue">swarm部署</span>
+# swarm部署
 
 初始化swarm集群环境下manager和worker节点
 管理节点(指定网卡IP地址)：
@@ -129,7 +130,7 @@ docker升级为swarm集群后不能再使用docker-compose命令执行docker-com
 docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 ```
 
-# <span id="inline-blue">swarm 命令汇总</span>
+# swarm 命令汇总
 
 
 |命令|描述|
@@ -143,7 +144,7 @@ docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 |docker swarm update|更新 swarm 群集|
 
 
-# <span id="inline-blue">service 命令汇总</span>
+# service 命令汇总
 
 
 |命令|描述|
@@ -156,7 +157,7 @@ docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 
 
 
-# <span id="inline-blue">node 命令汇总</span>
+# node 命令汇总
 
 
 |命令|描述|
@@ -170,9 +171,9 @@ docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 |docker node update|更新一个节点|
 
 
-# <span id="inline-blue">部署过程中遇到的问题</span>
+# 部署过程中遇到的问题
 
-## <span id="inline-blue">docker stack不支持的命令</span>
+## docker stack不支持的命令
 
 ```yml
 build
@@ -190,7 +191,7 @@ sysctls
 userns_mode
 ```
 
-## <span id="inline-blue">网关访问微服务失败</span>
+## 网关访问微服务失败
 
 原因就是我们在docker-compose.yml中定义swarm服务发现的模式问题：
 endpoint_mode：

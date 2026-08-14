@@ -8,19 +8,20 @@ tags:
 	
 date: 2025-01-10 16:41:06
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Linux: CentOS Linux release 7.7.1908 (Core)
 Docker：26.1.4
 Docker compose: v2.25.0
 	
-# <span id="inline-blue">背景</span>
+# 背景
 
 微服务集群通过docker-compose编排工具成功在docker swarm分布式集群环境下部署后，发现更新stack下的服务非常麻烦，更新多个服务经常需要重复执行命令，导致有时执行服务的批量更新命令，MySQL和elasticsearch容器的数据丢失。
 所以将微服务和基础服务MySQL、redis、Elasticsearch以及监控服务sentinel、zipkin 等分成多个文件进行服务编排，这样在升级微服务或者数据库的情况下，不会对其他stack里面服务造成影响。
 
-# <span id="inline-blue">docker-compose.yml之间网络通信</span>
+# docker-compose.yml之间网络通信
 
 微服务集群服务拆分为多个文件进行部署，首先需要解决服务之间的网络互通问题
 
@@ -67,7 +68,7 @@ docker stack deploy -c docker-swarm-base-process.yml --resolve-image never base
 never: 不进行校验，加快镜像构建的速度
 base是部署的stack名称，部署服务的集合
 
-# <span id="inline-blue">docker-swarn-base.yml</span>
+# docker-swarn-base.yml
 
 ```yml
 services:
@@ -350,7 +351,7 @@ docker stack config -c docker-swarm-base.yml > docker-swarm-base-process.yml
 docker stack deploy -c docker-swarm-base-process.yml --resolve-image never photoframe-base
 ```
 
-# <span id="inline-blue">docker-swarn-services.yml</span>
+# docker-swarn-services.yml
 
 ```yml
 services:
@@ -671,7 +672,7 @@ docker stack config -c docker-swarm-services.yml > docker-swarm-services-process
 docker stack deploy -c docker-swarm-services-process.yml --resolve-image never photoframe-services
 ```
 
-# <span id="inline-blue">docker-swarn-monitor.yml</span>
+# docker-swarn-monitor.yml
 
 ```yml
 services:
@@ -861,7 +862,7 @@ docker stack config -c docker-swarm-monitor.yml > docker-swarm-monitor-process.y
 docker stack deploy -c docker-swarm-monitor-process.yml --resolve-image never photoframe-monitor
 ```
 
-# <span id="inline-blue">docker-swarn-portainer.yml</span>
+# docker-swarn-portainer.yml
 
 ```yml
 services:

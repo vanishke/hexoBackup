@@ -7,14 +7,15 @@ tags:
 	
 date: 2025-09-26 17:31:45
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Spring: 4.3.20.RELEASE
 Java: 1.8
 
-# <span id="inline-blue">背景</span>
+# 背景
 maven项目指定打包格式为	<packaging>war</packaging>,但是其他模块同时引用当前项目作为jar包依赖，现在需要实现在执行clean install命令自动构建war和jar，使得应用war包通过jetty部署，jar包可以直接给其他模块依赖使用。
-# <span id="inline-blue">实现</span>
+# 实现
 当前模块pom.xml文件增加maven-jar-plugin插件配置，使用分类器实现打包同时构建jar输出。
 ```xml
 <plugin>

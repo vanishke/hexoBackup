@@ -8,9 +8,10 @@ tags:
 	
 date: 2023-02-24 13:44:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">现象</span>
+# 现象
 ./aapt_linux_64 d badging qMGFk7zYMWcN.apk
 参数b标识dump
 参数badging标识输出详细信息，执行提示如下错误
@@ -18,11 +19,11 @@ date: 2023-02-24 13:44:20
 ./aapt_linux_64 d badging qMGFk7zYMWcN.apk
 ./aapt_linux_64: error while loading shared libraries: libstdc++.so.6: wrong ELF class: ELFCLASS64
 ```
-# <span id="inline-blue">问题原因</span>
+# 问题原因
 aapt_linux_64工具是32位，目前系统普遍是64位，导致调用32位的库函数失败
 64位库函数所在目录/usr/lib64
 32为库函数所在目录/usr/lib
-# <span id="inline-blue">解决办法</span>
+# 解决办法
 将/usr/lib目录下libstdc++.so.6指向32为库函数文件
 准备一个32位libstdc++.so.6文件，例如libstdc++.so.6.0.13
 将原始/usr/lib目录下libstdc++.so.6删除，并创建软连接指向libstdc++.so.6.0.13
@@ -50,7 +51,7 @@ locate libstdc++.so.6
 /usr/lib64/libstdc++.so.6.0.13
 /usr/lib64/libstdc++.so.6.0.26
 ```
-# <span id="inline-blue">验证</span>
+# 验证
 ```shell
 [root@lwdCSCDN home]# ./aapt_linux_64 d  badging qMGFk7zYMWcN.apk
 ./aapt_linux_64: /usr/lib/libz.so.1: no version information available (required by ./aapt_linux_64)

@@ -8,17 +8,18 @@ tags:
 date: 2024-01-03 9:20:20
 
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">环境</span>
+# 环境
 linux : CentOS Linux release 7.7.1908 (Core)
-# <span id="inline-blue">apache bench</span>
+# apache bench
 ApacheBench 简称 ab，是 Apache HTTP Server 中的一个性能测试工具，可单独安装，在命令行中直接使用，可基于 HTTP 接口对任意 HTTP 服务器进行性能测试，得到每秒请求数（RPS）、平均请求响应时间等性能指标。
-# <span id="inline-blue">安装</span>
+# 安装
 ```shell
 yum -y install httpd-tools
 ```
-# <span id="inline-blue">语法</span>
+# 语法
 ```shell
 ab [options] [http[s]://]hostname[:port]/path
 $ ab -h
@@ -68,7 +69,7 @@ Options are:
                     (TLS1, TLS1.1, TLS1.2 or ALL)
     -E certfile     Specify optional client certificate chain and private key
 ```
-# <span id="inline-blue">实例</span>
+# 实例
 指定url请求1000次，并发100
 ```shell
 ab -c100 -n1000 http://10.9.216.12:8098/oms-pic/10146.png

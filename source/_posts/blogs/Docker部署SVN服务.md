@@ -8,9 +8,10 @@ tags:
 
 date: 2026-06-05 10:32:14
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">概述</span>
+# 概述
 
 | 项 | 说明 |
 |----|------|
@@ -20,7 +21,7 @@ date: 2026-06-05 10:32:14
 
 SVN 服务以单容器方式运行 `svnserve` 守护进程，所有仓库数据与配置通过数据卷挂载到宿主机持久化，开发者使用 SVN 客户端通过 `svn://` 协议访问。
 
-# <span id="inline-blue">部署架构</span>
+# 部署架构
 
 ```mermaid
 flowchart LR
@@ -57,7 +58,7 @@ flowchart LR
 
 > 该镜像将所有仓库统一存放在容器内的 `/var/opt/svn`，每个仓库为其下的一个子目录。本部署额外挂载 `/var/svn/config` 作为全局用户 / 权限配置目录，各仓库的 `svnserve.conf` 统一指向其中的 `passwd`、`authz`（详见权限配置一节）。
 
-# <span id="inline-blue">环境要求</span>
+# 环境要求
 
 | 项 | 建议 |
 |----|------|
@@ -72,7 +73,7 @@ docker version
 docker compose version   # 或 docker-compose version
 ```
 
-# <span id="inline-blue">编排文件</span>
+# 编排文件
 
 `docker-compose-svn.yml`：
 
@@ -114,7 +115,7 @@ networks:
 >
 > **数据持久化关键点**：仓库数据在 `…/svn/data`、全局配置在 `…/svn/conf`，删除容器均不丢失。请同时备份这两个宿主机目录。
 
-# <span id="inline-blue">目录规划</span>
+# 目录规划
 
 宿主机目录（与编排文件中的挂载路径对应）：
 
@@ -139,7 +140,7 @@ mkdir -p /usr/local/docker/svn/data
 mkdir -p /usr/local/docker/svn/conf
 ```
 
-# <span id="inline-blue">启动服务</span>
+# 启动服务
 
 在编排文件所在目录执行：
 
@@ -164,7 +165,7 @@ docker restart svn-service                         # 重启容器
 
 > **谨慎使用 `down -v`**：该命令会在停止并删除容器的同时清理对应挂载的数据卷。请在确认仓库数据已备份后再执行，避免误删导致代码仓库丢失。
 
-# <span id="inline-blue">创建仓库</span>
+# 创建仓库
 
 通过 `svnadmin` 在容器内创建仓库（以仓库名 `<项目名>` 为例）：
 
@@ -176,7 +177,7 @@ docker exec -it svn-service svnadmin create <项目名>
 
 > 一个 SVN 服务可创建多个仓库，重复执行 `svnadmin create <仓库名>` 即可。
 
-# <span id="inline-blue">权限配置</span>
+# 权限配置
 
 本部署将用户与权限**统一存放在全局配置目录**，所有仓库共用。涉及两类文件：
 
@@ -233,7 +234,7 @@ admin = rw
 
 > 修改 `svnserve.conf` / 全局 `passwd` / 全局 `authz` 后**通常即时生效**（svnserve 按需读取）；如遇缓存导致不生效，可执行 `docker restart svn-service`。
 
-# <span id="inline-blue">客户端访问</span>
+# 客户端访问
 
 仓库访问地址格式：
 
@@ -256,7 +257,7 @@ svn checkout svn://<SVN服务器IP>/<项目名> --username developer
 
 Windows 端可使用 TortoiseSVN：右键 *SVN Checkout* → 填写上述 URL → 输入账号密码。
 
-# <span id="inline-blue">备份与恢复</span>
+# 备份与恢复
 
 ## 备份
 
@@ -283,7 +284,7 @@ docker exec -it svn-service svnadmin create <项目名>
 docker exec -i svn-service svnadmin load <项目名> < <项目名>-xxxx.dump
 ```
 
-# <span id="inline-blue">与 Jenkins CI 联动</span>
+# 与 Jenkins CI 联动
 
 代码仓库供 Jenkins 流水线检出、构建并推送镜像至 Harbor。
 
@@ -385,7 +386,7 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 
 详细流水线配置见 [Jenkins流水线配置说明](./Jenkins流水线配置说明.md)。
 
-# <span id="inline-blue">常见问题</span>
+# 常见问题
 
 | 现象 | 排查方向 |
 |------|----------|
@@ -395,7 +396,7 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 | 提交大文件失败 | 检查磁盘空间与网络稳定性 |
 | 容器重建后数据丢失 | 确认 `/var/opt/svn` 数据卷挂载路径正确且未被覆盖 |
 
-# <span id="inline-blue">常用命令速查</span>
+# 常用命令速查
 
 ```bash
 # 启动 / 停止

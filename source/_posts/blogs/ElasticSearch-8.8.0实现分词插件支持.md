@@ -7,12 +7,13 @@ tags:
 	
 date: 2025-05-23 15:24:54
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Linux：CentOS Linux release 7.9.2009 (Core)
 ElasticSearch： 8.8.0
 
-# <span id="inline-blue">插件安装</span>
+# 插件安装
 
 Elasticsearch为了索引支持中文拼音分词，简繁转换，需要安装analysis-ik、analysis-pinyin、analysis-stconvert插件，上述插件都没有8.8.0版本，下载8.8.1版本，通过修改插件版本配置描述文件更改版本校验，使得ElasticSearch启动能够兼容，并正常使用。
 插件下载地址：https://release.infinilabs.com/
@@ -32,7 +33,7 @@ cd /home/ELK/elasticsearch-8.8.0/bin
 ./elasticsearch -d
 
 ```
-# <span id="inline-blue">索引字段映射</span>
+# 索引字段映射
 http://10.9.216.14:9200/asset?pretty
 ```json
 {
@@ -191,7 +192,7 @@ http://10.9.216.14:9200/asset?pretty
 
 上述索引映射配置，支持ik_smart_analyzer、ik_max_word_analyzer、pinyin_full_analyzer、pinyin_abbr_analyzer
 
-## <span id="inline-blue">ik_smart</span>
+## ik_smart
 ik_smart_analyzer:粗粒度分词，分词效果如下：
 http://10.9.216.14:9200/asset/_analyze
 
@@ -224,7 +225,7 @@ http://10.9.216.14:9200/asset/_analyze
 	]
 }
 ```
-## <span id="inline-blue">ik_max_word</span>
+## ik_max_word
 ik_max_word_analyzer:细粒度分词，分词效果如下：
 http://10.9.216.14:9200/asset/_analyze
 
@@ -264,7 +265,7 @@ http://10.9.216.14:9200/asset/_analyze
 	]
 }
 ```
-## <span id="inline-blue">pinyin_full</span>
+## pinyin_full
 pinyin_full_analyzer:拼音全拼分词器，分词效果如下：
 http://10.9.216.14:9200/asset/_analyze
 
@@ -326,7 +327,7 @@ http://10.9.216.14:9200/asset/_analyze
 }
 ```
 
-## <span id="inline-blue">pinyin_abbr</span>
+## pinyin_abbr
 pinyin_abbr_analyzer:拼音首字母分词器，分词效果如下：
 http://10.9.216.14:9200/asset/_analyze
 

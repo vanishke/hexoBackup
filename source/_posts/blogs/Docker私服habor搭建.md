@@ -8,18 +8,19 @@ tags:
 	
 date: 2025-01-10 17:32:21
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 
 Linux: CentOS Linux release 7.7.1908 (Core)
 Docker：26.1.4
 Docker compose: v2.25.0
 	
-# <span id="inline-blue">背景</span>
+# 背景
 
 docker swarm模式下实现基于docker-compose编排工具的多文件部署，但命令行的操作使得部署变得很麻烦，希望能够通过portainer+harbor实现容器的可视化管理。
 
-# <span id="inline-blue">harbor部署</span>
+# harbor部署
 
 官网地址：https://goharbor.io/
 github地址：https://github.com/goharbor/harbor/releases
@@ -440,6 +441,6 @@ sudo systemctl enable harbor.service
 sudo systemctl start harbor.service
 ```
 
-# <span id="inline-blue">验证</span>
+# 验证
 访问后台管理：https://10.0.0.10/
 ![Dockerfile harbor](/images/docker/20250110/docker_20250110_003.png)

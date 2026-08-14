@@ -8,16 +8,17 @@ tags:
 
 date: 2025-11-24 16:21:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">问题描述</span>
+# 问题描述
 
 SpringCloud微服务基于zipkin+sleuth实现链路追踪，zipkin的上报数据指定存储在Elasticsearch,最近想看下微服务之间的调用耗时，在nacos更改了zipkin相关配置，发现没有效果，查看微服务的日志打印和zipkin管理后台，日志没有zipkin上报数据格式的日志信息，zipkin后台查询不到调用记录，最后查看Elasticsearch的索引信息，没有生成zipkin-span和zipkin-dependency索引信息
 
 
-# <span id="inline-blue">问题分析</span>
+# 问题分析
 
-## <span id="inline-blue">检查配置和依赖</span>
+## 检查配置和依赖
 
 出现上述问题第一时间检查了nacos上zipkin对应的配置内容，确认上报开关开启，项目模块中maven依赖是否包含zipkin+sleuth，两者都没有问题
 
@@ -49,7 +50,7 @@ maven依赖如下：
         </dependency>
 ```
 
-## <span id="inline-blue">分析zipkin日志</span>
+## 分析zipkin日志
 
 通过docker logs -f 容器id 命令查看zipkin容器的日志输出，发现除了启动日志之后没有其他有用的信息，日志信息如下：
 
@@ -104,7 +105,7 @@ maven依赖如下：
 2025-11-24 11:43:13.635  INFO [/] 8 --- [oss-http-*:9411] c.l.a.s.Server                           : Serving HTTP at /0:0:0:0:0:0:0:0%0:9411 - http://127.0.0.1:9411/
 ```
 
-## <span id="inline-blue">tcpdump抓包</span>
+## tcpdump抓包
 
 在尝试过上述方法都没有效果的情况下选择通过tcpdump命令抓包，抓取微服务向zipkin上报链路调用的交互过程，同时抓取zipkin数据写入Elasticsearch的请求和相应。
 
@@ -148,7 +149,7 @@ tcpdump -i eth0 port 9200 -s 0 -vv -w ./elasticsearch.cap
 上述错误表明Elasticsearch节点默认1000分片，当前已经使用995分片，当前写入操作需要创建10个分片，现有分片不满足需求，数据写入失败了。
 
 
-## <span id="inline-blue">解决办法</span>
+## 解决办法
 
 更改Elasticsearch数据节点分片大小。
 
@@ -163,7 +164,7 @@ PUT http://47.89.174.246:9200/_cluster/settings
 }
 ```
 
-## <span id="inline-blue">验证</span>
+## 验证
 
 ```shell
 GET http://120.76.251.149:9200/_cluster/settings

@@ -7,16 +7,17 @@ tags:
 
 date: 2023-07-28 14:49:20
 ---
+
 <!-- toc -->
 
-## <span id="inline-blue">背景</span>
+## 背景
 应用使用docker容器化后，需要跨宿主机访问，实现要求是宿主机和内部容器可以互通，且外部主机可以直接访问容器服务
 
-## <span id="inline-blue">工具</span>
+## 工具
 bridge-util : linux系统网桥管理工具
 pipework : Docker 网络增强插件
 
-## <span id="inline-blue">bridge-util安装</span>
+## bridge-util安装
 ```shell
 yum搜索bridge-util所在源
 [root@S21614 ~]# yum search bridge
@@ -37,14 +38,14 @@ kaccessible.x86_64 : An accessibility bridge plugin
 如果没有yum环境可以使用离线安装方式，离线安装包地址：
 https://www.linuxfromscratch.org/blfs/view/svn/basicnet/bridge-utils.html
 
-## <span id="inline-blue">pipework安装</span>
-<a id="download" href="/images/docker/pipwork/pipework"><i class="fa fa-download"></i><span>pipework下载</span> </a>
+## pipework安装
+<a href="/images/docker/pipwork/pipework">pipework下载</a>
 上传至服务器/usr/bin/目录下，并执行一下命令赋予可执行权限
 ```shell
 chmod a+x /usr/bin/pipework
 ```
 
-## <span id="inline-blue">容器自定义IP</span>
+## 容器自定义IP
 ```shell
 #拉取nginx镜像
 docker pull centos
@@ -105,7 +106,7 @@ showstp <bridge>	查看网桥 STP 信息	brctl showstp br10
 setfd <bridge> <time>	设置网桥延迟	brctl setfd br10 10
 showmacs <bridge>	查看 mac 信息	brctl showmacs br10
 ```
-## <span id="inline-blue">验证</span>
+## 验证
 宿主机访问容器centos7_1: 10.9.216.101
 ```shell
 [root@S21614 ~]# ping 10.9.216.101

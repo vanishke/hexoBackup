@@ -8,9 +8,10 @@ tags:
 	
 date: 2022-08-26 16:24:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">编译忽略测试类</span>
+# 编译忽略测试类
 
 ## 插件依赖选项控制
 编译插件依赖项添加<skipTests>true</skipTests>条目

@@ -7,13 +7,14 @@ tags:
 	
 date: 2023-01-09 16:25:20
 ---
+
 <!-- toc -->
 
-# <span id="inline-blue">要求</span>
+# 要求
 将字段存储的规则信息拆分为多行
 ![原始表](/images/mysql/mysql_20230109_003.png)
 ![新表](/images/mysql/mysql_20230109_004.png)
-# <span id="inline-blue">实现</span>
+# 实现
 借助mysql.help_topic辅助表实现
 
 ```sql
@@ -46,6 +47,3 @@ substring_index函数
 SELECT substring_index('1,2,3,4', '.', 2);
 1,2
 ```
-	
-
-

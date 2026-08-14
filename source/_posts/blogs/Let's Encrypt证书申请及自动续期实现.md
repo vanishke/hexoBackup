@@ -7,11 +7,12 @@ tags:
 	
 date: 2025-06-01 17:28:37
 ---
+
 <!-- toc -->
-# <span id="inline-blue">环境</span>
+# 环境
 Linux：CentOS Linux release 7.9.2009 (Core)
 
-# <span id="inline-blue">背景</span>
+# 背景
 
 项目通过docker部署，使用的https证书一直是自签名证书，在商业环境下，一些场景总是提示链接不安全，所以将证书升级为乐此加密颁发的https证书
 
@@ -49,7 +50,7 @@ ACME协议支持​​：通过自动化工具（如Certbot）可实现证书的
 域名验证（DV）​​：通过DNS记录（CNAME/TXT）验证域名所有权，快速签发证书，适用于基础加密需求。
 ​​抵御中间人攻击​​：加密传输防止数据被窃取或篡改，尤其对登录、支付等敏感操作至关重要。
 
-# <span id="inline-blue">证书申请</span>
+# 证书申请
 
 官网地址：https://letsencrypt.top/
 
@@ -69,7 +70,7 @@ ACME协议支持​​：通过自动化工具（如Certbot）可实现证书的
 
 验证步骤参考: https://blog.csdn.net/yangjing19910801/article/details/145815648
 
-# <span id="inline-blue">自动续期</span>
+# 自动续期
 
 ```shell
 #!/bin/bash
