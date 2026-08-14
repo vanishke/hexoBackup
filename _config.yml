@@ -45,14 +45,14 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: true
   tab_replace: ''
   wrap: true
   hljs: false
 prismjs:
-  enable: false
+  enable: true
   preprocess: true
   line_number: true
   tab_replace: ''
@@ -101,19 +101,22 @@ ignore:
 #theme: 3-hexo
 theme: next
 
-# Search Config
+# Search Config (NexT local_search → hexo-generator-searchdb)
 search:
-  path: search.xml
+  path: search.json
   field: post
+  content: true
   format: html
   limit: 100
 
 symbols_count_time:
-  symbols: true                
-  time: true                   
-  total_symbols: true         
-  total_time: true             
-  exclude_codeblock: false     
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
+  exclude_codeblock: false
+  wpm: 275
+  suffix: "mins."    
   
 # hexo-neat
 # 博文压缩
@@ -145,3 +148,4 @@ deploy:
   type: git
   repository:  https://github.com/vanishke/hexo.git
   branch: master
+
