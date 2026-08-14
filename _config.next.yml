@@ -378,10 +378,10 @@ codeblock:
   copy_button:
     enable: true
     # Available values: default | flat | mac
-    style: mac
+    style: default
   # Fold code block
   fold:
-    enable: false
+    enable: true
     height: 500
   # Display language name
   language: true
