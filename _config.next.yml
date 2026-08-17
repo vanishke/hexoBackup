@@ -380,7 +380,7 @@ codeblock:
     enable: true
     # Available values: default | flat | mac
     # Leave empty for official default button chrome.
-    style: mac
+    style: default
   # Fold code block
   fold:
     enable: true
