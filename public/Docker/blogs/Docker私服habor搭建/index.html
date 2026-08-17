@@ -1,349 +1,349 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="theme-color" content="#222" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.css" integrity="sha256-mdaMxrItEW6hMIVJJNPKuX0B7KCSJQVEv3mVY4N2we4=" crossorigin="anonymous"><script class="next-config" data-name="main" type="application/json">{"hostname":"vanishke.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"codeblock":{"theme":{"light":"base16/one-light","dark":"base16/onedark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script><meta name="description" content="环境 背景 harbor 部署 验证    环境Linux: CentOS Linux release 7.7.1908 (Core)Docker：26.1.4Docker compose: v2.25.0 	 背景docker swarm 模式下实现基于 docker-compose 编排工具的多文件部署，但命令行的操作使得部署变得很麻烦，希望能够通过 portainer+harbor 实"><meta property="og:type" content="article"><meta property="og:title" content="Docker 私服 habor 搭建"><meta property="og:url" content="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/index.html"><meta property="og:site_name" content="vanishke随笔"><meta property="og:description" content="环境 背景 harbor 部署 验证    环境Linux: CentOS Linux release 7.7.1908 (Core)Docker：26.1.4Docker compose: v2.25.0 	 背景docker swarm 模式下实现基于 docker-compose 编排工具的多文件部署，但命令行的操作使得部署变得很麻烦，希望能够通过 portainer+harbor 实"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_001.png"><meta property="og:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_002.png"><meta property="og:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_003.png"><meta property="article:published_time" content="2025-01-10T09:32:21.000Z"><meta property="article:modified_time" content="2026-08-14T08:52:17.773Z"><meta property="article:author" content="vanishke"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Docker-compose"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_001.png"><link rel="canonical" href="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/"><script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/","path":"Docker/blogs/Docker私服habor搭建/","title":"Docker 私服 habor 搭建"}</script><script class="next-config" data-name="calendar" type="application/json">""</script><title>Docker 私服 habor 搭建 | vanishke随笔</title><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.umd.js" integrity="sha256-QnJV4HT5r8i89ovZGRD86iynZqHerEbT2xt69vDM36I=" crossorigin="anonymous" defer></script><script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script><script src="/js/third-party/search/local-search.js" defer></script><script src="/js/third-party/fancybox.js" defer></script><script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","display_overflow":"scroll","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-mml-chtml.js","integrity":"sha256-ihPtDDm7pTmSF9ViEsItlvsrBTsNkz0MOXMchzOwCQw="}}</script><script src="/js/third-party/math/mathjax.js" defer></script><noscript><link rel="stylesheet" href="/css/noscript.css"></noscript><style>mjx-container[jax=SVG]{direction:ltr}mjx-container[jax=SVG]>svg{overflow:visible}mjx-container[jax=SVG][display=true]{display:block;text-align:center;margin:1em 0}mjx-container[jax=SVG][justify=left]{text-align:left}mjx-container[jax=SVG][justify=right]{text-align:right}g[data-mml-node=merror]>g{fill:red;stroke:red}g[data-mml-node=merror]>rect[data-background]{fill:#ff0;stroke:none}g[data-mml-node=mtable]>line[data-line]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>rect[data-frame]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>.mjx-dashed{stroke-dasharray:140}g[data-mml-node=mtable]>.mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}g[data-mml-node=mtable]>svg{overflow:visible}[jax=SVG] mjx-tool{display:inline-block;position:relative;width:0;height:0}[jax=SVG] mjx-tool>mjx-tip{position:absolute;top:0;left:0}mjx-tool>mjx-tip{display:inline-block;padding:.2em;border:1px solid #888;font-size:70%;background-color:#f8f8f8;color:#000;box-shadow:2px 2px 5px #aaa}g[data-mml-node=maction][data-toggle]{cursor:pointer}mjx-status{display:block;position:fixed;left:1em;bottom:1em;min-width:25%;padding:.2em .4em;border:1px solid #888;font-size:90%;background-color:#f8f8f8;color:#000}foreignObject[data-mjx-xml]{font-family:initial;line-height:normal;overflow:visible}.MathJax path{stroke-width:3}mjx-container[display=true]{overflow:auto hidden}mjx-container[display=true]+br{display:none}</style><link rel="alternate" href="/atom.xml" title="vanishke随笔" type="application/atom+xml"></head><body itemscope itemtype="http://schema.org/WebPage" class="use-motion"><div class="headband"></div><main class="main"><div class="column"><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><i class="logo-line"></i><p class="site-title">vanishke随笔</p><i class="logo-line"></i></a><p class="site-subtitle" itemprop="description">善始者实繁，克终者盖寡</p></div><div class="site-nav-right"><div class="toggle popup-trigger" aria-label="搜索" role="button"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class="site-nav"><ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">130</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">64</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">269</span></a></li><li class="menu-item menu-item-rss"><a href="/rss2.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索</a></li></ul></nav><template id="search-popup-template"><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"><input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close" role="button"><i class="fa fa-times-circle"></i></span></div><div class="search-result-container"><div class="search-result-icon"><i class="fa fa-spinner fa-pulse fa-5x"></i></div></div></div></div></template></header><aside class="sidebar"><div class="sidebar-inner sidebar-nav-active sidebar-toc-active"><ul class="sidebar-nav"><li class="sidebar-nav-toc">文章目录</li><li class="sidebar-nav-overview">站点概览</li></ul><div class="sidebar-panel-container"><div class="post-toc-wrap sidebar-panel"><div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">harbor 部署</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">验证</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" alt="vanishke" src="/images/avatar.png"><p class="site-author-name" itemprop="name">vanishke</p><div class="site-description" itemprop="description"></div></div><div class="site-state-wrap animated"><nav class="site-state"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">269</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">64</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">130</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author animated"><span class="links-of-author-item"><a href="https://github.com/vanishke" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vanishke" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:18685129726@163.com" title="E-Mail → mailto:18685129726@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a></span></div><div class="cc-license animated" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a></div></div></div></div></aside></div><div class="main-inner post posts-expand"><div class="post-block"><article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.png"><meta itemprop="name" content="vanishke"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="vanishke随笔"><meta itemprop="description" content=""></span><span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="name" content="Docker 私服 habor 搭建 | vanishke随笔"><meta itemprop="description" content=""></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Docker 私服 habor 搭建</h1><div class="post-meta-container"><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2025-01-10 17:32:21" itemprop="dateCreated datePublished" datetime="2025-01-10T17:32:21+08:00">2025-01-10</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2026-08-14 16:52:17" itemprop="dateModified" datetime="2026-08-14T16:52:17+08:00">2026-08-14</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a> </span></span><span class="post-meta-break"></span> <span class="post-meta-item" title="本文字数"><span class="post-meta-item-icon"><i class="far fa-file-word"></i> </span><span class="post-meta-item-text">本文字数：</span> <span>2.7k</span> </span><span class="post-meta-item" title="阅读时长"><span class="post-meta-item-icon"><i class="far fa-clock"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span>10 分钟</span></span></div></div></header><div class="post-body" itemprop="articleBody"><ul><li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li><li><a href="#%E8%83%8C%E6%99%AF">背景</a></li><li><a href="#harbor%E9%83%A8%E7%BD%B2">harbor 部署</a></li><li><a href="#%E9%AA%8C%E8%AF%81">验证</a></li></ul><h1><span id="环境">环境</span></h1><p>Linux: CentOS Linux release 7.7.1908 (Core)<br>Docker：26.1.4<br>Docker compose: v2.25.0</p><h1><span id="背景">背景</span></h1><p>docker swarm 模式下实现基于 docker-compose 编排工具的多文件部署，但命令行的操作使得部署变得很麻烦，希望能够通过 portainer+harbor 实现容器的可视化管理。</p><h1><span id="harbor-部署">harbor 部署</span></h1><p>官网地址：<a href="https://goharbor.io/">https://goharbor.io/</a><br>github 地址：<a href="https://github.com/goharbor/harbor/releases">https://github.com/goharbor/harbor/releases</a></p><p>下载对应的离线版本，上传至 docker 服务器 /usr/local/habor 目录下，执行解压</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">tar</span> <span class="token parameter variable">-zxvf</span> harbor-offline-installer-v2.12.1.tgz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>解压之后，赋予.sh 脚本文件可执行权限</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">chmod</span> a+x *.sh <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>重命名配置文件，并修改配置</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> harbor.yml.tmpl  harbor.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>harbor.yml</p><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># Configuration file of Harbor</span>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="theme-color" content="#222" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.css" integrity="sha256-mdaMxrItEW6hMIVJJNPKuX0B7KCSJQVEv3mVY4N2we4=" crossorigin="anonymous"><script class="next-config" data-name="main" type="application/json">{"hostname":"vanishke.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"codeblock":{"theme":{"light":"base16/one-light","dark":"base16/onedark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script><meta name="description" content="环境 背景 harbor 部署 The IP address or hostname to access admin UI and registry service. DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients. http related config p"><meta property="og:type" content="article"><meta property="og:title" content="Docker 私服 habor 搭建"><meta property="og:url" content="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/index.html"><meta property="og:site_name" content="vanishke随笔"><meta property="og:description" content="环境 背景 harbor 部署 The IP address or hostname to access admin UI and registry service. DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients. http related config p"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_001.png"><meta property="og:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_002.png"><meta property="og:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_003.png"><meta property="article:published_time" content="2025-01-10T09:32:21.000Z"><meta property="article:modified_time" content="2026-08-14T08:52:17.773Z"><meta property="article:author" content="vanishke"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Docker-compose"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://vanishke.github.io/images/docker/20250110/docker_20250110_001.png"><link rel="canonical" href="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/"><script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/","path":"Docker/blogs/Docker私服habor搭建/","title":"Docker 私服 habor 搭建"}</script><script class="next-config" data-name="calendar" type="application/json">""</script><title>Docker 私服 habor 搭建 | vanishke随笔</title><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-core.min.js" integrity="sha256-bKrTFt2ZHyT4AE4LnBnAVctYKf9l6XP77kBvltgbjn4=" crossorigin="anonymous" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/line-numbers/prism-line-numbers.min.js" integrity="sha256-9cmf7tcLdXpKsPi/2AWE93PbZpTp4M4tqzFk+lWomjU=" crossorigin="anonymous" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.umd.js" integrity="sha256-QnJV4HT5r8i89ovZGRD86iynZqHerEbT2xt69vDM36I=" crossorigin="anonymous" defer></script><script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script><script src="/js/third-party/search/local-search.js" defer></script><script src="/js/third-party/fancybox.js" defer></script><script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","display_overflow":"scroll","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-mml-chtml.js","integrity":"sha256-ihPtDDm7pTmSF9ViEsItlvsrBTsNkz0MOXMchzOwCQw="}}</script><script src="/js/third-party/math/mathjax.js" defer></script><noscript><link rel="stylesheet" href="/css/noscript.css"></noscript><style>mjx-container[jax=SVG]{direction:ltr}mjx-container[jax=SVG]>svg{overflow:visible}mjx-container[jax=SVG][display=true]{display:block;text-align:center;margin:1em 0}mjx-container[jax=SVG][justify=left]{text-align:left}mjx-container[jax=SVG][justify=right]{text-align:right}g[data-mml-node=merror]>g{fill:red;stroke:red}g[data-mml-node=merror]>rect[data-background]{fill:#ff0;stroke:none}g[data-mml-node=mtable]>line[data-line]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>rect[data-frame]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>.mjx-dashed{stroke-dasharray:140}g[data-mml-node=mtable]>.mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}g[data-mml-node=mtable]>svg{overflow:visible}[jax=SVG] mjx-tool{display:inline-block;position:relative;width:0;height:0}[jax=SVG] mjx-tool>mjx-tip{position:absolute;top:0;left:0}mjx-tool>mjx-tip{display:inline-block;padding:.2em;border:1px solid #888;font-size:70%;background-color:#f8f8f8;color:#000;box-shadow:2px 2px 5px #aaa}g[data-mml-node=maction][data-toggle]{cursor:pointer}mjx-status{display:block;position:fixed;left:1em;bottom:1em;min-width:25%;padding:.2em .4em;border:1px solid #888;font-size:90%;background-color:#f8f8f8;color:#000}foreignObject[data-mjx-xml]{font-family:initial;line-height:normal;overflow:visible}.MathJax path{stroke-width:3}mjx-container[display=true]{overflow:auto hidden}mjx-container[display=true]+br{display:none}</style><link rel="alternate" href="/atom.xml" title="vanishke随笔" type="application/atom+xml"></head><body itemscope itemtype="http://schema.org/WebPage" class="use-motion"><div class="headband"></div><main class="main"><div class="column"><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><i class="logo-line"></i><p class="site-title">vanishke随笔</p><i class="logo-line"></i></a><p class="site-subtitle" itemprop="description">善始者实繁，克终者盖寡</p></div><div class="site-nav-right"><div class="toggle popup-trigger" aria-label="搜索" role="button"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class="site-nav"><ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">130</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">64</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">269</span></a></li><li class="menu-item menu-item-rss"><a href="/rss2.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索</a></li></ul></nav><template id="search-popup-template"><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"><input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close" role="button"><i class="fa fa-times-circle"></i></span></div><div class="search-result-container"><div class="search-result-icon"><i class="fa fa-spinner fa-pulse fa-5x"></i></div></div></div></div></template></header><aside class="sidebar"><div class="sidebar-inner sidebar-nav-active sidebar-toc-active"><ul class="sidebar-nav"><li class="sidebar-nav-toc">文章目录</li><li class="sidebar-nav-overview">站点概览</li></ul><div class="sidebar-panel-container"><div class="post-toc-wrap sidebar-panel"><div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">harbor 部署</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">验证</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" alt="vanishke" src="/images/avatar.png"><p class="site-author-name" itemprop="name">vanishke</p><div class="site-description" itemprop="description"></div></div><div class="site-state-wrap animated"><nav class="site-state"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">269</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">64</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">130</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author animated"><span class="links-of-author-item"><a href="https://github.com/vanishke" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vanishke" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:18685129726@163.com" title="E-Mail → mailto:18685129726@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a></span></div><div class="cc-license animated" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a></div></div></div></div></aside></div><div class="main-inner post posts-expand"><div class="post-block"><article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.png"><meta itemprop="name" content="vanishke"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="vanishke随笔"><meta itemprop="description" content=""></span><span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="name" content="Docker 私服 habor 搭建 | vanishke随笔"><meta itemprop="description" content=""></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Docker 私服 habor 搭建</h1><div class="post-meta-container"><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2025-01-10 17:32:21" itemprop="dateCreated datePublished" datetime="2025-01-10T17:32:21+08:00">2025-01-10</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2026-08-14 16:52:17" itemprop="dateModified" datetime="2026-08-14T16:52:17+08:00">2026-08-14</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a> </span></span><span class="post-meta-break"></span> <span class="post-meta-item" title="本文字数"><span class="post-meta-item-icon"><i class="far fa-file-word"></i> </span><span class="post-meta-item-text">本文字数：</span> <span>2.7k</span> </span><span class="post-meta-item" title="阅读时长"><span class="post-meta-item-icon"><i class="far fa-clock"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span>10 分钟</span></span></div></div></header><div class="post-body" itemprop="articleBody"><ul><li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li><li><a href="#%E8%83%8C%E6%99%AF">背景</a></li><li><a href="#harbor%E9%83%A8%E7%BD%B2">harbor 部署</a></li><li><a href="#the-ip-address-or-hostname-to-access-admin-ui-and-registry-service">The IP address or hostname to access admin UI and registry service.</a></li><li><a href="#do-not-use-localhost-or-127001-because-harbor-needs-to-be-accessed-by-external-clients">DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.</a></li><li><a href="#http-related-config">http related config</a></li><li><a href="#port-for-http-default-is-80-if-https-enabled-this-port-will-redirect-to-https-port">port for http, default is 80. If https enabled, this port will redirect to https port</a></li><li><a href="#https-related-config">https related config</a></li><li><a href="#https-port-for-harbor-default-is-443">https port for harbor, default is 443</a></li><li><a href="#the-path-of-cert-and-key-files-for-nginx">The path of cert and key files for nginx</a></li><li><a href="#enable-strong-ssl-ciphers-default-false">enable strong ssl ciphers (default: false)</a></li><li><a href="#strong_ssl_ciphers-false">strong_ssl_ciphers: false</a></li><li><a href="#harbor-will-set-ipv4-enabled-only-by-default-if-this-block-is-not-configured"># Harbor will set ipv4 enabled only by default if this block is not configured</a></li><li><a href="#otherwise-please-uncomment-this-block-to-configure-your-own-ip_family-stacks"># Otherwise, please uncomment this block to configure your own ip_family stacks</a></li><li><a href="#ip_family">ip_family:</a></li><li><a href="#ipv6enabled-set-to-true-if-ipv6-is-enabled-in-docker-network-currently-it-affected-the-nginx-related-component"># ipv6Enabled set to true if ipv6 is enabled in docker network, currently it affected the nginx related component</a></li><li><a href="#ipv6">ipv6:</a></li><li><a href="#enabled-false">enabled: false</a></li><li><a href="#ipv4enabled-set-to-true-by-default-currently-it-affected-the-nginx-related-component"># ipv4Enabled set to true by default, currently it affected the nginx related component</a></li><li><a href="#ipv4">ipv4:</a></li><li><a href="#enabled-true">enabled: true</a></li><li><a href="#uncomment-following-will-enable-tls-communication-between-all-harbor-components"># Uncomment following will enable tls communication between all harbor components</a></li><li><a href="#internal_tls">internal_tls:</a></li><li><a href="#set-enabled-to-true-means-internal-tls-is-enabled"># set enabled to true means internal tls is enabled</a></li><li><a href="#enabled-true-1">enabled: true</a></li><li><a href="#put-your-cert-and-key-files-on-dir"># put your cert and key files on dir</a></li><li><a href="#dir-x2fetcx2fharborx2ftlsx2finternal">dir: /etc/harbor/tls/internal</a></li><li><a href="#uncomment-external_url-if-you-want-to-enable-external-proxy">Uncomment external_url if you want to enable external proxy</a></li><li><a href="#and-when-it-enabled-the-hostname-will-no-longer-used">And when it enabled the hostname will no longer used</a></li><li><a href="#external_url-httpsx2fx2fregmydomaincom8433">external_url: https://reg.mydomain.com:8433</a></li><li><a href="#the-initial-password-of-harbor-admin">The initial password of Harbor admin</a></li><li><a href="#it-only-works-in-first-time-to-install-harbor">It only works in first time to install harbor</a></li><li><a href="#remember-change-the-admin-password-from-ui-after-launching-harbor">Remember Change the admin password from UI after launching Harbor.</a></li><li><a href="#harbor-db-configuration">Harbor DB configuration</a></li><li><a href="#the-password-for-the-user39postgres39-by-default-of-harbor-db-change-this-before-any-production-use">The password for the user('postgres' by default) of Harbor DB. Change this before any production use.</a></li><li><a href="#the-maximum-number-of-connections-in-the-idle-connection-pool-if-it-ltx3d0-no-idle-connections-are-retained">The maximum number of connections in the idle connection pool. If it &lt;=0, no idle connections are retained.</a></li><li><a href="#the-maximum-number-of-open-connections-to-the-database-if-it-ltx3d-0-then-there-is-no-limit-on-the-number-of-open-connections">The maximum number of open connections to the database. If it &lt;= 0, then there is no limit on the number of open connections.</a></li><li><a href="#note-the-default-number-of-connections-is-1024-for-postgres-of-harbor">Note: the default number of connections is 1024 for postgres of harbor.</a></li><li><a href="#the-maximum-amount-of-time-a-connection-may-be-reused-expired-connections-may-be-closed-lazily-before-reuse-if-it-ltx3d-0-connections-are-not-closed-due-to-a-connection39s-age">The maximum amount of time a connection may be reused. Expired connections may be closed lazily before reuse. If it &lt;= 0, connections are not closed due to a connection's age.</a></li><li><a href="#the-value-is-a-duration-string-a-duration-string-is-a-possibly-signed-sequence-of-decimal-numbers-each-with-optional-fraction-and-a-unit-suffix-such-as-quot300msquot-quot-15hquot-or-quot2h45mquot-valid-time-units-are-quotnsquot-quotusquot-or-quot%CE%BCsquot-quotmsquot-quotsquot-quotmquot-quothquot">The value is a duration string. A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".</a></li><li><a href="#the-maximum-amount-of-time-a-connection-may-be-idle-expired-connections-may-be-closed-lazily-before-reuse-if-it-ltx3d-0-connections-are-not-closed-due-to-a-connection39s-idle-time">The maximum amount of time a connection may be idle. Expired connections may be closed lazily before reuse. If it &lt;= 0, connections are not closed due to a connection's idle time.</a></li><li><a href="#the-value-is-a-duration-string-a-duration-string-is-a-possibly-signed-sequence-of-decimal-numbers-each-with-optional-fraction-and-a-unit-suffix-such-as-quot300msquot-quot-15hquot-or-quot2h45mquot-valid-time-units-are-quotnsquot-quotusquot-or-quot%CE%BCsquot-quotmsquot-quotsquot-quotmquot-quothquot-1">The value is a duration string. A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".</a></li><li><a href="#the-default-data-volume">The default data volume</a></li><li><a href="#harbor-storage-settings-by-default-is-using-x2fdata-dir-on-local-filesystem">Harbor Storage settings by default is using /data dir on local filesystem</a></li><li><a href="#uncomment-storage_service-setting-if-you-want-to-using-external-storage">Uncomment storage_service setting If you want to using external storage</a></li><li><a href="#storage_service">storage_service:</a></li><li><a href="#ca_bundle-is-the-path-to-the-custom-root-ca-certificate-which-will-be-injected-into-the-truststore"># ca_bundle is the path to the custom root ca certificate, which will be injected into the truststore</a></li><li><a href="#of-registry39s-containers-this-is-usually-needed-when-the-user-hosts-a-internal-storage-with-self-signed-certificate"># of registry's containers. This is usually needed when the user hosts a internal storage with self signed certificate.</a></li><li><a href="#ca_bundle">ca_bundle:</a></li><li><a href="#storage-backend-default-is-filesystem-options-include-filesystem-azure-gcs-s3-swift-and-oss"># storage backend, default is filesystem, options include filesystem, azure, gcs, s3, swift and oss</a></li><li><a href="#for-more-info-about-this-configuration-please-refer-httpsx2fx2fdistributiongithubiox2fdistributionx2faboutx2fconfigurationx2f"># for more info about this configuration please refer https://distribution.github.io/distribution/about/configuration/</a></li><li><a href="#and-httpsx2fx2fdistributiongithubiox2fdistributionx2fstorage-driversx2f"># and https://distribution.github.io/distribution/storage-drivers/</a></li><li><a href="#filesystem">filesystem:</a></li><li><a href="#maxthreads-100">maxthreads: 100</a></li><li><a href="#set-disable-to-true-when-you-want-to-disable-registry-redirect"># set disable to true when you want to disable registry redirect</a></li><li><a href="#redirect">redirect:</a></li><li><a href="#disable-false">disable: false</a></li><li><a href="#trivy-configuration">Trivy configuration</a></li><li><a href="#trivy-db-contains-vulnerability-information-from-nvd-red-hat-and-many-other-upstream-vulnerability-databases">Trivy DB contains vulnerability information from NVD, Red Hat, and many other upstream vulnerability databases.</a></li><li><a href="#it-is-downloaded-by-trivy-from-the-github-release-page-httpsx2fx2fgithubcomx2faquasecurityx2ftrivy-dbx2freleases-and-cached">It is downloaded by Trivy from the GitHub release page https://github.com/aquasecurity/trivy-db/releases and cached</a></li><li><a href="#in-the-local-file-system-in-addition-the-database-contains-the-update-timestamp-so-trivy-can-detect-whether-it">in the local file system. In addition, the database contains the update timestamp so Trivy can detect whether it</a></li><li><a href="#should-download-a-newer-version-from-the-internet-or-use-the-cached-one-currently-the-database-is-updated-every">should download a newer version from the Internet or use the cached one. Currently, the database is updated every</a></li><li><a href="#12-hours-and-published-as-a-new-release-to-github">12 hours and published as a new release to GitHub.</a></li><li><a href="#ignoreunfixed-the-flag-to-display-only-fixed-vulnerabilities">ignoreUnfixed The flag to display only fixed vulnerabilities</a></li><li><a href="#skipupdate-the-flag-to-enable-or-disable-trivy-db-downloads-from-github">skipUpdate The flag to enable or disable Trivy DB downloads from GitHub</a></li><li><a href="#you-might-want-to-enable-this-flag-in-test-or-cix2fcd-environments-to-avoid-github-rate-limiting-issues">You might want to enable this flag in test or CI/CD environments to avoid GitHub rate limiting issues.</a></li><li><a href="#if-the-flag-is-enabled-you-have-to-download-the-96trivy-offlinetargz96-archive-manually-extract-96trivydb96-and">If the flag is enabled you have to download the `trivy-offline.tar.gz` archive manually, extract `trivy.db` and</a></li><li><a href="#96metadatajson96-files-and-mount-them-in-the-96x2fhomex2fscannerx2fcachex2ftrivyx2fdb96-path">`metadata.json` files and mount them in the `/home/scanner/.cache/trivy/db` path.</a></li><li><a href="#skipjavadbupdate-if-the-flag-is-enabled-you-have-to-manually-download-the-96trivy-javadb96-file-and-mount-it-in-the">skipJavaDBUpdate If the flag is enabled you have to manually download the `trivy-java.db` file and mount it in the</a></li><li><a href="#96x2fhomex2fscannerx2fcachex2ftrivyx2fjava-dbx2ftrivy-javadb96-path">`/home/scanner/.cache/trivy/java-db/trivy-java.db` path</a></li><li><a href="#the-offline_scan-option-prevents-trivy-from-sending-api-requests-to-identify-dependencies">The offline_scan option prevents Trivy from sending API requests to identify dependencies.</a></li><li><a href="#scanning-jar-files-and-pomxml-may-require-internet-access-for-better-detection-but-this-option-tries-to-avoid-it">Scanning JAR files and pom.xml may require Internet access for better detection, but this option tries to avoid it.</a></li><li><a href="#for-example-the-offline-mode-will-not-try-to-resolve-transitive-dependencies-in-pomxml-when-the-dependency-doesn39t">For example, the offline mode will not try to resolve transitive dependencies in pom.xml when the dependency doesn't</a></li><li><a href="#exist-in-the-local-repositories-it-means-a-number-of-detected-vulnerabilities-might-be-fewer-in-offline-mode">exist in the local repositories. It means a number of detected vulnerabilities might be fewer in offline mode.</a></li><li><a href="#it-would-work-if-all-the-dependencies-are-in-local">It would work if all the dependencies are in local.</a></li><li><a href="#this-option-doesn39t-affect-db-download-you-need-to-specify-quotskip-updatequot-as-well-as-quotoffline-scanquot-in-an-air-gapped-environment">This option doesn't affect DB download. You need to specify "skip-update" as well as "offline-scan" in an air-gapped environment.</a></li><li><a href="#comma-separated-list-of-what-security-issues-to-detect-possible-values-are-96vuln96-96config96-and-96secret96-defaults-to-96vuln96">Comma-separated list of what security issues to detect. Possible values are `vuln`, `config` and `secret`. Defaults to `vuln`.</a></li><li><a href="#insecure-the-flag-to-skip-verifying-registry-certificate">insecure The flag to skip verifying registry certificate</a></li><li><a href="#timeout-the-duration-to-wait-for-scan-completion">timeout The duration to wait for scan completion.</a></li><li><a href="#there-is-upper-bound-of-30-minutes-defined-in-scan-job-so-if-this-96timeout96-is-larger-than-30m0s-it-will-also-timeout-at-30m0s">There is upper bound of 30 minutes defined in scan job. So if this `timeout` is larger than 30m0s, it will also timeout at 30m0s.</a></li><li><a href="#github_token-the-github-access-token-to-download-trivy-db">github_token The GitHub access token to download Trivy DB</a></li><li><a href="#anonymous-downloads-from-github-are-subject-to-the-limit-of-60-requests-per-hour-normally-such-rate-limit-is-enough">Anonymous downloads from GitHub are subject to the limit of 60 requests per hour. Normally such rate limit is enough</a></li><li><a href="#for-production-operations-if-for-any-reason-it39s-not-enough-you-could-increase-the-rate-limit-to-5000">for production operations. If, for any reason, it's not enough, you could increase the rate limit to 5000</a></li><li><a href="#requests-per-hour-by-specifying-the-github-access-token-for-more-details-on-github-rate-limiting-please-consult">requests per hour by specifying the GitHub access token. For more details on GitHub rate limiting please consult</a></li><li><a href="#httpsx2fx2fdocsgithubcomx2frestx2foverviewx2fresources-in-the-rest-apirate-limiting">https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting</a></li><li><a href="#you-can-create-a-github-token-by-following-the-instructions-in">You can create a GitHub token by following the instructions in</a></li><li><a href="#httpsx2fx2fhelpgithubcomx2fenx2fgithubx2fauthenticating-to-githubx2fcreating-a-personal-access-token-for-the-command-line">https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line</a></li><li><a href="#github_token-xxx">github_token: xxx</a></li><li><a href="#maximum-number-of-job-workers-in-job-service">Maximum number of job workers in job service</a></li><li><a href="#the-jobloggers-backend-name-only-support-quotstd_outputquot-quotfilequot-andx2for-quotdbquot">The jobLoggers backend name, only support "STD_OUTPUT", "FILE" and/or "DB"</a></li><li><a href="#the-joblogger-sweeper-duration-ignored-if-96joblogger96-is-96stdout96">The jobLogger sweeper duration (ignored if `jobLogger` is `stdout`)</a></li><li><a href="#maximum-retry-count-for-webhook-job">Maximum retry count for webhook job</a></li><li><a href="#http-client-timeout-for-webhook-job">HTTP client timeout for webhook job</a></li><li><a href="#log-configurations">Log configurations</a></li><li><a href="#options-are-debug-info-warning-error-fatal">options are debug, info, warning, error, fatal</a></li><li><a href="#configs-for-logs-in-local-storage">configs for logs in local storage</a></li><li><a href="#uncomment-following-lines-to-enable-external-syslog-endpoint">Uncomment following lines to enable external syslog endpoint.</a></li><li><a href="#external_endpoint">external_endpoint:</a></li><li><a href="#protocol-used-to-transmit-log-to-external-endpoint-options-is-tcp-or-udp"># protocol used to transmit log to external endpoint, options is tcp or udp</a></li><li><a href="#protocol-tcp">protocol: tcp</a></li><li><a href="#the-host-of-external-endpoint"># The host of external endpoint</a></li><li><a href="#host-localhost">host: localhost</a></li><li><a href="#port-of-external-endpoint"># Port of external endpoint</a></li><li><a href="#port-5140">port: 5140</a></li><li><a href="#uncomment-external_database-if-using-external-database">Uncomment external_database if using external database.</a></li><li><a href="#external_database">external_database:</a></li><li><a href="#harbor">harbor:</a></li><li><a href="#host-harbor_db_host">host: harbor_db_host</a></li><li><a href="#port-harbor_db_port">port: harbor_db_port</a></li><li><a href="#db_name-harbor_db_name">db_name: harbor_db_name</a></li><li><a href="#username-harbor_db_username">username: harbor_db_username</a></li><li><a href="#password-harbor_db_password">password: harbor_db_password</a></li><li><a href="#ssl_mode-disable">ssl_mode: disable</a></li><li><a href="#max_idle_conns-2">max_idle_conns: 2</a></li><li><a href="#max_open_conns-0">max_open_conns: 0</a></li><li><a href="#uncomment-redis-if-need-to-customize-redis-db">Uncomment redis if need to customize redis db</a></li><li><a href="#redis">redis:</a></li><li><a href="#db_index-0-is-for-core-it39s-unchangeable"># db_index 0 is for core, it's unchangeable</a></li><li><a href="#registry_db_index-1"># registry_db_index: 1</a></li><li><a href="#jobservice_db_index-2"># jobservice_db_index: 2</a></li><li><a href="#trivy_db_index-5"># trivy_db_index: 5</a></li><li><a href="#it39s-optional-the-db-for-harbor-business-misc-by-default-is-0-uncomment-it-if-you-want-to-change-it"># it's optional, the db for harbor business misc, by default is 0, uncomment it if you want to change it.</a></li><li><a href="#harbor_db_index-6"># harbor_db_index: 6</a></li><li><a href="#it39s-optional-the-db-for-harbor-cache-layer-by-default-is-0-uncomment-it-if-you-want-to-change-it"># it's optional, the db for harbor cache layer, by default is 0, uncomment it if you want to change it.</a></li><li><a href="#cache_layer_db_index-7"># cache_layer_db_index: 7</a></li><li><a href="#uncomment-external_redis-if-using-external-redis-server">Uncomment external_redis if using external Redis server</a></li><li><a href="#external_redis">external_redis:</a></li><li><a href="#support-redis-redissentinel"># support redis, redis+sentinel</a></li><li><a href="#host-for-redis-lthost_redisgtltport_redisgt"># host for redis: &lt;host_redis&gt;:&lt;port_redis&gt;</a></li><li><a href="#host-for-redissentinel"># host for redis+sentinel:</a></li><li><a href="#lthost_sentinel1gtltport_sentinel1gtlthost_sentinel2gtltport_sentinel2gtlthost_sentinel3gtltport_sentinel3gt"># &lt;host_sentinel1&gt;:&lt;port_sentinel1&gt;,&lt;host_sentinel2&gt;:&lt;port_sentinel2&gt;,&lt;host_sentinel3&gt;:&lt;port_sentinel3&gt;</a></li><li><a href="#host-redis6379">host: redis:6379</a></li><li><a href="#password">password:</a></li><li><a href="#redis-auth-command-was-extended-in-redis-6-it-is-possible-to-use-it-in-the-two-arguments-auth-ltusernamegt-ltpasswordgt-form"># Redis AUTH command was extended in Redis 6, it is possible to use it in the two-arguments AUTH &lt;username&gt; &lt;password&gt; form.</a></li><li><a href="#there39s-a-known-issue-when-using-external-redis-username-refhttpsx2fx2fgithubcomx2fgoharborx2fharborx2fissuesx2f18892"># there's a known issue when using external redis username ref:https://github.com/goharbor/harbor/issues/18892</a></li><li><a href="#if-you-care-about-the-image-pullx2fpush-performance-please-refer-to-this-httpsx2fx2fgithubcomx2fgoharborx2fharborx2fwikix2fharbor-faqsexternal-redis-username-password-usage"># if you care about the image pull/push performance, please refer to this https://github.com/goharbor/harbor/wiki/Harbor-FAQs#external-redis-username-password-usage</a></li><li><a href="#username"># username:</a></li><li><a href="#sentinel_master_set-must-be-set-to-support-redissentinel"># sentinel_master_set must be set to support redis+sentinel</a></li><li><a href="#sentinel_master_set">#sentinel_master_set:</a></li><li><a href="#db_index-0-is-for-core-it39s-unchangeable-1"># db_index 0 is for core, it's unchangeable</a></li><li><a href="#registry_db_index-1">registry_db_index: 1</a></li><li><a href="#jobservice_db_index-2">jobservice_db_index: 2</a></li><li><a href="#trivy_db_index-5">trivy_db_index: 5</a></li><li><a href="#idle_timeout_seconds-30">idle_timeout_seconds: 30</a></li><li><a href="#it39s-optional-the-db-for-harbor-business-misc-by-default-is-0-uncomment-it-if-you-want-to-change-it-1"># it's optional, the db for harbor business misc, by default is 0, uncomment it if you want to change it.</a></li><li><a href="#harbor_db_index-6-1"># harbor_db_index: 6</a></li><li><a href="#it39s-optional-the-db-for-harbor-cache-layer-by-default-is-0-uncomment-it-if-you-want-to-change-it-1"># it's optional, the db for harbor cache layer, by default is 0, uncomment it if you want to change it.</a></li><li><a href="#cache_layer_db_index-7-1"># cache_layer_db_index: 7</a></li><li><a href="#uncomment-uaa-for-trusting-the-certificate-of-uaa-instance-that-is-hosted-via-self-signed-cert">Uncomment uaa for trusting the certificate of uaa instance that is hosted via self-signed cert.</a></li><li><a href="#uaa">uaa:</a></li><li><a href="#ca_file-x2fpathx2ftox2fca">ca_file: /path/to/ca</a></li><li><a href="#global-proxy">Global proxy</a></li><li><a href="#config-http-proxy-for-components-eg-httpx2fx2fmyproxycom3128">Config http proxy for components, e.g. http://my.proxy.com:3128</a></li><li><a href="#components-doesn39t-need-to-connect-to-each-others-via-http-proxy">Components doesn't need to connect to each others via http proxy.</a></li><li><a href="#remove-component-from-96components96-array-if-want-disable-proxy">Remove component from `components` array if want disable proxy</a></li><li><a href="#for-it-if-you-want-use-proxy-for-replication-must-enable-proxy">for it. If you want use proxy for replication, MUST enable proxy</a></li><li><a href="#for-core-and-jobservice-and-set-96http_proxy96-and-96https_proxy96">for core and jobservice, and set `http_proxy` and `https_proxy`.</a></li><li><a href="#add-domain-to-the-96no_proxy96-field-when-you-want-disable-proxy">Add domain to the `no_proxy` field, when you want disable proxy</a></li><li><a href="#for-some-special-registry">for some special registry.</a></li><li><a href="#metric">metric:</a></li><li><a href="#enabled-false-1">enabled: false</a></li><li><a href="#port-9090">port: 9090</a></li><li><a href="#path-x2fmetrics">path: /metrics</a></li><li><a href="#trace-related-config">Trace related config</a></li><li><a href="#only-can-enable-one-trace-providerjaeger-or-otel-at-the-same-time">only can enable one trace provider(jaeger or otel) at the same time,</a></li><li><a href="#and-when-using-jaeger-as-provider-can-only-enable-it-with-agent-mode-or-collector-mode">and when using jaeger as provider, can only enable it with agent mode or collector mode.</a></li><li><a href="#if-using-jaeger-collector-mode-uncomment-endpoint-and-uncomment-username-password-if-needed">if using jaeger collector mode, uncomment endpoint and uncomment username, password if needed</a></li><li><a href="#if-using-jaeger-agetn-mode-uncomment-agent_host-and-agent_port">if using jaeger agetn mode uncomment agent_host and agent_port</a></li><li><a href="#trace">trace:</a></li><li><a href="#enabled-true-2">enabled: true</a></li><li><a href="#set-sample_rate-to-1-if-you-wanna-sampling-100-of-trace-data-set-05-if-you-wanna-sampling-50-of-trace-data-and-so-forth"># set sample_rate to 1 if you wanna sampling 100% of trace data; set 0.5 if you wanna sampling 50% of trace data, and so forth</a></li><li><a href="#sample_rate-1">sample_rate: 1</a></li><li><a href="#namespace-used-to-differentiate-different-harbor-services"># # namespace used to differentiate different harbor services</a></li><li><a href="#namespace"># namespace:</a></li><li><a href="#attributes-is-a-key-value-dict-contains-user-defined-attributes-used-to-initialize-trace-provider"># # attributes is a key value dict contains user defined attributes used to initialize trace provider</a></li><li><a href="#attributes"># attributes:</a></li><li><a href="#application-harbor"># application: harbor</a></li><li><a href="#jaeger-should-be-126-or-newer"># # jaeger should be 1.26 or newer.</a></li><li><a href="#jaeger"># jaeger:</a></li><li><a href="#endpoint-httpx2fx2fhostname14268x2fapix2ftraces"># endpoint: http://hostname:14268/api/traces</a></li><li><a href="#username"># username:</a></li><li><a href="#password"># password:</a></li><li><a href="#agent_host-hostname"># agent_host: hostname</a></li><li><a href="#export-trace-data-by-jaegerthrift-in-compact-mode"># # export trace data by jaeger.thrift in compact mode</a></li><li><a href="#agent_port-6831"># agent_port: 6831</a></li><li><a href="#otel"># otel:</a></li><li><a href="#endpoint-hostname4318"># endpoint: hostname:4318</a></li><li><a href="#url_path-x2fv1x2ftraces"># url_path: /v1/traces</a></li><li><a href="#compression-false"># compression: false</a></li><li><a href="#insecure-true"># insecure: true</a></li><li><a href="#timeout-is-in-seconds"># # timeout is in seconds</a></li><li><a href="#timeout-10"># timeout: 10</a></li><li><a href="#enable-purge-_upload-directories">Enable purge _upload directories</a></li><li><a href="#remove-files-in-_upload-directories-which-exist-for-a-period-of-time-default-is-one-week">remove files in _upload directories which exist for a period of time, default is one week.</a></li><li><a href="#the-interval-of-the-purge-operations">the interval of the purge operations</a></li><li><a href="#cache-layer-configurations">Cache layer configurations</a></li><li><a href="#if-this-feature-enabled-harbor-will-cache-the-resource">If this feature enabled, harbor will cache the resource</a></li><li><a href="#96projectx2fproject_metadatax2frepositoryx2fartifactx2fmanifest96-in-the-redis">`project/project_metadata/repository/artifact/manifest` in the redis</a></li><li><a href="#which-can-especially-help-to-improve-the-performance-of-high-concurrent">which can especially help to improve the performance of high concurrent</a></li><li><a href="#manifest-pulling">manifest pulling.</a></li><li><a href="#notice">NOTICE</a></li><li><a href="#if-you-are-deploying-harbor-in-ha-mode-make-sure-that-all-the-harbor">If you are deploying Harbor in HA mode, make sure that all the harbor</a></li><li><a href="#instances-have-the-same-behaviour-all-with-caching-enabled-or-disabled">instances have the same behaviour, all with caching enabled or disabled,</a></li><li><a href="#otherwise-it-can-lead-to-potential-data-inconsistency">otherwise it can lead to potential data inconsistency.</a></li><li><a href="#not-enabled-by-default">not enabled by default</a></li><li><a href="#keep-cache-for-one-day-by-default">keep cache for one day by default</a></li><li><a href="#harbor-core-configurations">Harbor core configurations</a></li><li><a href="#uncomment-to-enable-the-following-harbor-core-related-configuration-items">Uncomment to enable the following harbor core related configuration items.</a></li><li><a href="#core">core:</a></li><li><a href="#the-provider-for-updating-project-quotausage-there-are-2-options-redis-or-db"># The provider for updating project quota(usage), there are 2 options, redis or db,</a></li><li><a href="#by-default-is-implemented-by-db-but-you-can-switch-the-updation-via-redis-which"># by default is implemented by db but you can switch the updation via redis which</a></li><li><a href="#can-improve-the-performance-of-high-concurrent-pushing-to-the-same-project"># can improve the performance of high concurrent pushing to the same project,</a></li><li><a href="#and-reduce-the-database-connections-spike-and-occupies"># and reduce the database connections spike and occupies.</a></li><li><a href="#by-redis-will-bring-up-some-delay-for-quota-usage-updation-for-display-so-only"># By redis will bring up some delay for quota usage updation for display, so only</a></li><li><a href="#suggest-switch-provider-to-redis-if-you-were-ran-into-the-db-connections-spike-around"># suggest switch provider to redis if you were ran into the db connections spike around</a></li><li><a href="#the-scenario-of-high-concurrent-pushing-to-same-project-no-improvement-for-other-scenes"># the scenario of high concurrent pushing to same project, no improvement for other scenes.</a></li><li><a href="#quota_update_provider-redis-or-dbcodeprehexopostrendercodeblock">quota_update_provider: redis # Or db</a></li><li><a href="#%E9%AA%8C%E8%AF%81">验证</a></li></ul><h1><span id="环境">环境</span></h1><p>Linux: CentOS Linux release 7.7.1908 (Core)<br>Docker：26.1.4<br>Docker compose: v2.25.0</p><h1><span id="背景">背景</span></h1><p>docker swarm 模式下实现基于 docker-compose 编排工具的多文件部署，但命令行的操作使得部署变得很麻烦，希望能够通过 portainer+harbor 实现容器的可视化管理。</p><h1><span id="harbor-部署">harbor 部署</span></h1><p>官网地址：<a href="https://goharbor.io/">https://goharbor.io/</a><br>github 地址：<a href="https://github.com/goharbor/harbor/releases">https://github.com/goharbor/harbor/releases</a></p><p>下载对应的离线版本，上传至 docker 服务器 /usr/local/habor 目录下，执行解压</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">tar -zxvf harbor-offline-installer-v2.12.1.tgz</code></pre><p>解压之后，赋予.sh 脚本文件可执行权限</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">chmod a+x *.sh </code></pre><p>重命名配置文件，并修改配置</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">mv harbor.yml.tmpl  harbor.yml</code></pre><p>harbor.yml</p><pre class="line-numbers language-yaml" data-language="yaml" data-start="1"><code class="language-yaml"># Configuration file of Harbor
 
-<span class="token comment"># The IP address or hostname to access admin UI and registry service.</span>
-<span class="token comment"># DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.</span>
-<span class="token key atrule">hostname</span><span class="token punctuation">:</span> harbor.example.com
+# The IP address or hostname to access admin UI and registry service.
+# DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
+hostname: harbor.example.com
 
-<span class="token comment"># http related config</span>
-<span class="token key atrule">http</span><span class="token punctuation">:</span>
-  <span class="token comment"># port for http, default is 80. If https enabled, this port will redirect to https port</span>
-  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80</span>
+# http related config
+http:
+  # port for http, default is 80. If https enabled, this port will redirect to https port
+  port: 80
 
-<span class="token comment"># https related config</span>
-<span class="token key atrule">https</span><span class="token punctuation">:</span>
-  <span class="token comment"># https port for harbor, default is 443</span>
-  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">443</span>
-  <span class="token comment"># The path of cert and key files for nginx</span>
-  <span class="token key atrule">certificate</span><span class="token punctuation">:</span> /usr/local/harbor/https/server.pem
-  <span class="token key atrule">private_key</span><span class="token punctuation">:</span> /usr/local/harbor/https/server.key
-  <span class="token comment"># enable strong ssl ciphers (default: false)</span>
-  <span class="token comment"># strong_ssl_ciphers: false</span>
+# https related config
+https:
+  # https port for harbor, default is 443
+  port: 443
+  # The path of cert and key files for nginx
+  certificate: /usr/local/harbor/https/server.pem
+  private_key: /usr/local/harbor/https/server.key
+  # enable strong ssl ciphers (default: false)
+  # strong_ssl_ciphers: false
 
-<span class="token comment"># # Harbor will set ipv4 enabled only by default if this block is not configured</span>
-<span class="token comment"># # Otherwise, please uncomment this block to configure your own ip_family stacks</span>
-<span class="token comment"># ip_family:</span>
-<span class="token comment">#   # ipv6Enabled set to true if ipv6 is enabled in docker network, currently it affected the nginx related component</span>
-<span class="token comment">#   ipv6:</span>
-<span class="token comment">#     enabled: false</span>
-<span class="token comment">#   # ipv4Enabled set to true by default, currently it affected the nginx related component</span>
-<span class="token comment">#   ipv4:</span>
-<span class="token comment">#     enabled: true</span>
+# # Harbor will set ipv4 enabled only by default if this block is not configured
+# # Otherwise, please uncomment this block to configure your own ip_family stacks
+# ip_family:
+#   # ipv6Enabled set to true if ipv6 is enabled in docker network, currently it affected the nginx related component
+#   ipv6:
+#     enabled: false
+#   # ipv4Enabled set to true by default, currently it affected the nginx related component
+#   ipv4:
+#     enabled: true
 
-<span class="token comment"># # Uncomment following will enable tls communication between all harbor components</span>
-<span class="token comment"># internal_tls:</span>
-<span class="token comment">#   # set enabled to true means internal tls is enabled</span>
-<span class="token comment">#   enabled: true</span>
-<span class="token comment">#   # put your cert and key files on dir</span>
-<span class="token comment">#   dir: /etc/harbor/tls/internal</span>
-
-
-<span class="token comment"># Uncomment external_url if you want to enable external proxy</span>
-<span class="token comment"># And when it enabled the hostname will no longer used</span>
-<span class="token comment"># external_url: https://reg.mydomain.com:8433</span>
-
-<span class="token comment"># The initial password of Harbor admin</span>
-<span class="token comment"># It only works in first time to install harbor</span>
-<span class="token comment"># Remember Change the admin password from UI after launching Harbor.</span>
-<span class="token key atrule">harbor_admin_password</span><span class="token punctuation">:</span> &lt;HARBOR_ADMIN_PASSWORD<span class="token punctuation">&gt;</span>
-
-<span class="token comment"># Harbor DB configuration</span>
-<span class="token key atrule">database</span><span class="token punctuation">:</span>
-  <span class="token comment"># The password for the user('postgres' by default) of Harbor DB. Change this before any production use.</span>
-  <span class="token key atrule">password</span><span class="token punctuation">:</span> &lt;HARBOR_DB_PASSWORD<span class="token punctuation">&gt;</span>
-  <span class="token comment"># The maximum number of connections in the idle connection pool. If it &lt;=0, no idle connections are retained.</span>
-  <span class="token key atrule">max_idle_conns</span><span class="token punctuation">:</span> <span class="token number">100</span>
-  <span class="token comment"># The maximum number of open connections to the database. If it &lt;= 0, then there is no limit on the number of open connections.</span>
-  <span class="token comment"># Note: the default number of connections is 1024 for postgres of harbor.</span>
-  <span class="token key atrule">max_open_conns</span><span class="token punctuation">:</span> <span class="token number">900</span>
-  <span class="token comment"># The maximum amount of time a connection may be reused. Expired connections may be closed lazily before reuse. If it &lt;= 0, connections are not closed due to a connection's age.</span>
-  <span class="token comment"># The value is a duration string. A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".</span>
-  <span class="token key atrule">conn_max_lifetime</span><span class="token punctuation">:</span> 5m
-  <span class="token comment"># The maximum amount of time a connection may be idle. Expired connections may be closed lazily before reuse. If it &lt;= 0, connections are not closed due to a connection's idle time.</span>
-  <span class="token comment"># The value is a duration string. A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".</span>
-  <span class="token key atrule">conn_max_idle_time</span><span class="token punctuation">:</span> <span class="token number">0</span>
-
-<span class="token comment"># The default data volume</span>
-<span class="token key atrule">data_volume</span><span class="token punctuation">:</span> /data
-
-<span class="token comment"># Harbor Storage settings by default is using /data dir on local filesystem</span>
-<span class="token comment"># Uncomment storage_service setting If you want to using external storage</span>
-<span class="token comment"># storage_service:</span>
-<span class="token comment">#   # ca_bundle is the path to the custom root ca certificate, which will be injected into the truststore</span>
-<span class="token comment">#   # of registry's containers.  This is usually needed when the user hosts a internal storage with self signed certificate.</span>
-<span class="token comment">#   ca_bundle:</span>
-
-<span class="token comment">#   # storage backend, default is filesystem, options include filesystem, azure, gcs, s3, swift and oss</span>
-<span class="token comment">#   # for more info about this configuration please refer https://distribution.github.io/distribution/about/configuration/</span>
-<span class="token comment">#   # and https://distribution.github.io/distribution/storage-drivers/</span>
-<span class="token comment">#   filesystem:</span>
-<span class="token comment">#     maxthreads: 100</span>
-<span class="token comment">#   # set disable to true when you want to disable registry redirect</span>
-<span class="token comment">#   redirect:</span>
-<span class="token comment">#     disable: false</span>
-
-<span class="token comment"># Trivy configuration</span>
-<span class="token comment">#</span>
-<span class="token comment"># Trivy DB contains vulnerability information from NVD, Red Hat, and many other upstream vulnerability databases.</span>
-<span class="token comment"># It is downloaded by Trivy from the GitHub release page https://github.com/aquasecurity/trivy-db/releases and cached</span>
-<span class="token comment"># in the local file system. In addition, the database contains the update timestamp so Trivy can detect whether it</span>
-<span class="token comment"># should download a newer version from the Internet or use the cached one. Currently, the database is updated every</span>
-<span class="token comment"># 12 hours and published as a new release to GitHub.</span>
-<span class="token key atrule">trivy</span><span class="token punctuation">:</span>
-  <span class="token comment"># ignoreUnfixed The flag to display only fixed vulnerabilities</span>
-  <span class="token key atrule">ignore_unfixed</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token comment"># skipUpdate The flag to enable or disable Trivy DB downloads from GitHub</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># You might want to enable this flag in test or CI/CD environments to avoid GitHub rate limiting issues.</span>
-  <span class="token comment"># If the flag is enabled you have to download the `trivy-offline.tar.gz` archive manually, extract `trivy.db` and</span>
-  <span class="token comment"># `metadata.json` files and mount them in the `/home/scanner/.cache/trivy/db` path.</span>
-  <span class="token key atrule">skip_update</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># skipJavaDBUpdate If the flag is enabled you have to manually download the `trivy-java.db` file and mount it in the</span>
-  <span class="token comment"># `/home/scanner/.cache/trivy/java-db/trivy-java.db` path</span>
-  <span class="token key atrule">skip_java_db_update</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># The offline_scan option prevents Trivy from sending API requests to identify dependencies.</span>
-  <span class="token comment"># Scanning JAR files and pom.xml may require Internet access for better detection, but this option tries to avoid it.</span>
-  <span class="token comment"># For example, the offline mode will not try to resolve transitive dependencies in pom.xml when the dependency doesn't</span>
-  <span class="token comment"># exist in the local repositories. It means a number of detected vulnerabilities might be fewer in offline mode.</span>
-  <span class="token comment"># It would work if all the dependencies are in local.</span>
-  <span class="token comment"># This option doesn't affect DB download. You need to specify "skip-update" as well as "offline-scan" in an air-gapped environment.</span>
-  <span class="token key atrule">offline_scan</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># Comma-separated list of what security issues to detect. Possible values are `vuln`, `config` and `secret`. Defaults to `vuln`.</span>
-  <span class="token key atrule">security_check</span><span class="token punctuation">:</span> vuln
-  <span class="token comment">#</span>
-  <span class="token comment"># insecure The flag to skip verifying registry certificate</span>
-  <span class="token key atrule">insecure</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># timeout The duration to wait for scan completion.</span>
-  <span class="token comment"># There is upper bound of 30 minutes defined in scan job. So if this `timeout` is larger than 30m0s, it will also timeout at 30m0s.</span>
-  <span class="token key atrule">timeout</span><span class="token punctuation">:</span> 5m0s
-  <span class="token comment">#</span>
-  <span class="token comment"># github_token The GitHub access token to download Trivy DB</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># Anonymous downloads from GitHub are subject to the limit of 60 requests per hour. Normally such rate limit is enough</span>
-  <span class="token comment"># for production operations. If, for any reason, it's not enough, you could increase the rate limit to 5000</span>
-  <span class="token comment"># requests per hour by specifying the GitHub access token. For more details on GitHub rate limiting please consult</span>
-  <span class="token comment"># https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># You can create a GitHub token by following the instructions in</span>
-  <span class="token comment"># https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line</span>
-  <span class="token comment">#</span>
-  <span class="token comment"># github_token: xxx</span>
-
-<span class="token key atrule">jobservice</span><span class="token punctuation">:</span>
-  <span class="token comment"># Maximum number of job workers in job service</span>
-  <span class="token key atrule">max_job_workers</span><span class="token punctuation">:</span> <span class="token number">10</span>
-  <span class="token comment"># The jobLoggers backend name, only support "STD_OUTPUT", "FILE" and/or "DB"</span>
-  <span class="token key atrule">job_loggers</span><span class="token punctuation">:</span>
-    <span class="token punctuation">-</span> STD_OUTPUT
-    <span class="token punctuation">-</span> FILE
-    <span class="token comment"># - DB</span>
-  <span class="token comment"># The jobLogger sweeper duration (ignored if `jobLogger` is `stdout`)</span>
-  <span class="token key atrule">logger_sweeper_duration</span><span class="token punctuation">:</span> <span class="token number">1</span> <span class="token comment">#days</span>
-
-<span class="token key atrule">notification</span><span class="token punctuation">:</span>
-  <span class="token comment"># Maximum retry count for webhook job</span>
-  <span class="token key atrule">webhook_job_max_retry</span><span class="token punctuation">:</span> <span class="token number">3</span>
-  <span class="token comment"># HTTP client timeout for webhook job</span>
-  <span class="token key atrule">webhook_job_http_client_timeout</span><span class="token punctuation">:</span> <span class="token number">3</span> <span class="token comment">#seconds</span>
-
-<span class="token comment"># Log configurations</span>
-<span class="token key atrule">log</span><span class="token punctuation">:</span>
-  <span class="token comment"># options are debug, info, warning, error, fatal</span>
-  <span class="token key atrule">level</span><span class="token punctuation">:</span> info
-  <span class="token comment"># configs for logs in local storage</span>
-  <span class="token key atrule">local</span><span class="token punctuation">:</span>
-    <span class="token comment"># Log files are rotated log_rotate_count times before being removed. If count is 0, old versions are removed rather than rotated.</span>
-    <span class="token key atrule">rotate_count</span><span class="token punctuation">:</span> <span class="token number">50</span>
-    <span class="token comment"># Log files are rotated only if they grow bigger than log_rotate_size bytes. If size is followed by k, the size is assumed to be in kilobytes.</span>
-    <span class="token comment"># If the M is used, the size is in megabytes, and if G is used, the size is in gigabytes. So size 100, size 100k, size 100M and size 100G</span>
-    <span class="token comment"># are all valid.</span>
-    <span class="token key atrule">rotate_size</span><span class="token punctuation">:</span> 200M
-    <span class="token comment"># The directory on your host that store log</span>
-    <span class="token key atrule">location</span><span class="token punctuation">:</span> /var/log/harbor
-
-  <span class="token comment"># Uncomment following lines to enable external syslog endpoint.</span>
-  <span class="token comment"># external_endpoint:</span>
-  <span class="token comment">#   # protocol used to transmit log to external endpoint, options is tcp or udp</span>
-  <span class="token comment">#   protocol: tcp</span>
-  <span class="token comment">#   # The host of external endpoint</span>
-  <span class="token comment">#   host: localhost</span>
-  <span class="token comment">#   # Port of external endpoint</span>
-  <span class="token comment">#   port: 5140</span>
-
-<span class="token comment">#This attribute is for migrator to detect the version of the .cfg file, DO NOT MODIFY!</span>
-<span class="token key atrule">_version</span><span class="token punctuation">:</span> 2.12.0
-
-<span class="token comment"># Uncomment external_database if using external database.</span>
-<span class="token comment"># external_database:</span>
-<span class="token comment">#   harbor:</span>
-<span class="token comment">#     host: harbor_db_host</span>
-<span class="token comment">#     port: harbor_db_port</span>
-<span class="token comment">#     db_name: harbor_db_name</span>
-<span class="token comment">#     username: harbor_db_username</span>
-<span class="token comment">#     password: harbor_db_password</span>
-<span class="token comment">#     ssl_mode: disable</span>
-<span class="token comment">#     max_idle_conns: 2</span>
-<span class="token comment">#     max_open_conns: 0</span>
-
-<span class="token comment"># Uncomment redis if need to customize redis db</span>
-<span class="token comment"># redis:</span>
-<span class="token comment">#   # db_index 0 is for core, it's unchangeable</span>
-<span class="token comment">#   # registry_db_index: 1</span>
-<span class="token comment">#   # jobservice_db_index: 2</span>
-<span class="token comment">#   # trivy_db_index: 5</span>
-<span class="token comment">#   # it's optional, the db for harbor business misc, by default is 0, uncomment it if you want to change it.</span>
-<span class="token comment">#   # harbor_db_index: 6</span>
-<span class="token comment">#   # it's optional, the db for harbor cache layer, by default is 0, uncomment it if you want to change it.</span>
-<span class="token comment">#   # cache_layer_db_index: 7</span>
-
-<span class="token comment"># Uncomment external_redis if using external Redis server</span>
-<span class="token comment"># external_redis:</span>
-<span class="token comment">#   # support redis, redis+sentinel</span>
-<span class="token comment">#   # host for redis: &lt;host_redis&gt;:&lt;port_redis&gt;</span>
-<span class="token comment">#   # host for redis+sentinel:</span>
-<span class="token comment">#   #  &lt;host_sentinel1&gt;:&lt;port_sentinel1&gt;,&lt;host_sentinel2&gt;:&lt;port_sentinel2&gt;,&lt;host_sentinel3&gt;:&lt;port_sentinel3&gt;</span>
-<span class="token comment">#   host: redis:6379</span>
-<span class="token comment">#   password: </span>
-<span class="token comment">#   # Redis AUTH command was extended in Redis 6, it is possible to use it in the two-arguments AUTH &lt;username&gt; &lt;password&gt; form.</span>
-<span class="token comment">#   # there's a known issue when using external redis username ref:https://github.com/goharbor/harbor/issues/18892</span>
-<span class="token comment">#   # if you care about the image pull/push performance, please refer to this https://github.com/goharbor/harbor/wiki/Harbor-FAQs#external-redis-username-password-usage</span>
-<span class="token comment">#   # username:</span>
-<span class="token comment">#   # sentinel_master_set must be set to support redis+sentinel</span>
-<span class="token comment">#   #sentinel_master_set:</span>
-<span class="token comment">#   # db_index 0 is for core, it's unchangeable</span>
-<span class="token comment">#   registry_db_index: 1</span>
-<span class="token comment">#   jobservice_db_index: 2</span>
-<span class="token comment">#   trivy_db_index: 5</span>
-<span class="token comment">#   idle_timeout_seconds: 30</span>
-<span class="token comment">#   # it's optional, the db for harbor business misc, by default is 0, uncomment it if you want to change it.</span>
-<span class="token comment">#   # harbor_db_index: 6</span>
-<span class="token comment">#   # it's optional, the db for harbor cache layer, by default is 0, uncomment it if you want to change it.</span>
-<span class="token comment">#   # cache_layer_db_index: 7</span>
-
-<span class="token comment"># Uncomment uaa for trusting the certificate of uaa instance that is hosted via self-signed cert.</span>
-<span class="token comment"># uaa:</span>
-<span class="token comment">#   ca_file: /path/to/ca</span>
-
-<span class="token comment"># Global proxy</span>
-<span class="token comment"># Config http proxy for components, e.g. http://my.proxy.com:3128</span>
-<span class="token comment"># Components doesn't need to connect to each others via http proxy.</span>
-<span class="token comment"># Remove component from `components` array if want disable proxy</span>
-<span class="token comment"># for it. If you want use proxy for replication, MUST enable proxy</span>
-<span class="token comment"># for core and jobservice, and set `http_proxy` and `https_proxy`.</span>
-<span class="token comment"># Add domain to the `no_proxy` field, when you want disable proxy</span>
-<span class="token comment"># for some special registry.</span>
-<span class="token key atrule">proxy</span><span class="token punctuation">:</span>
-  <span class="token key atrule">http_proxy</span><span class="token punctuation">:</span>
-  <span class="token key atrule">https_proxy</span><span class="token punctuation">:</span>
-  <span class="token key atrule">no_proxy</span><span class="token punctuation">:</span>
-  <span class="token key atrule">components</span><span class="token punctuation">:</span>
-    <span class="token punctuation">-</span> core
-    <span class="token punctuation">-</span> jobservice
-    <span class="token punctuation">-</span> trivy
-
-<span class="token comment"># metric:</span>
-<span class="token comment">#   enabled: false</span>
-<span class="token comment">#   port: 9090</span>
-<span class="token comment">#   path: /metrics</span>
-
-<span class="token comment"># Trace related config</span>
-<span class="token comment"># only can enable one trace provider(jaeger or otel) at the same time,</span>
-<span class="token comment"># and when using jaeger as provider, can only enable it with agent mode or collector mode.</span>
-<span class="token comment"># if using jaeger collector mode, uncomment endpoint and uncomment username, password if needed</span>
-<span class="token comment"># if using jaeger agetn mode uncomment agent_host and agent_port</span>
-<span class="token comment"># trace:</span>
-<span class="token comment">#   enabled: true</span>
-<span class="token comment">#   # set sample_rate to 1 if you wanna sampling 100% of trace data; set 0.5 if you wanna sampling 50% of trace data, and so forth</span>
-<span class="token comment">#   sample_rate: 1</span>
-<span class="token comment">#   # # namespace used to differentiate different harbor services</span>
-<span class="token comment">#   # namespace:</span>
-<span class="token comment">#   # # attributes is a key value dict contains user defined attributes used to initialize trace provider</span>
-<span class="token comment">#   # attributes:</span>
-<span class="token comment">#   #   application: harbor</span>
-<span class="token comment">#   # # jaeger should be 1.26 or newer.</span>
-<span class="token comment">#   # jaeger:</span>
-<span class="token comment">#   #   endpoint: http://hostname:14268/api/traces</span>
-<span class="token comment">#   #   username:</span>
-<span class="token comment">#   #   password:</span>
-<span class="token comment">#   #   agent_host: hostname</span>
-<span class="token comment">#   #   # export trace data by jaeger.thrift in compact mode</span>
-<span class="token comment">#   #   agent_port: 6831</span>
-<span class="token comment">#   # otel:</span>
-<span class="token comment">#   #   endpoint: hostname:4318</span>
-<span class="token comment">#   #   url_path: /v1/traces</span>
-<span class="token comment">#   #   compression: false</span>
-<span class="token comment">#   #   insecure: true</span>
-<span class="token comment">#   #   # timeout is in seconds</span>
-<span class="token comment">#   #   timeout: 10</span>
-
-<span class="token comment"># Enable purge _upload directories</span>
-<span class="token key atrule">upload_purging</span><span class="token punctuation">:</span>
-  <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-  <span class="token comment"># remove files in _upload directories which exist for a period of time, default is one week.</span>
-  <span class="token key atrule">age</span><span class="token punctuation">:</span> 168h
-  <span class="token comment"># the interval of the purge operations</span>
-  <span class="token key atrule">interval</span><span class="token punctuation">:</span> 24h
-  <span class="token key atrule">dryrun</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-
-<span class="token comment"># Cache layer configurations</span>
-<span class="token comment"># If this feature enabled, harbor will cache the resource</span>
-<span class="token comment"># `project/project_metadata/repository/artifact/manifest` in the redis</span>
-<span class="token comment"># which can especially help to improve the performance of high concurrent</span>
-<span class="token comment"># manifest pulling.</span>
-<span class="token comment"># NOTICE</span>
-<span class="token comment"># If you are deploying Harbor in HA mode, make sure that all the harbor</span>
-<span class="token comment"># instances have the same behaviour, all with caching enabled or disabled,</span>
-<span class="token comment"># otherwise it can lead to potential data inconsistency.</span>
-<span class="token key atrule">cache</span><span class="token punctuation">:</span>
-  <span class="token comment"># not enabled by default</span>
-  <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token comment"># keep cache for one day by default</span>
-  <span class="token key atrule">expire_hours</span><span class="token punctuation">:</span> <span class="token number">24</span>
-
-<span class="token comment"># Harbor core configurations</span>
-<span class="token comment"># Uncomment to enable the following harbor core related configuration items.</span>
-<span class="token comment"># core:</span>
-<span class="token comment">#   # The provider for updating project quota(usage), there are 2 options, redis or db,</span>
-<span class="token comment">#   # by default is implemented by db but you can switch the updation via redis which</span>
-<span class="token comment">#   # can improve the performance of high concurrent pushing to the same project,</span>
-<span class="token comment">#   # and reduce the database connections spike and occupies.</span>
-<span class="token comment">#   # By redis will bring up some delay for quota usage updation for display, so only</span>
-<span class="token comment">#   # suggest switch provider to redis if you were ran into the db connections spike around</span>
-<span class="token comment">#   # the scenario of high concurrent pushing to same project, no improvement for other scenes.</span>
-<span class="token comment">#   quota_update_provider: redis # Or db</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>主要修改图片中标识三项内容：<br><img src="/images/docker/20250110/docker_20250110_001.png" alt="Dockerfile harbor"></p><p>hostname: 设置 harbor 服务的域名或者主机 IP</p><p>https: 加密安全访问可以通过下面命令生成对应证书文件</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#harbor.example.com/10.0.0.10</span>
-<span class="token comment">#指定/home路径下生成certificate.jks证书（口令请自行替换为强口令）</span>
-keytool <span class="token parameter variable">-genkey</span> <span class="token parameter variable">-alias</span> registry  <span class="token parameter variable">-keyalg</span> RSA <span class="token parameter variable">-keysize</span> <span class="token number">2048</span> <span class="token parameter variable">-validity</span> <span class="token number">3650</span> <span class="token parameter variable">-ext</span> <span class="token assign-left variable">SAN</span><span class="token operator">=</span>dns:harbor.example.com,ip:10.0.0.10 <span class="token parameter variable">-keystore</span> /usr/local/harbor/https/certificate.jks <span class="token parameter variable">-storepass</span> <span class="token operator">&lt;</span>STOREPASS<span class="token operator">&gt;</span> <span class="token parameter variable">-dname</span> <span class="token string">"CN=harbor.example.com, OU=harbor.example.com, O=example, L=your-city, ST=your-state, C=CN"</span>
+# # Uncomment following will enable tls communication between all harbor components
+# internal_tls:
+#   # set enabled to true means internal tls is enabled
+#   enabled: true
+#   # put your cert and key files on dir
+#   dir: /etc/harbor/tls/internal
 
 
-<span class="token comment">#certificate.jks是键值对形式的证书，推荐转换为标准格式pkcs12</span>
-keytool <span class="token parameter variable">-importkeystore</span> <span class="token parameter variable">-srckeystore</span> certificate.jks <span class="token parameter variable">-destkeystore</span> certificate.jks <span class="token parameter variable">-deststoretype</span> pkcs12
+# Uncomment external_url if you want to enable external proxy
+# And when it enabled the hostname will no longer used
+# external_url: https://reg.mydomain.com:8433
 
-<span class="token comment">#将certificate.jks证书导出，certificate.jks已经是pkcs12格式</span>
-keytool <span class="token parameter variable">-export</span> <span class="token parameter variable">-trustcacerts</span> <span class="token parameter variable">-alias</span> registry <span class="token parameter variable">-file</span> /usr/local/harbor/https/cas.crt <span class="token parameter variable">-keystore</span> /usr/local/harbor/https/certificate.jks <span class="token parameter variable">-storepass</span> <span class="token operator">&lt;</span>STOREPASS<span class="token operator">&gt;</span>
+# The initial password of Harbor admin
+# It only works in first time to install harbor
+# Remember Change the admin password from UI after launching Harbor.
+harbor_admin_password: &lt;HARBOR_ADMIN_PASSWORD&gt;
 
-<span class="token comment">#将cas.crt格式转换为server.pem，方便nginx使用</span>
-openssl x509 <span class="token parameter variable">-inform</span> der <span class="token parameter variable">-in</span> cas.crt <span class="token parameter variable">-out</span> server.pem
+# Harbor DB configuration
+database:
+  # The password for the user('postgres' by default) of Harbor DB. Change this before any production use.
+  password: &lt;HARBOR_DB_PASSWORD&gt;
+  # The maximum number of connections in the idle connection pool. If it &lt;=0, no idle connections are retained.
+  max_idle_conns: 100
+  # The maximum number of open connections to the database. If it &lt;= 0, then there is no limit on the number of open connections.
+  # Note: the default number of connections is 1024 for postgres of harbor.
+  max_open_conns: 900
+  # The maximum amount of time a connection may be reused. Expired connections may be closed lazily before reuse. If it &lt;= 0, connections are not closed due to a connection's age.
+  # The value is a duration string. A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
+  conn_max_lifetime: 5m
+  # The maximum amount of time a connection may be idle. Expired connections may be closed lazily before reuse. If it &lt;= 0, connections are not closed due to a connection's idle time.
+  # The value is a duration string. A duration string is a possibly signed sequence of decimal numbers, each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
+  conn_max_idle_time: 0
 
-<span class="token comment">#提取密钥</span>
-openssl pkcs12 <span class="token parameter variable">-nocerts</span> <span class="token parameter variable">-nodes</span> <span class="token parameter variable">-in</span> certificate.jks <span class="token parameter variable">-out</span> server.key<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>harbor_admin_password: 默认登录后台管理 admin 用户密码</p><p>执行 harbor 服务安装命令:</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./install.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>harbor 服务启动之后其实是由 docker 内部多个服务组成，通过 docker ps 命令可以看到对应的容器服务如下：<br><img src="/images/docker/20250110/docker_20250110_002.png" alt="Dockerfile harbor"></p><p>harbor 内置 docker-compose 容器编排文件 docker-compose.yml, 服务器重启之后，harbor 对应的容器服务启动失败，原因是容器之间的依赖关系没有设置，导致容器缺失对应的依赖启动失败，容器默认的重启策略 restart: always<br>解决这一问题的办法是手动执行 docker-compose 命令</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#进入habor主目录</span>
-<span class="token builtin class-name">cd</span> /usr/local/habor
-<span class="token comment">#docker-compose.yml文件在harbor主目录下指定执行有效，或者不指定的情况下默认使用的也是docker-compose.yml</span>
-<span class="token function">docker-compose</span> up <span class="token parameter variable">-d</span> docker-compose.yml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>为了解决重启失效的问题，可以将 harbor 注册为系统服务，并在启动时默认执行容器编排服务命令。</p><p>创建对应的系统服务</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span>  /etc/systemd/system/harbor.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>服务内容添加如下：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>Unit<span class="token punctuation">]</span>
-<span class="token assign-left variable">Description</span><span class="token operator">=</span>Harbor <span class="token function">service</span>
-<span class="token assign-left variable">Requires</span><span class="token operator">=</span>docker.service
-<span class="token assign-left variable">After</span><span class="token operator">=</span>docker.service
+# The default data volume
+data_volume: /data
+
+# Harbor Storage settings by default is using /data dir on local filesystem
+# Uncomment storage_service setting If you want to using external storage
+# storage_service:
+#   # ca_bundle is the path to the custom root ca certificate, which will be injected into the truststore
+#   # of registry's containers.  This is usually needed when the user hosts a internal storage with self signed certificate.
+#   ca_bundle:
+
+#   # storage backend, default is filesystem, options include filesystem, azure, gcs, s3, swift and oss
+#   # for more info about this configuration please refer https://distribution.github.io/distribution/about/configuration/
+#   # and https://distribution.github.io/distribution/storage-drivers/
+#   filesystem:
+#     maxthreads: 100
+#   # set disable to true when you want to disable registry redirect
+#   redirect:
+#     disable: false
+
+# Trivy configuration
+#
+# Trivy DB contains vulnerability information from NVD, Red Hat, and many other upstream vulnerability databases.
+# It is downloaded by Trivy from the GitHub release page https://github.com/aquasecurity/trivy-db/releases and cached
+# in the local file system. In addition, the database contains the update timestamp so Trivy can detect whether it
+# should download a newer version from the Internet or use the cached one. Currently, the database is updated every
+# 12 hours and published as a new release to GitHub.
+trivy:
+  # ignoreUnfixed The flag to display only fixed vulnerabilities
+  ignore_unfixed: false
+  # skipUpdate The flag to enable or disable Trivy DB downloads from GitHub
+  #
+  # You might want to enable this flag in test or CI/CD environments to avoid GitHub rate limiting issues.
+  # If the flag is enabled you have to download the `trivy-offline.tar.gz` archive manually, extract `trivy.db` and
+  # `metadata.json` files and mount them in the `/home/scanner/.cache/trivy/db` path.
+  skip_update: false
+  #
+  # skipJavaDBUpdate If the flag is enabled you have to manually download the `trivy-java.db` file and mount it in the
+  # `/home/scanner/.cache/trivy/java-db/trivy-java.db` path
+  skip_java_db_update: false
+  #
+  # The offline_scan option prevents Trivy from sending API requests to identify dependencies.
+  # Scanning JAR files and pom.xml may require Internet access for better detection, but this option tries to avoid it.
+  # For example, the offline mode will not try to resolve transitive dependencies in pom.xml when the dependency doesn't
+  # exist in the local repositories. It means a number of detected vulnerabilities might be fewer in offline mode.
+  # It would work if all the dependencies are in local.
+  # This option doesn't affect DB download. You need to specify "skip-update" as well as "offline-scan" in an air-gapped environment.
+  offline_scan: false
+  #
+  # Comma-separated list of what security issues to detect. Possible values are `vuln`, `config` and `secret`. Defaults to `vuln`.
+  security_check: vuln
+  #
+  # insecure The flag to skip verifying registry certificate
+  insecure: false
+  #
+  # timeout The duration to wait for scan completion.
+  # There is upper bound of 30 minutes defined in scan job. So if this `timeout` is larger than 30m0s, it will also timeout at 30m0s.
+  timeout: 5m0s
+  #
+  # github_token The GitHub access token to download Trivy DB
+  #
+  # Anonymous downloads from GitHub are subject to the limit of 60 requests per hour. Normally such rate limit is enough
+  # for production operations. If, for any reason, it's not enough, you could increase the rate limit to 5000
+  # requests per hour by specifying the GitHub access token. For more details on GitHub rate limiting please consult
+  # https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting
+  #
+  # You can create a GitHub token by following the instructions in
+  # https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+  #
+  # github_token: xxx
+
+jobservice:
+  # Maximum number of job workers in job service
+  max_job_workers: 10
+  # The jobLoggers backend name, only support "STD_OUTPUT", "FILE" and/or "DB"
+  job_loggers:
+    - STD_OUTPUT
+    - FILE
+    # - DB
+  # The jobLogger sweeper duration (ignored if `jobLogger` is `stdout`)
+  logger_sweeper_duration: 1 #days
+
+notification:
+  # Maximum retry count for webhook job
+  webhook_job_max_retry: 3
+  # HTTP client timeout for webhook job
+  webhook_job_http_client_timeout: 3 #seconds
+
+# Log configurations
+log:
+  # options are debug, info, warning, error, fatal
+  level: info
+  # configs for logs in local storage
+  local:
+    # Log files are rotated log_rotate_count times before being removed. If count is 0, old versions are removed rather than rotated.
+    rotate_count: 50
+    # Log files are rotated only if they grow bigger than log_rotate_size bytes. If size is followed by k, the size is assumed to be in kilobytes.
+    # If the M is used, the size is in megabytes, and if G is used, the size is in gigabytes. So size 100, size 100k, size 100M and size 100G
+    # are all valid.
+    rotate_size: 200M
+    # The directory on your host that store log
+    location: /var/log/harbor
+
+  # Uncomment following lines to enable external syslog endpoint.
+  # external_endpoint:
+  #   # protocol used to transmit log to external endpoint, options is tcp or udp
+  #   protocol: tcp
+  #   # The host of external endpoint
+  #   host: localhost
+  #   # Port of external endpoint
+  #   port: 5140
+
+#This attribute is for migrator to detect the version of the .cfg file, DO NOT MODIFY!
+_version: 2.12.0
+
+# Uncomment external_database if using external database.
+# external_database:
+#   harbor:
+#     host: harbor_db_host
+#     port: harbor_db_port
+#     db_name: harbor_db_name
+#     username: harbor_db_username
+#     password: harbor_db_password
+#     ssl_mode: disable
+#     max_idle_conns: 2
+#     max_open_conns: 0
+
+# Uncomment redis if need to customize redis db
+# redis:
+#   # db_index 0 is for core, it's unchangeable
+#   # registry_db_index: 1
+#   # jobservice_db_index: 2
+#   # trivy_db_index: 5
+#   # it's optional, the db for harbor business misc, by default is 0, uncomment it if you want to change it.
+#   # harbor_db_index: 6
+#   # it's optional, the db for harbor cache layer, by default is 0, uncomment it if you want to change it.
+#   # cache_layer_db_index: 7
+
+# Uncomment external_redis if using external Redis server
+# external_redis:
+#   # support redis, redis+sentinel
+#   # host for redis: &lt;host_redis&gt;:&lt;port_redis&gt;
+#   # host for redis+sentinel:
+#   #  &lt;host_sentinel1&gt;:&lt;port_sentinel1&gt;,&lt;host_sentinel2&gt;:&lt;port_sentinel2&gt;,&lt;host_sentinel3&gt;:&lt;port_sentinel3&gt;
+#   host: redis:6379
+#   password: 
+#   # Redis AUTH command was extended in Redis 6, it is possible to use it in the two-arguments AUTH &lt;username&gt; &lt;password&gt; form.
+#   # there's a known issue when using external redis username ref:https://github.com/goharbor/harbor/issues/18892
+#   # if you care about the image pull/push performance, please refer to this https://github.com/goharbor/harbor/wiki/Harbor-FAQs#external-redis-username-password-usage
+#   # username:
+#   # sentinel_master_set must be set to support redis+sentinel
+#   #sentinel_master_set:
+#   # db_index 0 is for core, it's unchangeable
+#   registry_db_index: 1
+#   jobservice_db_index: 2
+#   trivy_db_index: 5
+#   idle_timeout_seconds: 30
+#   # it's optional, the db for harbor business misc, by default is 0, uncomment it if you want to change it.
+#   # harbor_db_index: 6
+#   # it's optional, the db for harbor cache layer, by default is 0, uncomment it if you want to change it.
+#   # cache_layer_db_index: 7
+
+# Uncomment uaa for trusting the certificate of uaa instance that is hosted via self-signed cert.
+# uaa:
+#   ca_file: /path/to/ca
+
+# Global proxy
+# Config http proxy for components, e.g. http://my.proxy.com:3128
+# Components doesn't need to connect to each others via http proxy.
+# Remove component from `components` array if want disable proxy
+# for it. If you want use proxy for replication, MUST enable proxy
+# for core and jobservice, and set `http_proxy` and `https_proxy`.
+# Add domain to the `no_proxy` field, when you want disable proxy
+# for some special registry.
+proxy:
+  http_proxy:
+  https_proxy:
+  no_proxy:
+  components:
+    - core
+    - jobservice
+    - trivy
+
+# metric:
+#   enabled: false
+#   port: 9090
+#   path: /metrics
+
+# Trace related config
+# only can enable one trace provider(jaeger or otel) at the same time,
+# and when using jaeger as provider, can only enable it with agent mode or collector mode.
+# if using jaeger collector mode, uncomment endpoint and uncomment username, password if needed
+# if using jaeger agetn mode uncomment agent_host and agent_port
+# trace:
+#   enabled: true
+#   # set sample_rate to 1 if you wanna sampling 100% of trace data; set 0.5 if you wanna sampling 50% of trace data, and so forth
+#   sample_rate: 1
+#   # # namespace used to differentiate different harbor services
+#   # namespace:
+#   # # attributes is a key value dict contains user defined attributes used to initialize trace provider
+#   # attributes:
+#   #   application: harbor
+#   # # jaeger should be 1.26 or newer.
+#   # jaeger:
+#   #   endpoint: http://hostname:14268/api/traces
+#   #   username:
+#   #   password:
+#   #   agent_host: hostname
+#   #   # export trace data by jaeger.thrift in compact mode
+#   #   agent_port: 6831
+#   # otel:
+#   #   endpoint: hostname:4318
+#   #   url_path: /v1/traces
+#   #   compression: false
+#   #   insecure: true
+#   #   # timeout is in seconds
+#   #   timeout: 10
+
+# Enable purge _upload directories
+upload_purging:
+  enabled: true
+  # remove files in _upload directories which exist for a period of time, default is one week.
+  age: 168h
+  # the interval of the purge operations
+  interval: 24h
+  dryrun: false
+
+# Cache layer configurations
+# If this feature enabled, harbor will cache the resource
+# `project/project_metadata/repository/artifact/manifest` in the redis
+# which can especially help to improve the performance of high concurrent
+# manifest pulling.
+# NOTICE
+# If you are deploying Harbor in HA mode, make sure that all the harbor
+# instances have the same behaviour, all with caching enabled or disabled,
+# otherwise it can lead to potential data inconsistency.
+cache:
+  # not enabled by default
+  enabled: false
+  # keep cache for one day by default
+  expire_hours: 24
+
+# Harbor core configurations
+# Uncomment to enable the following harbor core related configuration items.
+# core:
+#   # The provider for updating project quota(usage), there are 2 options, redis or db,
+#   # by default is implemented by db but you can switch the updation via redis which
+#   # can improve the performance of high concurrent pushing to the same project,
+#   # and reduce the database connections spike and occupies.
+#   # By redis will bring up some delay for quota usage updation for display, so only
+#   # suggest switch provider to redis if you were ran into the db connections spike around
+#   # the scenario of high concurrent pushing to same project, no improvement for other scenes.
+#   quota_update_provider: redis # Or db</code></pre><p>主要修改图片中标识三项内容：<br><img src="/images/docker/20250110/docker_20250110_001.png" alt="Dockerfile harbor"></p><p>hostname: 设置 harbor 服务的域名或者主机 IP</p><p>https: 加密安全访问可以通过下面命令生成对应证书文件</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#harbor.example.com/10.0.0.10
+#指定/home路径下生成certificate.jks证书（口令请自行替换为强口令）
+keytool -genkey -alias registry  -keyalg RSA -keysize 2048 -validity 3650 -ext SAN=dns:harbor.example.com,ip:10.0.0.10 -keystore /usr/local/harbor/https/certificate.jks -storepass &lt;STOREPASS&gt; -dname "CN=harbor.example.com, OU=harbor.example.com, O=example, L=your-city, ST=your-state, C=CN"
+
+
+#certificate.jks是键值对形式的证书，推荐转换为标准格式pkcs12
+keytool -importkeystore -srckeystore certificate.jks -destkeystore certificate.jks -deststoretype pkcs12
+
+#将certificate.jks证书导出，certificate.jks已经是pkcs12格式
+keytool -export -trustcacerts -alias registry -file /usr/local/harbor/https/cas.crt -keystore /usr/local/harbor/https/certificate.jks -storepass &lt;STOREPASS&gt;
+
+#将cas.crt格式转换为server.pem，方便nginx使用
+openssl x509 -inform der -in cas.crt -out server.pem
+
+#提取密钥
+openssl pkcs12 -nocerts -nodes -in certificate.jks -out server.key</code></pre><p>harbor_admin_password: 默认登录后台管理 admin 用户密码</p><p>执行 harbor 服务安装命令:</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">./install.sh</code></pre><p>harbor 服务启动之后其实是由 docker 内部多个服务组成，通过 docker ps 命令可以看到对应的容器服务如下：<br><img src="/images/docker/20250110/docker_20250110_002.png" alt="Dockerfile harbor"></p><p>harbor 内置 docker-compose 容器编排文件 docker-compose.yml, 服务器重启之后，harbor 对应的容器服务启动失败，原因是容器之间的依赖关系没有设置，导致容器缺失对应的依赖启动失败，容器默认的重启策略 restart: always<br>解决这一问题的办法是手动执行 docker-compose 命令</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#进入habor主目录
+cd /usr/local/habor
+#docker-compose.yml文件在harbor主目录下指定执行有效，或者不指定的情况下默认使用的也是docker-compose.yml
+docker-compose up -d docker-compose.yml</code></pre><p>为了解决重启失效的问题，可以将 harbor 注册为系统服务，并在启动时默认执行容器编排服务命令。</p><p>创建对应的系统服务</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">vim  /etc/systemd/system/harbor.service</code></pre><p>服务内容添加如下：</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">[Unit]
+Description=Harbor service
+Requires=docker.service
+After=docker.service
  
-<span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
-<span class="token assign-left variable">Type</span><span class="token operator">=</span>simple
-<span class="token assign-left variable">Restart</span><span class="token operator">=</span>always
+[Service]
+Type=simple
+Restart=always
 //改成你的harbor路径
-<span class="token assign-left variable">WorkingDirectory</span><span class="token operator">=</span>/usr/local/harbor 
+WorkingDirectory=/usr/local/harbor 
 //改成你的docker-compost路径 
-<span class="token assign-left variable">ExecStart</span><span class="token operator">=</span>/usr/local/bin/docker-compose up 
+ExecStart=/usr/local/bin/docker-compose up 
  
-<span class="token punctuation">[</span>Install<span class="token punctuation">]</span>
-<span class="token assign-left variable">WantedBy</span><span class="token operator">=</span>multi-user.target<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>设置开机启动和启动</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> harbor.service
-<span class="token function">sudo</span> systemctl start harbor.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><h1><span id="验证">验证</span></h1><p>访问后台管理：<a href="https://10.0.0.10/">https://10.0.0.10/</a><br><img src="/images/docker/20250110/docker_20250110_003.png" alt="Dockerfile harbor"></p></div><footer class="post-footer"><div class="post-copyright"><ul><li class="post-copyright-author"><strong>本文作者： </strong>vanishke</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/" title="Docker 私服 habor 搭建">https://vanishke.github.io/hexo/Docker/blogs/Docker私服habor搭建/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><div class="post-tags"><a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a> <a href="/tags/Docker-compose/" rel="tag"><i class="fa fa-tag"></i> Docker-compose</a></div><div class="post-nav"><div class="post-nav-item"><a href="/Docker/blogs/Docker%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%9B%86%E7%BE%A4(%E5%85%AD)/" rel="prev" title="Docker 部署微服务集群 (六)"><i class="fa fa-angle-left"></i> Docker 部署微服务集群 (六)</a></div><div class="post-nav-item"><a href="/MySQL/blogs/Docker%E5%BC%80%E5%90%AF%E5%AE%89%E5%85%A8%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/" rel="next" title="Docker 开启安全远程连接">Docker 开启安全远程连接 <i class="fa fa-angle-right"></i></a></div></div></footer></article></div><div class="comments gitalk-container"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright">&copy; 2021 – <span itemprop="copyrightYear">2026</span> <span class="with-love"><i class="fa fa-code"></i> </span><span class="author" itemprop="copyrightHolder">vanishke</span></div><div class="wordcount"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-chart-line"></i> </span><span>站点总字数：</span> <span title="站点总字数">277k</span> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span>站点阅读时长 &asymp;</span> <span title="站点阅读时长">16:49</span></span></div></div></footer><div class="toggle sidebar-toggle" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div><div class="sidebar-dimmer"></div><div class="back-to-top" role="button" aria-label="返回顶部"><i class="fa fa-arrow-up fa-lg"></i> <span>0%</span></div><div class="reading-progress-bar"></div><noscript><div class="noscript-warning">Theme NexT works best with JavaScript enabled</div></noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous"><script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"vanishke","repo":"hexo","client_id":"95db1f51f05191be80c5","client_secret":"eccc0bbe52b90a08e97140cece84ee32577172b2","admin_user":"vanishke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","body":null,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"c3fcd5834ee472e89bf958d748c1c374"}</script><script src="/js/third-party/comments/gitalk.js" defer></script></body></html>
+[Install]
+WantedBy=multi-user.target</code></pre><p>设置开机启动和启动</p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">sudo systemctl enable harbor.service
+sudo systemctl start harbor.service</code></pre><h1><span id="验证">验证</span></h1><p>访问后台管理：<a href="https://10.0.0.10/">https://10.0.0.10/</a><br><img src="/images/docker/20250110/docker_20250110_003.png" alt="Dockerfile harbor"></p></div><footer class="post-footer"><div class="post-copyright"><ul><li class="post-copyright-author"><strong>本文作者： </strong>vanishke</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="https://vanishke.github.io/hexo/Docker/blogs/Docker%E7%A7%81%E6%9C%8Dhabor%E6%90%AD%E5%BB%BA/" title="Docker 私服 habor 搭建">https://vanishke.github.io/hexo/Docker/blogs/Docker私服habor搭建/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><div class="post-tags"><a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a> <a href="/tags/Docker-compose/" rel="tag"><i class="fa fa-tag"></i> Docker-compose</a></div><div class="post-nav"><div class="post-nav-item"><a href="/Docker/blogs/Docker%E9%83%A8%E7%BD%B2%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%9B%86%E7%BE%A4(%E5%85%AD)/" rel="prev" title="Docker 部署微服务集群 (六)"><i class="fa fa-angle-left"></i> Docker 部署微服务集群 (六)</a></div><div class="post-nav-item"><a href="/MySQL/blogs/Docker%E5%BC%80%E5%90%AF%E5%AE%89%E5%85%A8%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/" rel="next" title="Docker 开启安全远程连接">Docker 开启安全远程连接 <i class="fa fa-angle-right"></i></a></div></div></footer></article></div><div class="comments gitalk-container"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright">&copy; 2021 – <span itemprop="copyrightYear">2026</span> <span class="with-love"><i class="fa fa-code"></i> </span><span class="author" itemprop="copyrightHolder">vanishke</span></div><div class="wordcount"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-chart-line"></i> </span><span>站点总字数：</span> <span title="站点总字数">277k</span> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span>站点阅读时长 &asymp;</span> <span title="站点阅读时长">16:49</span></span></div></div></footer><div class="toggle sidebar-toggle" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div><div class="sidebar-dimmer"></div><div class="back-to-top" role="button" aria-label="返回顶部"><i class="fa fa-arrow-up fa-lg"></i> <span>0%</span></div><div class="reading-progress-bar"></div><noscript><div class="noscript-warning">Theme NexT works best with JavaScript enabled</div></noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous"><script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"vanishke","repo":"hexo","client_id":"95db1f51f05191be80c5","client_secret":"eccc0bbe52b90a08e97140cece84ee32577172b2","admin_user":"vanishke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","body":null,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"c3fcd5834ee472e89bf958d748c1c374"}</script><script src="/js/third-party/comments/gitalk.js" defer></script></body></html>

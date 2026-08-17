@@ -1,314 +1,314 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="theme-color" content="#222" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.css" integrity="sha256-mdaMxrItEW6hMIVJJNPKuX0B7KCSJQVEv3mVY4N2we4=" crossorigin="anonymous"><script class="next-config" data-name="main" type="application/json">{"hostname":"vanishke.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"codeblock":{"theme":{"light":"base16/one-light","dark":"base16/onedark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script><meta name="description" content="strings 命令 unlink 命令 chown 命令 stat 命令 which 命令 file 命令 whereis 命令 locate 命令 ln 命令 touch 命令 mv 命令 pwd 命令 mkdir 命令 ls 命令 sz 命令 rz 命令 true 命令 tree 命令 last 命令    strings 命令作用在对象或二进制文件中查找可打印的字符串，字符可以是由"><meta property="og:type" content="article"><meta property="og:title" content="Linux - 文件管理"><meta property="og:url" content="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/index.html"><meta property="og:site_name" content="vanishke随笔"><meta property="og:description" content="strings 命令 unlink 命令 chown 命令 stat 命令 which 命令 file 命令 whereis 命令 locate 命令 ln 命令 touch 命令 mv 命令 pwd 命令 mkdir 命令 ls 命令 sz 命令 rz 命令 true 命令 tree 命令 last 命令    strings 命令作用在对象或二进制文件中查找可打印的字符串，字符可以是由"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2022-05-19T03:27:20.000Z"><meta property="article:modified_time" content="2026-08-14T08:53:38.284Z"><meta property="article:author" content="vanishke"><meta property="article:tag" content="Linux"><meta name="twitter:card" content="summary"><link rel="canonical" href="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/"><script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/","path":"Linux/blogs/Linux-文件管理/","title":"Linux - 文件管理"}</script><script class="next-config" data-name="calendar" type="application/json">""</script><title>Linux - 文件管理 | vanishke随笔</title><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.umd.js" integrity="sha256-QnJV4HT5r8i89ovZGRD86iynZqHerEbT2xt69vDM36I=" crossorigin="anonymous" defer></script><script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script><script src="/js/third-party/search/local-search.js" defer></script><script src="/js/third-party/fancybox.js" defer></script><script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","display_overflow":"scroll","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-mml-chtml.js","integrity":"sha256-ihPtDDm7pTmSF9ViEsItlvsrBTsNkz0MOXMchzOwCQw="}}</script><script src="/js/third-party/math/mathjax.js" defer></script><noscript><link rel="stylesheet" href="/css/noscript.css"></noscript><style>mjx-container[jax=SVG]{direction:ltr}mjx-container[jax=SVG]>svg{overflow:visible}mjx-container[jax=SVG][display=true]{display:block;text-align:center;margin:1em 0}mjx-container[jax=SVG][justify=left]{text-align:left}mjx-container[jax=SVG][justify=right]{text-align:right}g[data-mml-node=merror]>g{fill:red;stroke:red}g[data-mml-node=merror]>rect[data-background]{fill:#ff0;stroke:none}g[data-mml-node=mtable]>line[data-line]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>rect[data-frame]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>.mjx-dashed{stroke-dasharray:140}g[data-mml-node=mtable]>.mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}g[data-mml-node=mtable]>svg{overflow:visible}[jax=SVG] mjx-tool{display:inline-block;position:relative;width:0;height:0}[jax=SVG] mjx-tool>mjx-tip{position:absolute;top:0;left:0}mjx-tool>mjx-tip{display:inline-block;padding:.2em;border:1px solid #888;font-size:70%;background-color:#f8f8f8;color:#000;box-shadow:2px 2px 5px #aaa}g[data-mml-node=maction][data-toggle]{cursor:pointer}mjx-status{display:block;position:fixed;left:1em;bottom:1em;min-width:25%;padding:.2em .4em;border:1px solid #888;font-size:90%;background-color:#f8f8f8;color:#000}foreignObject[data-mjx-xml]{font-family:initial;line-height:normal;overflow:visible}.MathJax path{stroke-width:3}mjx-container[display=true]{overflow:auto hidden}mjx-container[display=true]+br{display:none}</style><link rel="alternate" href="/atom.xml" title="vanishke随笔" type="application/atom+xml"></head><body itemscope itemtype="http://schema.org/WebPage" class="use-motion"><div class="headband"></div><main class="main"><div class="column"><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><i class="logo-line"></i><p class="site-title">vanishke随笔</p><i class="logo-line"></i></a><p class="site-subtitle" itemprop="description">善始者实繁，克终者盖寡</p></div><div class="site-nav-right"><div class="toggle popup-trigger" aria-label="搜索" role="button"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class="site-nav"><ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">130</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">64</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">269</span></a></li><li class="menu-item menu-item-rss"><a href="/rss2.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索</a></li></ul></nav><template id="search-popup-template"><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"><input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close" role="button"><i class="fa fa-times-circle"></i></span></div><div class="search-result-container"><div class="search-result-icon"><i class="fa fa-spinner fa-pulse fa-5x"></i></div></div></div></div></template></header><aside class="sidebar"><div class="sidebar-inner sidebar-nav-active sidebar-toc-active"><ul class="sidebar-nav"><li class="sidebar-nav-toc">文章目录</li><li class="sidebar-nav-overview">站点概览</li></ul><div class="sidebar-panel-container"><div class="post-toc-wrap sidebar-panel"><div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">strings 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">unlink 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">chown 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">stat 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">which 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">file 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">whereis 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">8.</span> <span class="nav-text">locate 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">9.</span> <span class="nav-text">ln 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">10.</span> <span class="nav-text">touch 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">11.</span> <span class="nav-text">mv 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">12.</span> <span class="nav-text">pwd 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">13.</span> <span class="nav-text">mkdir 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">14.</span> <span class="nav-text">ls 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">15.</span> <span class="nav-text">sz 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">16.</span> <span class="nav-text">rz 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">17.</span> <span class="nav-text">true 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">18.</span> <span class="nav-text">tree 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">19.</span> <span class="nav-text">last 命令</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" alt="vanishke" src="/images/avatar.png"><p class="site-author-name" itemprop="name">vanishke</p><div class="site-description" itemprop="description"></div></div><div class="site-state-wrap animated"><nav class="site-state"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">269</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">64</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">130</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author animated"><span class="links-of-author-item"><a href="https://github.com/vanishke" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vanishke" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:18685129726@163.com" title="E-Mail → mailto:18685129726@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a></span></div><div class="cc-license animated" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a></div></div></div></div></aside></div><div class="main-inner post posts-expand"><div class="post-block"><article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.png"><meta itemprop="name" content="vanishke"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="vanishke随笔"><meta itemprop="description" content=""></span><span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="name" content="Linux - 文件管理 | vanishke随笔"><meta itemprop="description" content=""></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Linux - 文件管理</h1><div class="post-meta-container"><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2022-05-19 11:27:20" itemprop="dateCreated datePublished" datetime="2022-05-19T11:27:20+08:00">2022-05-19</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2026-08-14 16:53:38" itemprop="dateModified" datetime="2026-08-14T16:53:38+08:00">2026-08-14</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a> </span></span><span class="post-meta-break"></span> <span class="post-meta-item" title="本文字数"><span class="post-meta-item-icon"><i class="far fa-file-word"></i> </span><span class="post-meta-item-text">本文字数：</span> <span>5.5k</span> </span><span class="post-meta-item" title="阅读时长"><span class="post-meta-item-icon"><i class="far fa-clock"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span>20 分钟</span></span></div></div></header><div class="post-body" itemprop="articleBody"><ul><li><a href="#strings%E5%91%BD%E4%BB%A4">strings 命令</a></li><li><a href="#unlink%E5%91%BD%E4%BB%A4">unlink 命令</a></li><li><a href="#chown%E5%91%BD%E4%BB%A4">chown 命令</a></li><li><a href="#stat%E5%91%BD%E4%BB%A4">stat 命令</a></li><li><a href="#which%E5%91%BD%E4%BB%A4">which 命令</a></li><li><a href="#file%E5%91%BD%E4%BB%A4">file 命令</a></li><li><a href="#whereis%E5%91%BD%E4%BB%A4">whereis 命令</a></li><li><a href="#locate%E5%91%BD%E4%BB%A4">locate 命令</a></li><li><a href="#ln%E5%91%BD%E4%BB%A4">ln 命令</a></li><li><a href="#touch%E5%91%BD%E4%BB%A4">touch 命令</a></li><li><a href="#mv%E5%91%BD%E4%BB%A4">mv 命令</a></li><li><a href="#pwd%E5%91%BD%E4%BB%A4">pwd 命令</a></li><li><a href="#mkdir%E5%91%BD%E4%BB%A4">mkdir 命令</a></li><li><a href="#ls%E5%91%BD%E4%BB%A4">ls 命令</a></li><li><a href="#sz%E5%91%BD%E4%BB%A4">sz 命令</a></li><li><a href="#rz%E5%91%BD%E4%BB%A4">rz 命令</a></li><li><a href="#true%E5%91%BD%E4%BB%A4">true 命令</a></li><li><a href="#tree%E5%91%BD%E4%BB%A4">tree 命令</a></li><li><a href="#last%E5%91%BD%E4%BB%A4">last 命令</a></li></ul><h2><span id="strings-命令">strings 命令</span></h2><p><strong>作用</strong><br>在对象或二进制文件中查找可打印的字符串，字符可以是由 4 个或者更多字符组成的字符序列，以换行符或空字符结束。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-a</span> 扫描整个文件内容而不是仅仅文件初始化和装载段。
-<span class="token parameter variable">-f</span> 显示查找到的字符串之前先打印文件名称。
-<span class="token parameter variable">-n</span> number 查找长度为number及以上的字符串序列。
-<span class="token parameter variable">-t</span> <span class="token parameter variable">--radix</span><span class="token operator">=</span><span class="token punctuation">{</span>o,d,x<span class="token punctuation">}</span> ：输出字符的位置，基于八进制，十进制或者十六进制
-<span class="token parameter variable">-o</span> 等价于--radix<span class="token operator">=</span>o
-<span class="token parameter variable">-T</span> <span class="token parameter variable">--target</span><span class="token operator">=</span> ：指定二进制文件格式
-<span class="token parameter variable">-e</span> <span class="token parameter variable">--encoding</span><span class="token operator">=</span><span class="token punctuation">{</span>s,S,b,l,B,L<span class="token punctuation">}</span> ：选择字符大小和排列顺序:s <span class="token operator">=</span> <span class="token number">7</span>-bit, S <span class="token operator">=</span> <span class="token number">8</span>-bit, <span class="token punctuation">{</span>b,l<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token number">16</span>-bit, <span class="token punctuation">{</span>B,L<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token number">32</span>-bit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#以10进制为偏移量，查找profile文件中长度大于60的字符串,输出字符所在文件名称。</span>
-<span class="token punctuation">[</span>root@demo_mdn ~<span class="token punctuation">]</span><span class="token comment"># strings -f -t o -60 /etc/profile</span>
-/etc/profile:      <span class="token number">20</span> <span class="token comment"># System wide environment and startup programs, for login setup</span>
-/etc/profile:     <span class="token number">173</span> <span class="token comment"># It's NOT a good idea to change this file unless you know what you</span>
-/etc/profile:     <span class="token number">277</span> <span class="token comment"># are doing. It's much better to create a custom.sh shell script in</span>
-/etc/profile:     <span class="token number">403</span> <span class="token comment"># /etc/profile.d/ to make custom changes to your environment, as this</span>
-/etc/profile:    <span class="token number">3100</span> <span class="token comment"># By default, we want umask to get set. This sets it for login shell</span>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="theme-color" content="#222" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.css" integrity="sha256-mdaMxrItEW6hMIVJJNPKuX0B7KCSJQVEv3mVY4N2we4=" crossorigin="anonymous"><script class="next-config" data-name="main" type="application/json">{"hostname":"vanishke.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":false,"codeblock":{"theme":{"light":"base16/one-light","dark":"base16/onedark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":true,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":true,"preload":true}}</script><script src="/js/config.js" defer></script><meta name="description" content="strings 命令 unlink 命令 chown 命令 stat 命令 which 命令 file 命令   不显示文件名称 whereis 命令 locate 命令 ln 命令   给文件建立硬链接 建立硬链接前询问用户是否覆盖已有链接，并创建备份 生成的备份文件，文件后缀默认为~ 为 logs 目录下的 record.ini 文件在 log 目录下建立 record.ini 文件硬链"><meta property="og:type" content="article"><meta property="og:title" content="Linux - 文件管理"><meta property="og:url" content="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/index.html"><meta property="og:site_name" content="vanishke随笔"><meta property="og:description" content="strings 命令 unlink 命令 chown 命令 stat 命令 which 命令 file 命令   不显示文件名称 whereis 命令 locate 命令 ln 命令   给文件建立硬链接 建立硬链接前询问用户是否覆盖已有链接，并创建备份 生成的备份文件，文件后缀默认为~ 为 logs 目录下的 record.ini 文件在 log 目录下建立 record.ini 文件硬链"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2022-05-19T03:27:20.000Z"><meta property="article:modified_time" content="2026-08-14T08:53:38.284Z"><meta property="article:author" content="vanishke"><meta property="article:tag" content="Linux"><meta name="twitter:card" content="summary"><link rel="canonical" href="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/"><script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/","path":"Linux/blogs/Linux-文件管理/","title":"Linux - 文件管理"}</script><script class="next-config" data-name="calendar" type="application/json">""</script><title>Linux - 文件管理 | vanishke随笔</title><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-core.min.js" integrity="sha256-bKrTFt2ZHyT4AE4LnBnAVctYKf9l6XP77kBvltgbjn4=" crossorigin="anonymous" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha256-AjM0J5XIbiB590BrznLEgZGLnOQWrt62s3BEq65Q/I0=" crossorigin="anonymous" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/plugins/line-numbers/prism-line-numbers.min.js" integrity="sha256-9cmf7tcLdXpKsPi/2AWE93PbZpTp4M4tqzFk+lWomjU=" crossorigin="anonymous" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.umd.js" integrity="sha256-QnJV4HT5r8i89ovZGRD86iynZqHerEbT2xt69vDM36I=" crossorigin="anonymous" defer></script><script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script><script src="/js/third-party/search/local-search.js" defer></script><script src="/js/third-party/fancybox.js" defer></script><script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","display_overflow":"scroll","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/4.1.3/tex-mml-chtml.js","integrity":"sha256-ihPtDDm7pTmSF9ViEsItlvsrBTsNkz0MOXMchzOwCQw="}}</script><script src="/js/third-party/math/mathjax.js" defer></script><noscript><link rel="stylesheet" href="/css/noscript.css"></noscript><style>mjx-container[jax=SVG]{direction:ltr}mjx-container[jax=SVG]>svg{overflow:visible}mjx-container[jax=SVG][display=true]{display:block;text-align:center;margin:1em 0}mjx-container[jax=SVG][justify=left]{text-align:left}mjx-container[jax=SVG][justify=right]{text-align:right}g[data-mml-node=merror]>g{fill:red;stroke:red}g[data-mml-node=merror]>rect[data-background]{fill:#ff0;stroke:none}g[data-mml-node=mtable]>line[data-line]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>rect[data-frame]{stroke-width:70px;fill:none}g[data-mml-node=mtable]>.mjx-dashed{stroke-dasharray:140}g[data-mml-node=mtable]>.mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}g[data-mml-node=mtable]>svg{overflow:visible}[jax=SVG] mjx-tool{display:inline-block;position:relative;width:0;height:0}[jax=SVG] mjx-tool>mjx-tip{position:absolute;top:0;left:0}mjx-tool>mjx-tip{display:inline-block;padding:.2em;border:1px solid #888;font-size:70%;background-color:#f8f8f8;color:#000;box-shadow:2px 2px 5px #aaa}g[data-mml-node=maction][data-toggle]{cursor:pointer}mjx-status{display:block;position:fixed;left:1em;bottom:1em;min-width:25%;padding:.2em .4em;border:1px solid #888;font-size:90%;background-color:#f8f8f8;color:#000}foreignObject[data-mjx-xml]{font-family:initial;line-height:normal;overflow:visible}.MathJax path{stroke-width:3}mjx-container[display=true]{overflow:auto hidden}mjx-container[display=true]+br{display:none}</style><link rel="alternate" href="/atom.xml" title="vanishke随笔" type="application/atom+xml"></head><body itemscope itemtype="http://schema.org/WebPage" class="use-motion"><div class="headband"></div><main class="main"><div class="column"><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><i class="logo-line"></i><p class="site-title">vanishke随笔</p><i class="logo-line"></i></a><p class="site-subtitle" itemprop="description">善始者实繁，克终者盖寡</p></div><div class="site-nav-right"><div class="toggle popup-trigger" aria-label="搜索" role="button"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class="site-nav"><ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">130</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">64</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">269</span></a></li><li class="menu-item menu-item-rss"><a href="/rss2.xml" rel="section"><i class="fa fa-rss fa-fw"></i>RSS</a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索</a></li></ul></nav><template id="search-popup-template"><div class="search-pop-overlay"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"><input autocomplete="off" autocapitalize="off" maxlength="80" placeholder="搜索..." spellcheck="false" type="search" class="search-input"></div><span class="popup-btn-close" role="button"><i class="fa fa-times-circle"></i></span></div><div class="search-result-container"><div class="search-result-icon"><i class="fa fa-spinner fa-pulse fa-5x"></i></div></div></div></div></template></header><aside class="sidebar"><div class="sidebar-inner sidebar-nav-active sidebar-toc-active"><ul class="sidebar-nav"><li class="sidebar-nav-toc">文章目录</li><li class="sidebar-nav-overview">站点概览</li></ul><div class="sidebar-panel-container"><div class="post-toc-wrap sidebar-panel"><div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">strings 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">unlink 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">chown 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">stat 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">5.</span> <span class="nav-text">which 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text">file 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">7.</span> <span class="nav-text">whereis 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">8.</span> <span class="nav-text">locate 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">9.</span> <span class="nav-text">ln 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">10.</span> <span class="nav-text">touch 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">11.</span> <span class="nav-text">mv 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">12.</span> <span class="nav-text">pwd 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">13.</span> <span class="nav-text">mkdir 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">14.</span> <span class="nav-text">ls 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">15.</span> <span class="nav-text">sz 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">16.</span> <span class="nav-text">rz 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">17.</span> <span class="nav-text">true 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">18.</span> <span class="nav-text">tree 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">19.</span> <span class="nav-text">last 命令</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person"><img class="site-author-image" itemprop="image" alt="vanishke" src="/images/avatar.png"><p class="site-author-name" itemprop="name">vanishke</p><div class="site-description" itemprop="description"></div></div><div class="site-state-wrap animated"><nav class="site-state"><div class="site-state-item site-state-posts"><a href="/archives/"><span class="site-state-item-count">269</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"><a href="/categories/"><span class="site-state-item-count">64</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"><a href="/tags/"><span class="site-state-item-count">130</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author animated"><span class="links-of-author-item"><a href="https://github.com/vanishke" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vanishke" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a> </span><span class="links-of-author-item"><a href="mailto:18685129726@163.com" title="E-Mail → mailto:18685129726@163.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a></span></div><div class="cc-license animated" itemprop="license"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a></div></div></div></div></aside></div><div class="main-inner post posts-expand"><div class="post-block"><article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.png"><meta itemprop="name" content="vanishke"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="vanishke随笔"><meta itemprop="description" content=""></span><span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork"><meta itemprop="name" content="Linux - 文件管理 | vanishke随笔"><meta itemprop="description" content=""></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Linux - 文件管理</h1><div class="post-meta-container"><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i> </span><span class="post-meta-item-text">发表于</span> <time title="创建时间：2022-05-19 11:27:20" itemprop="dateCreated datePublished" datetime="2022-05-19T11:27:20+08:00">2022-05-19</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar-check"></i> </span><span class="post-meta-item-text">更新于</span> <time title="修改时间：2026-08-14 16:53:38" itemprop="dateModified" datetime="2026-08-14T16:53:38+08:00">2026-08-14</time> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-folder"></i> </span><span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a> </span></span><span class="post-meta-break"></span> <span class="post-meta-item" title="本文字数"><span class="post-meta-item-icon"><i class="far fa-file-word"></i> </span><span class="post-meta-item-text">本文字数：</span> <span>5.5k</span> </span><span class="post-meta-item" title="阅读时长"><span class="post-meta-item-icon"><i class="far fa-clock"></i> </span><span class="post-meta-item-text">阅读时长 &asymp;</span> <span>20 分钟</span></span></div></div></header><div class="post-body" itemprop="articleBody"><ul><li><a href="#strings%E5%91%BD%E4%BB%A4">strings 命令</a></li><li><a href="#unlink%E5%91%BD%E4%BB%A4">unlink 命令</a></li><li><a href="#chown%E5%91%BD%E4%BB%A4">chown 命令</a></li><li><a href="#stat%E5%91%BD%E4%BB%A4">stat 命令</a></li><li><a href="#which%E5%91%BD%E4%BB%A4">which 命令</a></li><li><a href="#file%E5%91%BD%E4%BB%A4">file 命令</a></li></ul><ul><li><a href="#%E4%B8%8D%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%90%8D%E7%A7%B0">不显示文件名称</a><ul><li><a href="#whereis%E5%91%BD%E4%BB%A4">whereis 命令</a></li><li><a href="#locate%E5%91%BD%E4%BB%A4">locate 命令</a></li><li><a href="#ln%E5%91%BD%E4%BB%A4">ln 命令</a></li></ul></li><li><a href="#%E7%BB%99%E6%96%87%E4%BB%B6%E5%BB%BA%E7%AB%8B%E7%A1%AC%E9%93%BE%E6%8E%A5">给文件建立硬链接</a></li><li><a href="#%E5%BB%BA%E7%AB%8B%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%89%8D%E8%AF%A2%E9%97%AE%E7%94%A8%E6%88%B7%E6%98%AF%E5%90%A6%E8%A6%86%E7%9B%96%E5%B7%B2%E6%9C%89%E9%93%BE%E6%8E%A5%E5%B9%B6%E5%88%9B%E5%BB%BA%E5%A4%87%E4%BB%BD">建立硬链接前询问用户是否覆盖已有链接，并创建备份</a></li><li><a href="#%E7%94%9F%E6%88%90%E7%9A%84%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E9%BB%98%E8%AE%A4%E4%B8%BA~">生成的备份文件，文件后缀默认为~</a></li><li><a href="#%E4%B8%BAlogs%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84recordini%E6%96%87%E4%BB%B6%E5%9C%A8log%E7%9B%AE%E5%BD%95%E4%B8%8B%E5%BB%BA%E7%AB%8Brecordini%E6%96%87%E4%BB%B6%E7%A1%AC%E9%93%BE%E6%8E%A5-%E5%BC%BA%E5%88%B6%E6%89%A7%E8%A1%8C">为 logs 目录下的 record.ini 文件在 log 目录下建立 record.ini 文件硬链接 强制执行</a><ul><li><a href="#touch%E5%91%BD%E4%BB%A4">touch 命令</a></li></ul></li><li><a href="#-d%E6%8C%87%E5%AE%9A%E6%9B%B4%E6%96%B0%E7%9A%84%E6%97%B6%E9%97%B4%E6%88%B3">-d 指定更新的时间戳</a></li><li><a href="#-t%E6%8C%87%E5%AE%9A%E6%9B%B4%E6%96%B0%E6%97%B6%E9%97%B4">-t 指定更新时间</a><ul><li><a href="#mv%E5%91%BD%E4%BB%A4">mv 命令</a></li></ul></li><li><a href="#-i-%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F-%E7%A1%AE%E8%AE%A4%E6%98%AF%E5%90%A6%E8%A6%86%E7%9B%96%E5%90%8C%E5%90%8D%E6%96%87%E4%BB%B6">-i 交互模式 确认是否覆盖同名文件</a></li><li><a href="#-f-%E5%BC%BA%E5%88%B6%E8%A6%86%E7%9B%96%E4%B8%8D%E8%BF%9B%E8%A1%8C%E6%8F%90%E7%A4%BA">-f 强制覆盖，不进行提示</a></li><li><a href="#%E4%B8%8D%E8%A6%86%E7%9B%96%E5%90%8C%E5%90%8D%E6%96%87%E4%BB%B6newsh%E5%9C%A8newdir%E7%9B%AE%E5%BD%95%E5%B7%B2%E5%AD%98%E5%9C%A8%E6%B2%A1%E6%9C%89%E8%A6%86%E7%9B%96">不覆盖同名文件，new.sh 在 newDir 目录已存在，没有覆盖</a></li><li><a href="#-u-%E5%8F%AA%E8%A6%86%E7%9B%96%E6%BA%90%E6%96%87%E4%BB%B6%E6%AF%94%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%97%B6%E9%97%B4%E6%88%B3%E6%96%B0%E7%9A%84%E6%96%87%E4%BB%B6-newdir%E7%9B%AE%E5%BD%95%E5%B7%B2%E7%BB%8F%E5%AD%98%E5%9C%A81txt%E6%96%87%E4%BB%B6%E4%B8%94%E6%97%B6%E9%97%B4%E6%88%B3%E6%99%9A%E4%BA%8E%E6%BA%90%E6%96%87%E4%BB%B6%E6%89%80%E4%BB%A5%E6%B2%A1%E6%9C%89%E6%93%8D%E4%BD%9C">-u 只覆盖源文件比目标文件时间戳新的文件, newDir 目录已经存在 1.txt 文件且时间戳晚于源文件，所以没有操作</a></li><li><a href="#-b-%E5%AF%B9%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%A4%87%E4%BB%BD%E7%9B%AE%E6%A0%87%E7%9B%AE%E5%BD%95%E7%94%9F%E6%88%901txt~%E6%96%87%E4%BB%B6%E5%A4%87%E4%BB%BD">-b 对目标文件进行备份，目标目录生成 1.txt~文件备份</a><ul><li><a href="#pwd%E5%91%BD%E4%BB%A4">pwd 命令</a></li><li><a href="#mkdir%E5%91%BD%E4%BB%A4">mkdir 命令</a></li></ul></li><li><a href="#%E7%88%B6%E7%BA%A7%E7%9B%AE%E5%BD%95%E4%B8%8D%E5%AD%98%E5%9C%A8%E5%88%9B%E5%BB%BA%E5%A4%9A%E7%BA%A7%E7%9B%AE%E5%BD%95%E6%8A%A5%E9%94%99">父级目录不存在，创建多级目录报错</a></li><li><a href="#%E6%8C%87%E5%AE%9A-p%E9%80%89%E9%A1%B9%E5%88%9B%E5%BB%BA%E5%A4%9A%E7%BA%A7%E7%9B%AE%E5%BD%95">指定 -p 选项，创建多级目录</a><ul><li><a href="#ls%E5%91%BD%E4%BB%A4">ls 命令</a></li></ul></li><li><a href="#%E6%8C%89%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E6%97%B6%E9%97%B4%E5%80%92%E5%BA%8F%E6%98%BE%E7%A4%BA%E5%8D%95%E5%88%97%E6%A0%BC%E5%BC%8F%E8%BE%93%E5%87%BA%E5%B1%95%E7%A4%BA">按文件修改时间倒序显示，单列格式输出展示</a></li><li><a href="#%E6%8C%89%E7%85%A7%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E5%AF%B9%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%88%86%E7%B1%BB">按照特殊字符对文件进行分类</a><ul><li><a href="#sz%E5%91%BD%E4%BB%A4">sz 命令</a></li><li><a href="#rz%E5%91%BD%E4%BB%A4">rz 命令</a></li><li><a href="#true%E5%91%BD%E4%BB%A4">true 命令</a></li><li><a href="#tree%E5%91%BD%E4%BB%A4">tree 命令</a></li><li><a href="#last%E5%91%BD%E4%BB%A4">last 命令</a></li></ul></li></ul><h2><span id="strings-命令">strings 命令</span></h2><p><strong>作用</strong><br>在对象或二进制文件中查找可打印的字符串，字符可以是由 4 个或者更多字符组成的字符序列，以换行符或空字符结束。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-a 扫描整个文件内容而不是仅仅文件初始化和装载段。
+-f 显示查找到的字符串之前先打印文件名称。
+-n number 查找长度为number及以上的字符串序列。
+-t --radix={o,d,x} ：输出字符的位置，基于八进制，十进制或者十六进制
+-o 等价于--radix=o
+-T --target= ：指定二进制文件格式
+-e --encoding={s,S,b,l,B,L} ：选择字符大小和排列顺序:s = 7-bit, S = 8-bit, {b,l} = 16-bit, {B,L} = 32-bit</code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#以10进制为偏移量，查找profile文件中长度大于60的字符串,输出字符所在文件名称。
+[root@demo_mdn ~]# strings -f -t o -60 /etc/profile
+/etc/profile:      20 # System wide environment and startup programs, for login setup
+/etc/profile:     173 # It's NOT a good idea to change this file unless you know what you
+/etc/profile:     277 # are doing. It's much better to create a custom.sh shell script in
+/etc/profile:     403 # /etc/profile.d/ to make custom changes to your environment, as this
+/etc/profile:    3100 # By default, we want umask to get set. This sets it for login shell
 
-<span class="token comment">#以16进制为偏移量，查找当前目录下jpg文件中长度大于50的字符串，输出所在文件名称。</span>
-<span class="token punctuation">[</span>root@demo_mdn user<span class="token punctuation">]</span><span class="token comment"># strings -f -t o -n 50 *.jpg</span>
-20190605165252_529.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605165255_799.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605165256_156.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605165256_210.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605165256_391.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605165256_561.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605171455_354.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605171455_551.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605171455_574.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605171455_668.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605171455_74.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span>
-20190605171506_75.jpg:     <span class="token number">153</span> <span class="token operator">!</span><span class="token number">22222222222222222222222222222222222222222222222222</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="unlink-命令">unlink 命令</span></h2><p><strong>作用</strong><br>删除指定的文件，功能和 rm 命令一样。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">--version</span> 
-<span class="token parameter variable">--help</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># ls</span>
+#以16进制为偏移量，查找当前目录下jpg文件中长度大于50的字符串，输出所在文件名称。
+[root@demo_mdn user]# strings -f -t o -n 50 *.jpg
+20190605165252_529.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165255_799.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_156.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_210.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_391.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605165256_561.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_354.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_551.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_574.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_668.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171455_74.jpg:     153 !22222222222222222222222222222222222222222222222222
+20190605171506_75.jpg:     153 !22222222222222222222222222222222222222222222222222</code></pre><h2><span id="unlink-命令">unlink 命令</span></h2><p><strong>作用</strong><br>删除指定的文件，功能和 rm 命令一样。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">--version 
+--help</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">[root@lwdCSCDN tmp]# ls
 a.txt  elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># unlink a.txt </span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># ls</span>
-elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="chown-命令">chown 命令</span></h2><p><strong>作用</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">chown命令用于改变一个文件或目录的所有者或用户组，用户可以是用户名或者用户ID，群组可以是群组名或者群组ID，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><strong>选项</strong></p><p>-c: 与 -v 命令相似，仅显示变更的内容。<br>-f: 不显示错误信息。<br>-h: 只对符号链接文件做修改，不改变其对应的原始文件。<br>-R: 递归处理，将命令目录下的所有文件和子目录一并处理。<br>-v: 显示命令执行详细过程。<br>–reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同。<br>–help: 在线帮助。<br>–version: 显示版本信息。</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 将erm_gd目录下的文件和目录所属者更改为report_cd,群组修改为report_cd</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># chown -R report_cd:report_cd erm_gd</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># cd erm_gd/</span>
-You have new mail <span class="token keyword">in</span> /var/spool/mail/root
-<span class="token punctuation">[</span>root@lwdCSCDN erm_gd<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">210608</span>
--rw-r--r-- <span class="token number">1</span> report_cd report_cd <span class="token number">214757130</span> <span class="token number">1</span>月   <span class="token number">5</span> <span class="token number">17</span>:47 dg_erm_mysql.sql
--rw-r--r-- <span class="token number">1</span> report_cd report_cd    <span class="token number">681075</span> <span class="token number">1</span>月   <span class="token number">5</span> <span class="token number">17</span>:47 dg_global.sql<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="stat-命令">stat 命令</span></h2><p><strong>作用</strong><br>显示文件状态信息，stat 命令的输出信息比 ls 命令的输出信息要更详细。</p><p><strong>选项</strong></p><p>-L : 支持符号链接<br>-t : 以简洁方式显示输出信息。<br>-f : 显示文件系统状态而不是文件状态。<br>–version : 显示命令版本。<br>–help : 显示命令帮助信息。</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#显示文件状态</span>
-<span class="token punctuation">[</span>root@lwdCSCDN log1<span class="token punctuation">]</span><span class="token comment"># stat ETL.log</span>
-  File: <span class="token string">"ETL.log"</span>
-  Size: <span class="token number">7341608</span>   	Blocks: <span class="token number">14352</span>      IO Block: <span class="token number">4096</span>   普通文件
-Device: 804h/2052d	Inode: <span class="token number">10495794</span>    Links: <span class="token number">3</span>
-Access: <span class="token punctuation">(</span>0777/-rwxrwxrwx<span class="token punctuation">)</span>  Uid: <span class="token punctuation">(</span>    <span class="token number">0</span>/    root<span class="token punctuation">)</span>   Gid: <span class="token punctuation">(</span>    <span class="token number">0</span>/    root<span class="token punctuation">)</span>
-Access: <span class="token number">2020</span>-12-28 <span class="token number">11</span>:06:47.226634512 +0800
-Modify: <span class="token number">2020</span>-12-18 <span class="token number">14</span>:47:43.471294256 +0800
-Change: <span class="token number">2020</span>-12-18 <span class="token number">14</span>:55:58.935352996 +0800
-You have new mail <span class="token keyword">in</span> /var/spool/mail/root
+[root@lwdCSCDN tmp]# unlink a.txt 
+[root@lwdCSCDN tmp]# ls
+elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0</code></pre><h2><span id="chown-命令">chown 命令</span></h2><p><strong>作用</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">chown命令用于改变一个文件或目录的所有者或用户组，用户可以是用户名或者用户ID，群组可以是群组名或者群组ID，文件名可以是空格分割的文件列表，也可以是通配符描述的集合，只有文件主和超级用户才可以使用该命令。</code></pre><p><strong>选项</strong></p><p>-c: 与 -v 命令相似，仅显示变更的内容。<br>-f: 不显示错误信息。<br>-h: 只对符号链接文件做修改，不改变其对应的原始文件。<br>-R: 递归处理，将命令目录下的所有文件和子目录一并处理。<br>-v: 显示命令执行详细过程。<br>–reference=&lt;参考文件或目录&gt;：把指定文件或目录的拥有者与所属群组全部设成和参考文件或目录的拥有者与所属群组相同。<br>–help: 在线帮助。<br>–version: 显示版本信息。</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"># 将erm_gd目录下的文件和目录所属者更改为report_cd,群组修改为report_cd
+[root@lwdCSCDN tmp]# chown -R report_cd:report_cd erm_gd
+[root@lwdCSCDN tmp]# cd erm_gd/
+You have new mail in /var/spool/mail/root
+[root@lwdCSCDN erm_gd]# ll
+总用量 210608
+-rw-r--r-- 1 report_cd report_cd 214757130 1月   5 17:47 dg_erm_mysql.sql
+-rw-r--r-- 1 report_cd report_cd    681075 1月   5 17:47 dg_global.sql</code></pre><h2><span id="stat-命令">stat 命令</span></h2><p><strong>作用</strong><br>显示文件状态信息，stat 命令的输出信息比 ls 命令的输出信息要更详细。</p><p><strong>选项</strong></p><p>-L : 支持符号链接<br>-t : 以简洁方式显示输出信息。<br>-f : 显示文件系统状态而不是文件状态。<br>–version : 显示命令版本。<br>–help : 显示命令帮助信息。</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#显示文件状态
+[root@lwdCSCDN log1]# stat ETL.log
+  File: "ETL.log"
+  Size: 7341608   	Blocks: 14352      IO Block: 4096   普通文件
+Device: 804h/2052d	Inode: 10495794    Links: 3
+Access: (0777/-rwxrwxrwx)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2020-12-28 11:06:47.226634512 +0800
+Modify: 2020-12-18 14:47:43.471294256 +0800
+Change: 2020-12-18 14:55:58.935352996 +0800
+You have new mail in /var/spool/mail/root
 
-<span class="token comment">#显示文件系统状态</span>
-<span class="token punctuation">[</span>root@lwdCSCDN log1<span class="token punctuation">]</span><span class="token comment"># stat -f ETL.log</span>
-  File: <span class="token string">"ETL.log"</span>
-    ID: abb37a7c2e029036 Namelen: <span class="token number">255</span>     Type: ext2/ext3
-Block size: <span class="token number">4096</span>       Fundamental block size: <span class="token number">4096</span>
-Blocks: Total: <span class="token number">45356622</span>   Free: <span class="token number">29156603</span>   Available: <span class="token number">26852603</span>
-Inodes: Total: <span class="token number">11526144</span>   Free: <span class="token number">10551557</span>
+#显示文件系统状态
+[root@lwdCSCDN log1]# stat -f ETL.log
+  File: "ETL.log"
+    ID: abb37a7c2e029036 Namelen: 255     Type: ext2/ext3
+Block size: 4096       Fundamental block size: 4096
+Blocks: Total: 45356622   Free: 29156603   Available: 26852603
+Inodes: Total: 11526144   Free: 10551557
 
-<span class="token comment">#以简洁方式展现文件状态信息</span>
-<span class="token punctuation">[</span>root@lwdCSCDN log1<span class="token punctuation">]</span><span class="token comment"># stat -t ETL.log</span>
-ETL.log <span class="token number">7341608</span> <span class="token number">14352</span> 81ff <span class="token number">0</span> <span class="token number">0</span> <span class="token number">804</span> <span class="token number">10495794</span> <span class="token number">3</span> <span class="token number">0</span> <span class="token number">0</span> <span class="token number">1609124807</span> <span class="token number">1608274063</span> <span class="token number">1608274558</span> <span class="token number">4096</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="which-命令">which 命令</span></h2><p><strong>作用</strong><br>查找命令所在的绝对路径（包含命令别名）。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">--version, -<span class="token punctuation">[</span>vV<span class="token punctuation">]</span> Print version and <span class="token builtin class-name">exit</span> successfully.
---help,          Print this <span class="token builtin class-name">help</span> and <span class="token builtin class-name">exit</span> successfully.
---skip-dot       Skip directories <span class="token keyword">in</span> <span class="token environment constant">PATH</span> that start with a dot.
---skip-tilde     Skip directories <span class="token keyword">in</span> <span class="token environment constant">PATH</span> that start with a tilde.
---show-dot       Don<span class="token string">'t expand a dot to current directory in output.
+#以简洁方式展现文件状态信息
+[root@lwdCSCDN log1]# stat -t ETL.log
+ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 1608274558 4096</code></pre><h2><span id="which-命令">which 命令</span></h2><p><strong>作用</strong><br>查找命令所在的绝对路径（包含命令别名）。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">--version, -[vV] Print version and exit successfully.
+--help,          Print this help and exit successfully.
+--skip-dot       Skip directories in PATH that start with a dot.
+--skip-tilde     Skip directories in PATH that start with a tilde.
+--show-dot       Don't expand a dot to current directory in output.
 --show-tilde     Output a tilde for HOME directory for non-root.
 --tty-only       Stop processing options on the right if not on tty.
 --all, -a        Print all matches in PATH, not just the first
 --read-alias, -i Read list of aliases from stdin.
---skip-alias     Ignore option --read-alias; don'</span>t <span class="token builtin class-name">read</span> stdin.
+--skip-alias     Ignore option --read-alias; don't read stdin.
 --read-functions Read shell functions from stdin.
---skip-functions Ignore option --read-functions<span class="token punctuation">;</span> don't <span class="token builtin class-name">read</span> stdin.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#查找ls命令的绝对路径</span>
-<span class="token punctuation">[</span>root@demo_mdn user<span class="token punctuation">]</span><span class="token comment"># which ls</span>
-<span class="token builtin class-name">alias</span> <span class="token assign-left variable">ls</span><span class="token operator">=</span><span class="token string">'ls --color=auto'</span>
-	/bin/ls<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="file-命令">file 命令</span></h2><p><strong>作用</strong><br>file 命令用于探测文件类型，file 命令分为文件系统、魔法幻数检查及语言检查 3 个过程.<br><strong>选项</strong></p><p>-b : 列出结果时，不显示文件名称。<br>-i : 探测文件结果以 MIME 字符串展示。<br>-L : 检测链接文件，并给出链接原始文件的类型。<br>-v : file 命令版本信息。<br>-z : 尝试探测压缩类型文件。<br>-m : 指定魔法幻数文件。<br>-f : 指定文件，如果文件内容中有其他文件，依序辨识这些文件，输出格式为每列一个文件。<br>-c : 显示命令执行的详细过程。</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#显示文件类型</span>
-<span class="token punctuation">[</span>root@lwdCSCDN log1<span class="token punctuation">]</span><span class="token comment"># file ETL.log</span>
+--skip-functions Ignore option --read-functions; don't read stdin.</code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#查找ls命令的绝对路径
+[root@demo_mdn user]# which ls
+alias ls='ls --color=auto'
+	/bin/ls</code></pre><h2><span id="file-命令">file 命令</span></h2><p><strong>作用</strong><br>file 命令用于探测文件类型，file 命令分为文件系统、魔法幻数检查及语言检查 3 个过程.<br><strong>选项</strong></p><p>-b : 列出结果时，不显示文件名称。<br>-i : 探测文件结果以 MIME 字符串展示。<br>-L : 检测链接文件，并给出链接原始文件的类型。<br>-v : file 命令版本信息。<br>-z : 尝试探测压缩类型文件。<br>-m : 指定魔法幻数文件。<br>-f : 指定文件，如果文件内容中有其他文件，依序辨识这些文件，输出格式为每列一个文件。<br>-c : 显示命令执行的详细过程。</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#显示文件类型
+[root@lwdCSCDN log1]# file ETL.log
 ETL.log: ASCII English text, with very long lines
 
-<span class="token comment"># 不显示文件名称</span>
-<span class="token punctuation">[</span>root@lwdCSCDN log1<span class="token punctuation">]</span><span class="token comment"># file -b ETL.log</span>
+# 不显示文件名称
+[root@lwdCSCDN log1]# file -b ETL.log
 ASCII English text, with very long lines
 
-<span class="token comment">#以MIME格式展现探测结果</span>
-<span class="token punctuation">[</span>root@lwdCSCDN log1<span class="token punctuation">]</span><span class="token comment"># file -b -i record.ini </span>
-text/plain<span class="token punctuation">;</span> <span class="token assign-left variable">charset</span><span class="token operator">=</span>us-ascii<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="whereis-命令">whereis 命令</span></h2><p><strong>作用</strong><br>定位二进制程序文件、man 手册、源代码文件所在位置，搜索效率比 find 命令高，因为查找的是数据库索引文件，和 locate 命令同理，但索引内容不是实时更新。<br><br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-b</span> 只搜索二进制文件
-<span class="token parameter variable">-B</span> 指定搜索的二进制文件所在的目录
-<span class="token parameter variable">-m</span> 只搜索man帮助文件
-<span class="token parameter variable">-M</span> 指定man文件所在的目录
-<span class="token parameter variable">-f</span> 定义搜索范围
-<span class="token parameter variable">-s</span> 只搜索源代码文件
-<span class="token parameter variable">-S</span> 指定搜索源代码文件所在的目录
-（-BMS 必须和-f 选项同时使用）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#搜索ls命令相关文件所在的位置</span>
-<span class="token punctuation">[</span>root@demo_mdn /<span class="token punctuation">]</span><span class="token comment"># whereis ls</span>
+#以MIME格式展现探测结果
+[root@lwdCSCDN log1]# file -b -i record.ini 
+text/plain; charset=us-ascii</code></pre><h2><span id="whereis-命令">whereis 命令</span></h2><p><strong>作用</strong><br>定位二进制程序文件、man 手册、源代码文件所在位置，搜索效率比 find 命令高，因为查找的是数据库索引文件，和 locate 命令同理，但索引内容不是实时更新。<br><br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-b 只搜索二进制文件
+-B 指定搜索的二进制文件所在的目录
+-m 只搜索man帮助文件
+-M 指定man文件所在的目录
+-f 定义搜索范围
+-s 只搜索源代码文件
+-S 指定搜索源代码文件所在的目录
+（-BMS 必须和-f 选项同时使用）</code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#搜索ls命令相关文件所在的位置
+[root@demo_mdn /]# whereis ls
 ls: /bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz
 
-<span class="token comment">#只搜索指定路径下ls相关二进制文件所在位置,只搜索当前指定路径不进行递归搜索</span>
-<span class="token punctuation">[</span>root@demo_mdn /<span class="token punctuation">]</span><span class="token comment"># whereis -b -B /bin -f ls</span>
+#只搜索指定路径下ls相关二进制文件所在位置,只搜索当前指定路径不进行递归搜索
+[root@demo_mdn /]# whereis -b -B /bin -f ls
 ls: /bin/ls
 
-<span class="token comment">#只搜索指定路径下的ls相关帮助文件,只搜索当前指定路径不进行递归搜索</span>
-<span class="token punctuation">[</span>root@demo_mdn /<span class="token punctuation">]</span><span class="token comment"># whereis -m -M /usr/share/man/man1 -f ls</span>
-ls: /usr/share/man/man1/ls.1.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="locate-命令">locate 命令</span></h2><p><strong>作用</strong><br>查找文件或目录所在位置（locate 命令实际是查找的 /var/lib/mlocate/mlocate.db 文件，所以查找速度比 find 命令快的多）<br><br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-V</span> 显示版本信息
-<span class="token parameter variable">-d</span> <span class="token function">dir</span> 指定搜索的数据库文件所在位置<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p><strong>实例</strong><br></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"> <span class="token comment">#指定mlocate.db 文件目录，查找portalOrderInfoTask_0_20201110_010000_0 文件所在位置</span>
- <span class="token punctuation">[</span>root@demo_mdn mlocate<span class="token punctuation">]</span><span class="token comment"># locate -d /var/lib/mlocate/mlocate.db portalOrderInfoTask_0_20201110_010000_0</span>
+#只搜索指定路径下的ls相关帮助文件,只搜索当前指定路径不进行递归搜索
+[root@demo_mdn /]# whereis -m -M /usr/share/man/man1 -f ls
+ls: /usr/share/man/man1/ls.1.gz</code></pre><h2><span id="locate-命令">locate 命令</span></h2><p><strong>作用</strong><br>查找文件或目录所在位置（locate 命令实际是查找的 /var/lib/mlocate/mlocate.db 文件，所以查找速度比 find 命令快的多）<br><br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-V 显示版本信息
+-d dir 指定搜索的数据库文件所在位置</code></pre><p><strong>实例</strong><br></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"> #指定mlocate.db 文件目录，查找portalOrderInfoTask_0_20201110_010000_0 文件所在位置
+ [root@demo_mdn mlocate]# locate -d /var/lib/mlocate/mlocate.db portalOrderInfoTask_0_20201110_010000_0
  /home/report_cd/dhm/portalOrderInfoTask/2020/11/10/portalOrderInfoTask_0_20201110_010000_0
 
- <span class="token comment">#显示locate 命令版本信息</span>
- <span class="token punctuation">[</span>root@demo_mdn mlocate<span class="token punctuation">]</span><span class="token comment"># locate -V</span>
-mlocate <span class="token number">0.22</span>.2
-Copyright <span class="token punctuation">(</span>C<span class="token punctuation">)</span> <span class="token number">2007</span> Red Hat, Inc. All rights reserved.
+ #显示locate 命令版本信息
+ [root@demo_mdn mlocate]# locate -V
+mlocate 0.22.2
+Copyright (C) 2007 Red Hat, Inc. All rights reserved.
 This software is distributed under the GPL v.2.
 
-This program is provided with NO WARRANTY, to the extent permitted by law.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="ln-命令">ln 命令</span></h2><p><strong>作用</strong><br>为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上 -s 选项。<br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-b或--backup：删除，覆盖目标文件之前的备份；
+This program is provided with NO WARRANTY, to the extent permitted by law.</code></pre><h2><span id="ln-命令">ln 命令</span></h2><p><strong>作用</strong><br>为指定文件创建链接文件，链接类型分为硬链接和符号链接，默认是硬链接，如果要添加符号链接需要加上 -s 选项。<br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-b或--backup：删除，覆盖目标文件之前的备份；
 -d或-F或——directory：建立目录的硬连接；
 -f或——force：强行建立文件或目录的连接，不论文件或目录是否存在；
 -i或——interactive：覆盖既有文件之前先询问用户；
 -n或--no-dereference：把符号连接的目的目录视为一般文件；
 -s或——symbolic：对源文件建立符号连接，而非硬连接；
--S<span class="token operator">&lt;</span>字尾备份字符串<span class="token operator">&gt;</span>或--suffix<span class="token operator">=</span><span class="token operator">&lt;</span>字尾备份字符串<span class="token operator">&gt;</span>：用<span class="token string">"-b"</span>参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，预设的备份字符串是符号“~”，用户可通过“-S”参数来改变它；
+-S&lt;字尾备份字符串&gt;或--suffix=&lt;字尾备份字符串&gt;：用"-b"参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，预设的备份字符串是符号“~”，用户可通过“-S”参数来改变它；
 -v或——verbose：显示指令执行过程；
--V<span class="token operator">&lt;</span>备份方式<span class="token operator">&gt;</span>或--version-control<span class="token operator">=</span><span class="token operator">&lt;</span>备份方式<span class="token operator">&gt;</span>：用“-b”参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，这个字符串不仅可用“-S”参数变更，当使用“-V”参数<span class="token operator">&lt;</span>备份方式<span class="token operator">&gt;</span>指定不同备份方式时，也会产生不同字尾的备份字符串；
+-V&lt;备份方式&gt;或--version-control=&lt;备份方式&gt;：用“-b”参数备份目标文件后，备份文件的字尾会被加上一个备份字符串，这个字符串不仅可用“-S”参数变更，当使用“-V”参数&lt;备份方式&gt;指定不同备份方式时，也会产生不同字尾的备份字符串；
 --help：在线帮助；
---version：显示版本信息。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 给文件建立软链接</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># ln -s readme.txt  readme.log</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">292</span>
-drwx------  <span class="token number">2</span> elasticsearch elasticsearch   <span class="token number">4096</span> <span class="token number">11</span>月 <span class="token number">19</span> <span class="token number">10</span>:02 elasticsearch-2738171260560954631
-srwxrwxrwx  <span class="token number">1</span> mysql         mysql              <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">23</span> <span class="token number">2019</span> mysql.sock
--rw-r--r--  <span class="token number">1</span> root          root              <span class="token number">64</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 patch.sql
-drwx------. <span class="token number">2</span> root          root            <span class="token number">4096</span> <span class="token number">10</span>月 <span class="token number">19</span> <span class="token number">2017</span> pulse-24KvvDfOHjjf
-lrwxrwxrwx  <span class="token number">1</span> root          root              <span class="token number">10</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">18</span>:00 readme.log -<span class="token operator">&gt;</span> readme.txt
--rw-r--r--  <span class="token number">1</span> root          root             <span class="token number">744</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 readme.txt
--rw-r--r--  <span class="token number">1</span> root          root          <span class="token number">133889</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">12</span>:22 scs1.sql
-drwxr-xr-x  <span class="token number">4</span> root          root            <span class="token number">4096</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 sql
--rw-rw----  <span class="token number">1</span> mysql         mysql           <span class="token number">8602</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">17</span>:58 <span class="token comment">#sqla5f_879_0.frm</span>
--rw-rw----  <span class="token number">1</span> mysql         mysql         <span class="token number">114688</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">17</span>:58 <span class="token comment">#sqla5f_879_0.ibd</span>
--rw-r--r--  <span class="token number">1</span> root          root              <span class="token number">98</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 update.sql
-drwxr-xr-x  <span class="token number">3</span> root          root            <span class="token number">4096</span> <span class="token number">1</span>月  <span class="token number">21</span> <span class="token number">2020</span> v8-compile-cache-0
+--version：显示版本信息。</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"># 给文件建立软链接
+[root@lwdCSCDN tmp]# ln -s readme.txt  readme.log
+[root@lwdCSCDN tmp]# ll
+总用量 292
+drwx------  2 elasticsearch elasticsearch   4096 11月 19 10:02 elasticsearch-2738171260560954631
+srwxrwxrwx  1 mysql         mysql              0 12月 23 2019 mysql.sock
+-rw-r--r--  1 root          root              64 12月 16 16:00 patch.sql
+drwx------. 2 root          root            4096 10月 19 2017 pulse-24KvvDfOHjjf
+lrwxrwxrwx  1 root          root              10 12月 16 18:00 readme.log -&gt; readme.txt
+-rw-r--r--  1 root          root             744 12月 16 16:00 readme.txt
+-rw-r--r--  1 root          root          133889 12月 10 12:22 scs1.sql
+drwxr-xr-x  4 root          root            4096 12月 16 16:00 sql
+-rw-rw----  1 mysql         mysql           8602 12月 16 17:58 #sqla5f_879_0.frm
+-rw-rw----  1 mysql         mysql         114688 12月 16 17:58 #sqla5f_879_0.ibd
+-rw-r--r--  1 root          root              98 12月 16 16:00 update.sql
+drwxr-xr-x  3 root          root            4096 1月  21 2020 v8-compile-cache-0
 
-<span class="token comment"># 给文件建立硬链接</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># ln  readme.txt log.txt</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">611180</span>
-drwx------  <span class="token number">2</span> elasticsearch elasticsearch      <span class="token number">4096</span> <span class="token number">11</span>月 <span class="token number">19</span> <span class="token number">10</span>:02 elasticsearch-2738171260560954631
--rw-r--r--  <span class="token number">2</span> root          root                <span class="token number">744</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 log.txt
-srwxrwxrwx  <span class="token number">1</span> mysql         mysql                 <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">23</span> <span class="token number">2019</span> mysql.sock
--rw-r--r--  <span class="token number">1</span> root          root                 <span class="token number">64</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 patch.sql
-drwx------. <span class="token number">2</span> root          root               <span class="token number">4096</span> <span class="token number">10</span>月 <span class="token number">19</span> <span class="token number">2017</span> pulse-24KvvDfOHjjf
-lrwxrwxrwx  <span class="token number">1</span> root          root                 <span class="token number">10</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">18</span>:00 readme.log -<span class="token operator">&gt;</span> readme.txt
--rw-r--r--  <span class="token number">2</span> root          root                <span class="token number">744</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 readme.txt
--rw-r--r--  <span class="token number">1</span> root          root             <span class="token number">133889</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">12</span>:22 scs1.sql
-drwxr-xr-x  <span class="token number">4</span> root          root               <span class="token number">4096</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 sql
--rw-rw----  <span class="token number">1</span> mysql         mysql          <span class="token number">32473128</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">18</span>:04 <span class="token comment">#sql_a5f_0.MYD</span>
--rw-rw----  <span class="token number">1</span> mysql         mysql              <span class="token number">1024</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">18</span>:04 <span class="token comment">#sql_a5f_0.MYI</span>
--rw-rw----  <span class="token number">1</span> mysql         mysql         <span class="token number">592436800</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">18</span>:04 <span class="token comment">#sql_a5f_1.MYD</span>
--rw-rw----  <span class="token number">1</span> mysql         mysql              <span class="token number">1024</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">18</span>:04 <span class="token comment">#sql_a5f_1.MYI</span>
--rw-rw----  <span class="token number">1</span> mysql         mysql              <span class="token number">8602</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">17</span>:58 <span class="token comment">#sqla5f_879_0.frm</span>
--rw-rw----  <span class="token number">1</span> mysql         mysql            <span class="token number">114688</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">17</span>:58 <span class="token comment">#sqla5f_879_0.ibd</span>
--rw-r--r--  <span class="token number">1</span> root          root                 <span class="token number">98</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">16</span>:00 update.sql
-drwxr-xr-x  <span class="token number">3</span> root          root               <span class="token number">4096</span> <span class="token number">1</span>月  <span class="token number">21</span> <span class="token number">2020</span> v8-compile-cache-0
+# 给文件建立硬链接
+[root@lwdCSCDN tmp]# ln  readme.txt log.txt
+[root@lwdCSCDN tmp]# ll
+总用量 611180
+drwx------  2 elasticsearch elasticsearch      4096 11月 19 10:02 elasticsearch-2738171260560954631
+-rw-r--r--  2 root          root                744 12月 16 16:00 log.txt
+srwxrwxrwx  1 mysql         mysql                 0 12月 23 2019 mysql.sock
+-rw-r--r--  1 root          root                 64 12月 16 16:00 patch.sql
+drwx------. 2 root          root               4096 10月 19 2017 pulse-24KvvDfOHjjf
+lrwxrwxrwx  1 root          root                 10 12月 16 18:00 readme.log -&gt; readme.txt
+-rw-r--r--  2 root          root                744 12月 16 16:00 readme.txt
+-rw-r--r--  1 root          root             133889 12月 10 12:22 scs1.sql
+drwxr-xr-x  4 root          root               4096 12月 16 16:00 sql
+-rw-rw----  1 mysql         mysql          32473128 12月 16 18:04 #sql_a5f_0.MYD
+-rw-rw----  1 mysql         mysql              1024 12月 16 18:04 #sql_a5f_0.MYI
+-rw-rw----  1 mysql         mysql         592436800 12月 16 18:04 #sql_a5f_1.MYD
+-rw-rw----  1 mysql         mysql              1024 12月 16 18:04 #sql_a5f_1.MYI
+-rw-rw----  1 mysql         mysql              8602 12月 16 17:58 #sqla5f_879_0.frm
+-rw-rw----  1 mysql         mysql            114688 12月 16 17:58 #sqla5f_879_0.ibd
+-rw-r--r--  1 root          root                 98 12月 16 16:00 update.sql
+drwxr-xr-x  3 root          root               4096 1月  21 2020 v8-compile-cache-0
 
-<span class="token comment"># 建立硬链接前询问用户是否覆盖已有链接，并创建备份</span>
-<span class="token punctuation">[</span>root@lwdCSCDN etl<span class="token punctuation">]</span><span class="token comment"># ln -b -i logs/ETL.log log/a.log </span>
-ln：是否替换<span class="token string">"log/a.log"</span>？ y
+# 建立硬链接前询问用户是否覆盖已有链接，并创建备份
+[root@lwdCSCDN etl]# ln -b -i logs/ETL.log log/a.log 
+ln：是否替换"log/a.log"？ y
 
-<span class="token comment"># 生成的备份文件，文件后缀默认为~</span>
-<span class="token punctuation">[</span>root@lwdCSCDN log<span class="token punctuation">]</span><span class="token comment"># ls</span>
+# 生成的备份文件，文件后缀默认为~
+[root@lwdCSCDN log]# ls
 a.log  a.log~
 
-<span class="token comment"># 为logs目录下的record.ini文件在log目录下建立record.ini文件硬链接 强制执行</span>
-<span class="token punctuation">[</span>root@lwdCSCDN etl<span class="token punctuation">]</span><span class="token comment"># ln -f -d  logs/record.ini log1/record.ini</span>
-<span class="token punctuation">[</span>root@lwdCSCDN etl<span class="token punctuation">]</span><span class="token comment"># ls</span>
+# 为logs目录下的record.ini文件在log目录下建立record.ini文件硬链接 强制执行
+[root@lwdCSCDN etl]# ln -f -d  logs/record.ini log1/record.ini
+[root@lwdCSCDN etl]# ls
 common  config  log  log1  logs  script  tmp
-<span class="token punctuation">[</span>root@lwdCSCDN etl<span class="token punctuation">]</span><span class="token comment"># cd log1</span>
-You have new mail <span class="token keyword">in</span> /var/spool/mail/root
-<span class="token punctuation">[</span>root@lwdCSCDN log1<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">7188</span>
-<span class="token parameter variable">-rwxrwxrwx</span> <span class="token number">3</span> root root <span class="token number">7341608</span> <span class="token number">12</span>月 <span class="token number">18</span> <span class="token number">14</span>:47 ETL.log
-<span class="token parameter variable">-rwxrwxrwx</span> <span class="token number">2</span> root root    <span class="token number">8505</span> <span class="token number">12</span>月 <span class="token number">18</span> <span class="token number">14</span>:23 record.ini<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="touch-命令">touch 命令</span></h2><p><strong>作用</strong><br>更改已存在文件的时间戳为当前时间戳，或创建新的文件<br><strong>选项</strong><br>-a :只变更访问时间<br>-m :只变更修改时间<br>-c :不创建新的文件<br>-r :更新指定文件或目录下的所有文件的时间戳。<br>-d :指定更新的时间戳字符串<br>-t :指定时间戳格式，MMDDhhmm<br><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建新的文件</span>
-<span class="token punctuation">[</span>root@lwdCSCDN bin<span class="token punctuation">]</span><span class="token comment"># touch b.txt</span>
-<span class="token punctuation">[</span>root@lwdCSCDN bin<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">3080</span>
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">16</span>:53 a.txt
-drwxr-xr-x <span class="token number">4</span> root root    <span class="token number">4096</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">14</span>:40 bi_common
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">32279</span> <span class="token number">10</span>月  <span class="token number">6</span> <span class="token number">2016</span> bootstrap.jar
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">16</span>:58 b.txt
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">15026</span> <span class="token number">10</span>月  <span class="token number">6</span> <span class="token number">2016</span> catalina.bat
--rwxr-xr-x <span class="token number">1</span> root root   <span class="token number">22443</span> <span class="token number">10</span>月  <span class="token number">6</span> <span class="token number">2016</span> catalina.sh
+[root@lwdCSCDN etl]# cd log1
+You have new mail in /var/spool/mail/root
+[root@lwdCSCDN log1]# ll
+总用量 7188
+-rwxrwxrwx 3 root root 7341608 12月 18 14:47 ETL.log
+-rwxrwxrwx 2 root root    8505 12月 18 14:23 record.ini</code></pre><h2><span id="touch-命令">touch 命令</span></h2><p><strong>作用</strong><br>更改已存在文件的时间戳为当前时间戳，或创建新的文件<br><strong>选项</strong><br>-a :只变更访问时间<br>-m :只变更修改时间<br>-c :不创建新的文件<br>-r :更新指定文件或目录下的所有文件的时间戳。<br>-d :指定更新的时间戳字符串<br>-t :指定时间戳格式，MMDDhhmm<br><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"># 创建新的文件
+[root@lwdCSCDN bin]# touch b.txt
+[root@lwdCSCDN bin]# ll
+总用量 3080
+-rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
+drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
+-rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
+-rw-r--r-- 1 root root       0 12月 21 16:58 b.txt
+-rw-r--r-- 1 root root   15026 10月  6 2016 catalina.bat
+-rwxr-xr-x 1 root root   22443 10月  6 2016 catalina.sh
 
-<span class="token comment"># -d指定更新的时间戳</span>
-<span class="token punctuation">[</span>root@lwdCSCDN bin<span class="token punctuation">]</span><span class="token comment"># touch -d 2020-12-21 b.txt</span>
-<span class="token punctuation">[</span>root@lwdCSCDN bin<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">3084</span>
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">17</span>:02 <span class="token number">12211621</span>
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">17</span>:00 <span class="token number">2020</span>-12-21
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">16</span>:53 a.txt
-drwxr-xr-x <span class="token number">4</span> root root    <span class="token number">4096</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">14</span>:40 bi_common
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">32279</span> <span class="token number">10</span>月  <span class="token number">6</span> <span class="token number">2016</span> bootstrap.jar
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">5</span> <span class="token number">12</span>月 <span class="token number">21</span> 00:00 b.txt
+# -d指定更新的时间戳
+[root@lwdCSCDN bin]# touch -d 2020-12-21 b.txt
+[root@lwdCSCDN bin]# ll
+总用量 3084
+-rw-r--r-- 1 root root       0 12月 21 17:02 12211621
+-rw-r--r-- 1 root root       0 12月 21 17:00 2020-12-21
+-rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
+drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
+-rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
+-rw-r--r-- 1 root root       5 12月 21 00:00 b.txt
 
 
-<span class="token comment"># -t指定更新时间</span>
-<span class="token punctuation">[</span>root@lwdCSCDN bin<span class="token punctuation">]</span><span class="token comment"># touch -t 12211630 b.txt</span>
-<span class="token punctuation">[</span>root@lwdCSCDN bin<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">3084</span>
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">17</span>:02 <span class="token number">12211621</span>
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">17</span>:00 <span class="token number">2020</span>-12-21
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">16</span>:53 a.txt
-drwxr-xr-x <span class="token number">4</span> root root    <span class="token number">4096</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">14</span>:40 bi_common
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">32279</span> <span class="token number">10</span>月  <span class="token number">6</span> <span class="token number">2016</span> bootstrap.jar
--rw-r--r-- <span class="token number">1</span> root root       <span class="token number">5</span> <span class="token number">12</span>月 <span class="token number">21</span> <span class="token number">16</span>:30 b.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="mv-命令">mv 命令</span></h2><p><strong>作用</strong><br>移动文件或将文件改名</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-b</span> 为每个已存在的目标文件创建备份
-<span class="token parameter variable">-f</span> 覆盖前不询问
-<span class="token parameter variable">-i</span> 覆盖前询问
-<span class="token parameter variable">-u</span> 只更新源文件时间戳比目标文件时间戳新的文件或者目标文件不存在才覆盖更新
-<span class="token parameter variable">-v</span> 显示详细进行的步骤<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#将a.sh更名为new.sh</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv a.sh new.sh</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">68</span>
--rw-r--r-- <span class="token number">1</span> root root     <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:35 b.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">112</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etlD.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">246</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etlP.sh
--rw-r--r-- <span class="token number">1</span> root root <span class="token number">34622</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etl.sh
--rw-r--r-- <span class="token number">1</span> root root    <span class="token number">78</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etlS.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">513</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 isFileExists.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">366</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 mysqld_kill_sleep.sh
--rw-r--r-- <span class="token number">1</span> root root     <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:35 new.sh
--rw-r--r-- <span class="token number">1</span> root root    <span class="token number">94</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 reportSource.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">642</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 stat.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">157</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 stop.sh
+# -t指定更新时间
+[root@lwdCSCDN bin]# touch -t 12211630 b.txt
+[root@lwdCSCDN bin]# ll
+总用量 3084
+-rw-r--r-- 1 root root       0 12月 21 17:02 12211621
+-rw-r--r-- 1 root root       0 12月 21 17:00 2020-12-21
+-rw-r--r-- 1 root root       0 12月 21 16:53 a.txt
+drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
+-rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
+-rw-r--r-- 1 root root       5 12月 21 16:30 b.txt</code></pre><h2><span id="mv-命令">mv 命令</span></h2><p><strong>作用</strong><br>移动文件或将文件改名</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-b 为每个已存在的目标文件创建备份
+-f 覆盖前不询问
+-i 覆盖前询问
+-u 只更新源文件时间戳比目标文件时间戳新的文件或者目标文件不存在才覆盖更新
+-v 显示详细进行的步骤</code></pre><p><strong>实例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#将a.sh更名为new.sh
+[root@demo_mdn script]# mv a.sh new.sh
+[root@demo_mdn script]# ll
+总用量 68
+-rw-r--r-- 1 root root     0 12月 10 16:35 b.sh
+-rw-r--r-- 1 root root   112 12月 10 16:12 etlD.sh
+-rw-r--r-- 1 root root   246 12月 10 16:12 etlP.sh
+-rw-r--r-- 1 root root 34622 12月 10 16:12 etl.sh
+-rw-r--r-- 1 root root    78 12月 10 16:12 etlS.sh
+-rw-r--r-- 1 root root   513 12月 10 16:12 isFileExists.sh
+-rw-r--r-- 1 root root   366 12月 10 16:12 mysqld_kill_sleep.sh
+-rw-r--r-- 1 root root     0 12月 10 16:35 new.sh
+-rw-r--r-- 1 root root    94 12月 10 16:12 reportSource.sh
+-rw-r--r-- 1 root root   642 12月 10 16:12 stat.sh
+-rw-r--r-- 1 root root   157 12月 10 16:12 stop.sh
 
-<span class="token comment">#将oldDir目录移动到newDir目录</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv oldDir/ newDir/</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># ll</span>
-总用量 <span class="token number">72</span>
--rw-r--r-- <span class="token number">1</span> root root     <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:35 b.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">112</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etlD.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">246</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etlP.sh
--rw-r--r-- <span class="token number">1</span> root root <span class="token number">34622</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etl.sh
--rw-r--r-- <span class="token number">1</span> root root    <span class="token number">78</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 etlS.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">513</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 isFileExists.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">366</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 mysqld_kill_sleep.sh
-drwxr-xr-x <span class="token number">3</span> root root  <span class="token number">4096</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:37 newDir
--rw-r--r-- <span class="token number">1</span> root root     <span class="token number">0</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:35 new.sh
--rw-r--r-- <span class="token number">1</span> root root    <span class="token number">94</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 reportSource.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">642</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 stat.sh
--rw-r--r-- <span class="token number">1</span> root root   <span class="token number">157</span> <span class="token number">12</span>月 <span class="token number">10</span> <span class="token number">16</span>:12 stop.sh
+#将oldDir目录移动到newDir目录
+[root@demo_mdn script]# mv oldDir/ newDir/
+[root@demo_mdn script]# ll
+总用量 72
+-rw-r--r-- 1 root root     0 12月 10 16:35 b.sh
+-rw-r--r-- 1 root root   112 12月 10 16:12 etlD.sh
+-rw-r--r-- 1 root root   246 12月 10 16:12 etlP.sh
+-rw-r--r-- 1 root root 34622 12月 10 16:12 etl.sh
+-rw-r--r-- 1 root root    78 12月 10 16:12 etlS.sh
+-rw-r--r-- 1 root root   513 12月 10 16:12 isFileExists.sh
+-rw-r--r-- 1 root root   366 12月 10 16:12 mysqld_kill_sleep.sh
+drwxr-xr-x 3 root root  4096 12月 10 16:37 newDir
+-rw-r--r-- 1 root root     0 12月 10 16:35 new.sh
+-rw-r--r-- 1 root root    94 12月 10 16:12 reportSource.sh
+-rw-r--r-- 1 root root   642 12月 10 16:12 stat.sh
+-rw-r--r-- 1 root root   157 12月 10 16:12 stop.sh
 
-<span class="token comment">#打印文件移动的详细信息</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv -v *.sh newDir/</span>
-<span class="token string">"b.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/b.sh"</span>
-<span class="token string">"etlD.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etlD.sh"</span>
-<span class="token string">"etlP.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etlP.sh"</span>
-<span class="token string">"etl.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etl.sh"</span>
-<span class="token string">"etlS.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etlS.sh"</span>
-<span class="token string">"isFileExists.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/isFileExists.sh"</span>
-<span class="token string">"mysqld_kill_sleep.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/mysqld_kill_sleep.sh"</span>
-<span class="token string">"new.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/new.sh"</span>
-<span class="token string">"reportSource.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/reportSource.sh"</span>
-<span class="token string">"stat.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/stat.sh"</span>
-<span class="token string">"stop.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/stop.sh"</span>
+#打印文件移动的详细信息
+[root@demo_mdn script]# mv -v *.sh newDir/
+"b.sh" -&gt; "newDir/b.sh"
+"etlD.sh" -&gt; "newDir/etlD.sh"
+"etlP.sh" -&gt; "newDir/etlP.sh"
+"etl.sh" -&gt; "newDir/etl.sh"
+"etlS.sh" -&gt; "newDir/etlS.sh"
+"isFileExists.sh" -&gt; "newDir/isFileExists.sh"
+"mysqld_kill_sleep.sh" -&gt; "newDir/mysqld_kill_sleep.sh"
+"new.sh" -&gt; "newDir/new.sh"
+"reportSource.sh" -&gt; "newDir/reportSource.sh"
+"stat.sh" -&gt; "newDir/stat.sh"
+"stop.sh" -&gt; "newDir/stop.sh"
 
-<span class="token comment"># -i 交互模式 确认是否覆盖同名文件</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv -i  new.sh newDir</span>
-mv：是否覆盖<span class="token string">"newDir/new.sh"</span>？ y
+# -i 交互模式 确认是否覆盖同名文件
+[root@demo_mdn script]# mv -i  new.sh newDir
+mv：是否覆盖"newDir/new.sh"？ y
 
-<span class="token comment"># -f 强制覆盖，不进行提示</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv -f  new.sh newDir</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># </span>
+# -f 强制覆盖，不进行提示
+[root@demo_mdn script]# mv -f  new.sh newDir
+[root@demo_mdn script]# 
 
-<span class="token comment"># 不覆盖同名文件，new.sh在newDir目录已存在，没有覆盖</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv -nv *.sh newDir</span>
-<span class="token string">"b.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/b.sh"</span>
-<span class="token string">"etlD.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etlD.sh"</span>
-<span class="token string">"etlP.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etlP.sh"</span>
-<span class="token string">"etl.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etl.sh"</span>
-<span class="token string">"etlS.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/etlS.sh"</span>
-<span class="token string">"isFileExists.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/isFileExists.sh"</span>
-<span class="token string">"mysqld_kill_sleep.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/mysqld_kill_sleep.sh"</span>
-<span class="token string">"reportSource.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/reportSource.sh"</span>
-<span class="token string">"stat.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/stat.sh"</span>
-<span class="token string">"stop.sh"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/stop.sh"</span>
+# 不覆盖同名文件，new.sh在newDir目录已存在，没有覆盖
+[root@demo_mdn script]# mv -nv *.sh newDir
+"b.sh" -&gt; "newDir/b.sh"
+"etlD.sh" -&gt; "newDir/etlD.sh"
+"etlP.sh" -&gt; "newDir/etlP.sh"
+"etl.sh" -&gt; "newDir/etl.sh"
+"etlS.sh" -&gt; "newDir/etlS.sh"
+"isFileExists.sh" -&gt; "newDir/isFileExists.sh"
+"mysqld_kill_sleep.sh" -&gt; "newDir/mysqld_kill_sleep.sh"
+"reportSource.sh" -&gt; "newDir/reportSource.sh"
+"stat.sh" -&gt; "newDir/stat.sh"
+"stop.sh" -&gt; "newDir/stop.sh"
 
-<span class="token comment"># -u 只覆盖源文件比目标文件时间戳新的文件, newDir目录已经存在1.txt文件且时间戳晚于源文件，所以没有操作</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv -uv *.txt newDir</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># </span>
+# -u 只覆盖源文件比目标文件时间戳新的文件, newDir目录已经存在1.txt文件且时间戳晚于源文件，所以没有操作
+[root@demo_mdn script]# mv -uv *.txt newDir
+[root@demo_mdn script]# 
 
-<span class="token comment"># -b 对目标文件进行备份，目标目录生成1.txt~文件备份</span>
-<span class="token punctuation">[</span>root@demo_mdn script<span class="token punctuation">]</span><span class="token comment"># mv -bv *.txt newDir</span>
-mv：是否覆盖<span class="token string">"newDir/1.txt"</span>？ y
-<span class="token string">"1.txt"</span> -<span class="token operator">&gt;</span> <span class="token string">"newDir/1.txt"</span> <span class="token punctuation">(</span>备份：<span class="token string">"newDir/1.txt~"</span><span class="token punctuation">)</span>
-<span class="token punctuation">[</span>root@demo_mdn newDir<span class="token punctuation">]</span><span class="token comment"># ls</span>
-<span class="token number">1</span>.txt  <span class="token number">1</span>.txt~  oldDir<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="pwd-命令">pwd 命令</span></h2><p><strong>作用</strong><br>以绝对路径显示当前用户的所在目录<br><strong>选项</strong><br>-L :打印逻辑上的工作目录<br>-P :打印物理上的工作目录<br><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 显示当前工作目录</span>
-<span class="token punctuation">[</span>root@lwdCSCDN bin<span class="token punctuation">]</span><span class="token comment"># pwd</span>
-/usr/local/BI/hrb_BI/v300r002b210/apache-tomcat-8.0.38/bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><h2><span id="mkdir-命令">mkdir 命令</span></h2><p><strong>作用</strong><br>mkdir 用来创建 dirname 指定的目录。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-Z：设置安全上下文，当使用SELinux时有效；
--m<span class="token operator">&lt;</span>目标属性<span class="token operator">&gt;</span>或--mode<span class="token operator">&lt;</span>目标属性<span class="token operator">&gt;</span>建立目录的同时设置目录的权限；
+# -b 对目标文件进行备份，目标目录生成1.txt~文件备份
+[root@demo_mdn script]# mv -bv *.txt newDir
+mv：是否覆盖"newDir/1.txt"？ y
+"1.txt" -&gt; "newDir/1.txt" (备份："newDir/1.txt~")
+[root@demo_mdn newDir]# ls
+1.txt  1.txt~  oldDir</code></pre><h2><span id="pwd-命令">pwd 命令</span></h2><p><strong>作用</strong><br>以绝对路径显示当前用户的所在目录<br><strong>选项</strong><br>-L :打印逻辑上的工作目录<br>-P :打印物理上的工作目录<br><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"># 显示当前工作目录
+[root@lwdCSCDN bin]# pwd
+/usr/local/BI/hrb_BI/v300r002b210/apache-tomcat-8.0.38/bin</code></pre><h2><span id="mkdir-命令">mkdir 命令</span></h2><p><strong>作用</strong><br>mkdir 用来创建 dirname 指定的目录。</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-Z：设置安全上下文，当使用SELinux时有效；
+-m&lt;目标属性&gt;或--mode&lt;目标属性&gt;建立目录的同时设置目录的权限；
 -p或--parents 若所要建立目录的上层目录目前尚未建立，则会一并建立上层目录；
-<span class="token parameter variable">--version</span> 显示版本信息。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 不指定目录的情况下，默认当前目录</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># mkdir report</span>
+--version 显示版本信息。</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"># 不指定目录的情况下，默认当前目录
+[root@lwdCSCDN tmp]# mkdir report
 
-<span class="token comment"># 父级目录不存在，创建多级目录报错</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># mkdir ./parentDir/newDir</span>
-mkdir: 无法创建目录<span class="token string">"./parentDir/newDir"</span><span class="token builtin class-name">:</span> 没有那个文件或目录
+# 父级目录不存在，创建多级目录报错
+[root@lwdCSCDN tmp]# mkdir ./parentDir/newDir
+mkdir: 无法创建目录"./parentDir/newDir": 没有那个文件或目录
 
-<span class="token comment"># 指定-p选项，创建多级目录</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># mkdir -p ./parentDir/newDir</span>
-<span class="token punctuation">[</span>root@lwdCSCDN tmp<span class="token punctuation">]</span><span class="token comment"># ls</span>
-elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="ls-命令">ls 命令</span></h2><p><strong>作用</strong><br>显示目标文件列表</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-a：显示所有文件和目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
--A：显示除影藏文件“.”和“<span class="token punctuation">..</span>”以外的所有文件列表；
+# 指定-p选项，创建多级目录
+[root@lwdCSCDN tmp]# mkdir -p ./parentDir/newDir
+[root@lwdCSCDN tmp]# ls
+elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0</code></pre><h2><span id="ls-命令">ls 命令</span></h2><p><strong>作用</strong><br>显示目标文件列表</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-a：显示所有文件和目录（ls内定将档案名或目录名称为“.”的视为影藏，不会列出）；
+-A：显示除影藏文件“.”和“..”以外的所有文件列表；
 -C：多列显示输出结果。这是默认选项；
 -l：与“-C”选项功能相反，所有输出信息用单列格式输出，不输出为多列；
--F：在每个输出项后追加文件的类型标识符，具体含义：“*”表示具有可执行权限的普通文件，“/”表示目录，“@”表示符号链接，“<span class="token operator">|</span>”表示命令管道FIFO，“<span class="token operator">=</span>”表示sockets套接字。当文件为普通文件时，不输出任何标识符；
+-F：在每个输出项后追加文件的类型标识符，具体含义：“*”表示具有可执行权限的普通文件，“/”表示目录，“@”表示符号链接，“|”表示命令管道FIFO，“=”表示sockets套接字。当文件为普通文件时，不输出任何标识符；
 -b：将文件中的不可输出的字符以反斜线“”加字符编码的方式输出；
 -c：与“-lt”选项连用时，按照文件状态时间排序输出目录内容，排序的依据是文件的索引节点中的ctime字段。与“-l”选项连用时，则排序的一句是文件的状态改变时间；
 -d：仅显示目录名，而不显示目录下的内容列表。显示符号链接文件本身，而不显示其所指向的目录列表；
@@ -325,64 +325,64 @@ elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  puls
 -L：如果遇到性质为符号链接的文件或目录，直接列出该链接所指向的原始文件或目录；
 -R：递归处理，将指定目录下的所有文件及子目录一并处理；
 --full-time：列出完整的日期与时间；
---color<span class="token punctuation">[</span><span class="token operator">=</span>WHEN<span class="token punctuation">]</span>：使用不同的颜色高亮显示不同类型的。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
-<span class="token comment">#显示当前目录下的非隐藏文件和目录</span>
-<span class="token punctuation">[</span>root@lwdCSCDN usr<span class="token punctuation">]</span><span class="token comment"># ls</span>
-aaalog  bin  etc  games  include  lib  lib64  libexec  <span class="token builtin class-name">local</span>  lost+found  <span class="token function">man</span>  sbin  share  src  tmp
+--color[=WHEN]：使用不同的颜色高亮显示不同类型的。</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">
+#显示当前目录下的非隐藏文件和目录
+[root@lwdCSCDN usr]# ls
+aaalog  bin  etc  games  include  lib  lib64  libexec  local  lost+found  man  sbin  share  src  tmp
 
-<span class="token comment">#显示当前目录下的文件和目录，包含隐藏文件</span>
-<span class="token punctuation">[</span>root@lwdCSCDN usr<span class="token punctuation">]</span><span class="token comment"># ls -a</span>
-<span class="token builtin class-name">.</span>  <span class="token punctuation">..</span>  aaalog  bin  etc  games  include  lib  lib64  libexec  <span class="token builtin class-name">local</span>  lost+found  <span class="token function">man</span>  sbin  share  src  tmp
+#显示当前目录下的文件和目录，包含隐藏文件
+[root@lwdCSCDN usr]# ls -a
+.  ..  aaalog  bin  etc  games  include  lib  lib64  libexec  local  lost+found  man  sbin  share  src  tmp
 
-<span class="token comment"># 按文件修改时间倒序显示，单列格式输出展示</span>
-<span class="token punctuation">[</span>root@lwdCSCDN usr<span class="token punctuation">]</span><span class="token comment"># ls -lt</span>
-总用量 <span class="token number">320</span>
-drwxr-xr-x.  <span class="token number">59</span> root root   <span class="token number">4096</span> <span class="token number">12</span>月 <span class="token number">16</span> 09:49 <span class="token builtin class-name">local</span>
-dr-xr-xr-x. <span class="token number">159</span> root root <span class="token number">126976</span> <span class="token number">10</span>月 <span class="token number">23</span> <span class="token number">10</span>:14 lib64
-drwxr-xr-x    <span class="token number">3</span> root root   <span class="token number">4096</span> <span class="token number">10</span>月 <span class="token number">13</span> <span class="token number">16</span>:55 aaalog
-drwxr-xr-x.   <span class="token number">2</span> root root  <span class="token number">90112</span> <span class="token number">12</span>月 <span class="token number">16</span> <span class="token number">2019</span> bin
-drwxr-xr-x    <span class="token number">3</span> root root   <span class="token number">4096</span> <span class="token number">12</span>月  <span class="token number">6</span> <span class="token number">2019</span> <span class="token function">man</span>
-dr-xr-xr-x.  <span class="token number">32</span> root root   <span class="token number">4096</span> <span class="token number">12</span>月  <span class="token number">6</span> <span class="token number">2019</span> lib
-dr-xr-xr-x.   <span class="token number">2</span> root root  <span class="token number">20480</span> <span class="token number">8</span>月  <span class="token number">10</span> <span class="token number">2019</span> sbin
-drwxr-xr-x. <span class="token number">293</span> root root  <span class="token number">12288</span> <span class="token number">8</span>月   <span class="token number">9</span> <span class="token number">2019</span> share
-drwxr-xr-x. <span class="token number">143</span> root root  <span class="token number">12288</span> <span class="token number">8</span>月   <span class="token number">9</span> <span class="token number">2019</span> include
-drwxr-xr-x.  <span class="token number">33</span> root root  <span class="token number">12288</span> <span class="token number">11</span>月 <span class="token number">25</span> <span class="token number">2017</span> libexec
-lrwxrwxrwx.   <span class="token number">1</span> root root     <span class="token number">10</span> <span class="token number">10</span>月 <span class="token number">18</span> <span class="token number">2017</span> tmp -<span class="token operator">&gt;</span> <span class="token punctuation">..</span>/var/tmp
-drwxr-xr-x.   <span class="token number">4</span> root root   <span class="token number">4096</span> <span class="token number">10</span>月 <span class="token number">18</span> <span class="token number">2017</span> src
-drwx------.   <span class="token number">2</span> root root  <span class="token number">16384</span> <span class="token number">10</span>月 <span class="token number">18</span> <span class="token number">2017</span> lost+found
-drwxr-xr-x.   <span class="token number">2</span> root root   <span class="token number">4096</span> <span class="token number">6</span>月  <span class="token number">28</span> <span class="token number">2011</span> etc
-drwxr-xr-x.   <span class="token number">2</span> root root   <span class="token number">4096</span> <span class="token number">6</span>月  <span class="token number">28</span> <span class="token number">2011</span> games
+# 按文件修改时间倒序显示，单列格式输出展示
+[root@lwdCSCDN usr]# ls -lt
+总用量 320
+drwxr-xr-x.  59 root root   4096 12月 16 09:49 local
+dr-xr-xr-x. 159 root root 126976 10月 23 10:14 lib64
+drwxr-xr-x    3 root root   4096 10月 13 16:55 aaalog
+drwxr-xr-x.   2 root root  90112 12月 16 2019 bin
+drwxr-xr-x    3 root root   4096 12月  6 2019 man
+dr-xr-xr-x.  32 root root   4096 12月  6 2019 lib
+dr-xr-xr-x.   2 root root  20480 8月  10 2019 sbin
+drwxr-xr-x. 293 root root  12288 8月   9 2019 share
+drwxr-xr-x. 143 root root  12288 8月   9 2019 include
+drwxr-xr-x.  33 root root  12288 11月 25 2017 libexec
+lrwxrwxrwx.   1 root root     10 10月 18 2017 tmp -&gt; ../var/tmp
+drwxr-xr-x.   4 root root   4096 10月 18 2017 src
+drwx------.   2 root root  16384 10月 18 2017 lost+found
+drwxr-xr-x.   2 root root   4096 6月  28 2011 etc
+drwxr-xr-x.   2 root root   4096 6月  28 2011 games
 
-<span class="token comment"># 按照特殊字符对文件进行分类</span>
-<span class="token punctuation">[</span>root@lwdCSCDN usr<span class="token punctuation">]</span><span class="token comment"># ls -F</span>
+# 按照特殊字符对文件进行分类
+[root@lwdCSCDN usr]# ls -F
 aaalog/  bin/  etc/  games/  include/  lib/  lib64/  libexec/  local/  lost+found/  man/  sbin/  share/  src/  tmp@
 
-<span class="token comment">#仅显示目录名，不显示目录下的内容列表</span>
-<span class="token punctuation">[</span>root@lwdCSCDN usr<span class="token punctuation">]</span><span class="token comment"># ls -ld aaalog</span>
-drwxr-xr-x <span class="token number">3</span> root root <span class="token number">4096</span> <span class="token number">10</span>月 <span class="token number">13</span> <span class="token number">16</span>:55 aaalog
+#仅显示目录名，不显示目录下的内容列表
+[root@lwdCSCDN usr]# ls -ld aaalog
+drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
-<span class="token comment">#显示文件索引节点</span>
-<span class="token punctuation">[</span>root@lwdCSCDN script<span class="token punctuation">]</span><span class="token comment"># ls -i</span>
-<span class="token number">10495811</span> etlD.sh  <span class="token number">10495809</span> etl.sh   <span class="token number">10495840</span> isFileExists.sh       <span class="token number">10496106</span> reportSource.sh  <span class="token number">10496118</span> stop.sh
-<span class="token number">10495812</span> etlP.sh  <span class="token number">10495822</span> etlS.sh  <span class="token number">10495887</span> mysqld_kill_sleep.sh  <span class="token number">10496112</span> stat.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2><span id="sz-命令">sz 命令</span></h2><p><strong>作用</strong><br>基于 zmodern 协议实现远程文件下载<br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-a</span> <span class="token builtin class-name">:</span> 以文本形式传输
-<span class="token parameter variable">-b</span> <span class="token builtin class-name">:</span> 以二进制传输
-<span class="token parameter variable">-e</span> ：控制字符转义
-<span class="token parameter variable">-i</span> ：接收端执行命令<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 以文本格式下载服务器上app-info.log文件到本地</span>
-<span class="token punctuation">[</span>root@lwdCSCDN info<span class="token punctuation">]</span><span class="token comment"># sz -a app-info.log  </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><h2><span id="rz-命令">rz 命令</span></h2><p><strong>作用</strong><br>基于 zmodern 协议实现本地文件上传<br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-B</span> <span class="token builtin class-name">:</span> 设备缓冲大小
-<span class="token parameter variable">-D</span> <span class="token builtin class-name">:</span> 测试模式，
-<span class="token parameter variable">-e</span> ：控制字符转义
-<span class="token parameter variable">-y</span> ：重名文件直接覆盖
-<span class="token parameter variable">-p</span> <span class="token builtin class-name">:</span> 重名文件不覆盖<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 上传本地文件到当前服务器目录</span>
-<span class="token punctuation">[</span>root@lwdCSCDN info<span class="token punctuation">]</span><span class="token comment"># rz</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><h2><span id="true-命令">true 命令</span></h2><p><strong>作用</strong><br>清空文件内容、不删除文件</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#清空app-info.log文件</span>
-<span class="token punctuation">[</span>root@lwdCSCDN info<span class="token punctuation">]</span><span class="token comment"># true &gt; app-info.log </span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><h2><span id="tree-命令">tree 命令</span></h2><p><strong>作用</strong><br>以树形结构展现当前目录的文件</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-a</span> ：所有文件
-<span class="token parameter variable">-t</span> <span class="token builtin class-name">:</span> 用文件和目录的更改时间排序
-<span class="token parameter variable">-f</span> <span class="token builtin class-name">:</span> 在每个文件或目录之前，显示完整的相对路径名称
-<span class="token parameter variable">-s</span> <span class="token builtin class-name">:</span> 列出文件或目录大小<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#</span>
-<span class="token punctuation">[</span>root@lwdCSCDN info<span class="token punctuation">]</span><span class="token comment"># tree</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><h2><span id="last-命令">last 命令</span></h2><p><strong>作用</strong><br>显示最近终端登录信息</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">-R</span> ：省略hostname栏位
-<span class="token parameter variable">-username</span> <span class="token builtin class-name">:</span> 展示username登入信息
+#显示文件索引节点
+[root@lwdCSCDN script]# ls -i
+10495811 etlD.sh  10495809 etl.sh   10495840 isFileExists.sh       10496106 reportSource.sh  10496118 stop.sh
+10495812 etlP.sh  10495822 etlS.sh  10495887 mysqld_kill_sleep.sh  10496112 stat.sh</code></pre><h2><span id="sz-命令">sz 命令</span></h2><p><strong>作用</strong><br>基于 zmodern 协议实现远程文件下载<br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-a : 以文本形式传输
+-b : 以二进制传输
+-e ：控制字符转义
+-i ：接收端执行命令</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"># 以文本格式下载服务器上app-info.log文件到本地
+[root@lwdCSCDN info]# sz -a app-info.log  </code></pre><h2><span id="rz-命令">rz 命令</span></h2><p><strong>作用</strong><br>基于 zmodern 协议实现本地文件上传<br><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-B : 设备缓冲大小
+-D : 测试模式，
+-e ：控制字符转义
+-y ：重名文件直接覆盖
+-p : 重名文件不覆盖</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash"># 上传本地文件到当前服务器目录
+[root@lwdCSCDN info]# rz</code></pre><h2><span id="true-命令">true 命令</span></h2><p><strong>作用</strong><br>清空文件内容、不删除文件</p><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#清空app-info.log文件
+[root@lwdCSCDN info]# true &gt; app-info.log 
+</code></pre><h2><span id="tree-命令">tree 命令</span></h2><p><strong>作用</strong><br>以树形结构展现当前目录的文件</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-a ：所有文件
+-t : 用文件和目录的更改时间排序
+-f : 在每个文件或目录之前，显示完整的相对路径名称
+-s : 列出文件或目录大小</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#
+[root@lwdCSCDN info]# tree
+</code></pre><h2><span id="last-命令">last 命令</span></h2><p><strong>作用</strong><br>显示最近终端登录信息</p><p><strong>选项</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">-R ：省略hostname栏位
+-username : 展示username登入信息
 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#</span>
-<span class="token punctuation">[</span>root@lwdCSCDN info<span class="token punctuation">]</span><span class="token comment"># last</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div><footer class="post-footer"><div class="post-copyright"><ul><li class="post-copyright-author"><strong>本文作者： </strong>vanishke</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="Linux - 文件管理">https://vanishke.github.io/hexo/Linux/blogs/Linux-文件管理/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><div class="post-tags"><a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a></div><div class="post-nav"><div class="post-nav-item"><a href="/Linux/blogs/Linux-%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91/" rel="prev" title="Linux - 文档编辑"><i class="fa fa-angle-left"></i> Linux - 文档编辑</a></div><div class="post-nav-item"><a href="/MySQL/blogs/MySQL%E6%B3%A8%E5%86%8C%E4%B8%BAwindows%E6%9C%8D%E5%8A%A1/" rel="next" title="MySQL 注册为 Windows 服务">MySQL 注册为 Windows 服务 <i class="fa fa-angle-right"></i></a></div></div></footer></article></div><div class="comments gitalk-container"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright">&copy; 2021 – <span itemprop="copyrightYear">2026</span> <span class="with-love"><i class="fa fa-code"></i> </span><span class="author" itemprop="copyrightHolder">vanishke</span></div><div class="wordcount"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-chart-line"></i> </span><span>站点总字数：</span> <span title="站点总字数">277k</span> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span>站点阅读时长 &asymp;</span> <span title="站点阅读时长">16:49</span></span></div></div></footer><div class="toggle sidebar-toggle" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div><div class="sidebar-dimmer"></div><div class="back-to-top" role="button" aria-label="返回顶部"><i class="fa fa-arrow-up fa-lg"></i> <span>0%</span></div><div class="reading-progress-bar"></div><noscript><div class="noscript-warning">Theme NexT works best with JavaScript enabled</div></noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous"><script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"vanishke","repo":"hexo","client_id":"95db1f51f05191be80c5","client_secret":"eccc0bbe52b90a08e97140cece84ee32577172b2","admin_user":"vanishke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","body":null,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"6eab0d26cdd9739d8adb3e313f78de20"}</script><script src="/js/third-party/comments/gitalk.js" defer></script></body></html>
+</code></pre><p><strong>示例</strong></p><pre class="line-numbers language-bash" data-language="bash" data-start="1"><code class="language-bash">#
+[root@lwdCSCDN info]# last
+</code></pre></div><footer class="post-footer"><div class="post-copyright"><ul><li class="post-copyright-author"><strong>本文作者： </strong>vanishke</li><li class="post-copyright-link"><strong>本文链接：</strong> <a href="https://vanishke.github.io/hexo/Linux/blogs/Linux-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="Linux - 文件管理">https://vanishke.github.io/hexo/Linux/blogs/Linux-文件管理/</a></li><li class="post-copyright-license"><strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><div class="post-tags"><a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a></div><div class="post-nav"><div class="post-nav-item"><a href="/Linux/blogs/Linux-%E6%96%87%E6%A1%A3%E7%BC%96%E8%BE%91/" rel="prev" title="Linux - 文档编辑"><i class="fa fa-angle-left"></i> Linux - 文档编辑</a></div><div class="post-nav-item"><a href="/MySQL/blogs/MySQL%E6%B3%A8%E5%86%8C%E4%B8%BAwindows%E6%9C%8D%E5%8A%A1/" rel="next" title="MySQL 注册为 Windows 服务">MySQL 注册为 Windows 服务 <i class="fa fa-angle-right"></i></a></div></div></footer></article></div><div class="comments gitalk-container"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright">&copy; 2021 – <span itemprop="copyrightYear">2026</span> <span class="with-love"><i class="fa fa-code"></i> </span><span class="author" itemprop="copyrightHolder">vanishke</span></div><div class="wordcount"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-chart-line"></i> </span><span>站点总字数：</span> <span title="站点总字数">277k</span> </span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-coffee"></i> </span><span>站点阅读时长 &asymp;</span> <span title="站点阅读时长">16:49</span></span></div></div></footer><div class="toggle sidebar-toggle" role="button"><span class="toggle-line"></span> <span class="toggle-line"></span> <span class="toggle-line"></span></div><div class="sidebar-dimmer"></div><div class="back-to-top" role="button" aria-label="返回顶部"><i class="fa fa-arrow-up fa-lg"></i> <span>0%</span></div><div class="reading-progress-bar"></div><noscript><div class="noscript-warning">Theme NexT works best with JavaScript enabled</div></noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous"><script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"vanishke","repo":"hexo","client_id":"95db1f51f05191be80c5","client_secret":"eccc0bbe52b90a08e97140cece84ee32577172b2","admin_user":"vanishke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","body":null,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"6eab0d26cdd9739d8adb3e313f78de20"}</script><script src="/js/third-party/comments/gitalk.js" defer></script></body></html>
