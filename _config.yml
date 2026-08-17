@@ -140,6 +140,9 @@ neat_js:
     - '**/*.min.js'
     - '**/jquery.fancybox.pack.js'
     - '**/index.js'
+    - '**/utils.js'
+    - '**/next-boot.js'
+    - '**/config.js'
     
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

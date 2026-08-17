@@ -46,33 +46,63 @@ NexT.utils = {
     });
   },
 
+  copyTextSync(text) {
+    if (typeof text !== 'string') text = String(text ?? '');
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.cssText = 'position:fixed;top:0;left:0;width:2em;height:2em;padding:0;border:none;outline:none;opacity:0;';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    textarea.setSelectionRange(0, textarea.value.length);
+    let ok = false;
+    try {
+      ok = document.execCommand('copy');
+    } catch {
+      ok = false;
+    }
+    document.body.removeChild(textarea);
+    return ok;
+  },
+
   registerCopyButton(target, element, code = '') {
     // One-click copy code support.
-    target.insertAdjacentHTML('beforeend', '<div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div>');
+    target.insertAdjacentHTML('beforeend', '<div class="copy-btn" role="button" title="复制代码">复制</div>');
     const button = target.querySelector('.copy-btn');
-    button.addEventListener('click', async () => {
-      if (!code) {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      let content = code;
+      if (!content) {
         const lines = element.querySelector('.code') || element.querySelector('code');
-        code = lines.innerText;
-      }
-      if (navigator.clipboard) {
-        // https://caniuse.com/mdn-api_clipboard_writetext
-        try {
-          await navigator.clipboard.writeText(code);
-          button.querySelector('i').className = 'fa fa-check-circle fa-fw';
-        } catch {
-          button.querySelector('i').className = 'fa fa-times-circle fa-fw';
+        if (!lines) {
+          button.textContent = '失败';
+          return;
         }
-      } else {
-        button.querySelector('i').className = 'fa fa-times-circle fa-fw';
+        const lineNodes = lines.querySelectorAll('.line');
+        content = lineNodes.length
+          ? [...lineNodes].map(line => line.innerText.replace(/\n$/, '')).join('\n')
+          : lines.innerText;
+      }
+      // Sync first to preserve click user-activation; Clipboard API alone often fails/hangs.
+      const ok = NexT.utils.copyTextSync(content);
+      button.textContent = ok ? '已复制' : '失败';
+      if (!ok && navigator.clipboard?.writeText) {
+        Promise.race([
+          navigator.clipboard.writeText(content),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('clipboard-timeout')), 500))
+        ]).then(() => {
+          button.textContent = '已复制';
+        }).catch(() => {
+          button.textContent = '失败';
+        });
       }
     });
-    // If copycode.style is not mac, element is larger than target
-    // So we need to accept both of them as parameters
     element.addEventListener('mouseleave', () => {
       setTimeout(() => {
-        button.querySelector('i').className = 'fa fa-copy fa-fw';
-      }, 300);
+        button.textContent = '复制';
+      }, 1200);
     });
   },
 
