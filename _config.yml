@@ -44,17 +44,17 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-# 关闭hexo站点默认代码高亮和复制功能，避免和Next默认提供代码块冲突
-syntax_highlighter: highlight.js
+#highlight/prismjs
+syntax_highlighter: prismjs
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: true
   tab_replace: ''
   wrap: true
-  hljs: true
+  hljs: false
 prismjs:
-  enable: false
+  enable: true
   preprocess: true
   line_number: true
   tab_replace: ''
