@@ -372,15 +372,14 @@ codeblock:
   theme:
     light: base16/one-light
     dark: base16/onedark
-  #prism:
-    #light: prism
-    #dark: prism-dark
+  prism:
+    light: prism
+    dark: prism-dark
   # Add copy button on codeblock
   copy_button:
     enable: true
     # Available values: default | flat | mac
-    # Leave empty for official default button chrome.
-    style: mac
+    style: flat
   # Fold code block
   fold:
     enable: true

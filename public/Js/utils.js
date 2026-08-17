@@ -50,22 +50,53 @@ NexT.utils = {
     // One-click copy code support.
     target.insertAdjacentHTML('beforeend', '<div class="copy-btn"><i class="fa fa-copy fa-fw"></i></div>');
     const button = target.querySelector('.copy-btn');
-    button.addEventListener('click', async () => {
+    const setIcon = name => {
+      const icon = button.querySelector('i');
+      if (icon) icon.className = `fa ${name} fa-fw`;
+    };
+    const copyByExecCommand = text => {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:none;opacity:0;';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      textarea.setSelectionRange(0, textarea.value.length);
+      let ok = false;
+      try {
+        ok = document.execCommand('copy');
+      } catch {
+        ok = false;
+      }
+      document.body.removeChild(textarea);
+      return ok;
+    };
+    button.addEventListener('click', async event => {
+      event.preventDefault();
+      event.stopPropagation();
       if (!code) {
         const lines = element.querySelector('.code') || element.querySelector('code');
-        code = lines.innerText;
+        code = lines ? lines.innerText : '';
       }
-      if (navigator.clipboard) {
+      // execCommand first: keeps the click user-activation. Clipboard API
+      // often throws in system browsers (permission / focus) even on localhost,
+      // while Cursor's built-in browser may allow writeText.
+      if (copyByExecCommand(code)) {
+        setIcon('fa-check-circle');
+        return;
+      }
+      if (navigator.clipboard?.writeText) {
         // https://caniuse.com/mdn-api_clipboard_writetext
         try {
           await navigator.clipboard.writeText(code);
-          button.querySelector('i').className = 'fa fa-check-circle fa-fw';
+          setIcon('fa-check-circle');
+          return;
         } catch {
-          button.querySelector('i').className = 'fa fa-times-circle fa-fw';
+          // fall through
         }
-      } else {
-        button.querySelector('i').className = 'fa fa-times-circle fa-fw';
       }
+      setIcon('fa-times-circle');
     });
     // If copycode.style is not mac, element is larger than target
     // So we need to accept both of them as parameters

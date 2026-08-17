@@ -44,15 +44,13 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-#highlight/prismjs
-syntax_highlighter: highlight.js
 highlight:
   enable: true
   line_number: true
   auto_detect: false
   tab_replace: ''
   wrap: true
-  hljs: true
+  hljs: false
 prismjs:
   enable: false
   preprocess: false
@@ -138,13 +136,11 @@ neat_js:
   mangle: true
   output:
   compress:
-  exclude:
+    exclude:
     - '**/*.min.js'
     - '**/jquery.fancybox.pack.js'
     - '**/index.js'
     - '**/utils.js'
-    - '**/next-boot.js'
-    - '**/config.js'
     
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
