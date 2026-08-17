@@ -47,12 +47,12 @@ future: true
 # 关闭hexo站点默认代码高亮和复制功能，避免和Next默认提供代码块冲突
 syntax_highlighter: highlight.js
 highlight:
-  enable: false
+  enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace: ''
   wrap: true
-  hljs: false
+  hljs: true
 prismjs:
   enable: false
   preprocess: true
