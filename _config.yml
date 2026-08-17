@@ -44,15 +44,17 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
+# 关闭hexo站点默认代码高亮和复制功能，避免和Next默认提供代码块冲突
+syntax_highlighter: prismjs
 highlight:
   enable: false
-  line_number: false
+  line_number: true
   auto_detect: false
   tab_replace: ''
-  wrap: false
+  wrap: true
   hljs: false
 prismjs:
-  enable: true
+  enable: false
   preprocess: true
   line_number: true
   tab_replace: ''

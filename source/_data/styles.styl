@@ -12,34 +12,3 @@
   list-style: none
   margin: 0
   padding: 0
-
-// 代码块复制按钮：常显 + 文字反馈（不依赖主题补丁，升级不丢失）
-.code-container .copy-btn,
-figure.highlight .copy-btn
-  opacity: 1 !important
-  z-index: 10 !important
-  pointer-events: auto !important
-  min-width: 44px
-  text-align: center
-  font-size: 12px !important
-  line-height: 1.4 !important
-  padding: 2px 8px !important
-  border: 1px solid #ddd !important
-  border-radius: 3px
-  background: #fff !important
-  color: #333 !important
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .08)
-  cursor: pointer
-
-  i
-    display: none
-
-.code-container .copy-btn.copied,
-figure.highlight .copy-btn.copied
-  color: #0a7a32 !important
-  border-color: #0a7a32 !important
-
-.code-container .copy-btn.copy-failed,
-figure.highlight .copy-btn.copy-failed
-  color: #c62828 !important
-  border-color: #c62828 !important

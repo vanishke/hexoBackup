@@ -40,66 +40,39 @@ NexT.boot.registerEvents = function() {
 };
 
 NexT.boot.refresh = function() {
-  // Isolate optional third-party init so one CDN/runtime failure
-  // cannot block core features like codeblock copy buttons.
-  const run = (label, fn) => {
-    try {
-      fn();
-    } catch (error) {
-      console.warn(`Something went wrong during NexT refresh (${label})`, error);
-    }
-  };
-
-  run('prism', () => {
-    CONFIG.prism && window.Prism?.highlightAll?.();
-  });
-  run('mediumzoom', () => {
-    CONFIG.mediumzoom && window.mediumZoom?.('.post-body :not(a) > img, .post-body > img', {
+  try {
+    // Register JS handlers by condition option.
+    // Need to add config option in Front-End at 'scripts/helpers/next-config.js' file.
+    CONFIG.prism && window.Prism.highlightAll();
+    CONFIG.mediumzoom && window.mediumZoom('.post-body :not(a) > img, .post-body > img', {
       background: 'var(--content-bg-color)'
     });
-  });
-  run('lazyload', () => {
-    CONFIG.lazyload && window.lozad?.('.post-body img').observe();
-  });
-  run('pangu', () => {
-    if (!CONFIG.pangu || !window.pangu?.spacingNode) return;
-    if (!window.requestIdleCallback) {
-      window.requestIdleCallback = function(cb) {
-        cb({
-          didTimeout   : false,
-          timeRemaining: () => 100
-        });
-      };
+    CONFIG.lazyload && window.lozad('.post-body img').observe();
+    if (CONFIG.pangu) {
+      // Polyfill for requestIdleCallback if not supported
+      if (!window.requestIdleCallback) {
+        window.requestIdleCallback = function(cb) {
+          cb({
+            didTimeout   : false,
+            timeRemaining: () => 100
+          });
+        };
+      }
+      [...document.getElementsByTagName('main')].forEach(e => window.pangu.spacingNode(e));
     }
-    [...document.getElementsByTagName('main')].forEach(e => window.pangu.spacingNode(e));
-  });
-  run('exturl', () => {
+
     CONFIG.exturl && NexT.utils.registerExtURL();
-  });
-  run('tables', () => {
     NexT.utils.wrapTableWithBox();
-  });
-  run('codeblock', () => {
     NexT.utils.registerCodeblock();
-  });
-  run('tabs', () => {
     NexT.utils.registerTabsTag();
-  });
-  run('menu', () => {
     NexT.utils.registerActiveMenuItem();
-  });
-  run('lang', () => {
     NexT.utils.registerLangSelect();
-  });
-  run('toc', () => {
     NexT.utils.registerSidebarTOC();
-  });
-  run('reward', () => {
     NexT.utils.registerPostReward();
-  });
-  run('video', () => {
     NexT.utils.registerVideoIframe();
-  });
+  } catch (error) {
+    console.warn('Something went wrong during NexT refresh', error);
+  }
 };
 
 NexT.boot.motion = function() {
