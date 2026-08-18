@@ -1,10 +1,8 @@
 require('shelljs/global');
 try {
-	/*
 	hexo.on('generateAfter', function() {//当generate完成后拷贝静态文件到nginx主目录
         copy();
     });
-	*/
     hexo.on('deployAfter', function() {//当deploy完成后执行备份
         run();
     });
@@ -14,9 +12,11 @@ try {
 }
 function copy()
 {
+    /*
 	echo("====================== Copy resources to nginx start ===========================");
 	cp('-R', 'G:/hexo/public/*', 'D:/nginx-1.16.1/nginx-1.16.1/blog');
 	echo("====================== Copy resources to nginx end ===========================");
+    */
 	echo("====================== Copy resources to Docker nginx start ===========================");
 	cp('-R', 'G:/hexo/public/*', 'D:/dockerVolume/nginx/html/blog');
 	echo("====================== Copy resources to Docker nginx end ===========================");
