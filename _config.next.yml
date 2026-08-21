@@ -721,7 +721,8 @@ gitalk:
   repo: blog-comments 
   client_id: 95db1f51f05191be80c5
   client_secret: eccc0bbe52b90a08e97140cece84ee32577172b2
-  admin_user: "['vanishke']"
+  admin_user:
+    - vanishke
   distraction_free_mode: true 
   # When the official proxy is not available, you can change it to your own proxy address
   proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token # This is official proxy address
