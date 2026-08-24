@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: vanishke随笔
+title: vanishke
 subtitle: '善始者实繁，克终者盖寡'
 description: ''
 keywords: Java,Elasticsearch,MySQL,Linux
@@ -152,3 +152,7 @@ deploy:
   repository:  https://github.com/vanishke/hexo.git
   branch: master
 
+#文章隐藏
+hide_posts:
+  enable: true
+  filter: hidden

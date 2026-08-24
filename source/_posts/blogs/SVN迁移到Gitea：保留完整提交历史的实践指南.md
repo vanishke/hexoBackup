@@ -113,52 +113,75 @@ fetch 后分支在 `refs/remotes/origin/*`，标签在 `refs/remotes/origin/tags
 ## 检出 main 与本地整理
 
 ```bash
+#检出远程根分支trunk，并重命名为main
 git checkout -b master refs/remotes/origin/trunk
 git branch -M main
-
+#配置当前git项目代码提交人员信息
 git config --local user.name "陈思远"
 git config --local user.email "chen.siyuan@demo-mail.com"
-
+#为项目添加.gitignore文件
 git add .gitignore
 git commit -m "chore: 添加忽略规则"
 ```
 
 ## 转换 branches / tags
+在使用git-svn将SVN项目迁移为git仓库后会发现，迁移后的branch和tag全部都被归属为branch,而tag并没有被正确迁移。这是因为git-svn在迁移过程中，会将所有的branches和tags都当作branch来处理，因此需要手动将branches和tags转换为git的branch和tag。
+如果branch和tag数量不是很多的情况下，可以直接手动执行转换，命令参考如下：
 
+tag:
 ```bash
-# 分支：跳过 trunk（已是 main）
-git for-each-ref --format='%(refname:short)' refs/remotes/origin \
-  | grep -vE '^origin/(tags/|trunk$)' \
-  | while read ref; do git branch "${ref#origin/}" "$ref"; done
+git tag repository-v1.0 origin/tags/repository-v1.0
 
-# 标签
-git for-each-ref --format='%(refname:short)' refs/remotes/origin/tags | while read ref; do
-  t=${ref#origin/tags/}
-  git tag "$t" "refs/remotes/origin/tags/$t"
-done
+branch:
+```bash
+git branch repository-branch origin/branches/repository-branch
 ```
 
-名称含 `@rev` 的是 git-svn peg 历史快照（如 `feature_x@85944`），完整迁移应保留并推送。
+通过shell脚本方式批量转换
+```bash
+# 查看当前git项目仓库的分支branch
+git branch -r
+# 将迁移后的仓库代码tags转换为git的本地tag
+for tag in $(git branch -r | grep 'tags/' | sed 's|origin/tags/||'); do
+  git tag "$tag" "origin/tags/$tag"
+done
+
+
+# 将迁移后的仓库代码branches转换为git的本地branch
+git branch -r \
+| grep -v 'tags/' \
+| grep -v 'HEAD' \
+| while read branch; do
+    local_branch=${branch#origin/}
+    git branch "$local_branch" "$branch"
+done
+```
 
 ## 推送 Gitea
 
 Gitea 建**空仓库**（勿初始化 README）：
 
 ```bash
-git remote add origin http://git.demo-lab.net:3000/ACME/ClearStream.git
+#git不跟踪记录空文件夹，需要在空文件夹中创建占位符文件.gitkeep
+#使用git命令行工具git bash到项目根目录下执行
+find . -type d -not -path './.git/*' -not -path './.git' -empty   ! -exec test -f '{}/.gitkeep' \;   -exec touch '{}/.gitkeep' \;
+#采用ssh协议，避免http传输不稳定，导致git clone失败
+git remote add origin git@git.demo-lab.net:ACME/ClearStream.git
+#推送本地branch和tag分支到远程仓库
 git push -u origin main
 git push origin --all
 git push origin --tags
 ```
 
-带 `@` 的 ref 必要时加引号：`git push origin "feature_x@85944"`。
-
 # 验证
 
 ```bash
-git ls-remote --heads origin    # 含 main 与全部业务分支
-git ls-remote --tags origin     # 数量与本地 git tag -l 一致
-git log --format="%an <%ae>" | sort -u   # 无 (no author)
+#查看远程分支
+git ls-remote --heads origin  
+#查看远程标签  
+git ls-remote --tags origin  
+#查看项目仓库日志  
+git log --format="%an <%ae>" | sort -u   
 ```
 
 工作区根目录应为源码顶层，不应再出现 `02.src/trunk`。
@@ -167,7 +190,7 @@ git log --format="%an <%ae>" | sort -u   # 无 (no author)
 
 # 常见问题
 
-| 问题                           | 原因                 | 处理                            |
+| 问题                           | 原因                 | 操作                            |
 |:-----------------------------|:-------------------|:------------------------------|
 | main 含 `01.doc` / `02.src`   | init 未用 `-T/-b/-t` | 按布局重迁                         |
 | 远程只有 main                    | 未转本地 branch/tag    | 执行转换后再 push                   |
@@ -176,48 +199,4 @@ git log --format="%an <%ae>" | sort -u   # 无 (no author)
 | `@` ref 推送失败                 | shell 未引号          | `git push origin "name@rev"`  |
 | Gitea 非空冲突                   | 勾了 README          | 清空远程或处理无关历史后重推                |
 
-# 完整命令清单
 
-```bash
-# ── 1. authors.txt ──
-svn log "http://svn.corp-demo.local/REPO/42.ClearStream" --xml > /data/migrate/svn-log.xml
-grep '<author>' /data/migrate/svn-log.xml \
-  | sed 's/.*<author>\(.*\)<\/author>.*/\1/' \
-  | sort -u > /data/migrate/svn-authors-raw.txt
-while read author; do
-  name=$(echo "$author" | sed 's/.*\\//')
-  echo "$author = $name <${name}@demo-mail.com>"
-done < /data/migrate/svn-authors-raw.txt > /data/migrate/clearstream-authors.txt
-
-# ── 2. fetch ──
-mkdir -p /data/migrate/ClearStream && cd /data/migrate/ClearStream
-git svn init http://svn.corp-demo.local/REPO \
-  -T 42.ClearStream/02.src/trunk \
-  -b 42.ClearStream/02.src/branches \
-  -t 42.ClearStream/02.src/tags \
-  --no-metadata
-git config svn.authorsfile /data/migrate/clearstream-authors.txt
-git svn fetch --log-window-size 1000
-
-# ── 3. main + 提交人 ──
-git checkout -b master refs/remotes/origin/trunk
-git branch -M main
-git config --local user.name "陈思远"
-git config --local user.email "chen.siyuan@demo-mail.com"
-
-# ── 4. 本地分支 / 标签 ──
-git for-each-ref --format='%(refname:short)' refs/remotes/origin \
-  | grep -vE '^origin/(tags/|trunk$)' \
-  | while read ref; do git branch "${ref#origin/}" "$ref"; done
-git for-each-ref --format='%(refname:short)' refs/remotes/origin/tags | while read ref; do
-  t=${ref#origin/tags/}; git tag "$t" "refs/remotes/origin/tags/$t"
-done
-
-# ── 5. 推送并校验 ──
-git remote add origin http://git.demo-lab.net:3000/ACME/ClearStream.git
-git push -u origin main && git push origin --all && git push origin --tags
-git ls-remote --heads origin
-git ls-remote --tags origin | wc -l
-```
-
-完成后执行：`git clone http://git.demo-lab.net:3000/ACME/ClearStream.git`。
