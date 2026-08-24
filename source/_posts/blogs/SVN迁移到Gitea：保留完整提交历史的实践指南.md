@@ -16,23 +16,23 @@ date: 2026-07-14 16:06:17
 
 用 `git svn` 将标准「序号 + 项目名」SVN 源码仓（含 trunk / branches / tags）迁到 Gitea，并保留完整提交历史。已在 Git Bash 下验证。文中项目名、主机、账号、邮箱等敏感信息已用随机数据脱敏，请按实际环境替换。
 
-| 项 | 说明 |
-|----|------|
-| 工具 | `git svn` |
-| 目标 | Gitea，默认分支 `main` |
-| 范围 | `02.src` 的 trunk、branches、tags |
-| 作者映射 | 仓库外 `authors.txt`，勿提交 |
+| 项    | 说明                             |
+|:-----|:-------------------------------|
+| 工具   | `git svn`                      |
+| 目标   | Gitea，默认分支 `main`              |
+| 范围   | `02.src` 的 trunk、branches、tags |
+| 作者映射 | 仓库外 `authors.txt`，勿提交          |
 
 **环境示例：**
 
-| 角色 | 示例地址 |
-|------|----------|
-| SVN 根 | `http://svn.corp-demo.local/REPO` |
-| 项目 | `42.ClearStream` |
-| 本地目录 | `/data/migrate/ClearStream` |
-| 作者文件 | `/data/migrate/clearstream-authors.txt` |
+| 角色    | 示例地址                                                |
+|:------|:----------------------------------------------------|
+| SVN 根 | `http://svn.corp-demo.local/REPO`                   |
+| 项目    | `42.ClearStream`                                    |
+| 本地目录  | `/data/migrate/ClearStream`                         |
+| 作者文件  | `/data/migrate/clearstream-authors.txt`             |
 | Gitea | `http://git.demo-lab.net:3000/ACME/ClearStream.git` |
-| 提交人 | `陈思远` / `chen.siyuan@demo-mail.com` |
+| 提交人   | `陈思远` / `chen.siyuan@demo-mail.com`                 |
 
 ```mermaid
 flowchart TB
@@ -52,19 +52,19 @@ flowchart TB
     └── tags/        # → Git 标签
 ```
 
-| 范围 | 是否迁入 |
-|------|----------|
+| 范围                            | 是否迁入                 |
+|:------------------------------|:---------------------|
 | `trunk` / `branches` / `tags` | 是（作 refs，不是目录进 main） |
-| `01.doc` | 否 |
+| `01.doc`                      | 否                    |
 
 `git svn init` 必须用 `-T/-b/-t` 指定布局；`git config svn.trunk` 无效，会导致 `main` 出现 `01.doc`、`02.src/...` 整棵目录。
 
 # 环境要求
 
-| 项 | 建议 |
-|----|------|
-| 环境 | Git Bash / Linux，磁盘预留数 GB |
-| 校验 | `git svn --version`、`svn --version` |
+| 项   | 建议                                  |
+|:----|:------------------------------------|
+| 环境  | Git Bash / Linux，磁盘预留数 GB           |
+| 校验  | `git svn --version`、`svn --version` |
 
 # 生成 authors.txt
 
@@ -102,11 +102,11 @@ git config svn.authorsfile /data/migrate/clearstream-authors.txt
 git svn fetch --log-window-size 1000
 ```
 
-| 参数 | 含义 |
-|------|------|
-| `-T/-b/-t` | trunk / branches / tags 布局 |
-| `--no-metadata` | 不追加 `git-svn-id` |
-| `--log-window-size` | 大仓库加速 log 查询 |
+| 参数                  | 含义                         |
+|:--------------------|:---------------------------|
+| `-T/-b/-t`          | trunk / branches / tags 布局 |
+| `--no-metadata`     | 不追加 `git-svn-id`           |
+| `--log-window-size` | 大仓库加速 log 查询               |
 
 fetch 后分支在 `refs/remotes/origin/*`，标签在 `refs/remotes/origin/tags/*`，**尚未**变成可 push 的本地 branch/tag。`git branch -r` 里的 `origin/*` 不会自动进 Gitea。
 
@@ -167,14 +167,14 @@ git log --format="%an <%ae>" | sort -u   # 无 (no author)
 
 # 常见问题
 
-| 问题 | 原因 | 处理 |
-|------|------|------|
-| main 含 `01.doc` / `02.src` | init 未用 `-T/-b/-t` | 按布局重迁 |
-| 远程只有 main | 未转本地 branch/tag | 执行转换后再 push |
-| `branch -r` 仍有 `origin/tags` | git-svn 缓存 | 不影响 push；可 `fetch --prune` 清理 |
-| `(no author)` | authors 不全 | 补全后重新 fetch |
-| `@` ref 推送失败 | shell 未引号 | `git push origin "name@rev"` |
-| Gitea 非空冲突 | 勾了 README | 清空远程或处理无关历史后重推 |
+| 问题                           | 原因                 | 处理                            |
+|:-----------------------------|:-------------------|:------------------------------|
+| main 含 `01.doc` / `02.src`   | init 未用 `-T/-b/-t` | 按布局重迁                         |
+| 远程只有 main                    | 未转本地 branch/tag    | 执行转换后再 push                   |
+| `branch -r` 仍有 `origin/tags` | git-svn 缓存         | 不影响 push；可 `fetch --prune` 清理 |
+| `(no author)`                | authors 不全         | 补全后重新 fetch                   |
+| `@` ref 推送失败                 | shell 未引号          | `git push origin "name@rev"`  |
+| Gitea 非空冲突                   | 勾了 README          | 清空远程或处理无关历史后重推                |
 
 # 完整命令清单
 

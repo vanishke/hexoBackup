@@ -3,8 +3,7 @@ title: Docker Swarm模式下的微服务升级方案
 categories:
 	- Docker
 tags:
-	- Swarm
-	- Portainer
+    - Docker
 
 date: 2026-08-10 09:23:04
 
@@ -13,27 +12,29 @@ date: 2026-08-10 09:23:04
 
 <!-- toc -->
 
-# 概述
+# 背景
 
-测试环境微服务若长期使用 `dev` 仓库的 `latest` 镜像，且宿主机只挂 FatJar，发版难追溯、切换易与运行中文件互相干扰。在 Docker Swarm 单节点 + Portainer 堆栈场景下，改为拉取带日期 Tag 的新镜像，按栈串行增加 `lib` 挂载并切换瘦 Jar：先上传 lib 与临时名 jar，再改编排、备份改名后「更新堆栈」。效果是升级窗口可控、失败可整栈回滚到旧镜像与旧挂载形态，网关放在最后以降低 `/wait` 超时概率。
+项目微服务模块基于Docker swarm集群通过Portainer可视化容器管理工具部署，微服务模块因为使用maven spring-boot-maven-plugin插件打包，项目模块内部代码和第三方依赖生成一个Fat jar，jar包已经达到200M，在更新服务时，jar包传输耗时严重，并且因为微服务镜像标签默认使用latest缘故，导致在容器运行所在服务器构建镜像会对容器使用中的文件造成干扰，为了解决上述问题，对微服务的构建和镜像命名进行优化，最终希望实现的效果如下：
+> 微服务构建可运行jar包实现依赖分离，第三方依赖构建输出到jar包同级lib目录
+> 微服务镜像标签采用YYYMMDD格式后缀，优化服务构建更新过程
 
-| 项 | 说明 |
-|----|------|
-| 问题 | `latest` 难追溯；在线覆盖运行中 jar 风险高；多服务同时升增加回滚复杂度 |
-| 优化 | 日期 Tag 镜像；`*_1.jar` 预上传；Portainer 改 image/volume；按栈串行升级与回滚 |
-| 效果 | 短暂停服后拉起；Nacos 可重新注册；异常时镜像/jar/lib 挂载可一并还原 |
-| 适用 | Swarm 单节点、`role=base`、Portainer 管理堆栈 |
-| 不适用 | 多副本滚动升级未单独验证；K8s / 非 Portainer 编排需改操作面 |
+| 项   | 说明                                                         |
+|:----|:-----------------------------------------------------------|
+| 问题  | `latest` 难追溯；在线覆盖运行中 jar 风险高；多服务同时升增加回滚复杂度                 |
+| 优化  | 日期 Tag 镜像；`*_1.jar` 预上传；Portainer 改 image/volume；按栈串行升级与回滚 |
+| 效果  | 短暂停服后拉起；Nacos 可重新注册；异常时镜像/jar/lib 挂载可一并还原                  |
+| 适用  | Swarm 单节点、`role=base`、Portainer 管理堆栈                       |
+
 
 **环境示例（可替换）：** 下文 `clearstream-*`、Harbor 域名、宿主机路径均为样板，落地时换成你的仓库、栈名与目录即可。
 
-| 角色 | 示例地址 |
-|------|----------|
-| 集群 | Swarm 单节点，`role=base` |
-| Harbor | `harbor.demo-lab.net:8443` |
-| 旧镜像 | `harbor.demo-lab.net:8443/clearstream-dev/clearstream-admin-biz:latest` |
-| 新镜像 | `harbor.demo-lab.net:8443/clearstream-test/clearstream-admin-biz:20260804` |
-| 宿主机模块根 | `/usr/local/docker/clearstream/` |
+| 角色     | 示例地址                                                                       |
+|:-------|:---------------------------------------------------------------------------|
+| 集群     | Swarm 单节点，`role=base`                                                      |
+| Harbor | `harbor.demo-lab.net:8443`                                                 |
+| 旧镜像    | `harbor.demo-lab.net:8443/clearstream-dev/clearstream-admin-biz:latest`    |
+| 新镜像    | `harbor.demo-lab.net:8443/clearstream-test/clearstream-admin-biz:20260804` |
+| 宿主机模块根 | `/usr/local/docker/clearstream/`                                           |
 
 # 通用升级状态机
 
@@ -50,23 +51,22 @@ flowchart LR
   verify -->|成功| next[下一栈或清理旧镜像]
 ```
 
-| 阶段 | 目的 | 停机 |
-|------|------|------|
-| pull / 预置文件 | 新产物就位，旧进程仍跑旧包 | 通常不停服 |
-| 改编排 + 切正式名 + 更新 | 切换镜像与挂载 | 单副本时短暂停服 |
-| 验收 / 回滚 | 确认或整栈还原 | 回滚再次短暂停服 |
+| 阶段              | 目的            | 停机       |
+|:----------------|:--------------|:---------|
+| pull / 预置文件     | 新产物就位，旧进程仍跑旧包 | 通常不停服    |
+| 改编排 + 切正式名 + 更新 | 切换镜像与挂载       | 单副本时短暂停服 |
+| 验收 / 回滚         | 确认或整栈还原       | 回滚再次短暂停服 |
 
 **多副本差异：** `replicas > 1` 时 Swarm 可滚动更新，窗口与单副本不同；本文样板按 `replicas: 1` 描述，扩副本前请单独演练。
 
 # 环境要求
 
-| 项 | 要求 |
-|----|------|
-| 编排 | Portainer → Stacks → Web 编辑 → 更新堆栈 |
-| 运行形态（目标） | 同时挂载瘦 Jar、`lib/`、logs |
-| 文件传输 | SFTP/XFTP |
-| 基础组件 | MySQL / Nacos / Redis 等本次不升级 |
-| 前置产物 | 节点已能 `docker pull` 到新 Tag；各模块 jar/lib 已备好且同批次 |
+| 项        | 要求                                            |
+|:---------|:----------------------------------------------|
+| 编排       | Portainer → Stacks → Web 编辑 → 更新堆栈            |
+| 运行形态（目标） | 同时挂载瘦 Jar、`lib/`、logs                         |
+| 文件传输     | SFTP/XFTP                                     |
+| 前置产物     | 节点已能 `docker pull` 到新 Tag；各模块 jar/lib 已备好且同批次 |
 
 目录约定：
 
@@ -89,13 +89,13 @@ flowchart TB
   F --> G[清理旧 latest 镜像]
 ```
 
-| 顺序 | Stack | 服务 |
-|------|-------|------|
-| 1 | `clearstream-stack-service` | auth、admin-biz、admin-log、quartz |
-| 2 | `clearstream-stack-api` | api-app、api-pad |
-| 3 | `clearstream-stack-api-face` | api-face |
-| 4 | `clearstream-stack-api-util` | api-util |
-| 5 | `clearstream-stack-gateway` | gateway |
+| 顺序    | Stack                        | 服务                              |
+|:------|:-----------------------------|:--------------------------------|
+| 1     | `clearstream-stack-service`  | auth、admin-biz、admin-log、quartz |
+| 2     | `clearstream-stack-api`      | api-app、api-pad                 |
+| 3     | `clearstream-stack-api-face` | api-face                        |
+| 4     | `clearstream-stack-api-util` | api-util                        |
+| 5     | `clearstream-stack-gateway`  | gateway                         |
 
 > gateway 放最后：其 `/wait` 依赖后端多端口。每栈验收通过后再做下一栈，降低回滚面。
 
@@ -117,7 +117,7 @@ docker images | grep clearstream-test
 在点击「更新堆栈」之前完成（旧容器仍用旧包运行）：
 
 ```text
-.../clearstream-admin-biz/lib/                      # 建议先清空再整目录上传
+.../clearstream-admin-biz/lib/                      
 .../clearstream-admin-biz/jar/clearstream-admin-biz_1.jar
 ```
 
@@ -185,12 +185,12 @@ docker rmi harbor.demo-lab.net:8443/clearstream-dev/clearstream-admin-biz:latest
 # 确认无引用后再删其余旧镜像
 ```
 
-| 项 | 规范 |
-|----|------|
-| Harbor 项目 | 测试环境统一 `clearstream-test` |
-| Tag | 统一日期；禁止再以 `clearstream-dev/...:latest` 作为测试运行镜像 |
-| 仅改业务 | lib 未变时可只换 jar 并更新堆栈 |
-| 依赖变更 | 必须同步更新 lib，并视情况重建镜像 |
+| 项         | 规范                                              |
+|:----------|:------------------------------------------------|
+| Harbor 项目 | 测试环境统一 `clearstream-test`                       |
+| Tag       | 统一日期；禁止再以 `clearstream-dev/...:latest` 作为测试运行镜像 |
+| 仅改业务      | lib 未变时可只换 jar 并更新堆栈                            |
+| 依赖变更      | 必须同步更新 lib，并视情况重建镜像                             |
 
 # 验证
 
@@ -202,13 +202,13 @@ flowchart LR
   D --> E[业务验证]
 ```
 
-| 检查项 | 预期 |
-|--------|------|
-| Portainer | 对应 Stack 服务 Running / 1/1 |
-| 日志 | `/wait` 通过；应用启动成功；无 `ClassNotFoundException` |
-| Nacos | 实例重新注册且健康 |
-| 业务 | 管理后台可登录；本栈相关接口可访问 |
-| 全量完成 | 经 gateway 端到端访问通过 |
+| 检查项       | 预期                                           |
+|:----------|:---------------------------------------------|
+| Portainer | 对应 Stack 服务 Running / 1/1                    |
+| 日志        | `/wait` 通过；应用启动成功；无 `ClassNotFoundException` |
+| Nacos     | 实例重新注册且健康                                    |
+| 业务        | 管理后台可登录；本栈相关接口可访问                            |
+| 全量完成      | 经 gateway 端到端访问通过                            |
 
 ```bash
 docker service logs clearstream-stack-service_clearstream-admin-biz --tail 100
@@ -218,36 +218,14 @@ docker service logs clearstream-stack-service_clearstream-admin-biz --tail 100
 
 # 常见问题
 
-| 问题 | 原因 | 处理 |
-|------|------|------|
-| `ClassNotFoundException` / 启动异常 | 未挂 lib，或 jar/lib 不同批次 | 核对 volume；用同一次构建产物 |
-| gateway 卡在 `/wait` | 后端未就绪就更新 gateway | 前四栈均 Running 后再升 gateway |
-| 中间状态业务异常 | 先改挂载文件名、后改堆栈不一致 | 严格：先传 `_1.jar` → 改 Portainer → 备份改名 → 更新堆栈 |
-| 多栈同时点更新 | 回滚面过大 | **按栈串行** |
-| `docker rmi` 提示占用 | 仍有服务引用旧镜像 | 确认无引用后再删，或谨慎 `docker image prune` |
+| 问题                              | 原因                    | 处理                                         |
+|:--------------------------------|:----------------------|:-------------------------------------------|
+| `ClassNotFoundException` / 启动异常 | 未挂 lib，或 jar/lib 不同批次 | 核对 volume；用同一次构建产物                         |
+| gateway 卡在 `/wait`              | 后端未就绪就更新 gateway      | 前四栈均 Running 后再升 gateway                   |
+| 中间状态业务异常                        | 先改挂载文件名、后改堆栈不一致       | 严格：先传 `_1.jar` → 改 Portainer → 备份改名 → 更新堆栈 |
+| 多栈同时点更新                         | 回滚面过大                 | **按栈串行**                                   |
+| `docker rmi` 提示占用               | 仍有服务引用旧镜像             | 确认无引用后再删，或谨慎 `docker image prune`          |
 
-# 完整命令清单
-
-```bash
-# ── 1. 节点拉取（示例） ──
-docker login harbor.demo-lab.net:8443
-docker pull harbor.demo-lab.net:8443/clearstream-test/clearstream-admin-biz:20260804
-docker images | grep clearstream-test
-
-# ── 2. 切换前备份并覆盖正式 jar 名（lib 已用 SFTP 传好） ──
-BASE=/usr/local/docker/clearstream
-TS=$(date +%Y%m%d%H%M)
-cp $BASE/clearstream-admin-biz/jar/clearstream-admin-biz.jar \
-   $BASE/clearstream-admin-biz/jar/clearstream-admin-biz.jar.bak.$TS
-mv -f $BASE/clearstream-admin-biz/jar/clearstream-admin-biz_1.jar \
-      $BASE/clearstream-admin-biz/jar/clearstream-admin-biz.jar
-
-# ── 3. 验收日志 ──
-docker service logs clearstream-stack-service_clearstream-admin-biz --tail 100
-
-# ── 4. 稳定后清理旧 latest（确认无引用） ──
-docker rmi harbor.demo-lab.net:8443/clearstream-dev/clearstream-admin-biz:latest
-```
 
 # 小结
 
