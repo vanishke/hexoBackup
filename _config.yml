@@ -149,7 +149,7 @@ neat_js:
 #https://github.com/vanishke/hexo.git
 deploy:
   type: git
-  repository:  https://github.com/vanishke/hexo.git
+  repository: git@github.com:vanishke/hexo.git
   branch: master
 
 #文章隐藏
