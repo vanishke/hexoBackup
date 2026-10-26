@@ -11,8 +11,6 @@ tags:
 date: 2026-04-16 11:43:13
 ---
 
-<!-- toc -->
-
 # 背景
 
 在 Docker Swarm 模式下运行 Nginx 时，如果 Nginx 将请求日志写入容器内文件（例如 `/var/log/nginx/access.log` / `error.log`），通常会将该目录 bind mount 到宿主机目录，方便集中查看与持久化。

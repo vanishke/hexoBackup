@@ -9,8 +9,6 @@ tags:
 date: 2024-01-03 14:50:20
 ---
 
-<!-- toc -->
-
 # 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 rsync : rsync-3.0.7

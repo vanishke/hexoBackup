@@ -8,8 +8,6 @@ tags:
 date: 2024-03-19 16:24:20
 ---
 
-<!-- toc -->
-
 ## 环境
 MySQL : 5.7
 pt-archiver : 3.5.7

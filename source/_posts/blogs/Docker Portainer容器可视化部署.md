@@ -9,7 +9,6 @@ tags:
 date: 2025-04-25 17:20:31
 ---
 
-<!-- toc -->
 # 环境
 
 Linux: CentOS Linux release 7.4.1708 (Core) 
@@ -81,7 +80,6 @@ docker stack deploy -c docker-swarm-portainer-process.yml --resolve-image never 
 
 通过容器映射外部宿主机9000端口，访问portainer后台管理: http://10.9.216.12:9000
 ![portainer部署](/images/portainer/20250425/portainer_20250425_001.png)
-
 
 连接docker swarm集群，通过agent上报实现，test-portainer-agent名称对应容器编排工具里面agent服务名称
 ![portainer部署](/images/portainer/20250425/portainer_20250425_002.png)

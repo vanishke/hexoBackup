@@ -6,11 +6,8 @@ tags:
 	- SpringBoot
 	- Maven
 
-
 date: 2026-08-10 09:23:04
 ---
-
-<!-- toc -->
 
 # 背景
 
@@ -182,6 +179,5 @@ flowchart LR
 | lib「越拷越大」                | 未 `clean`，旧 jar 残留         | `mvn clean package` 后重新 copy  |
 | 测试包进了 lib                | scope 未限制或 SDK 误标 compile  | `includeScope=runtime` + 排除名单 |
 | 只换了瘦 Jar 仍报缺类            | 依赖已变却未更新 lib               | 依赖变更必须同步 lib                  |
-
 
 完成瘦 Jar 与外置 lib 的构建同步后，即可将该产物用于镜像构建或运行时双挂载部署。

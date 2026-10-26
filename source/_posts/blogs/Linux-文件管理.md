@@ -9,8 +9,6 @@ top: 2
 date: 2022-05-19 11:27:20
 ---
 
-<!-- toc -->
-
 ## strings命令
 
 **作用**
@@ -55,7 +53,6 @@ date: 2022-05-19 11:27:20
 20190605171506_75.jpg:     153 !22222222222222222222222222222222222222222222222222
 ```
 
-
 ## unlink命令
 
 **作用**
@@ -75,7 +72,6 @@ a.txt  elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDi
 elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
 ```
 
-
 ## chown命令
 
 **作用**
@@ -93,7 +89,6 @@ chown命令用于改变一个文件或目录的所有者或用户组，用户可
 --help:在线帮助。
 --version:显示版本信息。
 
-
 **示例**
 ```shell
 # 将erm_gd目录下的文件和目录所属者更改为report_cd,群组修改为report_cd
@@ -105,7 +100,6 @@ You have new mail in /var/spool/mail/root
 -rw-r--r-- 1 report_cd report_cd 214757130 1月   5 17:47 dg_erm_mysql.sql
 -rw-r--r-- 1 report_cd report_cd    681075 1月   5 17:47 dg_global.sql
 ```
-
 
 ## stat命令
 
@@ -119,7 +113,6 @@ You have new mail in /var/spool/mail/root
 -f : 显示文件系统状态而不是文件状态。
 --version : 显示命令版本。
 --help : 显示命令帮助信息。
-
 
 **示例**
 
@@ -147,7 +140,6 @@ Inodes: Total: 11526144   Free: 10551557
 [root@lwdCSCDN log1]# stat -t ETL.log
 ETL.log 7341608 14352 81ff 0 0 804 10495794 3 0 0 1609124807 1608274063 1608274558 4096
 ```
-
 
 ## which命令
 
@@ -180,13 +172,11 @@ alias ls='ls --color=auto'
 	/bin/ls
 ```
 
-
 ## file命令
 
 **作用**
     file命令用于探测文件类型，file命令分为文件系统、魔法幻数检查及语言检查3个过程.
 **选项**
-
 
 -b : 列出结果时，不显示文件名称。
 -i : 探测文件结果以MIME字符串展示。
@@ -212,7 +202,6 @@ ASCII English text, with very long lines
 [root@lwdCSCDN log1]# file -b -i record.ini 
 text/plain; charset=us-ascii
 ```
-
 
 ## whereis命令
 
@@ -244,7 +233,6 @@ ls: /bin/ls
 [root@demo_mdn /]# whereis -m -M /usr/share/man/man1 -f ls
 ls: /usr/share/man/man1/ls.1.gz
 ```
-
 
 ## locate命令
 
@@ -392,7 +380,6 @@ drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
 -rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
 -rw-r--r-- 1 root root       5 12月 21 00:00 b.txt
 
-
 # -t指定更新时间
 [root@lwdCSCDN bin]# touch -t 12211630 b.txt
 [root@lwdCSCDN bin]# ll
@@ -404,7 +391,6 @@ drwxr-xr-x 4 root root    4096 12月 21 14:40 bi_common
 -rw-r--r-- 1 root root   32279 10月  6 2016 bootstrap.jar
 -rw-r--r-- 1 root root       5 12月 21 16:30 b.txt
 ```
-
 
 ## mv命令
 
@@ -502,9 +488,6 @@ mv：是否覆盖"newDir/1.txt"？ y
 1.txt  1.txt~  oldDir
 ```
 
-
-
-
 ## pwd命令
 
 **作用**
@@ -518,7 +501,6 @@ mv：是否覆盖"newDir/1.txt"？ y
 [root@lwdCSCDN bin]# pwd
 /usr/local/BI/hrb_BI/v300r002b210/apache-tomcat-8.0.38/bin
 ```
-
 
 ## mkdir命令
 
@@ -547,7 +529,6 @@ mkdir: 无法创建目录"./parentDir/newDir": 没有那个文件或目录
 [root@lwdCSCDN tmp]# ls
 elasticsearch-2738171260560954631  erm_gd  jna-3246  mysql.sock  parentDir  pulse-24KvvDfOHjjf  report  v8-compile-cache-0
 ```
-
 
 ## ls命令
 
@@ -623,9 +604,6 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 10495812 etlP.sh  10495822 etlS.sh  10495887 mysqld_kill_sleep.sh  10496112 stat.sh
 ```
 
-
-
-
 ## sz命令
 
 **作用**
@@ -643,8 +621,6 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 # 以文本格式下载服务器上app-info.log文件到本地
 [root@lwdCSCDN info]# sz -a app-info.log  
 ```
-
-
 
 ## rz命令
 
@@ -665,13 +641,10 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 [root@lwdCSCDN info]# rz
 ```
 
-
-
 ## true命令
 
 **作用**
 清空文件内容、不删除文件
-
 
 **示例**
 ```shell
@@ -679,8 +652,6 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 [root@lwdCSCDN info]# true > app-info.log 
 
 ```
-
-
 
 ## tree命令
 
@@ -701,7 +672,6 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 
 ```
 
-
 ## last命令
 
 **作用**
@@ -711,7 +681,6 @@ drwxr-xr-x 3 root root 4096 10月 13 16:55 aaalog
 ```shell
 -R ：省略hostname栏位
 -username : 展示username登入信息
-
 
 ```
 **示例**

@@ -8,8 +8,6 @@ tags:
 date: 2023-10-27 10:25:20
 ---
 
-<!-- toc -->
-
 # 项目环境
 JDK: 1.8.0_31
 系统是定时执行计算任务系统，业务代码主要是定时加载多个模块MySQL、Oracle数据库业务数据进行统计计算并更新，系统在运行一段时间之后自动停止，产生JVM奔溃日志，日志内容如下：
@@ -106,7 +104,6 @@ R13=0x00007f70c408b800 is an unknown value
 R14=0x00007f70f09ca260 is pointing into the stack for thread: 0x00007f712c86c800
 R15=0x00007f70f09ca040 is pointing into the stack for thread: 0x00007f712c86c800
 
-
 Stack: [0x00007f70f08cd000,0x00007f70f09cd000],  sp=0x00007f70f09c9da0,  free space=1011k
 Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [libjvm.so+0x858e15]  LoadKlassNode::make(PhaseGVN&, Node*, Node*, TypePtr const*, TypeKlassPtr const*)+0x45
@@ -125,10 +122,8 @@ V  [libjvm.so+0xa2ab1c]  JavaThread::run()+0x11c
 V  [libjvm.so+0x8e8158]  java_start(Thread*)+0x108
 C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
 
-
 Current CompileTask:
 C2:21839588 9300   !   4       com.mysql.cj.NativeSession::execSQL (577 bytes)
-
 
 ---------------  P R O C E S S  ---------------
 
@@ -2382,7 +2377,6 @@ Event: 21719.205 Executing VM operation: BulkRevokeBias done
 Event: 21839.565 Executing VM operation: BulkRevokeBias
 Event: 21839.566 Executing VM operation: BulkRevokeBias done
 
-
 Dynamic libraries:
 00400000-00401000 r-xp 00000000 fd:00 661361                             /usr/java/jdk1.8.0_31/bin/java
 00600000-00601000 rw-p 00000000 fd:00 661361                             /usr/java/jdk1.8.0_31/bin/java
@@ -2736,7 +2730,6 @@ SIGINT: SIG_IGN, sa_mask[0]=00000000000000000000000000000000, sa_flags=none
 SIGTERM: [libjvm.so+0x8e54e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 SIGQUIT: [libjvm.so+0x8e54e0], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
 
-
 ---------------  S Y S T E M  ---------------
 
 OS:CentOS Linux release 7.9.2009 (Core)
@@ -2793,7 +2786,6 @@ HugePages_Surp:        0
 Hugepagesize:       2048 kB
 DirectMap4k:      104320 kB
 DirectMap2M:     8284160 kB
-
 
 CPU:total 4 (1 cores per cpu, 1 threads per core) family 6 model 45 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, aes, clmul, tsc, tscinvbit, tscinv
 
@@ -2902,8 +2894,6 @@ cache_alignment	: 64
 address sizes	: 43 bits physical, 48 bits virtual
 power management:
 
-
-
 Memory: 4k page, physical 8008972k(4570420k free), swap 8388604k(8388604k free)
 
 vm_info: Java HotSpot(TM) 64-Bit Server VM (25.31-b07) for linux-amd64 JRE (1.8.0_31-b13), built on Dec 17 2014 20:40:15 by "java_re" with gcc 4.3.0 20080428 (Red Hat 4.3.0-8)
@@ -2954,7 +2944,6 @@ V  [libjvm.so+0xa2a9ef]  JavaThread::thread_main_inner()+0xdf
 V  [libjvm.so+0xa2ab1c]  JavaThread::run()+0x11c
 V  [libjvm.so+0x8e8158]  java_start(Thread*)+0x108
 C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
-
 
 Current CompileTask:
 C2:21839588 9300   !   4       com.mysql.cj.NativeSession::execSQL (577 bytes)

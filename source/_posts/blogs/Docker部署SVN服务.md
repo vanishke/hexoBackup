@@ -9,8 +9,6 @@ tags:
 date: 2026-06-05 10:32:14
 ---
 
-<!-- toc -->
-
 # 概述
 
 | 项 | 说明 |
@@ -201,12 +199,12 @@ realm = <项目名>                          # 认证域，多仓库建议统一
 
 ## 全局 passwd
 
-编辑全局用户文件 `/usr/local/docker/svn/conf/passwd`，在 `[users]` 段下按 `用户名 = 密码` 配置（行首不留空格，此处为脱敏示例）：
+编辑全局用户文件 `/usr/local/docker/svn/conf/passwd`，在 `[users]` 段下按 `用户名 = 密码` 配置（行首不留空格）：
 
 ```ini
 [users]
-admin = <在此填写管理员密码>
-developer = <在此填写开发者密码>
+admin = SvnAdmin#Demo2026
+developer = DevPass#Demo2026
 ```
 
 > **安全提醒**：`passwd` 文件中密码为明文存储，请勿提交到任何代码仓库；生产环境建议配合操作系统权限限制该文件读取，并使用强密码。

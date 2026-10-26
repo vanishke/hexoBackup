@@ -8,8 +8,6 @@ tags:
 date: 2024-01-03 9:50:20
 ---
 
-<!-- toc -->
-
 # 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 nginx : 1.18.1
@@ -22,7 +20,6 @@ Upstream prematurely closed connection while reading response header from upstre
 nginx代理端口下载链接1500~2000左右，大量出现CLOSE_WAIT状态
 源nginx报错
 ![nginx报错信息](/images/nginx/nginx_20240103_001.png)
-
 
 # 解决办法
 升级系统发布新应用，客户端大量并发请求升级接口，但因为4台代理下载应用压缩包的服务器还未缓存刚发布的应用，导致所有的请求都被转发到了nginx源服务器进行请求下载，最终2台源服务器因为并发压力过高导致抛出too many files错误信息，造成回源nginx缓存异常，nginx代理服务器内存和cpu占用过高

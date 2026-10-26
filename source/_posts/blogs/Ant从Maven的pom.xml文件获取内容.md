@@ -8,8 +8,6 @@ tags:
 date: 2023-03-03 11:25:20
 ---
 
-<!-- toc -->
-
 # build.xml读取pom.xml版本信息
 ```ant
 #引入pom.xml文件，以xml方式读取文件内容，节点属性以pom.project开始

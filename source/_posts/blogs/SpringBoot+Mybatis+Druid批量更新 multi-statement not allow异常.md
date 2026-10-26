@@ -10,14 +10,11 @@ tags:
 date: 2023-10-26 14:25:20
 ---
 
-<!-- toc -->
-
 # 项目环境
 SpringBoot: 2.2.6.RELEASE
 SpringCloud: 2021.0.5
 Druid: 1.1.22
 Mybatis-plus: 3.3.1
-
 
 多条SQL语句同时执行更新操作，提示报错
 ```shell

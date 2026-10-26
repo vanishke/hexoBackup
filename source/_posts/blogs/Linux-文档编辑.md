@@ -9,8 +9,6 @@ top: 2
 date: 2022-05-19 11:27:20
 ---
 
-<!-- toc -->
-
 ## vim命令
 
 **作用**
@@ -150,7 +148,6 @@ ESC:从编辑模式切换到命令模式。
 # innodb_buffer_pool_size = 128M
 
 # Remove leading # to turn on a very important data integrity option: logging
-
 
 #不显示my.cnf.bak文件头部信息
 [root@dap mysql]# head -q my.cnf.bak 

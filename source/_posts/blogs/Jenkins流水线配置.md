@@ -10,8 +10,6 @@ tags:
 date: 2026-06-18 15:36:05
 ---
 
-<!-- toc -->
-
 # 概述
 
 前置条件：已完成 [Jenkins部署](./Jenkins部署.md)。流水线文件位于项目根目录 `Jenkinsfile`，Harbor 使用乐此加密 HTTPS，无需 `insecure-registries`。

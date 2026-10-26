@@ -9,7 +9,6 @@ tags:
 date: 2025-01-14 11:31:28
 ---
 
-<!-- toc -->
 # 环境
 Linux: CentOS Linux release 7.7.1908 (Core)
 Docker：26.1.4
@@ -148,7 +147,6 @@ client远程tls链接测试
 docker --tlsverify --tlscacert=/etc/docker/certs/client/ca.pem --tlscert=/etc/docker/certs/client/cert.pem --tlskey=/etc/docker/certs/client/key.pem -H tcp://10.9.216.12:2375 version
 ```
 ![Dockerfile 远程安全连接](/images/docker/20250114/docker_20250114_001.png)
-
 
 portainer配置tls
 

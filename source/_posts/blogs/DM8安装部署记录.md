@@ -8,7 +8,6 @@ tags:
 date: 2024-07-08 11:25:20
 ---
 
-<!-- toc -->
 # 背景
 ORACLE数据库基于安全考虑迁移至达梦数据库，采用达梦8
 # 安装
@@ -45,7 +44,6 @@ DAEMON Tools Lite下载地址: https://www.xitongzhijia.net/soft/215783.html
 [root@S21612 dm]#export LANG=zh_CN.UTF8
 [root@S21612 dm]#yum groupinstall Fonts
 ```
-
 
 ### Could not load SWT library. Reasons
 描述：./DMInstall.bin -i 执行报错，java.lang.UnsatisfiedLinkError: Could not load SWT library. Reasons:     no swt-pi-gtk-3659
@@ -134,8 +132,6 @@ xorg-x11-server-utils-7.7-20.el7.x86_64 : X.Org X11 X server utilities
 Repo        : media
 Matched from:
 Filename    : /usr/bin/xhost
-
-
 
 xorg-x11-server-utils-7.7-20.el7.x86_64 : X.Org X11 X server utilities
 Repo        : @media

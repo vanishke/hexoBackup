@@ -9,7 +9,6 @@ tags:
 date: 2025-11-14 16:07:18
 ---
 
-<!-- toc -->
 # 使用keytool生成密钥对，存储到JKS格式的密钥库中
 
 ```shell
@@ -48,7 +47,6 @@ keytool -exportcert \
 
 # 使用openssl将DER格式证书转换为PEM格式（文本格式，便于查看和使用
 
-
 ```shell
 openssl x509 \
   -inform der \                    
@@ -83,7 +81,6 @@ keytool -importkeystore \
 -alias         要转换的密钥对别名 <br>
 
 # 从PKCS12密钥库中提取私钥(PEM格式，文本)
-
 
 ```shell
 openssl pkcs12 \

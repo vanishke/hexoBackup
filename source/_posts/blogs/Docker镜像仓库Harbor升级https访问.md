@@ -9,7 +9,6 @@ tags:
 date: 2025-04-03 14:52:34
 ---
 
-<!-- toc -->
 # 环境
 Docker: 27.3.1
 docker compose: v2.29.7
@@ -83,7 +82,6 @@ openssl req -x509 -new -nodes -sha512 -days 3650 \
 ```shell
 openssl genrsa -out harbor.test.com.key 4096
 ```
-
 
 生成服务端证书签名请求(CSR)命令如下：
 
@@ -224,8 +222,6 @@ cd /usr/local/harbor
 docker-compose down up -d
 ```
 
-
-
 my.harbor.com是局域网自定义域名，certificate、private_key对应自签名证书和私钥
 因为是局域网自定义的域名，并且使用的是自签名证书，所以需要在服务端和客户端配置域名和IP映射，让通信的双方都知道域名对应的IP地址。
 
@@ -284,7 +280,6 @@ systemctl restart docker
 ```
 
 ## 验证
-
 
 执行以下命令重启harbor服务
 

@@ -9,7 +9,6 @@ tags:
 date: 2024-08-09 15:42:21	
 ---
 
-<!-- toc -->
 # 环境
 系统：openEuler release 20.03 (LTS-SP3)
 数据库： openGauss-6.0.0-RC1
@@ -146,7 +145,6 @@ libcgroup          openGauss-6.0.0-RC1-openEuler-64bit-om.tar.gz   upgrade_sql.s
 [root@openeuler172 openGauss]# ./gs_install -X /data/openGauss/clusterconfig.xml --gsinit-parameter="--encoding=UTF8" --dn-guc="max_process_memory=8GB" --dn-guc="shared_buffers=512MB" --dn-guc="bulk_write_ring_size=128MB" --dn-guc="cstore_buffers=64MB"
 ```
 执行过程中会提示设置omm管理用户的密码，设置完成后记住就行。
-
 
 ## 数据库基本操作
 ```shell

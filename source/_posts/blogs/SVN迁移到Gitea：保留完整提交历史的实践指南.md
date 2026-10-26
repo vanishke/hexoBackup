@@ -10,11 +10,9 @@ tags:
 date: 2026-07-14 16:06:17
 ---
 
-<!-- toc -->
-
 # 概述
 
-用 `git svn` 将标准「序号 + 项目名」SVN 源码仓（含 trunk / branches / tags）迁到 Gitea，并保留完整提交历史。已在 Git Bash 下验证。文中项目名、主机、账号、邮箱等敏感信息已用随机数据脱敏，请按实际环境替换。
+用 `git svn` 将标准「序号 + 项目名」SVN 源码仓（含 trunk / branches / tags）迁到 Gitea，并保留完整提交历史。已在 Git Bash 下验证。
 
 | 项    | 说明                             |
 |:-----|:-------------------------------|
@@ -146,7 +144,6 @@ for tag in $(git branch -r | grep 'tags/' | sed 's|origin/tags/||'); do
   git tag "$tag" "origin/tags/$tag"
 done
 
-
 # 将迁移后的仓库代码branches转换为git的本地branch
 git branch -r \
 | grep -v 'tags/' \
@@ -198,5 +195,4 @@ git log --format="%an <%ae>" | sort -u
 | `(no author)`                | authors 不全         | 补全后重新 fetch                   |
 | `@` ref 推送失败                 | shell 未引号          | `git push origin "name@rev"`  |
 | Gitea 非空冲突                   | 勾了 README          | 清空远程或处理无关历史后重推                |
-
 

@@ -10,7 +10,6 @@ tags:
 date: 2024-11-24 16:12:05
 ---
 
-<!-- toc -->
 # 环境
     Docker: 26.1.4
 	
@@ -212,7 +211,6 @@ write_buffer = 2M
 [mysqlhotcopy]
 interactive-timeout
 ```
-
 
 ## Redis
 构建镜像上下文文件预览：
@@ -1878,7 +1876,6 @@ worker_processes  1;
 
 #pid        logs/nginx.pid;
 
-
 events {
 	worker_connections  1024;
 }
@@ -1916,7 +1913,6 @@ http {
 			index  index.html;
 			try_files $uri $uri/ /index.html;
 		}
-
 
 		# 反向代理
 		location /prod-api/ {

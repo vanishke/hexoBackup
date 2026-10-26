@@ -8,7 +8,6 @@ tags:
 date: 2025-02-28 16:27:25
 ---
 
-<!-- toc -->
 # 背景
 项目微服务redisson bug需要进行升级，redisson版本需要升级到3.40.1，但升级的同时springBoot、spring、springCloud、java版本都需要进行升级，如下是升级前后对比：
 
@@ -113,7 +112,6 @@ SpringBoot3默认使用的Elasticsearch版本为8.8.0,和项目里面使用的�
 ## AutoConfiguration
 
 SpringBoot2.7时已经提出使用META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 代替 spring.factories
-
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7-Release-Notes#changes-to-auto-configuration
 
@@ -443,7 +441,6 @@ logback底层已经把这个弃用类TimeBasedRollingPolicy删除了,配置文�
         </filter>
     </appender>
 
-
     <!-- 日志记录器，日期滚动记录，level为 INFO 日志 -->
     <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
@@ -479,7 +476,6 @@ logback底层已经把这个弃用类TimeBasedRollingPolicy删除了,配置文�
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-
 
     <!-- 日志记录器，日期滚动记录，level为 WARN 日志 -->
     <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -553,7 +549,6 @@ logback底层已经把这个弃用类TimeBasedRollingPolicy删除了,配置文�
         </filter>
     </appender>
 
-
     <!-- 日志记录器，日期滚动记录，所有日志 -->
     <appender name="FILE_ALL" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
@@ -582,7 +577,6 @@ logback底层已经把这个弃用类TimeBasedRollingPolicy删除了,配置文�
             <charset>utf-8</charset>
         </encoder>
     </appender>
-
 
     <!-- 日志记录器，日期滚动记录，level 根据配置动态输出日志 -->
     <appender name="FILE_RELEASE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -619,9 +613,6 @@ logback底层已经把这个弃用类TimeBasedRollingPolicy删除了,配置文�
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-
-
-
 
     <!--生产环境:输出到文件-->
     <springProfile name="dev">
@@ -678,7 +669,6 @@ need JSON Array to contain As.WRAPPER_ARRAY type information for class java.lang
 update sys_user set password = concat('{bcrypt}',password);
 
 ```
-
 
 ## 参考
 

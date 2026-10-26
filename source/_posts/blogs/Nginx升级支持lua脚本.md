@@ -9,7 +9,6 @@ tags:
 date: 2025-04-21 17:03:09
 ---
 
-<!-- toc -->
 # 环境
 
 Linux: CentOS Linux release 7.4.1708 (Core) 
@@ -48,7 +47,6 @@ $ make install
 
 或者访问https://github.com/openresty/luajit2/releases/tag/,下载对应版本
 
-
 ## 设置luajit2环境变量
 ```shell
 export LUAJIT_LIB=/usr/local/lib
@@ -67,7 +65,6 @@ tar zxvf v0.3.2.tar.gz
 # 解压缩后目录名
 #ngx_devel_kit-0.3.2
 ```
-
 
 ## lua-nginx-module
 
@@ -96,7 +93,6 @@ error: 'ngx_http_headers_in_t' has no member named 'cookies'
 ```
 
 解决办法：
-
 
 找到模块源码文件，lua-nginx-module-0.10.13/src/ngx_http_lua_headers_in.c
 将offsetof(ngx_http_headers_in_t, cookies), 改成 offsetof(ngx_http_headers_in_t, cookie)

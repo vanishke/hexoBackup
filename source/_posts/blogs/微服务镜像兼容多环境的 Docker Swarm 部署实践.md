@@ -10,7 +10,6 @@ tags:
 	- Spring Cloud
 
 date: 2026-08-20 17:17:16
-updated: 2026-08-20 17:44:04
 
 ---
 

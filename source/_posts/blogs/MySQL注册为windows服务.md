@@ -9,8 +9,6 @@ tags:
 date: 2022-05-26 18:23:20
 ---
 
-<!-- toc -->
-
 # 配置环境变量
 新建系统变量名：MySQL_HOME:
 路径：D:\MySQL5.6\mysql-5.6.41-winx64\mysql-5.6.41-winx64

@@ -9,7 +9,6 @@ tags:
 date: 2025-01-03 16:36:03
 ---
 
-<!-- toc -->
 # 环境
 	Linux: CentOS Linux release 7.7.1908 (Core)
 	MySQL：5.7
@@ -37,7 +36,6 @@ mkdir -p ${BACKUP_DIR}/${DATE}
 # 执行备份 app_main_demo
 /home/mysql/bin/mysqldump -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME_APP_MAIN}  --ignore-table=${DB_NAME_APP_MAIN}.sys_log_api_his  --ignore-table=${DB_NAME_APP_MAIN}.read_msg_record_his  --ignore-table=${DB_NAME_APP_MAIN}.push_record_his > ${BACKUP_DIR}/${DATE}/${DB_NAME_APP_MAIN}_${DATE}.sql
 
-
 # 检查 app_main_demo 备份是否成功
 if [ $? -eq 0 ]; then
   echo "Backup successful: ${BACKUP_DIR}/${DATE}/${DB_NAME_APP_MAIN}_${DATE}.sql" >> ${BACKUP_DIR}/${DATE}/backup.log
@@ -47,7 +45,6 @@ fi
 
 # 执行备份 app_db_demo
 /home/mysql/bin/mysqldump -u${DB_USER} -p${DB_PASSWORD} ${DB_NAME_IHOME_ALBUM} > ${BACKUP_DIR}${DATE}/${DB_NAME_IHOME_ALBUM}_${DATE}.sql
-
 
 # 检查 app_db_demo 备份是否成功
 if [ $? -eq 0 ]; then

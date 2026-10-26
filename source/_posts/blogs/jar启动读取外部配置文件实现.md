@@ -8,7 +8,6 @@ tags:
 date: 2023-08-11 14:35:20
 ---
 
-<!-- toc -->
 # 背景
 项目编译打成jar包后，配置文件包含在jar包内部不方便修改，希望实现本地启动读取classpath路径下的配置信息，在生产环境部署的情况下读取同级目录下的配置信息
 # 实现
@@ -63,7 +62,6 @@ public class PropertiesUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
     private static Map<String, String> configMap = null;
-
 
     static {
         loadProperties();
@@ -120,11 +118,9 @@ public class PropertiesUtil {
         return value;
     }
 
-
     private static String getSimpleValue(String key) {
         return configMap.get(key).toString();
     }
-
 
     public static int getHttpPort() {
         return Integer.valueOf(getSimpleValue("server.http.port", "8056")).intValue();
@@ -137,7 +133,6 @@ public class PropertiesUtil {
     public static String getEsSQLExplainPath() {
         return getSimpleValue("es.sql.explain.path","/_sql/_explain");
     }
-
 
 }
 

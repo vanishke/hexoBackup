@@ -9,8 +9,6 @@ tags:
 date: 2025-12-05 16:12:27
 ---
 
-<!-- toc -->
-
 # 背景
 
 项目模块升级为spring-4.3.20+JDK8之后，之前部署模块应用程序容器jboss-4.2.3已经不再兼容，需要对容器进行升级，综合考虑之下，选择wildfly-26.1.0-Final作为部署容器。
@@ -136,7 +134,6 @@ public class SysConfigManager {
 	private long m_lastModifiedTime = 0;
 	private static Properties m_props = null;
 
-
 	synchronized public static SysConfigManager getInstance() {
 		if (m_instance == null) {
 			m_instance = new SysConfigManager();
@@ -147,7 +144,6 @@ public class SysConfigManager {
 	public String getInfoMessage(String errorCode) {
 		return getConfigItem(errorCode, m_props);
 	}
-
 
 	public List getMessageList() {
 		List list = new ArrayList();
@@ -192,7 +188,6 @@ public class SysConfigManager {
 			e.printStackTrace();
 		}
 	}
-
 
 	final public String getConfigItem(String name, Object defaultVal) {
 		long newTime = m_file.lastModified();
@@ -252,7 +247,6 @@ public class SysConfigManager {
 
 # 解决办法
 
-
 更改资源文件的读取方式，优化后加载配置文件的代码内容如下：
 
 ```java
@@ -286,7 +280,6 @@ public class SysConfigManager {
 	// 上次加载时间戳
 	private long m_lastModifiedTime = 0;
 	private static Properties config = null;
-
 
 	synchronized public static SysConfigManager getInstance() {
 		if (m_instance == null) {
@@ -344,7 +337,6 @@ public class SysConfigManager {
 			logger.error("load conf.properties error", e); 
 		}
 	}
-
 
 	final public String getConfigItem(String name, Object defaultVal) {
 		long newTime = m_file.lastModified();

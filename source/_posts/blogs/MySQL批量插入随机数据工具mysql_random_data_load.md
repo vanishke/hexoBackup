@@ -8,7 +8,6 @@ tags:
 date: 2024-12-24 16:29:41
 ---
 
-<!-- toc -->
 # 环境
 	Linux: CentOS Linux release 7.7.1908 (Core)
 	MySQL：5.7
@@ -35,7 +34,6 @@ tar -zxvf mysql_random_data_load_0.1.12_Linux_x86_64.tar.gz
 # 使用说明
 
 ![MySQL随机数据生成工具](/images/mysql/20241224/mysql_20241224_002.png)
-
 
 # 示例
 

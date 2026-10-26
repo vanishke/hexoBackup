@@ -9,8 +9,6 @@ tags:
 date: 2022-08-26 13:55:20
 ---
 
-<!-- toc -->
-
 # 下载
 官网下载地址：https://www.wildfly.org/downloads/
 
@@ -286,7 +284,6 @@ vim C:\Windows\System32\drivers\etc\hosts
 ```shell
 #GitHub  start
 #192.30.255.112 github.com
-
 
 #202.160.130.66 github.global.ssl.fastly.net
 #Github end

@@ -15,9 +15,6 @@ date: 2026-07-13 18:09:08
 
 本文介绍如何为一个 Java / Maven 多模块项目落地统一的 Git 源代码提交规范，使所有协作者的提交信息保持一致、可读、可追溯。方案基于 [Conventional Commits](https://www.conventionalcommits.org/)，采用**纯 Git、零第三方依赖**的实现：仅用 Git 原生的提交模板（`commit.template`）与仓库内钩子（`core.hooksPath`），不依赖 Node.js、husky、commitlint，也不依赖 CI，适合后端团队直接移植。
 
-本文可移植的完整部署方案参见 [git-commit-convention](./docs/git-commit-convention.md)。文中涉及的服务器地址、仓库名、人员信息均已脱敏。
-
-
 | 项    | 说明                                     |
 | ---- | -------------------------------------- |
 | 规范标准 | Conventional Commits                   |
@@ -32,8 +29,8 @@ date: 2026-07-13 18:09:08
 
 | 角色       | 示例地址                                  |
 | -------- | ------------------------------------- |
-| Git 远程仓库 | `ssh://<git-host>/<group>/<repo>.git` |
-| 本地工作副本   | `<repo-root>`                         |
+| Git 远程仓库 | `ssh://git.demo-lab.net/ACME/ClearStream.git` |
+| 本地工作副本   | `/data/workspace/ClearStream`         |
 
 
 # 方案原理

@@ -8,7 +8,6 @@ tags:
 date: 2024-12-05 16:31:11
 ---
 
-<!-- toc -->
 # 环境
 Docker: 26.1.4
 docker-compose: v2.25.0
@@ -17,7 +16,6 @@ docker-compose: v2.25.0
 
 # docker-compose文件格式与docker 引擎版本对应
 docker-compose和docker engine版本说明：
-
 
 |docker-compose文件格式|Docker compose 版本|Docker 引擎|
 |:------:| :------: | :------: |
@@ -36,7 +34,6 @@ docker-compose和docker engine版本说明：
 |2.1|1.9.0+|1.12.0+|
 |2.0|1.6+|1.10.0+|
 |1.0|1.6|1.10|
-
 
 docker-compose文件格式一共有3个版本，V1,V2,V3
 V1: 

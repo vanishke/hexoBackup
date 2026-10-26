@@ -10,8 +10,6 @@ tags:
 date: 2026-07-21 09:20:50
 ---
 
-<!-- toc -->
-
 # 概述
 
 使用 Cursor 通过 **Remote-SSH** 连接远程 Linux 上的 Git 工程做 Java 开发时，常出现在方法调用处无法「跳转到定义 / 实现」（如 `F12`、`Ctrl+单击`，或自定义的跳转快捷键）的情况：点了没反应、提示找不到符号，或索引一直转圈。根因多半是：**语言服务跑在远程端**，本机装的 Java 扩展不会自动在远端生效，或 Language Server 工作区缓存损坏。
@@ -153,6 +151,5 @@ Java: Clean Java Language Server Workspace
 | 只有部分模块能跳转                                                              | 子模块未正确导入                    | 确认父 POM / 子模块在同一工作区，强制重新编译或重新导入                                      |
 | 快捷键无反应但右键「转到定义」可用                                                      | 快捷键被占用或未绑定                  | 在 Keyboard Shortcuts 中搜索 `Go to Definition` 重新绑定                     |
 | User settings 里配了 Windows 的 `java.configuration.runtimes` 提示「无法在此窗口应用」 | 当前是远程窗口，本地 User 设置不作用于远程 LS | 在 **Remote Settings** 或工作区 `.vscode/settings.json` 中配置远程 Linux 路径    |
-
 
 完成以上三步并索引结束后，远程 Git 工程中的 Java 方法跳转一般即可恢复。若仍失败，优先查看 **Output** 面板中 `Language Support for Java` 的报错信息，再按上文「备选方式」排查 JDK 与模块导入。

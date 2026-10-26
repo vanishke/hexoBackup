@@ -9,11 +9,7 @@ top: 1
 date: 2022-05-19 10:17:29
 ---
 
-<!-- toc -->
-
 # 文件和目录管理
-
-
 
 ## chgrp命令
 
@@ -91,8 +87,6 @@ rename: renaming a.txt to aa.txt failed: 不允许的操作
 You have new mail in /var/spool/mail/root
 ```
 
-
-
 ## more命令
 
 **作用**
@@ -140,10 +134,6 @@ worker_processes  1;
 #pid        logs/nginx.pid;
 /limit
 ```
-
-
-
-
 
 ## find命令
 
@@ -273,8 +263,6 @@ exp1, exp2
 /BI/hrb_BI/etl/script/stop.sh
 ```
 
-
-
 ## dirname命令
 
 ***作用***
@@ -315,7 +303,6 @@ exp1, exp2
 ```
 ***实例***
 
-
 ```shell
 #列出所有支持的编码方式
 [root@demo_mdn user]# iconv -l
@@ -332,13 +319,6 @@ listed with several different names (aliases).
 #将文件file.txt 由gbk2312编码转换为UTF-8，并输出到file2.txt
 [root@demo_mdn user]# icon file1.txt -f gbk2312 -t UTF-8 -o file2.txt 
 ```
-
-
-
-
-
-
-
 
 ***解压缩***
 

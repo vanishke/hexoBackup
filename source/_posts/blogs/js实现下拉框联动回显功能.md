@@ -3,13 +3,11 @@ title: Js实现下拉框联动回显功能
 categories:
 	- Jsp
 tags: 
-	- Js
+	- Javascript
 	- Jsp
 	
 date: 2022-09-27 16:24:20
 ---
-
-<!-- toc -->
 
 # jsp页面添加依赖项
 

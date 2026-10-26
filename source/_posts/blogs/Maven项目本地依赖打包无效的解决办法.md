@@ -8,11 +8,9 @@ tags:
 date: 2025-10-17 15:11:23
 ---
 
-<!-- toc -->
 # 环境
 java: 1.8
 maven: 3.8.9
-
 
 # 现象
 maven 执行clean install之后生成的war没有把本地依赖的jar包拷贝到WEB-INF/lib目录下，启动应用程序提示相应的class缺失。

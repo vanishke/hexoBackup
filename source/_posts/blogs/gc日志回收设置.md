@@ -9,8 +9,6 @@ tags:
 date: 2022-08-26 16:10:20
 ---
 
-<!-- toc -->
-
 # gc参数设置
 文件名称：run.conf 
 文件路径：/usr/local/sdp_trunk/usm/jboss5/bin

@@ -9,8 +9,6 @@ tags:
 date: 2025-12-05 16:47:40
 ---
 
-<!-- toc -->
-
 # 背景
 
 应用程序JDK版本升级为1.8之后，之前部署应用程序使用jboss-4.2.3在server.xml配置代理文件上传路径方式发生变化，现在演示在Wildfly-26.1.0-Final环境下自定义导航路径，使得应用程序上传的文件目录能够通过Wildfly的http://IP:port格式直接访问。
@@ -55,7 +53,6 @@ WildFly: 26.1.0-Final
 <location name="/upload" handler="upload-content"/>
 <file name="upload-content" path="${jboss.home.dir}/standalone/deployments/upload.war" directory-listing="true"/>
 ```
-
 
 # 验证
 

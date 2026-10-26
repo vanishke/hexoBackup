@@ -9,8 +9,6 @@ tags:
 date: 2025-11-21 17:42:45
 ---
 
-<!-- toc -->
-
 # 背景
 
 项目因为业务上的原因需要对模块部分源代码实现混淆，以下实现借助proguard实现java代码混淆。
@@ -110,7 +108,6 @@ maven项目引入proguard混淆插件,实现针对com.test.common.service包目�
                             public static ** valueOf(java.lang.String);
                             *;
                         }]]></option>
-
 
 						<!-- 解决邮件类超类问题 -->
 						<option>-keep class javax.mail.** { *; }</option>

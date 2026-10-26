@@ -10,7 +10,6 @@ tags:
 date: 2024-06-21 17:39:20
 ---
 
-<!-- toc -->
 # 背景
 微服务网关模块集成knife4j-gateway,访问/doc.html发现浏览器请求/favicon.ico报错，提示404
 # 解决办法

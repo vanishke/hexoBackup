@@ -9,8 +9,6 @@ tags:
 date: 2023-11-03 10:55:20
 ---
 
-<!-- toc -->
-
 # 环境
 mybatis: 3.5.3
 mybatis-plus: 3.3.1

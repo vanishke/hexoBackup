@@ -9,7 +9,6 @@ tags:
 date: 2024-12-06 10:05:19
 ---
 
-<!-- toc -->
 # 环境
 Docker: 26.1.4
 docker-compose: v2.25.0
@@ -31,7 +30,6 @@ usage() {
 	exit 1
 }
 
-
 # copy sql
 echo "begin copy sql "
 cp ../DB/MySQL/init/nacos_config.sql ./mysql/db/sql
@@ -41,7 +39,6 @@ cp ../DB/MySQL/init/init_data.sql ./mysql/db/sql
 # copy html
 # echo "begin copy html "
 # cp -r ../photoframe-ui/dist/** ./nginx/html/dist
-
 
 # copy jar
 echo "begin copy photoframe-gateway"
@@ -55,7 +52,6 @@ cp ../photoframe-admin/photoframe-admin-biz/target/photoframe-admin-biz.jar  ./p
 
 echo "begin copy photoframe-admin-log"
 cp ../photoframe-admin/photoframe-admin-log/target/photoframe-admin-log.jar  ./photoframe/photoframe-admin-log/jar
-
 
 echo "begin copy photoframe-api-app"
 cp ../photoframe-api/photoframe-api-app/target/photoframe-api-app.jar ./photoframe/photoframe-api-app/jar

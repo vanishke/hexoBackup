@@ -11,8 +11,6 @@ tags:
 date: 2024-03-15 16:53:20
 ---
 
-<!-- toc -->
-
 ## 环境
 SpringCloud : 2021.0.5
 SpringBoot : 2.2.6.RELEASE
@@ -89,7 +87,6 @@ public class RabbitConfig {
      */
     public static final String QUEUE = "log";
 
-
     /**
      *   * 交换机
      *  
@@ -122,7 +119,6 @@ public class RabbitConfig {
     @Value("${rabbitmq.batch.timeOut:10000}")
     private long timeOut;
 
-
     /**
      * 自动创建交换机
      */
@@ -139,7 +135,6 @@ public class RabbitConfig {
         return new Queue(QUEUE);
     }
 
-
     /**
      *     * 自己将队列绑定到交换机，路由键使用队列名
      */
@@ -147,7 +142,6 @@ public class RabbitConfig {
     public Binding directBinding() {
         return BindingBuilder.bind(createBatchQueue()).to(directExchange()).withQueueName();
     }
-
 
     /**
      *  * 使用定时任务线程池，定时从队列中拉取数据
@@ -292,7 +286,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Slf4j
 @Component
 public class RabbitMQReceiver implements BatchMessageListener {
@@ -333,7 +326,6 @@ public class RabbitMQReceiver implements BatchMessageListener {
                     BeanUtils.copyProperties(apiLog, esLog);
                     esLogList.add(esLog);
                 }
-
 
             }
             if (configuration.getStorageType() == BizConstants.LOG_API_STARAGE_ES_TYPE) {

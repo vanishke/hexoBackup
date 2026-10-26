@@ -10,8 +10,6 @@ tags:
 date: 2026-05-15 17:39:10
 ---
 
-<!-- toc -->
-
 # 背景
 
 在 Docker Swarm 模式下，通过 **Stack** 部署多副本 Nginx 服务，结合 **deploy.update_config**（`start-first`、分批 `parallelism`、健康检查等），可在滚动更新时尽量保持入口可用，实现 **平滑升级**。

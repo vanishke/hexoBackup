@@ -10,7 +10,6 @@ tags:
 
 date: 2026-04-17 09:43:31
 ---
-<!-- toc -->
 
 # 概述
 
@@ -32,9 +31,9 @@ date: 2026-04-17 09:43:31
 | 运行时 | Docker / Docker Compose |
 | 端口 | 默认 `3000`（以仓库 `docker-compose.yml` 为准） |
 | 数据 | `./data` 持久化（SQLite） |
-| 密钥 | 厂商 API Key、new-api 用户令牌（`sk-`）；文中均脱敏 |
+| 密钥 | 厂商 API Key、new-api 用户令牌（`sk-`） |
 
-下文主机统一写作 `http://<new-api-host>:3000`，请替换为实际地址。
+下文主机统一写作 `http://10.20.35.90:3000`。
 
 # Docker（默认 SQLite）快速部署
 

@@ -8,9 +8,6 @@ tags:
 date: 2020-11-17 11:11:20
 ---
 
-
-<!-- toc -->
-
 ## 启动
 
 ```shell
@@ -23,8 +20,6 @@ $ lsnrctl start (启动监听器）关闭oracle
 $ lsnrctl status
 $ lsnrctl stop(关闭监听器，在这之前，应该先关闭应用程序） 
 ```
-
-
 
 ​	
 

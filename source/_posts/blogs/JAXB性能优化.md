@@ -8,8 +8,6 @@ tags:
 date: 2023-04-21 14:35:20
 ---
 
-<!-- toc -->
-
 # 现象
 接口并发压力测试下，RPS耗时非常严重，使用jstack命令抓取堆栈，发现线程在JAXBUtil.jaxbStreamToBean(JAXBUtil.java:314)方法耗时特别严重。
 ```java
@@ -471,7 +469,6 @@ public class JAXBUtil<T extends Object>
 
 }
 
-
 ```
 main方法多线程执行的情况下缓存几乎没有作用，耗时特别严重。
 ![JAXB性能优化](/images/JAXB/JAXB_20230421_001.png)
@@ -559,7 +556,6 @@ import org.apache.log4j.Logger;
 
 import com.coship.dhm.aaa.commons.exception.AAAException;
 import com.coship.dhm.aaa.commons.util.StringUtil;
-
 
 /**
  * JAXB工具类

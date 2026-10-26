@@ -10,8 +10,6 @@ date: 2024-03-19 17:24:20
 
 ---
 
-<!-- toc -->
-
 ## 环境
 SpringBoot : 2.2.6.RELEASE
 SpringCloud : 2021.0.5
@@ -47,7 +45,6 @@ public class RabbitConfig extends org.springframework.boot.autoconfigure.amqp.Ra
      */
     public static final String QUEUE = "log";
 
-
     /**
      *   * 交换机
      *  
@@ -80,7 +77,6 @@ public class RabbitConfig extends org.springframework.boot.autoconfigure.amqp.Ra
     @Value("${rabbitmq.batch.timeOut:10000}")
     private long timeOut;
 
-
     /**
      * 自动创建交换机
      */
@@ -99,7 +95,6 @@ public class RabbitConfig extends org.springframework.boot.autoconfigure.amqp.Ra
         return new Queue(QUEUE);
     }
 
-
     /**
      *     * 自己将队列绑定到交换机，路由键使用队列名
      */
@@ -108,7 +103,6 @@ public class RabbitConfig extends org.springframework.boot.autoconfigure.amqp.Ra
     public Binding directBinding() {
         return BindingBuilder.bind(createBatchQueue()).to(directExchange()).withQueueName();
     }
-
 
     /**
      *  * 使用定时任务线程池，定时从队列中拉取数据

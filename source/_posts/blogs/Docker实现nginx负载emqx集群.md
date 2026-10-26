@@ -10,7 +10,6 @@ tags:
 date: 2025-04-03 10:44:10
 ---
 
-<!-- toc -->
 # 环境
 Docker: 27.3.1
 docker compose: v2.29.7
@@ -118,7 +117,6 @@ worker_processes auto;
 #error_log  logs/error.log  info;
 
 #pid        logs/nginx.pid;
-
 
 events {
 	worker_connections 1024;

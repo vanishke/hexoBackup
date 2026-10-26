@@ -8,8 +8,6 @@ tags:
 date: 2025-11-24 15:56:25
 ---
 
-<!-- toc -->
-
 # 背景
 
 基于Debian基础镜像构建的zipkin容器，在追查模块发送链路追踪消息时，发现数据未上报到Elasticsearch，在使用docker exec -it 容器ID /bin/bash进入容器内部，使用curl命令测试容器之间的连通性时提示命令无法识别，提示信息如下：

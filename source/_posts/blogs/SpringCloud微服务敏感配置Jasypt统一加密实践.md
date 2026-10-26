@@ -10,8 +10,6 @@ tags:
 date: 2026-07-20 14:39:20
 ---
 
-<!-- toc -->
-
 # 概述
 
 在 Spring Cloud 微服务体系中，MySQL、Redis、Elasticsearch、RabbitMQ、支付密钥、对象存储 AK/SK、EMQX、第三方登录 Client Secret 等敏感信息若以明文散落在各 Nacos data-id 中，存在泄露与变更成本高的问题。本文介绍一套在现有 **Nacos 扩展配置 + jasypt-spring-boot-starter 3.0.4** 基础上落地的方案：用独立的 `encrypt.yml` 集中存放 `ENC(密文)`，业务配置通过 `${VAR}` 引用，运行时仅外置 Jasypt 主密钥。

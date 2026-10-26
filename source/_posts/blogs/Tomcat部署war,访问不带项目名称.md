@@ -8,8 +8,6 @@ tags:
 date: 2023-10-30 9:55:20
 ---
 
-<!-- toc -->
-
 # 环境
 Tomcat: 8.0.38
 项目部署Tomcat之后，访问后台和接口不带项目名称
@@ -77,7 +75,6 @@ Tomcat: 8.0.38
         maxThreads="150" minSpareThreads="4"/>
     -->
 
-
     <!-- A "Connector" represents an endpoint by which requests are received
          and responses are returned. Documentation at :
          Java HTTP Connector: /docs/config/http.html (blocking & non-blocking)
@@ -106,7 +103,6 @@ Tomcat: 8.0.38
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <Connector port="18009" protocol="AJP/1.3" redirectPort="8443"/>
-
 
     <!-- An Engine represents the entry point (within Catalina) that processes
          every request.  The Engine implementation for Tomcat stand alone

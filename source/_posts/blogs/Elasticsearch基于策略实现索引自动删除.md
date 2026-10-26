@@ -9,8 +9,6 @@ tags:
 date: 2025-11-24 17:34:09
 ---
 
-<!-- toc -->
-
 # 环境
 
 Zipkin: zipkin-server-2.26.0
@@ -381,6 +379,5 @@ PUT http://10.0.0.14:9200/zipkin-dependency-*/_settings
 
 ## 验证
 ![Zipkin索引自动删除_02](/images/Zipkin/Zipkin_20251124_007.png)
-
 
 参考：https://github.com/openzipkin/zipkin-support/issues/23

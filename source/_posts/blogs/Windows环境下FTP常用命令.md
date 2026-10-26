@@ -9,8 +9,6 @@ tags:
 date: 2022-03-15 17:11:20
 ---
 
-<!-- toc -->
-
 ## FTP登陆
 FTP地址:10.9.212.55
 FTP用户名:report_cd
@@ -39,7 +37,6 @@ ftp> send 11481.jpg
 ```
 ![FTP上传](/images/Windows/FTP/WF_20220315_002.png)
 ![FTP上传](/images/Windows/FTP/WF_20220315_003.png)
-
 
 ### 批量文件上传
 ```shell

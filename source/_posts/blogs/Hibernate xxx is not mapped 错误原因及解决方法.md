@@ -8,7 +8,6 @@ tags:
 date: 2024-07-08 16:10:20	
 ---
 
-<!-- toc -->
 # 背景
 SpringMVC项目改造为maven项目之后打包部署启动一直报错Hibernate xxx is not mapped
 

@@ -9,8 +9,6 @@ tags:
 date: 2024-09-23 14:30:03
 ---
 
-<!-- toc -->
-
 # 环境
 Java : 1.8
 Flatten-maven-plugin: 1.3.0
@@ -156,6 +154,5 @@ idea忽略Flatten-maven-plugin生成的.flattened-pom.xml文件
 ${revision}占位符支持需要升级Maven到3.5.2及以上，并且需要手动变更下idea的目录引用设置，如下图：
 
 ![Maven统一版本号管理](/images/Maven/Flatten-maven-plugin/Maven_Flattened_20240923_002.png)
-
 
 参考：https://www.mojohaus.org/flatten-maven-plugin/usage.html

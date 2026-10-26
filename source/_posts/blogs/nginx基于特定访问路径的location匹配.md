@@ -8,8 +8,6 @@ tags:
 date: 2024-01-25 17:11:20
 ---
 
-<!-- toc -->
-
 ## 环境
 Linux : CentOS Linux release 7.6.1810 (Core) 
 Nginx : nginx/1.18.0 
@@ -25,7 +23,6 @@ Nginx : nginx/1.18.0
 彩色主题下本地图片访问路径：/home/nanjing_oms/oms-pic/special/common/048/10033.png
 
 灰色主题下访问路径在oms-pic前面多了/grey/路径。
-
 
 ## 实现
 ```shell

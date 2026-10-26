@@ -9,12 +9,9 @@ tags:
 date: 2025-11-24 16:21:20
 ---
 
-<!-- toc -->
-
 # 问题描述
 
 SpringCloud微服务基于zipkin+sleuth实现链路追踪，zipkin的上报数据指定存储在Elasticsearch,最近想看下微服务之间的调用耗时，在nacos更改了zipkin相关配置，发现没有效果，查看微服务的日志打印和zipkin管理后台，日志没有zipkin上报数据格式的日志信息，zipkin后台查询不到调用记录，最后查看Elasticsearch的索引信息，没有生成zipkin-span和zipkin-dependency索引信息
-
 
 # 问题分析
 
@@ -39,7 +36,6 @@ spring:
     sender:
       type: web
 ```
-
 
 maven依赖如下：
 
@@ -130,7 +126,6 @@ tcpdump -i eth0 port 9200 -s 0 -vv -w ./elasticsearch.cap
 | -vv        | 开启二级详细输出模式，会显示更多数据包细节（如TCP标志位、校验和、TTL等）       |
 | -w  | 将抓取的数据包保存到指定文件（当前目录下的 elasticsearch.cap），而非终端打印 |
 
-
 可以通过docker cp拷贝抓包输出的文件到宿主机，在使用XFtp工具传输到本地，使用Wireshark工具打开查看对应的请求信息，将请求报文对应转换为可查看的内容的方式为：
 选中请求报文右键->追踪流->http,实际请求报文如下所示：
 ![微服务上报zipkin_01](/images/Zipkin/Zipkin_20251124_001.png)
@@ -147,7 +142,6 @@ tcpdump -i eth0 port 9200 -s 0 -vv -w ./elasticsearch.cap
 ```
 
 上述错误表明Elasticsearch节点默认1000分片，当前已经使用995分片，当前写入操作需要创建10个分片，现有分片不满足需求，数据写入失败了。
-
 
 ## 解决办法
 
@@ -172,6 +166,5 @@ GET http://120.76.251.149:9200/_cluster/settings
 ```
 ![Zipkin数据上报](/images/Zipkin/Zipkin_20251124_004.png)
 ![Zipkin数据上报](/images/Zipkin/Zipkin_20251124_005.png)
-
 
 参考：https://blog.csdn.net/u010383467/article/details/134702660

@@ -9,8 +9,6 @@ date: 2024-01-12 11:26:20
 
 ---
 
-<!-- toc -->
-
 # 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 nginx : 1.18.1
@@ -54,7 +52,6 @@ worker_processes  1;
 #error_log  logs/error.log  info;
 
 #pid        logs/nginx.pid;
-
 
 events {
     worker_connections  1024;

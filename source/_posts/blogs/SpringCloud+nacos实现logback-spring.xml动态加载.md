@@ -10,7 +10,6 @@ tags:
 date: 2024-06-21 17:25:20
 ---
 
-<!-- toc -->
 # 背景
 SpringCloud微服务模块日志框架采用logback-spring.xml控制，模块配置文件由nacos配置中心下发，集成完成后发现修改logback-spring.xml文件日志级别无法生效，必须手动重启服务
 # 实现

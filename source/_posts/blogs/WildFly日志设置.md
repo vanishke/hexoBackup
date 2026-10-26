@@ -8,8 +8,6 @@ tags:
 date: 2023-04-27 16:35:20
 ---
 
-<!-- toc -->
-
 # 定义handler
 /usr/local/wildfly26-portal/standalone/configuration/standalone.xml文件添加handler
 ```xml

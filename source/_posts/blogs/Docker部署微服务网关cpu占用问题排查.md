@@ -12,8 +12,6 @@ tags:
 date: 2025-12-09 15:02:32
 ---
 
-<!-- toc -->
-
 # 背景
 
 springCloud微服务网关通过docker部署之后，阿里云服务器经常出现cpu占用156%，但是查看业务请求日志，对应的请求日志很少，并发请求并不高，所以估计是网关服务自身的服务出现了问题。
@@ -45,7 +43,6 @@ spring:
 ```
 
 修改完上述配置之后在portainer可视化容器管理后台重启了相关的微服务应用，cpu占用短暂下降之后立马就上升到了156%，这下意识到问题不是由zipkin引起的，继续排查。
-
 
 ## tcpdump抓包
 
@@ -105,14 +102,12 @@ jattach 8 threaddump  > /tmp/java_stack_force.log
 
 top命令不可用的情况下，需要安装procps依赖
 
-
 ```shell
 #containerId替换为实际容器ID
 docker exec -it containerId /bin/bash
 
 apt update && apt install -y procps
 ```
-
 
 获取到java应用程序堆栈之后需要定位到cpu占用高的对应线程，如果容器内top命令可用的情况下，显示占用高的线程命令如下：
 
@@ -123,8 +118,6 @@ docker exec -it containerId /bin/bash
 #8为容器内运行的java进程ID
 top -H -p 8
 ```
-
-
 
 上述命令得到线程占用高的线程id之后需要转换为16进制，以便通过grep命令搜索堆栈中对应线程的详细内容。
 
@@ -176,7 +169,6 @@ JDK NIO的BUG epoll，导致Selector空轮询，最终导致CPU 占用居高不�
 https://bugs.java.com/bugdatabase/view_bug.do?bug_id=2147719
 
 https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6403933
-
 
 # 解决办法
 

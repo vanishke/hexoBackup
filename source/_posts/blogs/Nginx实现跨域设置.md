@@ -8,8 +8,6 @@ tags:
 date: 2026-02-28 16:17:07
 ---
 
-<!-- toc -->
-
 # 背景
 
 在前后端分离的项目中，前端通过浏览器访问后端 API 时，经常会遇到 CORS（跨域资源共享）问题。  
@@ -38,8 +36,6 @@ add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Ag
 并且：**如果响应中已经带有这些头，就不要再添加**。
 
 要实现这一点，有两种典型思路。
-
-
 
 # 方案一
 

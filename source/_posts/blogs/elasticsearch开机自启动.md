@@ -8,8 +8,6 @@ tags:
 date: 2024-01-17 16:11:35
 ---
 
-<!-- toc -->
-
 # 创建elasticsearch启动配置文件
 ```shell
 # 系统自启动服务目录

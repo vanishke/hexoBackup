@@ -11,8 +11,6 @@ tags:
 date: 2022-05-27 14:23:20
 ---
 
-<!-- toc -->
-
 # 安装MySQL ODBC驱动
 官网地址: https://dev.mysql.com/downloads/connector/odbc/5.1.html
 选择对应操作系统版本,类型安装包下载(msi格式)，下载完按照提示安装。

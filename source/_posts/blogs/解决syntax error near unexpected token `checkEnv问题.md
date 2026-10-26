@@ -8,8 +8,6 @@ tags:
 date: 2023-05-05 13:47:20
 ---
 
-<!-- toc -->
-
 # 现象
 windows环境下编辑修改了setup.sh脚本文件，重新打包放到linux环境安装提示syntax error near unexpected token `
 ```shell

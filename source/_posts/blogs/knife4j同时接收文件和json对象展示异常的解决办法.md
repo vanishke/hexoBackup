@@ -9,8 +9,6 @@ tags:
 date: 2025-11-26 14:47:58
 ---
 
-<!-- toc -->
-
 # 环境
 
 knife4j-openapi3-spring-boot-starter：4.5.0
@@ -65,7 +63,6 @@ springdoc:
 
 关闭default-flat-param-object配置，则接口传递json对象在UI上展现异常，如下图所示：
 ![Knife4j在线文档_01](/images/Knife4j/Knife4j_20251126_002.png)
-
 
 # 解决办法
 

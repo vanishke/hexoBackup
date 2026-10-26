@@ -8,7 +8,6 @@ tags:
 date: 2023-08-02 14:35:20
 ---
 
-<!-- toc -->
 # 环境
 Elasticsearch-7.15.1
 # 插件
@@ -103,7 +102,6 @@ http://10.26.0.22:9200/_nlpcn/sql
 {
 	SELECT * FROM nginx-error-2023.08.01
 }
-
 
 ![Elasticsearch-SQL](/images/elasticsearch/es_20230802_003.png)
 x-pack-sql接口访问

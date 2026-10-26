@@ -9,9 +9,6 @@ date: 2026-08-10 09:23:04
 
 ---
 
-
-<!-- toc -->
-
 # 背景
 
 项目微服务模块基于Docker swarm集群通过Portainer可视化容器管理工具部署，微服务模块因为使用maven spring-boot-maven-plugin插件打包，项目模块内部代码和第三方依赖生成一个Fat jar，jar包已经达到200M，在更新服务时，jar包传输耗时严重，并且因为微服务镜像标签默认使用latest缘故，导致在容器运行所在服务器构建镜像会对容器使用中的文件造成干扰，为了解决上述问题，对微服务的构建和镜像命名进行优化，最终希望实现的效果如下：
@@ -24,7 +21,6 @@ date: 2026-08-10 09:23:04
 | 优化  | 日期 Tag 镜像；`*_1.jar` 预上传；Portainer 改 image/volume；按栈串行升级与回滚 |
 | 效果  | 短暂停服后拉起；Nacos 可重新注册；异常时镜像/jar/lib 挂载可一并还原                  |
 | 适用  | Swarm 单节点、`role=base`、Portainer 管理堆栈                       |
-
 
 **环境示例（可替换）：** 下文 `clearstream-*`、Harbor 域名、宿主机路径均为样板，落地时换成你的仓库、栈名与目录即可。
 
@@ -225,7 +221,6 @@ docker service logs clearstream-stack-service_clearstream-admin-biz --tail 100
 | 中间状态业务异常                        | 先改挂载文件名、后改堆栈不一致       | 严格：先传 `_1.jar` → 改 Portainer → 备份改名 → 更新堆栈 |
 | 多栈同时点更新                         | 回滚面过大                 | **按栈串行**                                   |
 | `docker rmi` 提示占用               | 仍有服务引用旧镜像             | 确认无引用后再删，或谨慎 `docker image prune`          |
-
 
 # 小结
 

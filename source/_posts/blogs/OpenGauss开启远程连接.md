@@ -8,7 +8,6 @@ tags:
 date: 2024-08-12 09:27:20	
 ---
 
-<!-- toc -->
 # 环境
 系统：openEuler release 20.03 (LTS-SP3)
 数据库： openGauss-6.0.0-RC1

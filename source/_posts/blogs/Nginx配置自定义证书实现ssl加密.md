@@ -8,8 +8,6 @@ tags:
 date: 2024-01-09 9:50:20
 ---
 
-<!-- toc -->
-
 # 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 nginx : 1.18.1
@@ -45,8 +43,6 @@ configure arguments: --prefix=/usr/local/nginx --user=nginx --group=nginx --with
 			--with-stream_ssl_module \
 			--with-stream_realip_module
 ```
-
-
 
 ## 自定义安全证书
 ```shell

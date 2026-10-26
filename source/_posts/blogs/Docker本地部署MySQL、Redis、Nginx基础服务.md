@@ -11,15 +11,12 @@ tags:
 date: 2025-12-29 17:52:08
 ---
 
-<!-- toc -->
-
 # 环境
 
 OS： Windows10
 MySQL： 5.7.41、8.0
 Redis: 5.0.14
 Elasticsearch： 8.8.0
-
 
 # 背景
 
@@ -83,8 +80,6 @@ Elasticsearch： 8.8.0
 因此，**本文选择使用Docker方式部署本地开发环境**，帮助开发者快速、灵活、一致地搭建基础服务环境。
 
 本文将详细介绍如何在Windows环境下使用Docker部署MySQL、Redis、Elasticsearch和Nginx等常用基础服务，提供完整的部署步骤和配置说明。
-
-
 
  # 实现
  
@@ -183,7 +178,6 @@ long_query_time = 2
 # 二进制日志（可选，需开启）
 log-bin = /var/lib/mysql/mysql-bin  
 binlog_format = ROW  
-
 
  ```
  
@@ -318,7 +312,6 @@ dbfilename dump.rdb
 # redis的工作目录，注意多实例的时候该不同名字或者用不同的工作目录
 # 建议用不同的工作目录
 dir /data
-
 
 ################################################################################
 #                                 redis 的限制                                  #
@@ -518,7 +511,6 @@ syslog-enabled no
 # 对于pubsub client，如果client-output-buffer一旦超过32mb，又或者超过8mb持续60秒，那么
 # 服务器就会立即断开客户端连接。
 #client-output-buffer-limit pubsub 32mb 8mb 60
-
 
 ################################################################################
 #                               redis 的安全配置                                 #

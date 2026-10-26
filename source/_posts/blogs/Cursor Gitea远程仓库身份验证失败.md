@@ -1,3 +1,16 @@
+---
+
+title: Cursor Gitea远程仓库身份验证失败
+categories:
+	- Cursor
+tags:
+	- Cursor
+	- Gitea
+
+date: 2026-08-26 11:02:27
+
+---
+
 # Cursor Gitea远程仓库身份验证失败
 
 > 本文记录一次在 Cursor IDE 中使用内网 Gitea 时，出现「未能对 git remote 进行身份验证」问题的完整分析与处理过程，供后续遇到类似问题时参考。
@@ -230,6 +243,3 @@ git pull origin
 
 更新 `git:http://refresh_token.10.10.5.238:3000` 对应凭据后，`git pull` 立即恢复正常。对于长期维护内网 Gitea 仓库的场景，推荐改用 Personal Access Token，并在团队内建立「改密码 → 同步 Git 凭据」的操作习惯，可显著降低同类问题复发概率。
 
----
-
-*文档编写日期：2026-08-27*

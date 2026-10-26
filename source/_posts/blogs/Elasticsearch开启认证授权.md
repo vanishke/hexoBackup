@@ -1,3 +1,15 @@
+---
+
+title: Elasticsearch开启认证授权
+categories:
+	- Elasticsearch
+tags:
+	- Elasticsearch
+
+date: 2026-09-22 15:49:42
+
+---
+
 # Elasticsearch 开启认证授权
 
 Elasticsearch 开启认证授权之后，很多人第一反应是：直接用 `elastic` 超级账号往业务里塞。能跑，但不安全。

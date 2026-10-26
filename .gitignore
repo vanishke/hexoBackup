@@ -9,3 +9,11 @@ package-lock.json
 coverage/
 .tmp*
 .vscode
+
+# 大文件：勿纳入 hexoBackup（GitHub 单文件上限 100MB）
+*.tar
+*.tar.gz
+*.tgz
+*.iso
+*.dmg
+open-8-jdk-jammy.tar

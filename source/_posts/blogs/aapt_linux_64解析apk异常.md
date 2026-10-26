@@ -9,8 +9,6 @@ tags:
 date: 2023-02-24 13:44:20
 ---
 
-<!-- toc -->
-
 # 现象
 ./aapt_linux_64 d badging qMGFk7zYMWcN.apk
 参数b标识dump

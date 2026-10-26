@@ -8,7 +8,6 @@ tags:
 date: 2025-05-30 17:05:12
 ---
 
-<!-- toc -->
 # 环境
 Linux：CentOS Linux release 7.9.2009 (Core)
 ElasticSearch： 8.8.0
@@ -402,7 +401,6 @@ public class BaseElasticRepository<T, PK extends Serializable> {
     return indexResponse;
   }
 
-
   public BulkResponse bulkInsert(List<T> entityList) throws Exception {
 
     if (CommonUtil.isEmpty(entityList)) {
@@ -427,7 +425,6 @@ public class BaseElasticRepository<T, PK extends Serializable> {
     }
     return client.bulk(br.build());
   }
-
 
   public BulkResponse bulkDelete(List<T> entityList) throws IOException {
     BulkRequest.Builder builder = new BulkRequest.Builder();
@@ -472,7 +469,6 @@ public class BaseElasticRepository<T, PK extends Serializable> {
     }
     return client.bulk(br.build());
   }
-
 
   public UpdateResponse update(T document) throws Exception {
     String id = resolveDocumentId(document);

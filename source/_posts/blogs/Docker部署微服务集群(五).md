@@ -9,7 +9,6 @@ tags:
 date: 2024-12-13 15:38:45
 ---
 
-<!-- toc -->
 # 环境
 
 Docker: 26.1.4
@@ -88,8 +87,6 @@ docker build -t photoframe-mysql .
 -t:指定生成镜像名，和docker-swarm.yml文件中的对应模块的service指定image参数一致
 . :代表了构建镜像的上下文环境，当前路径
 
-
-
 方式二(docker-swarm.yml):
 示例:
 swarm带有base标签节点构建基础服务镜像
@@ -132,7 +129,6 @@ docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 
 # swarm 命令汇总
 
-
 |命令|描述|
 |:------:|:------:|
 |docker swarm init|初始化一个 swarm 群集|
@@ -143,9 +139,7 @@ docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 |docker swarm unlock-key|管理解锁钥匙|
 |docker swarm update|更新 swarm 群集|
 
-
 # service 命令汇总
-
 
 |命令|描述|
 |:------:|:------:|
@@ -155,10 +149,7 @@ docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 |docker node|service update|更新节点(服务)配置信息|
 |docker node|service rm|从集群中移除节点(服务)|
 
-
-
 # node 命令汇总
-
 
 |命令|描述|
 |:-----:|:------:|
@@ -169,7 +160,6 @@ docker service ls --format '{{.Name}}' | xargs -L1 docker service update --force
 |docker node ps|列出在一个或多个节点上运行的任务，默认为当前节点|
 |docker node rm|从 swarm 群集删除一个或多个节点|
 |docker node update|更新一个节点|
-
 
 # 部署过程中遇到的问题
 

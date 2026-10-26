@@ -9,7 +9,6 @@ tags:
 date: 2025-01-10 17:32:21
 ---
 
-<!-- toc -->
 # 环境
 
 Linux: CentOS Linux release 7.7.1908 (Core)
@@ -83,7 +82,6 @@ https:
 #   enabled: true
 #   # put your cert and key files on dir
 #   dir: /etc/harbor/tls/internal
-
 
 # Uncomment external_url if you want to enable external proxy
 # And when it enabled the hostname will no longer used
@@ -375,7 +373,6 @@ https: 加密安全访问可以通过下面命令生成对应证书文件
 #harbor.example.com/10.0.0.10
 #指定/home路径下生成certificate.jks证书（口令请自行替换为强口令）
 keytool -genkey -alias registry  -keyalg RSA -keysize 2048 -validity 3650 -ext SAN=dns:harbor.example.com,ip:10.0.0.10 -keystore /usr/local/harbor/https/certificate.jks -storepass <STOREPASS> -dname "CN=harbor.example.com, OU=harbor.example.com, O=example, L=your-city, ST=your-state, C=CN"
-
 
 #certificate.jks是键值对形式的证书，推荐转换为标准格式pkcs12
 keytool -importkeystore -srckeystore certificate.jks -destkeystore certificate.jks -deststoretype pkcs12

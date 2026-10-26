@@ -9,8 +9,6 @@ date: 2024-01-03 9:20:20
 
 ---
 
-<!-- toc -->
-
 # 环境
 linux : CentOS Linux release 7.7.1908 (Core)
 # apache bench
@@ -89,7 +87,6 @@ Completed 800 requests
 Completed 900 requests
 Completed 1000 requests
 Finished 1000 requests
-
 
 Server Software:        nginx/1.18.0
 Server Hostname:        10.9.216.12
