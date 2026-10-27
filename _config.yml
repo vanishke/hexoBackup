@@ -151,6 +151,8 @@ deploy:
   type: git
   repository: git@github.com:vanishke/hexo.git
   branch: master
+  # 必须为 false，否则 .nojekyll 不会进部署仓库，GitHub Pages 会按 Jekyll 处理导致部分路径异常
+  ignore_hidden: false
 
 #文章隐藏
 hide_posts:
